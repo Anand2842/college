@@ -1,0 +1,21 @@
+Subject: [PATCH] Fix deprecated config export in upload API
+
+---
+ src/app/api/upload/route.ts | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/src/app/api/upload/route.ts b/src/app/api/upload/route.ts
+index 1234567..89abcdef 100644
+--- a/src/app/api/upload/route.ts
++++ b/src/app/api/upload/route.ts
+@@ -2,10 +2,4 @@
+ import { supabase } from '@/lib/supabase';
+ 
+-export const config = {
+-    api: {
+-        bodyParser: false,
+-    },
+-};
+-
+ export async function POST(req: Request) {
+     try {

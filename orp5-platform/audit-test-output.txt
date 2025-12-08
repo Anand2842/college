@@ -1,0 +1,64 @@
+
+Running 4 tests using 4 workers
+
+[1A[2K[1/4] tests/audit/public-view.spec.ts:3:5 › Public View: Homepage Loads
+[1A[2K[2/4] tests/audit/login.spec.ts:3:5 › Auth: Login Page Loads
+[1A[2K[3/4] tests/audit/navigation.spec.ts:3:5 › Navigation: Links are functional
+[1A[2K  1) tests/audit/public-view.spec.ts:3:5 › Public View: Homepage Loads ─────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /Users/anand/Library/Caches/ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+
+[1A[2K  2) tests/audit/login.spec.ts:3:5 › Auth: Login Page Loads ────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /Users/anand/Library/Caches/ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+
+[1A[2K[4/4] tests/audit/upload.spec.ts:3:5 › Admin: File Upload
+[1A[2K  3) tests/audit/navigation.spec.ts:3:5 › Navigation: Links are functional ─────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /Users/anand/Library/Caches/ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+
+[1A[2K  4) tests/audit/upload.spec.ts:3:5 › Admin: File Upload ───────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /Users/anand/Library/Caches/ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+
+[1A[2K  4 failed
+    tests/audit/login.spec.ts:3:5 › Auth: Login Page Loads ─────────────────────────────────────────
+    tests/audit/navigation.spec.ts:3:5 › Navigation: Links are functional ──────────────────────────
+    tests/audit/public-view.spec.ts:3:5 › Public View: Homepage Loads ──────────────────────────────
+    tests/audit/upload.spec.ts:3:5 › Admin: File Upload ────────────────────────────────────────────

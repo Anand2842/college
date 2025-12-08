@@ -1,0 +1,5 @@
+tests/critical-flows.spec.ts(41,61): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(name: string, value: string | RegExp, options?: { ignoreCase?: boolean | undefined; timeout?: number | undefined; } | undefined): Promise<void>', gave the following error.
+    Object literal may only specify known properties, and 'not' does not exist in type 'RegExp'.
+  Overload 2 of 2, '(name: string, options?: { timeout?: number | undefined; } | undefined): Promise<void>', gave the following error.
+    Object literal may only specify known properties, and 'not' does not exist in type '{ timeout?: number | undefined; }'.

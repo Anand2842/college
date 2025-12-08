@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color Palette */
+  --color-earth-green: #1A4D2E;
+  --color-sapling-green: #4F9D69;
+  --color-rice-gold: #D4C5A0;
+  --color-rice-gold-light: #E8DCC0;
+  --color-mist-white: #F9F9F7;
+  --color-charcoal: #2C3333;
+
+  /* Semantic Colors */
+  --color-background: var(--mist-white);
+  --color-foreground: var(--charcoal);
+
+  --color-primary: var(--earth-green);
+  --color-primary-foreground: #FFFFFF;
+
+  --color-secondary: var(--rice-gold);
+  --color-secondary-foreground: var(--charcoal);
+
+  --color-accent: var(--sapling-green);
+  --color-accent-foreground: #FFFFFF;
+
+  --color-muted: #E2E2E0;
+  --color-muted-foreground: #666666;
+
+  --color-border: #E2E2E0;
+  --color-input: #E2E2E0;
+  --color-ring: var(--earth-green);
+
+  /* Border Radius */
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  /* Fonts */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-merriweather);
+}
+
+@layer base {
+  :root {
+    --mist-white: #F9F9F7;
+    --charcoal: #2C3333;
+    --earth-green: #1A4D2E;
+    --sapling-green: #4F9D69;
+    --rice-gold: #D4C5A0;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}

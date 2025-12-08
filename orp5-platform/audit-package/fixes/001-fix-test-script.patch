@@ -1,0 +1,13 @@
+diff --git a/tests/critical-flows.spec.ts b/tests/critical-flows.spec.ts
+index abcdef1..2345678 100644
+--- a/tests/critical-flows.spec.ts
++++ b/tests/critical-flows.spec.ts
+@@ -38,7 +38,7 @@
+     test('Footer Links are Valid', async ({ page }) => {
+         await page.goto('/');
+         const privacyLink = page.getByRole('link', { name: 'Privacy Policy' });
+-        await expect(privacyLink).toHaveAttribute('href', { not: '#' });
++        await expect(privacyLink).not.toHaveAttribute('href', '#');
+     });
+ 
+ });

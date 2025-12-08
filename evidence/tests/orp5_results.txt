@@ -1,0 +1,216 @@
+
+Running 23 tests using 4 workers
+
+  ✘   4 audit-package/tests/login.spec.ts:3:5 › Auth: Login Page Loads (2.1s)
+  ✓   3 audit-output/tests/admin-cms.spec.ts:8:9 › Admin CMS Operations › Admin dashboard loads stats (2.9s)
+  ✓   5 audit-output/tests/admin-cms.spec.ts:17:9 › Admin CMS Operations › Page editor can load homepage content (2.4s)
+  ✓   6 audit-package/tests/navigation.spec.ts:3:5 › Navigation: Links are functional (1.8s)
+  ✓   8 audit-package/tests/public-view.spec.ts:3:5 › Public View: Homepage Loads (820ms)
+  ✘   1 audit-output/tests/admin-auth.spec.ts:5:9 › Admin Authentication Flow › Admin routes redirect to login when unauthenticated (7.2s)
+  ✓   9 audit-package/tests/upload.spec.ts:3:5 › Admin: File Upload (441ms)
+  ✘  10 tests/audit/login.spec.ts:3:5 › Auth: Login Page Loads (368ms)
+  ✘   2 audit-output/tests/registration-flow.spec.ts:5:9 › Registration Flow › Registration form submits successfully (9.5s)
+  ✓  12 tests/audit/navigation.spec.ts:3:5 › Navigation: Links are functional (1.9s)
+  ✓  13 tests/audit/public-view.spec.ts:3:5 › Public View: Homepage Loads (970ms)
+  ✓  15 tests/audit/upload.spec.ts:3:5 › Admin: File Upload (449ms)
+  ✓  14 audit-output/tests/registration-flow.spec.ts:27:9 › Registration Flow › Registration success page shows data (1.2s)
+  ✓  17 audit-output/tests/registration-flow.spec.ts:45:9 › File Upload Flow › Upload endpoint returns success for valid file (619ms)
+  ✓  16 tests/critical-flows.spec.ts:5:9 › Critical User Journeys › Homepage Loads and Navigation Works (1.4s)
+  ✘  18 tests/critical-flows.spec.ts:18:9 › Critical User Journeys › Admin Access Redirects to Dashboard (389ms)
+  ✘  11 audit-output/tests/admin-auth.spec.ts:14:9 › Admin Authentication Flow › Admin page editor requires authentication (5.8s)
+  ✓  19 tests/critical-flows.spec.ts:25:9 › Critical User Journeys › Registration Page Loads Form (694ms)
+  ✓  21 tests/critical-flows.spec.ts:39:9 › Critical User Journeys › Footer Links are Valid (1.1s)
+  ✘  20 audit-output/tests/admin-auth.spec.ts:25:9 › Public Routes Load Correctly › Homepage renders with key sections (6.0s)
+  ✓  22 audit-output/tests/admin-auth.spec.ts:40:9 › Public Routes Load Correctly › About page loads without errors (610ms)
+  ✘   7 audit-output/tests/admin-cms.spec.ts:31:9 › Admin CMS Operations › Speakers management page loads (30.1s)
+  ✓  23 audit-output/tests/admin-auth.spec.ts:49:9 › Public Routes Load Correctly › Speakers page displays speaker cards (16.4s)
+
+
+  1) audit-output/tests/admin-auth.spec.ts:5:9 › Admin Authentication Flow › Admin routes redirect to login when unauthenticated 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Expected pattern: [32m/.*\/(admin\/login|login)/[39m
+    Received string:  [31m"http://localhost:3000/admin/dashboard"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveURL" with timeout 5000ms[22m
+    [2m    9 × unexpected value "http://localhost:3000/admin/dashboard"[22m
+
+
+       9 |         // Should redirect to login page (after BLOCK-001 fix applied)
+      10 |         // Currently this will FAIL because admin is unprotected
+    > 11 |         await expect(page).toHaveURL(/.*\/(admin\/login|login)/);
+         |                            ^
+      12 |     });
+      13 |
+      14 |     test('Admin page editor requires authentication', async ({ page }) => {
+        at /Users/anand/Desktop/new college/orp5-platform/audit-output/tests/admin-auth.spec.ts:11:28
+
+    Error Context: test-results/audit-output-tests-admin-a-38f6e--login-when-unauthenticated/error-context.md
+
+  2) audit-output/tests/admin-auth.spec.ts:14:9 › Admin Authentication Flow › Admin page editor requires authentication 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Expected pattern: [32m/.*\/(admin\/login|login)/[39m
+    Received string:  [31m"http://localhost:3000/admin/pages/home"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveURL" with timeout 5000ms[22m
+    [2m    8 × unexpected value "http://localhost:3000/admin/pages/home"[22m
+
+
+      16 |
+      17 |         // Should redirect to login
+    > 18 |         await expect(page).toHaveURL(/.*\/(admin\/login|login)/);
+         |                            ^
+      19 |     });
+      20 |
+      21 | });
+        at /Users/anand/Desktop/new college/orp5-platform/audit-output/tests/admin-auth.spec.ts:18:28
+
+    Error Context: test-results/audit-output-tests-admin-a-b66f2-tor-requires-authentication/error-context.md
+
+  3) audit-output/tests/admin-auth.spec.ts:25:9 › Public Routes Load Correctly › Homepage renders with key sections 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('nav')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('nav')[22m
+
+
+      35 |         // Check for navigation
+      36 |         const nav = page.locator('nav');
+    > 37 |         await expect(nav).toBeVisible();
+         |                           ^
+      38 |     });
+      39 |
+      40 |     test('About page loads without errors', async ({ page }) => {
+        at /Users/anand/Desktop/new college/orp5-platform/audit-output/tests/admin-auth.spec.ts:37:27
+
+    Error Context: test-results/audit-output-tests-admin-a-5352d-e-renders-with-key-sections/error-context.md
+
+  4) audit-output/tests/admin-cms.spec.ts:31:9 › Admin CMS Operations › Speakers management page loads 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+
+      31 |     test('Speakers management page loads', async ({ page }) => {
+      32 |         await page.goto('http://localhost:3000/admin/speakers');
+    > 33 |         await page.waitForLoadState('networkidle');
+         |                    ^
+      34 |
+      35 |         // Check for speaker management UI
+      36 |         const heading = page.getByRole('heading', { name: /Speaker/i });
+        at /Users/anand/Desktop/new college/orp5-platform/audit-output/tests/admin-cms.spec.ts:33:20
+
+    Error Context: test-results/audit-output-tests-admin-c-8aac0-akers-management-page-loads/error-context.md
+
+  5) audit-output/tests/registration-flow.spec.ts:5:9 › Registration Flow › Registration form submits successfully 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeEnabled[2m([22m[2m)[22m failed
+
+    Locator: locator('button[type="submit"]')
+    Expected: enabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeEnabled" with timeout 5000ms[22m
+    [2m  - waiting for locator('button[type="submit"]')[22m
+
+
+      22 |         // Check if form elements are interactive
+      23 |         const submitButton = page.locator('button[type="submit"]');
+    > 24 |         await expect(submitButton).toBeEnabled();
+         |                                    ^
+      25 |     });
+      26 |
+      27 |     test('Registration success page shows data', async ({ page }) => {
+        at /Users/anand/Desktop/new college/orp5-platform/audit-output/tests/registration-flow.spec.ts:24:36
+
+    Error Context: test-results/audit-output-tests-registr-1d347-n-form-submits-successfully/error-context.md
+
+  6) audit-package/tests/login.spec.ts:3:5 › Auth: Login Page Loads ────────────────────────────────
+
+    Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+    Call log:
+    [2m  - navigating to "/admin", waiting until "load"[22m
+
+
+      4 |     await page.goto('http://localhost:3000/login'); // Assuming /login or /admin/login
+      5 |     // Adjust based on actual route. Trying /admin for now as it's common
+    > 6 |     const response = await page.goto('/admin');
+        |                                 ^
+      7 |
+      8 |     // Expect redirection to login if not authenticated
+      9 |     // and check for email/password fields
+        at /Users/anand/Desktop/new college/orp5-platform/audit-package/tests/login.spec.ts:6:33
+
+    Error Context: test-results/audit-package-tests-login-Auth-Login-Page-Loads/error-context.md
+
+  7) tests/audit/login.spec.ts:3:5 › Auth: Login Page Loads ────────────────────────────────────────
+
+    Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+    Call log:
+    [2m  - navigating to "/admin", waiting until "load"[22m
+
+
+      4 |     await page.goto('http://localhost:3000/login'); // Assuming /login or /admin/login
+      5 |     // Adjust based on actual route. Trying /admin for now as it's common
+    > 6 |     const response = await page.goto('/admin');
+        |                                 ^
+      7 |
+      8 |     // Expect redirection to login if not authenticated
+      9 |     // and check for email/password fields
+        at /Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts:6:33
+
+    Error Context: test-results/tests-audit-login-Auth-Login-Page-Loads/error-context.md
+
+  8) tests/critical-flows.spec.ts:18:9 › Critical User Journeys › Admin Access Redirects to Dashboard 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Dashboard')
+    Expected: visible
+    Error: strict mode violation: getByText('Dashboard') resolved to 3 elements:
+        1) <a href="/admin/dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors bg-earth-green/10 text-earth-green">…</a> aka getByRole('link', { name: 'Dashboard', exact: true })
+        2) <h2 class="font-serif font-bold text-2xl text-charcoal mb-6">Main Admin Dashboard</h2> aka getByRole('heading', { name: 'Main Admin Dashboard' })
+        3) <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 py-2 bg-[#D9A648] hover:bg-[#B88A38] text-[#123125] font-bold text-xs px-6">Go to Dashboard</button> aka getByRole('button', { name: 'Go to Dashboard' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('Dashboard')[22m
+
+
+      20 |         // Expect redirect to dashboard
+      21 |         await expect(page).toHaveURL(/.*\/admin\/dashboard/);
+    > 22 |         await expect(page.getByText('Dashboard')).toBeVisible();
+         |                                                   ^
+      23 |     });
+      24 |
+      25 |     test('Registration Page Loads Form', async ({ page }) => {
+        at /Users/anand/Desktop/new college/orp5-platform/tests/critical-flows.spec.ts:22:51
+
+    Error Context: test-results/tests-critical-flows-Criti-c30d9-cess-Redirects-to-Dashboard/error-context.md
+
+  8 failed
+    audit-output/tests/admin-auth.spec.ts:5:9 › Admin Authentication Flow › Admin routes redirect to login when unauthenticated 
+    audit-output/tests/admin-auth.spec.ts:14:9 › Admin Authentication Flow › Admin page editor requires authentication 
+    audit-output/tests/admin-auth.spec.ts:25:9 › Public Routes Load Correctly › Homepage renders with key sections 
+    audit-output/tests/admin-cms.spec.ts:31:9 › Admin CMS Operations › Speakers management page loads 
+    audit-output/tests/registration-flow.spec.ts:5:9 › Registration Flow › Registration form submits successfully 
+    audit-package/tests/login.spec.ts:3:5 › Auth: Login Page Loads ─────────────────────────────────
+    tests/audit/login.spec.ts:3:5 › Auth: Login Page Loads ─────────────────────────────────────────
+    tests/critical-flows.spec.ts:18:9 › Critical User Journeys › Admin Access Redirects to Dashboard 
+  15 passed (40.4s)

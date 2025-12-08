@@ -1,0 +1,134 @@
+
+> orp5-platform@0.1.0 lint
+> eslint
+
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/about/city/CityClient.tsx
+  5:10  warning  'Footer' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/accommodation/AccommodationClient.tsx
+  169:65  warning  'i' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  206:53  warning  'i' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/admin/pages/about/page.tsx
+  43:11  warning  'handleStringListUpdate' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  43:37  warning  'key' is defined but never used. Allowed unused args must match /^_/u                              @typescript-eslint/no-unused-vars
+  43:50  warning  'newItems' is defined but never used. Allowed unused args must match /^_/u                         @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/admin/pages/city/page.tsx
+   4:10  warning  'Button' is defined but never used. Allowed unused vars must match /^_/u        @typescript-eslint/no-unused-vars
+   9:10  warning  'Save' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+   9:25  warning  'ExternalLink' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  10:8   warning  'Link' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/admin/speakers/page.tsx
+  9:10  warning  'Save' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/api/admin/stats/route.ts
+  14:22  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/api/content/homepage/route.ts
+  19:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/api/upload/route.ts
+  22:17  warning  'data' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/brochure/BrochureClient.tsx
+   6:136  warning  'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  77:54   warning  'i' is defined but never used. Allowed unused args must match /^_/u           @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/contact/ContactClient.tsx
+  67:55  warning  'i' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/gallery/GalleryClient.tsx
+  180:56  warning  'i' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/how-to-reach/HowToReachClient.tsx
+  107:58  warning  'i' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  172:53  warning  'i' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/important-dates/ImportantDatesClient.tsx
+  6:52  warning  'Download' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/programme/ProgrammeClient.tsx
+  6:19  warning  'Calendar' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  6:44  warning  'Download' is defined but never used. Allowed unused vars must match /^_/u    @typescript-eslint/no-unused-vars
+  6:67  warning  'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/publications/PublicationsClient.tsx
+  5:20  warning  'FileText' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  5:30  warning  'Download' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/registration/success/RegistrationSuccessClient.tsx
+   7:32  warning  'Download' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+   7:42  warning  'CreditCard' is defined but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  18:12  warning  'error' is assigned a value but never used. Allowed unused vars must match /^_/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  42:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/registration/success/RegistrationSuccessClient.tsx:42:13
+  40 |                 });
+  41 |         } else {
+> 42 |             setLoading(false);
+     |             ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  43 |         }
+  44 |     }, [registrationId]);
+  45 |  react-hooks/set-state-in-effect
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/registration/ticket/RegistrationTicketClient.tsx
+   5:10  warning  'Footer' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  10:57  warning  'Camera' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+  10:65  warning  'CreditCard' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/speakers/page.tsx
+  145:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/sponsorship/SponsorshipClient.tsx
+  5:10  warning  'Footer' is defined but never used. Allowed unused vars must match /^_/u           @typescript-eslint/no-unused-vars
+  6:79  warning  'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+  9:18  warning  'AnimatePresence' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/submission/SubmissionClient.tsx
+  3:39  warning  'useMemo' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+  6:19  warning  'Calendar' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/themes/page.tsx
+  82:63  warning  'index' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/app/venue/page.tsx
+  13:10  warning  'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/admin/FileUploader.tsx
+  4:40  warning  'File' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+  4:55  warning  'ImageIcon' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/admin/ImageUploader.tsx
+  4:10  warning  'Button' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+  5:27  warning  'ImageIcon' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/admin/ListEditor.tsx
+  3:10  warning  'AdminInput' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/molecules/QuickAccessCard.tsx
+  3:10  warning  'LucideIcon' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/molecules/SpeakerCard.tsx
+  4:10  warning  'cn' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/molecules/ThemeCard.tsx
+  3:10  warning  'LucideIcon' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/organisms/Footer.tsx
+  2:10  warning  'Link2' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/anand/Desktop/new college/orp5-platform/src/components/organisms/RegistrationForm.tsx
+   6:10  warning  'Check' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  57:18  warning  '_e' is defined but never used                                           @typescript-eslint/no-unused-vars
+
+✖ 52 problems (1 error, 51 warnings)
+

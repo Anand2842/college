@@ -1,0 +1,17 @@
+Subject: [PATCH] Fix Registration Form Button Type
+
+---
+ src/components/organisms/RegistrationForm.tsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/components/organisms/RegistrationForm.tsx b/src/components/organisms/RegistrationForm.tsx
+index 1234567..89abcdef 100644
+--- a/src/components/organisms/RegistrationForm.tsx
++++ b/src/components/organisms/RegistrationForm.tsx
+@@ -204,7 +204,7 @@ export function RegistrationForm({ selectedCategory }: { selectedCategory: strin
+                 {step < 2 ? (
+-                    <Button onClick={handleNext} className="bg-earth-green text-white">
++                    <Button type="submit" onClick={handleNext} className="bg-earth-green text-white">
+                         Next Step <ChevronRight size={16} />
+                     </Button>
+                 ) : (

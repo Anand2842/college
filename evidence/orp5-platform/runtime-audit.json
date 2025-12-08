@@ -1,0 +1,22 @@
+{
+  "consoleErrors": [],
+  "networkFailures": [
+    "[LOAD_FAIL] /: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/ - net::ERR_ABORTED",
+    "[LOAD_FAIL] /about: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/about\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/about - net::ERR_ABORTED",
+    "[LOAD_FAIL] /committees: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/committees\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/committees - net::ERR_ABORTED",
+    "[LOAD_FAIL] /registration: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/registration\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/registration - net::ERR_ABORTED",
+    "[LOAD_FAIL] /admin: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/admin\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/login - net::ERR_ABORTED",
+    "[LOAD_FAIL] /admin/dashboard: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/admin/dashboard\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/login - net::ERR_ABORTED",
+    "[LOAD_FAIL] /sponsorship: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/sponsorship\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/sponsorship - net::ERR_ABORTED",
+    "[LOAD_FAIL] /contact: TimeoutError: page.goto: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/contact\", waiting until \"networkidle\"\u001b[22m\n",
+    "[FAILED] http://localhost:3000/contact - net::ERR_ABORTED"
+  ],
+  "mockUsage": []
+}

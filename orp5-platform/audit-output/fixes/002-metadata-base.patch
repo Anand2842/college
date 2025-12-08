@@ -1,0 +1,11 @@
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
+ 
+ export const metadata: Metadata = {
+   title: 'ORP-5 Conference',
+   description: '5th International Conference on Organic Rice Farming',
++  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5.org'),
+ }
+ 
+ export default function RootLayout({

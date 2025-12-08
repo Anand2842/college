@@ -1,0 +1,26 @@
+page_slug,status,missing_fields,uses_mock_data,admin_editable,notes
+/about,OK,metadata,,Yes,Verified via Browser
+/about/city,Partial,metadata,Yes,Yes,
+/accommodation,Partial,metadata,Yes,Yes,
+/admin/dashboard,OK,,No,Yes,Protected route
+/admin/pages,OK,,,Yes,
+/awards,Partial,metadata,Yes,Yes,
+/brochure,Partial,metadata,Yes,Yes,
+/committees,Partial,metadata,Yes,Yes,
+/contact,Partial,metadata,Yes,Yes,
+/exhibition,Partial,metadata,Yes,Yes,
+/gallery,Partial,metadata,Yes,Yes,
+/how-to-reach,Partial,metadata,Yes,Yes,
+/important-dates,Partial,metadata,Yes,Yes,
+/,OK,,No,Yes,Verified via Browser & Tests
+/programme,OK,,No,Yes,Uses client-side fetch
+/publications,Partial,metadata,Yes,Yes,
+/registration,OK,,No,Yes,
+/registration/success,OK,metadata,,Yes,
+/registration/ticket,OK,metadata,,Yes,
+/speakers,OK,metadata,No,Yes,Uses server-side data
+/sponsorship,Partial,metadata,Yes,Yes,
+/submission,OK,,No,Yes,
+/submission-guidelines,Partial,metadata,Yes,Yes,
+/themes,Partial,metadata,Yes,Yes,
+/venue,Partial,metadata,Yes,Yes,

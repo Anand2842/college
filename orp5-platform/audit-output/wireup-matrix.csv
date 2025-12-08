@@ -1,0 +1,29 @@
+page_slug,status,missing_fields,uses_mock_data,admin_editable,notes
+home,OK,,no,yes,Homepage loads from Supabase Page table
+about,OK,,no,yes,About page with CMS content
+about/city,OK,,no,yes,City information subpage
+committees,OK,,no,yes,Committee members from CMS
+speakers,OK,,no,yes,Speakers from Supabase Speaker table
+themes,OK,,no,yes,Themes from Supabase Theme table
+venue,OK,,no,yes,Venue information
+accommodation,OK,,no,yes,Hotel and accommodation info
+registration,OK,,no,yes,Registration form functional
+registration/success,PARTIAL,transactionId,yes,yes,Uses mockUser data instead of actual registration
+registration/ticket,OK,,no,yes,Ticket display page
+contact,OK,,no,yes,Contact form and info
+how-to-reach,OK,,no,yes,Travel directions
+gallery,OK,,no,yes,Image gallery
+important-dates,OK,,no,yes,Conference timeline
+programme,OK,,no,yes,Conference programme schedule
+brochure,OK,,no,yes,Downloadable brochure info
+awards,OK,,no,yes,Awards information
+submission,OK,,no,yes,Abstract submission info
+submission-guidelines,OK,,no,yes,Guidelines for submissions
+publications,OK,,no,yes,Publication information
+exhibition,OK,,no,yes,Exhibition details
+sponsorship,OK,,no,yes,Sponsorship tiers and info
+admin/dashboard,OK,,no,n/a,Admin dashboard - NO AUTH PROTECTION
+admin/pages,OK,,no,n/a,Page editor list - NO AUTH PROTECTION
+admin/pages/home,OK,,no,n/a,Home page editor - NO AUTH PROTECTION
+admin/settings,PARTIAL,implementation,no,n/a,Shows Coming Soon placeholder
+admin/speakers,OK,,no,n/a,Speaker management - NO AUTH PROTECTION

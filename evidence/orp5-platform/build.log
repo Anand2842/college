@@ -1,0 +1,115 @@
+
+> orp5-platform@0.1.0 build
+> next build
+
+   ▲ Next.js 16.0.7 (Turbopack)
+   - Environments: .env
+
+   Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./src/app/api/upload/route.ts:4:14
+Next.js can't recognize the exported `config` field in route. Page config in `config` is deprecated and ignored, use individual exports instead.
+[0m [90m 2 |[39m [36mimport[39m { supabase } [36mfrom[39m [32m'@/lib/supabase'[39m[33m;[39m
+ [90m 3 |[39m
+[31m[1m>[22m[39m[90m 4 |[39m [36mexport[39m [36mconst[39m config [33m=[39m {
+ [90m   |[39m              [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 5 |[39m     api[33m:[39m {
+ [90m 6 |[39m         bodyParser[33m:[39m [36mfalse[39m[33m,[39m
+ [90m 7 |[39m     }[33m,[39m[0m
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+
+
+ ✓ Compiled successfully in 2.0min
+   Running TypeScript ...
+   Collecting page data using 7 workers ...
+   Generating static pages using 7 workers (0/76) ...
+   Generating static pages using 7 workers (19/76) 
+   Generating static pages using 7 workers (38/76) 
+   Generating static pages using 7 workers (57/76) 
+ ✓ Generating static pages using 7 workers (76/76) in 707.7ms
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ○ /about/city
+├ ○ /accommodation
+├ ○ /admin/dashboard
+├ ○ /admin/pages
+├ ○ /admin/pages/about
+├ ○ /admin/pages/accommodation
+├ ○ /admin/pages/awards
+├ ○ /admin/pages/brochure
+├ ○ /admin/pages/city
+├ ○ /admin/pages/committees
+├ ○ /admin/pages/contact
+├ ○ /admin/pages/exhibition
+├ ○ /admin/pages/gallery
+├ ○ /admin/pages/home
+├ ○ /admin/pages/how-to-reach
+├ ○ /admin/pages/important-dates
+├ ○ /admin/pages/programme
+├ ○ /admin/pages/receipt
+├ ○ /admin/pages/registration
+├ ○ /admin/pages/speakers
+├ ○ /admin/pages/sponsorship
+├ ○ /admin/pages/submission
+├ ○ /admin/pages/submission-guidelines
+├ ○ /admin/pages/themes
+├ ○ /admin/pages/venue
+├ ○ /admin/settings
+├ ○ /admin/speakers
+├ ƒ /api/admin/stats
+├ ƒ /api/content/about
+├ ƒ /api/content/accommodation
+├ ƒ /api/content/awards
+├ ƒ /api/content/brochure
+├ ƒ /api/content/city
+├ ƒ /api/content/committees
+├ ƒ /api/content/contact
+├ ƒ /api/content/exhibition
+├ ƒ /api/content/gallery
+├ ƒ /api/content/homepage
+├ ƒ /api/content/how-to-reach
+├ ƒ /api/content/important-dates
+├ ƒ /api/content/programme
+├ ƒ /api/content/receipt
+├ ƒ /api/content/registration
+├ ƒ /api/content/speakers
+├ ƒ /api/content/sponsorship
+├ ƒ /api/content/submission
+├ ƒ /api/content/submission-guidelines
+├ ƒ /api/content/themes
+├ ƒ /api/content/ticket
+├ ƒ /api/content/venue
+├ ƒ /api/register
+├ ƒ /api/register/[id]
+├ ƒ /api/upload
+├ ○ /awards
+├ ○ /brochure
+├ ○ /committees
+├ ○ /contact
+├ ○ /exhibition
+├ ○ /gallery
+├ ○ /how-to-reach
+├ ○ /important-dates
+├ ○ /programme
+├ ○ /publications
+├ ○ /registration
+├ ○ /registration/success
+├ ○ /registration/ticket
+├ ○ /speakers
+├ ○ /sponsorship
+├ ○ /submission
+├ ○ /submission-guidelines
+├ ○ /themes
+└ ○ /venue
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

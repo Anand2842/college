@@ -1,0 +1,28 @@
+
+> supabase-admin-frontend@1.0.0 test
+> playwright test
+
+Error: Cannot find module '@playwright/test'
+Require stack:
+- /Users/anand/Desktop/new college/supabase-admin/tests/playwright/admin-flows.spec.ts
+- /Users/anand/Desktop/new college/supabase-admin/frontend/node_modules/playwright/lib/transform/transform.js
+- /Users/anand/Desktop/new college/supabase-admin/frontend/node_modules/playwright/lib/common/configLoader.js
+- /Users/anand/Desktop/new college/supabase-admin/frontend/node_modules/playwright/lib/program.js
+- /Users/anand/Desktop/new college/supabase-admin/frontend/node_modules/@playwright/test/cli.js
+
+   at admin-flows.spec.ts:1
+
+> 1 | import { test, expect } from '@playwright/test'
+    | ^
+  2 |
+  3 | // Test configuration
+  4 | const BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
+    at Object.<anonymous> (/Users/anand/Desktop/new college/supabase-admin/tests/playwright/admin-flows.spec.ts:1:1)
+
+Error: No tests found
+
+[1A[2K
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

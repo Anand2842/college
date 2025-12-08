@@ -1,0 +1,327 @@
+{
+  "config": {
+    "rootDir": "/Users/anand/Desktop/new college/orp5-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/anand/Desktop/new college/orp5-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/anand/Desktop/new college/orp5-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "tests/audit/login.spec.ts",
+      "file": "tests/audit/login.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Auth: Login Page Loads",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 356,
+                  "error": {
+                    "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/login\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/login\", waiting until \"load\"\u001b[22m\n\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts:4:16",
+                    "location": {
+                      "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts",
+                      "column": 16,
+                      "line": 4
+                    },
+                    "snippet": "  2 |\n  3 | test('Auth: Login Page Loads', async ({ page }) => {\n> 4 |     await page.goto('/login'); // Assuming /login or /admin/login\n    |                ^\n  5 |     // Adjust based on actual route. Trying /admin for now as it's common\n  6 |     const response = await page.goto('/admin');\n  7 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts",
+                        "column": 16,
+                        "line": 4
+                      },
+                      "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/login\", waiting until \"load\"\u001b[22m\n\n\n  2 |\n  3 | test('Auth: Login Page Loads', async ({ page }) => {\n> 4 |     await page.goto('/login'); // Assuming /login or /admin/login\n    |                ^\n  5 |     // Adjust based on actual route. Trying /admin for now as it's common\n  6 |     const response = await page.goto('/admin');\n  7 |\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts:4:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:17:57.702Z",
+                  "annotations": [],
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts",
+                    "column": 16,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e56d4969cc6fca694ccd-240d21029268224f8d8c",
+          "file": "tests/audit/login.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tests/audit/navigation.spec.ts",
+      "file": "tests/audit/navigation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Navigation: Links are functional",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 358,
+                  "error": {
+                    "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/\", waiting until \"load\"\u001b[22m\n\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts:4:16",
+                    "location": {
+                      "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts",
+                      "column": 16,
+                      "line": 4
+                    },
+                    "snippet": "  2 |\n  3 | test('Navigation: Links are functional', async ({ page }) => {\n> 4 |     await page.goto('/');\n    |                ^\n  5 |\n  6 |     const links = await page.getByRole('link').all();\n  7 |     for (const link of links) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts",
+                        "column": 16,
+                        "line": 4
+                      },
+                      "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/\", waiting until \"load\"\u001b[22m\n\n\n  2 |\n  3 | test('Navigation: Links are functional', async ({ page }) => {\n> 4 |     await page.goto('/');\n    |                ^\n  5 |\n  6 |     const links = await page.getByRole('link').all();\n  7 |     for (const link of links) {\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts:4:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:17:57.698Z",
+                  "annotations": [],
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts",
+                    "column": 16,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "431eec6ef26016bd83e0-303bf81f441aeb00874f",
+          "file": "tests/audit/navigation.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tests/audit/public-view.spec.ts",
+      "file": "tests/audit/public-view.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Public View: Homepage Loads",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 326,
+                  "error": {
+                    "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/\", waiting until \"load\"\u001b[22m\n\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/public-view.spec.ts:4:16",
+                    "location": {
+                      "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/public-view.spec.ts",
+                      "column": 16,
+                      "line": 4
+                    },
+                    "snippet": "  2 |\n  3 | test('Public View: Homepage Loads', async ({ page }) => {\n> 4 |     await page.goto('/');\n    |                ^\n  5 |     await expect(page).toHaveTitle(/./); // Check for any title\n  6 |\n  7 |     // Check for key sections"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/public-view.spec.ts",
+                        "column": 16,
+                        "line": 4
+                      },
+                      "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/\", waiting until \"load\"\u001b[22m\n\n\n  2 |\n  3 | test('Public View: Homepage Loads', async ({ page }) => {\n> 4 |     await page.goto('/');\n    |                ^\n  5 |     await expect(page).toHaveTitle(/./); // Check for any title\n  6 |\n  7 |     // Check for key sections\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/public-view.spec.ts:4:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:17:57.702Z",
+                  "annotations": [],
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/public-view.spec.ts",
+                    "column": 16,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "28b53f6066f194a34fce-dbb87101338b39d7a1a8",
+          "file": "tests/audit/public-view.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tests/audit/upload.spec.ts",
+      "file": "tests/audit/upload.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Admin: File Upload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 414,
+                  "error": {
+                    "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/admin/dashboard\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/admin/dashboard\", waiting until \"load\"\u001b[22m\n\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/upload.spec.ts:5:16",
+                    "location": {
+                      "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/upload.spec.ts",
+                      "column": 16,
+                      "line": 5
+                    },
+                    "snippet": "  3 | test('Admin: File Upload', async ({ page }) => {\n  4 |     // This assumes we can access admin without login or login flow is handled\n> 5 |     await page.goto('/admin/dashboard');\n    |                ^\n  6 |     // If redirected to login, this test will fail or we need to implement login\n  7 |\n  8 |     // Placeholder for upload test"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/upload.spec.ts",
+                        "column": 16,
+                        "line": 5
+                      },
+                      "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/admin/dashboard\", waiting until \"load\"\u001b[22m\n\n\n  3 | test('Admin: File Upload', async ({ page }) => {\n  4 |     // This assumes we can access admin without login or login flow is handled\n> 5 |     await page.goto('/admin/dashboard');\n    |                ^\n  6 |     // If redirected to login, this test will fail or we need to implement login\n  7 |\n  8 |     // Placeholder for upload test\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/upload.spec.ts:5:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:17:57.699Z",
+                  "annotations": [],
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/upload.spec.ts",
+                    "column": 16,
+                    "line": 5
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "58e1ad3990ef3e51c89d-586ffb9dca0b99d002cf",
+          "file": "tests/audit/upload.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-12-07T14:17:56.706Z",
+    "duration": 6604.744000000001,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Generic Content Model for fixed pages (Home, About, Venue, etc.)
+model Page {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  title     String
+  content   Json     // Stores unstructured data like hero structure, specific page sections
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Structured Entities
+
+model Speaker {
+  id          String   @id @default(uuid())
+  name        String
+  role        String
+  institution String?
+  imageUrl    String?
+  category    String   // 'keynote', 'invited', 'panel'
+  focusArea   String?  // Mainly for keynotes
+  country     String?  // ISO code or name
+  biography   String?
+  featured    Boolean  @default(false) // If true, shows on homepage
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Theme {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  icon        String?
+  colorTheme  String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Partner {
+  id        String   @id @default(uuid())
+  name      String
+  logoUrl   String?
+  website   String?
+  category  String?  // 'sponsor', 'academic', etc.
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RegistrationCategory {
+  id          String   @id @default(uuid())
+  title       String
+  price       String?
+  description String?
+  icon        String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ImportantDate {
+  id        String   @id @default(uuid())
+  date      String   // Using String for flexibility or DateTime if precise
+  label     String
+  status    String   // 'active', 'upcoming', 'past'
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

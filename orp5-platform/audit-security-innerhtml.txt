@@ -1,0 +1,2 @@
+src/components/organisms/Hero.tsx:                        dangerouslySetInnerHTML={{ __html: headline }}
+src/components/organisms/Hero.tsx:                    dangerouslySetInnerHTML={{ __html: subheadline }}

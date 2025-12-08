@@ -1,0 +1,40 @@
+
+> supabase-admin-frontend@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.0
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/14) ...
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    173 B          93.9 kB
+├ ○ /_not-found                          875 B          87.8 kB
+├ ○ /account                             15.7 kB         164 kB
+├ ○ /account/profile                     4.95 kB         154 kB
+├ ○ /account/settings                    4.94 kB         154 kB
+├ ○ /account/submissions                 4.95 kB         154 kB
+├ ○ /admin                               4.89 kB         157 kB
+├ ○ /admin/audit                         6.24 kB         159 kB
+├ ○ /admin/users                         9.65 kB         162 kB
+├ ○ /login                               3.79 kB         153 kB
+├ ○ /moderator                           5.93 kB         158 kB
+└ ○ /signup                              4.12 kB         153 kB
++ First Load JS shared by all            87 kB
+  ├ chunks/23-70b91bd8f7c211f0.js        31.4 kB
+  ├ chunks/fd9d1056-52987fed3a59fd00.js  53.7 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)  prerendered as static content
+

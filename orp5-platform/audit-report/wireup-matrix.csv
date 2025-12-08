@@ -1,0 +1,34 @@
+page_slug,status,missing_fields,uses_mock_data,admin_editable,notes
+/,OK,,No,Yes,Homepage loads correctly
+/about,OK,,No,Yes,About page renders
+/about/city,OK,,No,Yes,City info displays
+/committees,OK,,No,Yes,Committees page
+/registration,Partial,Submit Button,No,Yes,Form validation issues
+/registration/success,OK,,No,No,Success page loads
+/registration/ticket,OK,,No,No,Ticket display
+/speakers,OK,,No,Yes,Speakers list
+/themes,OK,,No,Yes,Themes display
+/programme,OK,,No,Yes,Programme schedule
+/awards,OK,,No,Yes,Awards page
+/venue,OK,,No,Yes,Venue information
+/sponsorship,OK,,No,Yes,Sponsorship tiers
+/accommodation,OK,,No,Yes,Hotel bookings
+/how-to-reach,OK,,No,Yes,Travel guide
+/important-dates,OK,,No,Yes,Dates timeline
+/submission,OK,,No,Yes,Submission form
+/submission-guidelines,OK,,No,Yes,Guidelines
+/gallery,OK,,No,Yes,Photo gallery
+/contact,OK,,No,Yes,Contact form
+/brochure,OK,,No,Yes,Brochure download
+/exhibition,OK,,No,Yes,Exhibition info
+/publications,OK,,No,Yes,Publications
+/abstracts,OK,,No,No,Abstracts page
+/login,OK,,No,No,Login form
+/admin,missing,,No,,No auth protection
+/admin/dashboard,missing,,No,Yes,No auth protection
+/admin/pages/home,missing,,No,Yes,No auth protection
+/admin/pages/about,missing,,No,Yes,No auth protection
+/admin/pages/speakers,missing,,No,Yes,No auth protection
+/admin/pages/themes,missing,,No,Yes,No auth protection
+/admin/pages/programme,missing,,No,Yes,No auth protection
+/admin/pages/awards,missing,,No,Yes,No auth protection

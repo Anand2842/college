@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        cache-dependency-path: orp5-platform/package-lock.json
+        
+    - name: Install Dependencies
+      run: |
+        cd orp5-platform
+        npm ci
+        
+    - name: Build
+      run: |
+        cd orp5-platform
+        npm run build
+        
+    - name: Lint
+      run: |
+        cd orp5-platform
+        npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        cache-dependency-path: orp5-platform/package-lock.json
+        
+    - name: Install Dependencies
+      run: |
+        cd orp5-platform
+        npm ci
+        
+    - name: Install Playwright Browsers
+      run: |
+        cd orp5-platform
+        npx playwright install --with-deps
+        
+    - name: Run Tests
+      run: |
+        cd orp5-platform
+        npx playwright test

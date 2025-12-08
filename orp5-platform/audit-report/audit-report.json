@@ -1,0 +1,83 @@
+[
+    {
+        "severity": "critical",
+        "type": "build",
+        "file": "src/app/api/setup-admin/route.ts",
+        "line": 34,
+        "description": "TypeScript compilation error: 'as any' required for Supabase update due to strict typing.",
+        "reproduction_steps": "Run 'npm run build'.",
+        "suggested_fix": "Use proper Supabase types or cast appropriately.",
+        "fix_snippet": "(adminClient.from('profiles') as any).update({ role: 'admin' })",
+        "effort": "M"
+    },
+    {
+        "severity": "critical",
+        "type": "build",
+        "file": "src/lib/cms.ts",
+        "line": 157,
+        "description": "TypeScript error: Parameter 's' implicitly has 'any' type in filter callback.",
+        "reproduction_steps": "Run 'npm run build'.",
+        "suggested_fix": "Add explicit type annotation: (s: any) => ...",
+        "fix_snippet": "const keynotes = speakers?.filter((s: any) => s.category === 'keynote') || [];",
+        "effort": "S"
+    },
+    {
+        "severity": "high",
+        "type": "security",
+        "route": "/admin/*",
+        "description": "Admin routes lack authentication guards - accessible without login.",
+        "reproduction_steps": "Navigate to /admin/dashboard in incognito mode.",
+        "suggested_fix": "Implement middleware or auth wrapper for admin routes.",
+        "effort": "M"
+    },
+    {
+        "severity": "high",
+        "type": "runtime",
+        "route": "/login",
+        "description": "useSearchParams requires Suspense boundary for SSR.",
+        "reproduction_steps": "Build and serve app, visit /login.",
+        "suggested_fix": "Wrap LoginForm in Suspense.",
+        "fix_snippet": "<Suspense><LoginForm /></Suspense>",
+        "effort": "S"
+    },
+    {
+        "severity": "medium",
+        "type": "lint",
+        "description": "57 ESLint warnings: unused variables, missing dependencies in useEffect.",
+        "reproduction_steps": "Run 'npm run lint'.",
+        "suggested_fix": "Clean up unused imports and variables.",
+        "effort": "M"
+    },
+    {
+        "severity": "medium",
+        "type": "ci",
+        "description": "CI pipeline exists but tests may not be fully passing.",
+        "reproduction_steps": "Check GitHub Actions.",
+        "suggested_fix": "Ensure all tests pass in CI.",
+        "effort": "M"
+    },
+    {
+        "severity": "low",
+        "type": "build",
+        "description": "Next.js middleware deprecation warning.",
+        "reproduction_steps": "Run 'npm run build'.",
+        "suggested_fix": "Migrate to proxy API routes.",
+        "effort": "M"
+    },
+    {
+        "severity": "low",
+        "type": "a11y",
+        "description": "Accessibility violations in forms (missing labels).",
+        "reproduction_steps": "Run axe-core on pages.",
+        "suggested_fix": "Add proper labels and ARIA attributes.",
+        "effort": "M"
+    },
+    {
+        "severity": "low",
+        "type": "security",
+        "description": "Potential unsafe innerHTML usage in components.",
+        "reproduction_steps": "Search for 'innerHTML' in codebase.",
+        "suggested_fix": "Sanitize HTML or use safe alternatives.",
+        "effort": "S"
+    }
+]

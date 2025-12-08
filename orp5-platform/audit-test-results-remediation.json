@@ -1,0 +1,291 @@
+{
+  "config": {
+    "rootDir": "/Users/anand/Desktop/new college/orp5-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/anand/Desktop/new college/orp5-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/anand/Desktop/new college/orp5-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "tests/audit/login.spec.ts",
+      "file": "tests/audit/login.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Auth: Login Page Loads",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1946,
+                  "error": {
+                    "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/admin\", waiting until \"load\"\u001b[22m\n",
+                    "stack": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/admin\", waiting until \"load\"\u001b[22m\n\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts:6:33",
+                    "location": {
+                      "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts",
+                      "column": 33,
+                      "line": 6
+                    },
+                    "snippet": "  4 |     await page.goto('http://localhost:3000/login'); // Assuming /login or /admin/login\n  5 |     // Adjust based on actual route. Trying /admin for now as it's common\n> 6 |     const response = await page.goto('/admin');\n    |                                 ^\n  7 |\n  8 |     // Expect redirection to login if not authenticated\n  9 |     // and check for email/password fields"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts",
+                        "column": 33,
+                        "line": 6
+                      },
+                      "message": "Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL\nCall log:\n\u001b[2m  - navigating to \"/admin\", waiting until \"load\"\u001b[22m\n\n\n  4 |     await page.goto('http://localhost:3000/login'); // Assuming /login or /admin/login\n  5 |     // Adjust based on actual route. Trying /admin for now as it's common\n> 6 |     const response = await page.goto('/admin');\n    |                                 ^\n  7 |\n  8 |     // Expect redirection to login if not authenticated\n  9 |     // and check for email/password fields\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts:6:33"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:25:46.693Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/anand/Desktop/new college/orp5-platform/test-results/tests-audit-login-Auth-Login-Page-Loads/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/login.spec.ts",
+                    "column": 33,
+                    "line": 6
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e56d4969cc6fca694ccd-240d21029268224f8d8c",
+          "file": "tests/audit/login.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tests/audit/navigation.spec.ts",
+      "file": "tests/audit/navigation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Navigation: Links are functional",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 4762,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m\"#\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m\"#\"\u001b[39m\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts:12:30",
+                    "location": {
+                      "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts",
+                      "column": 30,
+                      "line": 12
+                    },
+                    "snippet": "  10 |             // Just check they are not empty or #\n  11 |             expect(href).not.toBe('');\n> 12 |             expect(href).not.toBe('#');\n     |                              ^\n  13 |         }\n  14 |     }\n  15 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts",
+                        "column": 30,
+                        "line": 12
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m\"#\"\u001b[39m\n\n  10 |             // Just check they are not empty or #\n  11 |             expect(href).not.toBe('');\n> 12 |             expect(href).not.toBe('#');\n     |                              ^\n  13 |         }\n  14 |     }\n  15 | });\n    at /Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts:12:30"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:25:46.746Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/anand/Desktop/new college/orp5-platform/test-results/tests-audit-navigation-Navigation-Links-are-functional/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/anand/Desktop/new college/orp5-platform/tests/audit/navigation.spec.ts",
+                    "column": 30,
+                    "line": 12
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "431eec6ef26016bd83e0-303bf81f441aeb00874f",
+          "file": "tests/audit/navigation.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tests/audit/public-view.spec.ts",
+      "file": "tests/audit/public-view.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Public View: Homepage Loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 4651,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:25:46.720Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "28b53f6066f194a34fce-dbb87101338b39d7a1a8",
+          "file": "tests/audit/public-view.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tests/audit/upload.spec.ts",
+      "file": "tests/audit/upload.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Admin: File Upload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1760,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-07T14:25:46.797Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "58e1ad3990ef3e51c89d-586ffb9dca0b99d002cf",
+          "file": "tests/audit/upload.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-12-07T14:25:45.762Z",
+    "duration": 7115.771,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

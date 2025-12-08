@@ -1,0 +1,11 @@
+diff --git a/src/components/organisms/Footer.tsx b/src/components/organisms/Footer.tsx
+index 1234567..89abcdef 100644
+--- a/src/components/organisms/Footer.tsx
++++ b/src/components/organisms/Footer.tsx
+@@ -81,9 +81,9 @@
+-                        <Link href="#" className="hover:text-white">Privacy Policy</Link>
+-                        <Link href="#" className="hover:text-white">Terms of Service</Link>
+-                        <Link href="#" className="hover:text-white">Sitemap</Link>
++                        <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
++                        <Link href="/terms" className="hover:text-white">Terms of Service</Link>
++                        <Link href="/sitemap" className="hover:text-white">Sitemap</Link>

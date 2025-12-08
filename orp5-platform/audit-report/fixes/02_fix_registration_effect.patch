@@ -1,0 +1,18 @@
+Subject: [PATCH] Fix setState in effect warning
+
+---
+ src/app/registration/success/RegistrationSuccessClient.tsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/app/registration/success/RegistrationSuccessClient.tsx b/src/app/registration/success/RegistrationSuccessClient.tsx
+index 1234567..89abcdef 100644
+--- a/src/app/registration/success/RegistrationSuccessClient.tsx
++++ b/src/app/registration/success/RegistrationSuccessClient.tsx
+@@ -40,7 +40,7 @@ export default function RegistrationSuccessClient() {
+                 });
+         } else {
+-            setLoading(false);
++            if (loading) setLoading(false);
+         }
+     }, [registrationId]);
+ 
