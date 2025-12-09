@@ -7,7 +7,7 @@ import { Button } from "@/components/atoms/Button"
 import { cn } from "@/lib/utils"
 // import { Logo } from "@/components/atoms/Logo" // Placeholder
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 interface NavItem {
     label: string;
@@ -83,7 +83,9 @@ export function Navbar({ variant = "default" }: NavbarProps) {
 
     // Admin check state
     const [isAdmin, setIsAdmin] = React.useState(false);
+
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
     React.useEffect(() => {
         // Check if user is admin client-side
@@ -217,9 +219,63 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    {/* Mobile Menu Toggle would go here */}
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className={cn("md:hidden p-2 transition-colors", isDarkText ? "text-charcoal" : "text-white")}
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
                 </div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            {isMobileMenuOpen && (
+                <div className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
+                    <div className="flex flex-col space-y-6 pb-20">
+                        {navItems.map((item) => (
+                            <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
+                                {item.children ? (
+                                    <>
+                                        <div className="font-bold text-earth-green mb-3">{item.label}</div>
+                                        <div className="flex flex-col space-y-3 pl-4">
+                                            {item.children.map(child => (
+                                                <Link
+                                                    key={child.label}
+                                                    href={child.href}
+                                                    className="text-gray-600 hover:text-earth-green py-1"
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                >
+                                                    {child.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <Link
+                                        href={item.href}
+                                        className="font-bold text-earth-green block"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                )}
+                            </div>
+                        ))}
+
+                        <div className="flex flex-col gap-4 mt-8">
+                            {!isLoggedIn && (
+                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Button variant="outline" className="w-full justify-center">Login</Button>
+                                </Link>
+                            )}
+                            <Link href="/registration" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90">Register Now</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
         </header>
     )
 }

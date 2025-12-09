@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 
 
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
         // Create unique filename
         const filename = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
 
-        const { data, error } = await supabase
+        const { data, error } = await getSupabaseAdmin()
             .storage
             .from('uploads')
             .upload(filename, file, {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         }
 
         // Get public URL
-        const { data: publicUrlData } = supabase
+        const { data: publicUrlData } = getSupabaseAdmin()
             .storage
             .from('uploads')
             .getPublicUrl(filename);

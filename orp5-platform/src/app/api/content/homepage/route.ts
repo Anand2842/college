@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getHomepageData, updateHomepageData } from '@/lib/cms';
 
 export async function GET() {
@@ -12,6 +13,7 @@ export async function POST(req: Request) {
         const success = await updateHomepageData(body);
 
         if (success) {
+            revalidatePath('/'); // Invalidate homepage cache
             return NextResponse.json({ success: true });
         } else {
             return NextResponse.json({ error: 'Failed to save' }, { status: 500 });

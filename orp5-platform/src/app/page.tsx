@@ -4,6 +4,7 @@ import { QuickAccessCard } from "@/components/molecules/QuickAccessCard";
 import { ThemeCard } from "@/components/molecules/ThemeCard";
 import { SpeakerCard } from "@/components/molecules/SpeakerCard";
 import { ProgrammeCard } from "@/components/molecules/ProgrammeCard";
+import { FAQItem } from "@/components/molecules/FAQItem";
 import { DateStep } from "@/components/molecules/DateStep";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { Footer } from "@/components/organisms/Footer";
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 import { getHomepageData } from "@/lib/cms";
 import Link from "next/link";
+import Image from "next/image";
 
 // Icon Mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -28,114 +30,40 @@ export const metadata = createPageMetadata({
   keywords: ['organic rice farming', 'sustainable agriculture', 'rice conference', 'ORP-5', 'agriculture symposium'],
 });
 
+export const revalidate = 0; // Ensure dynamic fetching for now, or use revalidatePath
+
 export default async function Home() {
-  // const data = await getHomepageData();
-  const data: any = {
+  const cmsData = await getHomepageData();
+
+  // Fallback default data if CMS returns null (first load before admin save)
+  const defaultData: any = {
     hero: {
       headline: "5th International Conference on <br /> <span class='text-rice-gold'>Organic & Natural Rice</span> <br /> Farming",
       subheadline: "Advancing Global Agricultural Innovation & Sustainability <br/> 7-9 September 2026 | Galgotias University, Greater Noida, India",
       backgroundImage: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop"
     },
     themes: [
-      {
-        id: "1",
-        title: "Breeding & Genetics",
-        description: "Developing resilient rice varieties through advanced breeding techniques and genetic research.",
-        iconName: "Sprout",
-        colorTheme: "green"
-      },
-      {
-        id: "2",
-        title: "Soil Health Management",
-        description: "Sustainable soil management practices for optimal organic rice cultivation.",
-        iconName: "Mountain",
-        colorTheme: "brown"
-      },
-      {
-        id: "3",
-        title: "Pest & Disease Control",
-        description: "Natural and organic methods for pest management and disease prevention.",
-        iconName: "Apple",
-        colorTheme: "red"
-      }
+      { id: "1", title: "Breeding & Genetics", description: "Developing resilient rice varieties through advanced breeding techniques and genetic research.", iconName: "Sprout", colorTheme: "green" },
+      { id: "2", title: "Soil Health Management", description: "Sustainable soil management practices for optimal organic rice cultivation.", iconName: "Mountain", colorTheme: "brown" },
+      { id: "3", title: "Pest & Disease Control", description: "Natural and organic methods for pest management and disease prevention.", iconName: "Apple", colorTheme: "red" }
     ],
-    speakers: [
-      {
-        id: "1",
-        name: "Dr. Sarah Johnson",
-        role: "Director of Research",
-        institution: "International Rice Research Institute",
-        imageUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
-      },
-      {
-        id: "2",
-        name: "Prof. Michael Chen",
-        role: "Professor of Agronomy",
-        institution: "UC Davis",
-        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-      },
-      {
-        id: "3",
-        name: "Dr. Priya Sharma",
-        role: "Lead Researcher",
-        institution: "Indian Agricultural Research Institute",
-        imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
-      },
-      {
-        id: "4",
-        name: "Dr. James Wilson",
-        role: "Sustainable Agriculture Expert",
-        institution: "FAO",
-        imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-      }
-    ],
+    speakers: [],
     programme: {
-      day1: {
-        date: "7 September 2026",
-        activities: ["Opening Ceremony", "Keynote Speeches", "Technical Sessions"]
-      },
-      day2: {
-        date: "8 September 2026",
-        activities: ["Workshops", "Field Visits", "Panel Discussions"]
-      },
-      day3: {
-        date: "9 September 2026",
-        activities: ["Closing Sessions", "Awards Ceremony", "Networking"]
-      }
+      day1: { date: "7 September 2026", activities: ["Opening Ceremony", "Keynote Speeches", "Technical Sessions"] },
+      day2: { date: "8 September 2026", activities: ["Workshops", "Field Visits", "Panel Discussions"] },
+      day3: { date: "9 September 2026", activities: ["Closing Sessions", "Awards Ceremony", "Networking"] },
+      day4: { date: "10 September 2026", activities: ["Post-Conference Tour", "Community Outreach"] },
+      day5: { date: "11 September 2026", activities: ["Departure", "Farewell Breakfast"] }
     },
     dates: [
-      {
-        date: "Jan 1, 2026",
-        label: "Registration Opens",
-        status: "upcoming"
-      },
-      {
-        date: "Mar 15, 2026",
-        label: "Abstract Submission Deadline",
-        status: "upcoming"
-      },
-      {
-        date: "Sep 7-9, 2026",
-        label: "Conference Dates",
-        status: "upcoming"
-      }
+      { date: "Jan 1, 2026", label: "Registration Opens", status: "upcoming" },
+      { date: "Mar 15, 2026", label: "Abstract Submission Deadline", status: "upcoming" },
+      { date: "Sep 7-9, 2026", label: "Conference Dates", status: "upcoming" }
     ],
     whyJoin: [
-      {
-        iconName: "Star",
-        title: "Global Networking",
-        desc: "Connect with experts from around the world."
-      },
-      {
-        iconName: "Globe",
-        title: "Latest Research",
-        desc: "Learn about cutting-edge developments in organic rice farming."
-      },
-      {
-        iconName: "Briefcase",
-        title: "Practical Insights",
-        desc: "Gain actionable knowledge for your agricultural practices."
-      }
+      { iconName: "Star", title: "Global Networking", desc: "Connect with experts from around the world." },
+      { iconName: "Globe", title: "Latest Research", desc: "Learn about cutting-edge developments in organic rice farming." },
+      { iconName: "Briefcase", title: "Practical Insights", desc: "Gain actionable knowledge for your agricultural practices." }
     ],
     gallery: [
       { url: "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=400&h=300&fit=crop" },
@@ -147,8 +75,9 @@ export default async function Home() {
       description: "Galgotias University, Greater Noida, India - A premier institution dedicated to excellence in education and research.",
       address: "Plot No. 2, Techzone 4, Greater Noida, Uttar Pradesh 201310, India"
     }
-  }; // Mock data with sample content
-  // if (!data) return <div>Loading...</div>;
+  };
+
+  const data = cmsData || defaultData;
 
   return (
     <main className="min-h-screen relative bg-[#FDFCF8] font-sans">
@@ -232,10 +161,16 @@ export default async function Home() {
             centered
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
-            <ProgrammeCard day="Day 1 (07 Sep)" date={data.programme.day1.date} activities={data.programme.day1.activities} delay={0.1} />
-            <ProgrammeCard day="Day 2 (08 Sep)" date={data.programme.day2.date} activities={data.programme.day2.activities} delay={0.2} />
-            <ProgrammeCard day="Day 3 (09 Sep)" date={data.programme.day3.date} activities={data.programme.day3.activities} delay={0.3} />
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-16 max-w-7xl mx-auto">
+            {['day1', 'day2', 'day3', 'day4', 'day5'].map((dayKey, index) => (
+              <ProgrammeCard
+                key={dayKey}
+                day={`Day ${index + 1}`}
+                date={data.programme?.[dayKey]?.date || "TBD"}
+                activities={data.programme?.[dayKey]?.activities || []}
+                delay={0.1 * (index + 1)}
+              />
+            ))}
           </div>
 
           <div className="text-center mt-12">
@@ -328,8 +263,14 @@ export default async function Home() {
           <SectionTitle title="Gallery Preview" subtitle="Moments from past successful symposia." centered />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
             {data.gallery?.map((img: any, i: number) => (
-              <div key={i} className="overflow-hidden rounded-2xl h-64 shadow-md group">
-                <img src={img.url} alt="Gallery" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div key={i} className="overflow-hidden rounded-2xl h-64 shadow-md group relative">
+                <Image
+                  src={img.url}
+                  alt="Gallery"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
             ))}
           </div>
@@ -360,6 +301,22 @@ export default async function Home() {
                 Download Guidelines
               </button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <SectionTitle
+            title="Have Questions?"
+            subtitle="Find answers to common queries about ORP-5."
+            centered
+          />
+          <div className="max-w-3xl mx-auto mt-16">
+            {data.faq?.map((item: any, i: number) => (
+              <FAQItem key={i} question={item.question} answer={item.answer} />
+            ))}
           </div>
         </div>
       </section>

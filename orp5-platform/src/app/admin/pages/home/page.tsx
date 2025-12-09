@@ -120,7 +120,7 @@ export default function HomepageEditor() {
                 <AdminTabs
                     activeTab={activeTab}
                     onTabChange={setActiveTab}
-                    tabs={["Hero & General", "Themes", "Important Dates", "Why Join & Venue", "Gallery"]}
+                    tabs={["Hero & General", "Themes", "Programme Snapshot", "Important Dates", "Why Join & Venue", "Gallery", "FAQ"]}
                 />
 
                 {/* Hero Tab */}
@@ -201,6 +201,43 @@ export default function HomepageEditor() {
                                     </>
                                 )}
                             />
+                        </div>
+                    </div>
+                )}
+
+                {/* Programme Snapshot Tab */}
+                {activeTab === "Programme Snapshot" && (
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                            <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Programme Snapshot</h2>
+                            <p className="text-sm text-gray-500 mb-6">Edit the daily highlights displayed on the homepage.</p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {['day1', 'day2', 'day3', 'day4', 'day5'].map((dayKey, index) => {
+                                    const dayData = data.programme?.[dayKey] || { date: "", activities: [] };
+                                    return (
+                                        <div key={dayKey} className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                                            <h3 className="font-bold text-earth-green mb-3">Day {index + 1}</h3>
+                                            <AdminInput
+                                                label="Date (e.g., 7 September 2026)"
+                                                value={dayData.date}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("programme", dayKey, { ...dayData, date: e.target.value })}
+                                            />
+
+                                            <label className="block text-sm font-bold text-earth-green mt-4 mb-2">Activities (one per line)</label>
+                                            <textarea
+                                                className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                                value={Array.isArray(dayData.activities) ? dayData.activities.join('\n') : dayData.activities}
+                                                onChange={(e) => {
+                                                    const lines = e.target.value.split('\n');
+                                                    handleChange("programme", dayKey, { ...dayData, activities: lines });
+                                                }}
+                                                placeholder="Opening Ceremony&#10;Keynote Speeches"
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -294,6 +331,30 @@ export default function HomepageEditor() {
                             renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
                                 <div className="col-span-2">
                                     <ImageUploader label="Image URL" value={item.url} onChange={(url) => update("url", url)} />
+                                </div>
+                            )}
+                        />
+                    </div>
+                )}
+
+                {/* FAQ Tab */}
+                {activeTab === "FAQ" && (
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Frequently Asked Questions</h2>
+                        <ListEditor
+                            title="Questions"
+                            items={data.faq || []}
+                            onUpdate={(items) => handleListUpdate("faq", items)}
+                            itemTemplate={{ question: "New Question", answer: "Answer here." }}
+                            renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
+                                <div className="col-span-2">
+                                    <AdminInput label="Question" value={item.question} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("question", e.target.value)} />
+                                    <label className="block text-sm font-bold text-earth-green mb-1 mt-2">Answer</label>
+                                    <textarea
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px]"
+                                        value={item.answer}
+                                        onChange={(e) => update("answer", e.target.value)}
+                                    />
                                 </div>
                             )}
                         />

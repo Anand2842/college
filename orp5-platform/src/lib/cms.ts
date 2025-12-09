@@ -1,8 +1,43 @@
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { revalidatePath } from 'next/cache';
 
 const supabase = {
     from: (table: string) => getSupabaseAdmin().from(table),
 } as any;
+
+// Helper to sync table rows (Upsert + Delete Missing)
+async function syncTable(table: string, items: any[], idField = 'id') {
+    if (!Array.isArray(items)) return;
+
+    // 1. Assign values and IDs
+    const finalItems = items.map(item => {
+        if (!item[idField]) {
+            return { ...item, [idField]: crypto.randomUUID() };
+        }
+        return item;
+    });
+
+    const finalIds = finalItems.map(i => i[idField]);
+
+    // 2. Delete missing records
+    if (finalIds.length > 0) {
+        const { error: delError } = await supabase
+            .from(table)
+            .delete()
+            .not(idField, 'in', `(${finalIds.join(',')})`);
+
+        if (delError) console.error(`Error syncing(deleting) ${table}: `, delError);
+    } else {
+        const { error: delAllError } = await supabase.from(table).delete().neq(idField, '00000000-0000-0000-0000-000000000000');
+        if (delAllError) console.error(`Error clearing ${table}: `, delAllError);
+    }
+
+    // 3. Upsert all items
+    for (const item of finalItems) {
+        const row = { ...item, updatedAt: new Date().toISOString() };
+        await supabase.from(table).upsert(row);
+    }
+}
 
 // Helper to get page content
 async function getPageContent(slug: string) {
@@ -13,16 +48,14 @@ async function getPageContent(slug: string) {
         .maybeSingle();
 
     if (error) {
-        console.error(`Error fetching page ${slug}:`, error);
+        console.error(`Error fetching page ${slug}: `, error);
         return null;
     }
     return data?.content || null;
-
 }
 
-// Helper to safely upsert page content (handling ID generation if missing)
+// Helper to safely upsert page content
 async function upsertPage(slug: string, content: any) {
-    // Check if page exists to get ID
     const { data: existing } = await supabase.from('Page').select('id').eq('slug', slug).single();
 
     const payload: any = {
@@ -54,10 +87,10 @@ export async function getImportantDatesPageData() {
     // Seed script imported 'homepage.json' which HAS dates.
     // It imported 'important-dates-page.json'? Yes `readJson('important-dates-page.json')`? No, I see `const homepageData ...`. `const importantDatesPath` in old cms.ts.
     // My seed script LOGIC:
-    // `const pagesToSeed = [ { slug: 'home', ... }, ... ]`. I did NOT include 'important-dates'.
+    // `const pagesToSeed = [{ slug: 'home', ... }, ... ]`. I did NOT include 'important-dates'.
     // However, I populated `ImportantDate` table from `homepageData.dates`.
 
-    // So for getImportantDatesPageData, previously it read `src/data/important-dates-page.json`.
+    // So for getImportantDatesPageData, previously it read `src / data / important - dates - page.json`.
     // I should create a 'Page' for it ideally.
     // But since I migrated the DATA `dates` to `ImportantDate` table, I should return that.
 
@@ -199,7 +232,7 @@ export async function updateThemesPageData(data: any) {
                 colorTheme: t.colorTheme,
                 order: t.order || 0
             }));
-            await updateTable('Theme', mappedThemes);
+            await syncTable('Theme', mappedThemes);
         }
 
         return true;
@@ -222,7 +255,7 @@ export async function getHomepageData() {
 
     // Homepage speakers logic: usually shows a subset. 
     // The seed script migrated `homepage.speakers` -> ?
-    // I only migrated `speakers-page.json` to Speaker table.
+    // I only migrated `speakers - page.json` to Speaker table.
     // `homepage.speakers` in JSON was separate.
     // I should probably just return `content.speakers` if it exists in JSON field, OR fetch from Speaker table if "featured".
     // For now, let's mix in the specific tables that were migrated content-wise.
@@ -235,7 +268,16 @@ export async function getHomepageData() {
         // speakers needs care: content.speakers might be IDs? or simplified objects?
         // Let's stick to content.speakers if available for layout, but usually we want dynamic.
         // If content.speakers is null/empty, maybe grab top 4 keynote speakers?
-        speakers: content.speakers || speakers?.slice(0, 4) // Fallback
+        speakers: content.speakers || speakers?.slice(0, 4), // Fallback
+        faq: content.faq || [
+            { question: "What is the date and venue of ORP-5?", answer: "The 5th International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at Galgotias University, Greater Noida, India." },
+            { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
+            { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
+            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be sent to the conference email (organizingsecretary@orp5ic.com) on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },
+            { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
+            { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
+            { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." }
+        ]
     };
 }
 
@@ -255,10 +297,10 @@ export async function updateHomepageData(newData: any) {
                 colorTheme: t.colorTheme,
                 order: t.order || 0
             }));
-            await updateTable('Theme', mappedThemes);
+            await syncTable('Theme', mappedThemes);
         }
-        if (newData.partners) await updateTable('Partner', newData.partners);
-        if (newData.dates) await updateTable('ImportantDate', newData.dates);
+        if (newData.partners) await syncTable('Partner', newData.partners);
+        if (newData.dates) await syncTable('ImportantDate', newData.dates);
 
         return true;
     } catch (error) {
@@ -267,118 +309,6 @@ export async function updateHomepageData(newData: any) {
     }
 }
 
-// Helper to update table rows
-async function updateTable(table: string, items: any[]) {
-    if (!Array.isArray(items)) return;
-    for (const item of items) {
-        // Upsert needs ID? If new, we need ID if not default.
-        // If 'id' is present, it updates. If not, and we generate one?
-        // Admin UI might send new items without ID.
-        const row = { ...item };
-        if (!row.id) {
-            // We can't easily generate UUID here without importing crypto or uuid?
-            // Supabase JS client doesn't generate UUIDs.
-            // We must assume Admin UI sends ID or we generate it.
-            // If we used 'crypto', we need to check env support (Node 19+ has global crypto).
-            // Next.js Edge/Server runtime allows 'crypto.randomUUID()'.
-            row.id = crypto.randomUUID();
-        }
-        row.updatedAt = new Date().toISOString();
-        await supabase.from(table).upsert(row);
-    }
-}
-
-export async function updateSpeakersPageData(newData: any) {
-    try {
-        await upsertPage('speakers', newData);
-
-        // Sync Speakers Table
-        // newData might have 'keynotes', 'invited', 'panel' arrays.
-        // We need to upsert them with correct category and mapped fields.
-
-        if (newData.keynotes) {
-            await updateTable('Speaker', newData.keynotes.map((s: any) => ({
-                id: s.id,
-                name: s.name,
-                role: s.role,
-                institution: s.institution,
-                imageUrl: s.imageUrl,
-                focusArea: s.focusArea,
-                category: 'keynote',
-                featured: s.featured || false,
-                order: s.order || 0
-            })));
-        }
-
-        if (newData.invited) {
-            await updateTable('Speaker', newData.invited.map((s: any) => ({
-                id: s.id,
-                name: s.name,
-                role: s.role,
-                institution: s.institution, // if applicable
-                imageUrl: s.imageUrl,
-                country: s.countryCode || s.country,
-                category: 'invited',
-                featured: s.featured || false,
-                order: s.order || 0
-            })));
-        }
-
-        if (newData.panel) {
-            await updateTable('Speaker', newData.panel.map((s: any) => ({
-                id: s.id,
-                name: s.name,
-                role: s.role,
-                imageUrl: s.imageUrl, // if applicable
-                focusArea: s.expertise || s.focusArea,
-                category: 'panel',
-                featured: s.featured || false,
-                order: s.order || 0
-            })));
-        }
-
-        return true;
-    } catch (e: any) {
-        console.error("Error updating speakers:", e);
-        throw e;
-    }
-}
-
-export async function updateImportantDatesPageData(newData: any) {
-    try {
-        await upsertPage('important-dates', newData);
-
-        if (newData.dates) await updateTable('ImportantDate', newData.dates);
-
-        return true;
-    } catch (e) {
-        console.error("Error updating important dates:", e);
-        return false;
-    }
-}
-
-export async function updateRegistrationPageData(newData: any) {
-    try {
-        await upsertPage('registration', newData);
-
-        if (newData.categories) {
-            const mappedCategories = newData.categories.map((c: any) => ({
-                id: c.id,
-                title: c.title,
-                price: c.price,
-                description: c.description,
-                icon: c.iconName || c.icon,
-                order: c.order || 0
-            }));
-            await updateTable('RegistrationCategory', mappedCategories);
-        }
-
-        return true;
-    } catch (e) {
-        console.error("Error updating registration page:", e);
-        throw e;
-    }
-}
 // ... existing code ...
 export async function getSponsorshipPageData() {
     const content = await getPageContent('sponsorship');
