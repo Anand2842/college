@@ -216,6 +216,21 @@ export async function getThemesPageData() {
     };
 }
 
+// Helper to update speakers
+export async function updateSpeakersPageData(data: any) {
+    return upsertPage('speakers', data);
+}
+
+// Helper to update important dates
+export async function updateImportantDatesPageData(data: any) {
+    return upsertPage('important-dates', data);
+}
+
+// Helper to update registration content
+export async function updateRegistrationPageData(data: any) {
+    return upsertPage('registration', data);
+}
+
 export async function updateThemesPageData(data: any) {
     try {
         // 1. Update Page Content
