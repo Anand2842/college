@@ -94,7 +94,7 @@ export default async function VenuePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {data.spaces.map((space: any) => (
                         <div key={space.id} className="group relative h-80 rounded-2xl overflow-hidden shadow-md bg-gray-200">
-                            {space.imageUrl && <img src={space.imageUrl} alt={space.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
+                            {space.imageUrl && <img src={space.imageUrl} alt={space.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-8">
                                 <h3 className="text-2xl font-bold text-white mb-2">{space.title}</h3>
                                 <p className="text-white/80 text-sm">{space.description}</p>

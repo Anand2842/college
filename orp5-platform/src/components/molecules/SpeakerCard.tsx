@@ -26,6 +26,7 @@ export function SpeakerCard({ name, role, institution, imageUrl, delay = 0 }: Sp
                     <img
                         src={imageUrl}
                         alt={name}
+                        loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 ) : (
