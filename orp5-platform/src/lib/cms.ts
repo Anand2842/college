@@ -177,7 +177,42 @@ export async function getRegistrationPageData() {
 }
 
 export async function getVenuePageData() {
-    return getPageContent('venue');
+    const content = await getPageContent('venue');
+
+    const defaultData = {
+        hero: {
+            headline: "Galgotias University",
+            subheadline: "A world-class venue for a world-class conference, located in the educational hub of Greater Noida.",
+            backgroundImage: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1920"
+        },
+        intro: {
+            title: "About the Venue",
+            description: "Galgotias University is a premier institution known for its state-of-the-art infrastructure and commitment to academic excellence. Spread across a sprawling campus, it provides the perfect setting for high-impact academic gatherings."
+        },
+        highlights: [
+            { id: "h1", iconName: "Users", title: "3000+ Seating", description: "Main auditorium with massive capacity." },
+            { id: "h2", iconName: "Wifi", title: "High-Speed WiFi", description: "Seamless connectivity across the campus." },
+            { id: "h3", iconName: "Coffee", title: "Premium Catering", description: "Multiple cafeterias and dining halls." }
+        ],
+        spaces: [
+            { id: "s1", title: "Main Auditorium", description: "For keynotes and opening ceremonies.", imageUrl: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800" },
+            { id: "s2", title: "Conference Hall A", description: "Dedicated for technical sessions.", imageUrl: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&q=80&w=800" }
+        ],
+        location: {
+            address: "Plot No. 2, Techzone 4, Greater Noida, Uttar Pradesh 201310, India",
+            coordinates: "28.36N, 77.53E",
+            airportDist: "45 km (approx 1 hr)",
+            metroDist: "5 km (Knowledge Park II)",
+            hotelsDist: "Within 2-5 km radius"
+        },
+        facilities: [
+            { id: "f1", iconName: "Printer", name: "Business Center" },
+            { id: "f2", iconName: "Accessibility", name: "Wheelchair Access" },
+            { id: "f3", iconName: "Car", name: "Ample Parking" }
+        ]
+    };
+
+    return content || defaultData;
 }
 
 export async function getSpeakersPageData() {

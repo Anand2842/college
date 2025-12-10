@@ -90,21 +90,26 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     React.useEffect(() => {
         // Check if user is admin client-side
         const checkAdmin = async () => {
-            const { createClient } = await import("@/utils/supabase/client");
-            const supabase = createClient();
+            try {
+                const { createClient } = await import("@/utils/supabase/client");
+                const supabase = createClient();
 
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                setIsLoggedIn(true);
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('role')
-                    .eq('id', user.id)
-                    .single();
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    setIsLoggedIn(true);
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('role')
+                        .eq('id', user.id)
+                        .single();
 
-                if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
-                    setIsAdmin(true);
+                    if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
+                        setIsAdmin(true);
+                    }
                 }
+            } catch (error) {
+                // Silently fail auth check on storage errors (e.g. strict privacy settings)
+                console.warn("Auth check suppressed:", error);
             }
         };
         checkAdmin();
