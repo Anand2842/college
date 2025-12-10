@@ -154,7 +154,44 @@ export async function getAwardsPageData() {
 }
 
 export async function getCommitteesPageData() {
-    return getPageContent('committees');
+    const content = await getPageContent('committees');
+
+    const defaultData = {
+        hero: {
+            headline: "Organizing Committee",
+            subheadline: "Meet the dedicated team behind the 5th International Conference on Organic and Natural Rice Farming."
+        },
+        intro: {
+            title: "Our Team",
+            description: "The ORP-5 conference is organized by a diverse group of experts, researchers, and practitioners dedicated to advancing sustainable rice farming practices globally."
+        },
+        committees: [
+            {
+                id: "c1",
+                label: "International",
+                members: [
+                    { id: "m1", name: "Dr. Biswas", affiliation: "ICAR", country: "India" },
+                    { id: "m2", name: "Dr. John Doe", affiliation: "IRRI", country: "Philippines" }
+                ]
+            },
+            {
+                id: "c2",
+                label: "National",
+                members: [
+                    { id: "m3", name: "Prof. Sharma", affiliation: "IARI", country: "India" }
+                ]
+            }
+        ],
+        advisory: {
+            title: "International Advisory Board",
+            description: "Comprising world-renowned scientists and policy makers guiding the strategic direction of the conference."
+        },
+        contacts: [
+            { id: "ct1", name: "Secretariat", email: "secretariat@orp5ic.com" }
+        ]
+    };
+
+    return content || defaultData;
 }
 
 export async function getAboutPageData() {
