@@ -15,7 +15,7 @@ export function Hero({
     subheadline = "Advancing Global Agricultural Innovation & Sustainability <br/> 7-9 September 2026 | Galgotias University, Greater Noida, India", backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop"
 }: HeroProps) {
     return (
-        <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[85svh] md:h-screen w-full flex items-center justify-center overflow-hidden">
             {/* Background Image Placeholder */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-10" />
             <div

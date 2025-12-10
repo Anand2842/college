@@ -100,8 +100,8 @@ export default async function Home() {
       />
 
       {/* Quick Access Row - Overlapping Hero */}
-      <div className="container mx-auto px-6 relative z-30 -mt-20 mb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="container mx-auto px-6 relative z-30 mt-8 md:-mt-20 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <QuickAccessCard icon={<Info size={28} />} title="About the Conference" href="/about" delay={0.1} />
           <QuickAccessCard icon={<Leaf size={28} />} title="Themes (ORP-5)" href="/themes" delay={0.2} />
           <QuickAccessCard icon={<Calendar size={28} />} title="Programme Overview" href="/programme" delay={0.3} />
