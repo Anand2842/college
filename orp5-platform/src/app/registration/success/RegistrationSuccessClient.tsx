@@ -21,7 +21,11 @@ export default function RegistrationSuccessClient() {
         // Fetch page content (layout/labels)
         fetch("/api/content/receipt")
             .then((res) => res.json())
-            .then((jsonData) => setData(jsonData));
+            .then((jsonData) => {
+                setData(jsonData);
+                // If no registration ID, we are done loading once content is here
+                if (!registrationId) setLoading(false);
+            });
 
         // Fetch actual registration data if ID provided
         if (registrationId) {
@@ -39,8 +43,6 @@ export default function RegistrationSuccessClient() {
                 .finally(() => {
                     setLoading(false);
                 });
-        } else {
-            setLoading(false);
         }
     }, [registrationId]);
 
