@@ -38,8 +38,8 @@ export default async function Home() {
   // Fallback default data if CMS returns null (first load before admin save)
   const defaultData: any = {
     hero: {
-      headline: "5th International Conference on <br /> <span class='text-rice-gold'>Organic & Natural Rice</span> <br /> Farming",
-      subheadline: "Advancing Global Agricultural Innovation & Sustainability <br/> 7-9 September 2026 | Galgotias University, Greater Noida, India",
+      headline: "Organic & Natural Rice Farming and Production Systems",
+      subheadline: "Advancing Sustainable Organic & Natural Rice Farming Worldwide 21-25 September 2026 | Galgotias University, Greater Noida, India",
       backgroundImage: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop"
     },
     themes: [
@@ -100,7 +100,8 @@ export default async function Home() {
       />
 
       {/* Quick Access Row - Overlapping Hero */}
-      <div className="container mx-auto px-6 relative z-30 mt-8 md:-mt-20 mb-20">
+      {/* Quick Access Row - Standard flow */}
+      <div className="container mx-auto px-6 relative z-30 -mt-16 mb-24">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <QuickAccessCard icon={<Info size={28} />} title="About the Conference" href="/about" delay={0.1} />
           <QuickAccessCard icon={<Leaf size={28} />} title="Themes (ORP-5)" href="/themes" delay={0.2} />

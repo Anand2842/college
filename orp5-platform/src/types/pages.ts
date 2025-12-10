@@ -79,6 +79,7 @@ export interface Organizer {
     id: string;
     name: string;
     description: string;
+    logoUrl?: string;
 }
 
 export interface AboutPageData {
@@ -91,9 +92,7 @@ export interface AboutPageData {
     whyMatters: WhyMatter[];
     objectives: string[];
     organizers: Organizer[];
-    partner: {
-        imageUrl: string;
-    };
+    partners: Partner[];
 }
 
 // ============================================
@@ -344,4 +343,18 @@ export interface AdminStats {
         type: 'warning' | 'success' | 'info';
         message: string;
     }>;
+}
+
+export interface SiteSettings {
+    dates: {
+        conferenceStart: string;
+        conferenceEnd: string;
+        registrationOpen: string;
+        abstractDeadline: string;
+        earlyBirdDeadline: string;
+    };
+    meta?: {
+        siteName: string;
+        description: string;
+    };
 }

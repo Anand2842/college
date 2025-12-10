@@ -188,10 +188,15 @@ export default function AboutPageEditor() {
                             title="Organizer List"
                             items={data.organizers || []}
                             onUpdate={(items) => handleListUpdate("organizers", items)}
-                            itemTemplate={{ id: "", name: "New Organizer", description: "" }}
+                            itemTemplate={{ id: "", name: "New Organizer", description: "", logoUrl: "" }}
                             renderItemFields={(item, i, update) => (
                                 <>
                                     <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <ImageUploader
+                                        label="Organizer Logo"
+                                        value={item.logoUrl || ""}
+                                        onChange={(url) => update("logoUrl", url)}
+                                    />
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                                         <textarea
@@ -204,8 +209,24 @@ export default function AboutPageEditor() {
                             )}
                         />
 
-                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Collaborating Partner</h2>
-                        <ImageUploader label="Partner Logo" value={data.partner.imageUrl} onChange={(url) => handleChange("partner", "imageUrl", url)} />
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Collaborating Partners</h2>
+                        <ListEditor
+                            title="Partners List"
+                            items={data.partners || []}
+                            onUpdate={(items) => handleListUpdate("partners", items)}
+                            itemTemplate={{ name: "New Partner", imageUrl: "", website: "" }}
+                            renderItemFields={(item, i, update) => (
+                                <>
+                                    <AdminInput label="Partner Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <ImageUploader
+                                        label="Partner Logo"
+                                        value={item.imageUrl || ""}
+                                        onChange={(url) => update("imageUrl", url)}
+                                    />
+                                    <AdminInput label="Website URL" value={item.website || ""} onChange={(e) => update("website", e.target.value)} />
+                                </>
+                            )}
+                        />
                     </div>
                 )}
             </div>

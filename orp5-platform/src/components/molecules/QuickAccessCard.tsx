@@ -20,13 +20,15 @@ export function QuickAccessCard({ icon, title, href, delay = 0 }: QuickAccessCar
             viewport={{ once: true }}
             transition={{ delay: delay, duration: 0.5 }}
             whileHover={{ y: -5 }}
-            className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center text-center gap-4 border border-transparent hover:border-rice-gold/50 transition-colors cursor-pointer h-full"
+            className="bg-white rounded-lg shadow-xl shadow-black/5 p-8 flex flex-col items-center justify-center text-center gap-5 border border-rice-gold/10 hover:border-rice-gold/40 transition-all duration-300 cursor-pointer h-full group relative overflow-hidden"
         >
-            <div className="bg-mist-white p-3 rounded-full text-earth-green">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rice-gold/20 via-rice-gold to-rice-gold/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            <div className="bg-rice-gold/10 p-4 rounded-full text-rice-gold group-hover:bg-rice-gold group-hover:text-white transition-colors duration-300">
                 {icon}
             </div>
-            <h3 className="font-semibold text-charcoal text-lg leading-tight">{title}</h3>
+            <h3 className="font-serif font-bold text-earth-green text-xl leading-snug group-hover:text-rice-gold-dark transition-colors">{title}</h3>
             <Link href={href} className="absolute inset-0" aria-label={title} />
-        </motion.div>
+        </motion.div >
     );
 }

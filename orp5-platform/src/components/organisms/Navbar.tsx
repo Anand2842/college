@@ -25,10 +25,8 @@ const navItems: NavItem[] = [
             { label: "Committees", href: "/committees" },
             { label: "Speakers", href: "/speakers" },
             { label: "Awards & Prizes", href: "/awards" },
-            { label: "Brochure", href: "/brochure" },
         ]
     },
-
     {
         label: "Exhibition & Sponsorship",
         href: "/exhibition",
@@ -41,15 +39,15 @@ const navItems: NavItem[] = [
         label: "Programme & Participation",
         href: "/programme",
         children: [
-            { label: "Programme Schedule", href: "/programme" },
-            { label: "Participation Guidelines", href: "/submission-guidelines" },
+            { label: "Schedule", href: "/programme" },
+            { label: "Guidelines", href: "/submission-guidelines" },
         ]
     },
     {
         label: "Registration",
         href: "/registration",
         children: [
-            { label: "Registration Page", href: "/registration" },
+            { label: "Registration Details", href: "/registration" },
             { label: "Important Dates", href: "/important-dates" },
         ]
     },
@@ -71,6 +69,10 @@ const navItems: NavItem[] = [
             { label: "Accommodation", href: "/accommodation" },
         ]
     },
+    {
+        label: "Dashboard",
+        href: "/dashboard",
+    }
 ];
 
 interface NavbarProps {
@@ -118,33 +120,26 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     // text color condition
     const isDarkText = variant === "dark" || isScrolled;
 
+    // Simplified Navbar for Static Layout
     return (
         <header
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                isScrolled
-                    ? "bg-earth-green/95 backdrop-blur-md py-3 shadow-md"
-                    : "bg-transparent py-6"
-            )}
+            className="bg-white relative z-50 py-4 shadow-sm border-b border-gray-100"
         >
-            <div className="container mx-auto px-6 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between">
+                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-4 lg:mr-8 xl:mr-16 min-w-fit">
                     {/* Placeholder for Logo */}
-                    <div className={cn("font-serif font-bold text-xl tracking-wide", isDarkText ? "text-charcoal" : "text-white")}>
+                    <div className="font-serif font-bold text-xl tracking-wide text-charcoal">
                         ORP-5
                     </div>
                 </Link>
 
-                <div className="hidden md:flex items-center space-x-8">
+                <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
                     {navItems.map((item) => (
                         item.children ? (
                             <div key={item.label} className="relative group">
-                                <Link href={item.href} className={cn(
-                                    "flex items-center gap-1 text-sm font-medium transition-colors hover:text-rice-gold focus:outline-none",
-                                    isDarkText ? "text-charcoal" : "text-white/90"
-                                )}>
+                                <Link href={item.href} className="flex items-center gap-0.5 text-xs xl:text-sm font-medium transition-colors hover:text-rice-gold focus:outline-none text-charcoal whitespace-nowrap">
                                     {item.label}
-                                    <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
+                                    <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-200 opacity-70" />
                                 </Link>
                                 {/* Dropdown Menu */}
                                 <div className="absolute top-full left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-2">
@@ -165,58 +160,17 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className={cn(
-                                    "text-sm font-medium transition-colors hover:text-rice-gold",
-                                    isDarkText ? "text-charcoal" : "text-white/90"
-                                )}
+                                className="text-sm font-medium transition-colors hover:text-rice-gold text-charcoal"
                             >
                                 {item.label}
                             </Link>
                         )
                     ))}
 
-                    {/* Admin Dashboard Link */}
-                    {isAdmin && (
-                        <Link href="/admin/dashboard">
-                            <Button
-                                variant="ghost"
-                                className={cn(
-                                    "font-bold text-sm",
-                                    !isScrolled && variant === "default" && "text-white hover:bg-white/10 hover:text-white",
-                                    !isScrolled && variant === "dark" && "text-charcoal hover:bg-black/5 hover:text-charcoal",
-                                    isScrolled && "text-white hover:bg-white/20"
-                                )}
-                            >
-                                Dashboard
-                            </Button>
-                        </Link>
-                    )}
-
-                    {/* Login Link for Non-Authenticated Users */}
-                    {!isLoggedIn && (
-                        <Link href="/login">
-                            <Button
-                                variant="ghost"
-                                className={cn(
-                                    "font-bold text-sm",
-                                    !isScrolled && variant === "default" && "text-white hover:bg-white/10 hover:text-white",
-                                    !isScrolled && variant === "dark" && "text-charcoal hover:bg-black/5 hover:text-charcoal",
-                                    isScrolled && "text-white hover:bg-white/20"
-                                )}
-                            >
-                                Login
-                            </Button>
-                        </Link>
-                    )}
-
                     <Link href="/registration">
                         <Button
-                            variant={isScrolled ? "default" : "outline"}
-                            className={cn(
-                                "font-bold",
-                                !isScrolled && variant === "default" && "border-white text-white hover:bg-white hover:text-earth-green",
-                                !isScrolled && variant === "dark" && "border-charcoal text-charcoal hover:bg-charcoal hover:text-white"
-                            )}
+                            variant="default"
+                            className="font-bold border-charcoal bg-white text-earth-green hover:bg-earth-green hover:text-white border border-earth-green/20"
                         >
                             Register
                         </Button>
@@ -226,7 +180,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                 <div className="flex items-center gap-4">
                     {/* Mobile Menu Toggle */}
                     <button
-                        className={cn("md:hidden p-2 transition-colors", isDarkText ? "text-charcoal" : "text-white")}
+                        className="md:hidden p-2 transition-colors text-charcoal"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -235,52 +189,54 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             </div>
 
             {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
-                    <div className="flex flex-col space-y-6 pb-20">
-                        {navItems.map((item) => (
-                            <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
-                                {item.children ? (
-                                    <>
-                                        <div className="font-bold text-earth-green mb-3">{item.label}</div>
-                                        <div className="flex flex-col space-y-3 pl-4">
-                                            {item.children.map(child => (
-                                                <Link
-                                                    key={child.label}
-                                                    href={child.href}
-                                                    className="text-gray-600 hover:text-earth-green py-1"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    {child.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <Link
-                                        href={item.href}
-                                        className="font-bold text-earth-green block"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {item.label}
+            {
+                isMobileMenuOpen && (
+                    <div className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
+                        <div className="flex flex-col space-y-6 pb-20">
+                            {navItems.map((item) => (
+                                <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
+                                    {item.children ? (
+                                        <>
+                                            <div className="font-bold text-earth-green mb-3">{item.label}</div>
+                                            <div className="flex flex-col space-y-3 pl-4">
+                                                {item.children.map(child => (
+                                                    <Link
+                                                        key={child.label}
+                                                        href={child.href}
+                                                        className="text-gray-600 hover:text-earth-green py-1"
+                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                    >
+                                                        {child.label}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <Link
+                                            href={item.href}
+                                            className="font-bold text-earth-green block"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    )}
+                                </div>
+                            ))}
+
+                            <div className="flex flex-col gap-4 mt-8">
+                                {!isLoggedIn && (
+                                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <Button variant="outline" className="w-full justify-center">Login</Button>
                                     </Link>
                                 )}
-                            </div>
-                        ))}
-
-                        <div className="flex flex-col gap-4 mt-8">
-                            {!isLoggedIn && (
-                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <Button variant="outline" className="w-full justify-center">Login</Button>
+                                <Link href="/registration" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Button className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90">Register Now</Button>
                                 </Link>
-                            )}
-                            <Link href="/registration" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90">Register Now</Button>
-                            </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </header>
+                )
+            }
+        </header >
     )
 }
