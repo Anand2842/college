@@ -110,21 +110,48 @@ export default async function AboutPage() {
                 </div>
                 <div className="space-y-6">
                     {data.organizers.map((org: any) => (
-                        <div key={org.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 className="text-xl font-bold text-charcoal mb-3">{org.name}</h3>
-                            <p className="text-gray-600 leading-relaxed">{org.description}</p>
+                        <div key={org.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
+                            {org.logoUrl && (
+                                <div className="w-32 h-32 shrink-0 flex items-center justify-center bg-gray-50 rounded-lg p-2">
+                                    <img src={org.logoUrl} alt={org.name} className="max-w-full max-h-full object-contain" />
+                                </div>
+                            )}
+                            <div>
+                                <h3 className="text-xl font-bold text-charcoal mb-3">{org.name}</h3>
+                                <p className="text-gray-600 leading-relaxed">{org.description}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* Partner */}
-            <section className="py-12 text-center">
-                <h2 className="text-xl font-bold text-charcoal mb-8">Collaborating Partner</h2>
-                <div className="flex justify-center">
-                    <div className="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-                        {data.partner.imageUrl ? <img src={data.partner.imageUrl} alt="Collaborating Partner" className="object-contain" /> : <span className="text-xs text-gray-400">No Image</span>}
-                    </div>
+            {/* Partners */}
+            <section className="py-12 text-center container mx-auto px-6">
+                <h2 className="text-xl font-bold text-charcoal mb-8">Collaborating Partners</h2>
+                <div className="flex flex-wrap justify-center gap-8">
+                    {data.partners && data.partners.length > 0 ? (
+                        data.partners.map((partner: any, i: number) => (
+                            <div key={i} className="flex flex-col items-center gap-2 group">
+                                <div className="w-40 h-32 bg-white border border-gray-100 rounded-xl shadow-sm flex items-center justify-center overflow-hidden p-4 group-hover:shadow-md transition-all">
+                                    {partner.imageUrl ? (
+                                        <img src={partner.imageUrl} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                                    ) : (
+                                        <span className="text-xs text-gray-400">No Logo</span>
+                                    )}
+                                </div>
+                                <span className="text-sm font-medium text-gray-600">{partner.name}</span>
+                                {partner.website && (
+                                    <Link href={partner.website} target="_blank" className="text-xs text-earth-green hover:underline">
+                                        Visit Website
+                                    </Link>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <span className="text-xs text-gray-400">No Partners</span>
+                        </div>
+                    )}
                 </div>
             </section>
 
