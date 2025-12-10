@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export function createPageHandler(slug: string) {
@@ -40,6 +41,12 @@ export function createPageHandler(slug: string) {
                     console.error(`Error updating page ${slug}:`, error);
                     return NextResponse.json({ error: error.message || "Failed to update data" }, { status: 500 });
                 }
+
+                // Invalidate cache
+                const pathToRevalidate = slug === 'home' ? '/' : `/${slug}`;
+                revalidatePath(pathToRevalidate);
+                console.log(`Revalidated cache for path: ${pathToRevalidate}`);
+
                 return NextResponse.json({ success: true, message: "Page updated successfully" });
             } catch (e: any) {
                 console.error(`Error in POST ${slug}:`, e);

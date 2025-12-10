@@ -7,6 +7,11 @@ const nextConfig = {
                 destination: '/admin/dashboard',
                 permanent: true,
             },
+            {
+                source: '/register',
+                destination: '/registration',
+                permanent: true,
+            },
         ];
     },
     images: {
