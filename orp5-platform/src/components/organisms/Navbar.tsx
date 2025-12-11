@@ -180,7 +180,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                 <div className="flex items-center gap-4">
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden p-2 transition-colors text-charcoal"
+                        className="lg:hidden p-2 transition-colors text-charcoal"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -191,7 +191,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             {/* Mobile Menu Overlay */}
             {
                 isMobileMenuOpen && (
-                    <div className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
+                    <div className="fixed inset-0 z-40 bg-white pt-24 px-6 lg:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
                         <div className="flex flex-col space-y-6 pb-20">
                             {navItems.map((item) => (
                                 <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">

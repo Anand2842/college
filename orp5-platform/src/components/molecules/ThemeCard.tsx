@@ -13,9 +13,10 @@ interface ThemeCardProps {
     href: string;
     colorTheme?: "green" | "mint" | "gold" | "brown" | "red" | string;
     delay?: number;
+    subtitle?: string;
 }
 
-export function ThemeCard({ icon, title, description, href, colorTheme = "green", delay = 0 }: ThemeCardProps) {
+export function ThemeCard({ icon, title, description, href, colorTheme = "green", delay = 0, subtitle }: ThemeCardProps) {
 
     const bgColors: Record<string, string> = {
         green: "bg-earth-green/10",
@@ -42,11 +43,16 @@ export function ThemeCard({ icon, title, description, href, colorTheme = "green"
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay, duration: 0.5 }}
-            className={cn("rounded-2xl p-8 transition-colors hover:shadow-md", activeBg)}
+            className={cn("rounded-2xl p-8 transition-colors hover:shadow-md h-full flex flex-col", activeBg)}
         >
             <div className={cn("mb-6", activeIcon)}>
                 {icon}
             </div>
+            {subtitle && (
+                <span className="block text-xs font-bold uppercase tracking-widest text-[#B89C50] mb-2">
+                    {subtitle}
+                </span>
+            )}
             <h3 className="text-xl font-serif font-bold text-charcoal mb-3">{title}</h3>
             <p className="text-charcoal/80 mb-6 leading-relaxed text-sm">
                 {description}

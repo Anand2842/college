@@ -9,12 +9,17 @@ interface HeroProps {
     headline?: string;
     subheadline?: string;
     backgroundImage?: string;
+    partners?: any[];
 }
+
+import Image from "next/image";
+import { Globe, Sprout, Leaf } from "lucide-react";
 
 export function Hero({
     headline = "Organic & Natural Rice Farming and Production Systems",
     subheadline = "Advancing Sustainable Organic & Natural Rice Farming Worldwide 21-25 September 2026 | Galgotias University, Greater Noida, India",
-    backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop"
+    backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop",
+    partners = []
 }: HeroProps) {
     return (
         <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[calc(100vh-80px)]">
@@ -63,7 +68,7 @@ export function Hero({
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-5 justify-center w-full">
+                    <div className="flex flex-col sm:flex-row gap-5 justify-center w-full mb-16">
                         <Link href="/registration">
                             <Button size="lg" className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105">
                                 Register Now
@@ -75,6 +80,39 @@ export function Hero({
                             </Button>
                         </Link>
                     </div>
+
+                    {/* Collaborating Partners Wrapper - Added margin top to separate from buttons */}
+                    {partners && partners.length > 0 && (
+                        <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+                            <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-6 drop-shadow-md">In Collaboration With</p>
+                            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+                                {partners.slice(0, 3).map((partner: any, index: number) => {
+                                    const Icon = index % 3 === 0 ? Globe : (index % 3 === 1 ? Sprout : Leaf);
+                                    return (
+                                        <div key={partner.id || index} className="group relative">
+                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300">
+                                                {partner.logoUrl ? (
+                                                    <Image
+                                                        src={partner.logoUrl}
+                                                        alt={partner.name}
+                                                        fill
+                                                        sizes="(max-width: 768px) 64px, 80px"
+                                                        className="object-contain p-3"
+                                                    />
+                                                ) : (
+                                                    <Icon className="text-earth-green w-8 h-8" strokeWidth={1.5} />
+                                                )}
+                                            </div>
+                                            {/* Tooltip-like name on hover */}
+                                            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] md:text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-black/50 px-2 py-0.5 rounded">
+                                                {partner.name}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
                 </motion.div>
             </div>
         </section>

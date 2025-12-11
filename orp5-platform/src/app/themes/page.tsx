@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
-import { ThemeCard } from "@/components/molecules/ThemeCard";
+
 import { getThemesPageData } from "@/lib/cms";
 import * as LucideIcons from "lucide-react"; // Import all icons
 import { ArrowRight } from "lucide-react";
@@ -53,17 +53,26 @@ export default async function ThemesPage() {
                     <div className="h-1 w-20 bg-earth-green rounded-full"></div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="flex flex-col gap-8 md:gap-12 max-w-4xl mx-auto">
                     {data.themes.map((theme: any, index: number) => (
-                        <ThemeCard
-                            key={theme.id || index}
-                            title={theme.title}
-                            description={theme.description}
-                            icon={getIcon(theme.iconName)}
-                            colorTheme={theme.colorTheme}
-                            href="/submission"
-                            delay={index * 0.05}
-                        />
+                        <div key={theme.id || index} className="group relative bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                            {/* Decorative vertical bar on hover */}
+                            <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#DFC074] to-transparent rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                            <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                                <div className="shrink-0">
+                                    <div className="w-16 h-16 bg-[#123125]/5 rounded-xl flex items-center justify-center text-[#123125] group-hover:bg-[#123125] group-hover:text-[#DFC074] transition-colors duration-300">
+                                        {getIcon(theme.iconName)}
+                                    </div>
+                                </div>
+
+                                <div className="flex-1">
+                                    <span className="block text-xs font-bold uppercase tracking-widest text-[#B89C50] mb-2">Theme {index + 1}</span>
+                                    <h3 className="text-2xl font-serif font-bold text-charcoal mb-3 group-hover:text-[#123125] transition-colors">{theme.title}</h3>
+                                    <p className="text-gray-600 leading-relaxed text-lg">{theme.description}</p>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </section>

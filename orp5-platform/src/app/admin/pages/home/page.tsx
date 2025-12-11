@@ -120,7 +120,7 @@ export default function HomepageEditor() {
                 <AdminTabs
                     activeTab={activeTab}
                     onTabChange={setActiveTab}
-                    tabs={["Hero & General", "Themes", "Programme Snapshot", "Important Dates", "Why Join & Venue", "Gallery", "FAQ"]}
+                    tabs={["Hero & General", "Partners", "Themes", "Programme Snapshot", "Important Dates", "Why Join & Venue", "Gallery", "FAQ"]}
                 />
 
                 {/* Hero Tab */}
@@ -167,6 +167,25 @@ export default function HomepageEditor() {
                                 />
                             </div>
                         </div>
+                    </div>
+                )}
+
+                {/* Partners Tab */}
+                {activeTab === "Partners" && (
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Collaborating Partners</h2>
+                        <ListEditor
+                            title="Partners"
+                            items={data.partners || []}
+                            onUpdate={(items) => handleListUpdate("partners", items)}
+                            itemTemplate={{ id: "", name: "New Partner", logoUrl: "" }}
+                            renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
+                                <div className="col-span-1 md:col-span-2 grid gap-4">
+                                    <AdminInput label="Partner Name" value={item.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("name", e.target.value)} />
+                                    <ImageUploader label="Logo URL" value={item.logoUrl} onChange={(url) => update("logoUrl", url)} />
+                                </div>
+                            )}
+                        />
                     </div>
                 )}
 

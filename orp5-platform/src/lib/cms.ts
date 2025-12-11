@@ -282,9 +282,36 @@ export async function getThemesPageData() {
         pillars: { title: "The Three Pillars", description: "Our conference is built upon three foundational pillars.", items: [] }
     };
 
+    // Default themes if none exist in DB
+    const defaultThemes = [
+        {
+            id: 't1',
+            title: "Barriers & Constraints Limiting System Expansion",
+            description: "Economic, technical, policy, and market obstacles affecting adoption and scaling.",
+            iconName: "Mountain",
+            colorTheme: "brown"
+        },
+        {
+            id: 't2',
+            title: "Policy, Certification & Market Ecosystems",
+            description: "Institutional frameworks, incentives, certification processes, and value-chain integration.",
+            iconName: "Scale",
+            colorTheme: "gold"
+        },
+        {
+            id: 't3',
+            title: "Climate Change Adaptation & Carbon-Neutrality",
+            description: "Mitigation strategies, carbon budgeting, and resilient production systems.",
+            iconName: "CloudSun",
+            colorTheme: "green"
+        }
+    ];
+
+    const finalThemes = (themes && themes.length > 0) ? themes : (content?.themes || defaultThemes);
+
     return {
         ...(content || defaultData),
-        themes: themes || content?.themes || []
+        themes: finalThemes
     };
 }
 
@@ -346,10 +373,36 @@ export async function getHomepageData() {
     // `homepage.speakers` in JSON was separate.
     // I should probably just return `content.speakers` if it exists in JSON field, OR fetch from Speaker table if "featured".
     // For now, let's mix in the specific tables that were migrated content-wise.
+    // Default themes fallback
+    const defaultThemes = [
+        {
+            id: 't1',
+            title: "Barriers & Constraints Limiting System Expansion",
+            description: "Economic, technical, policy, and market obstacles affecting adoption and scaling.",
+            iconName: "Mountain",
+            colorTheme: "brown"
+        },
+        {
+            id: 't2',
+            title: "Policy, Certification & Market Ecosystems",
+            description: "Institutional frameworks, incentives, certification processes, and value-chain integration.",
+            iconName: "Scale",
+            colorTheme: "gold"
+        },
+        {
+            id: 't3',
+            title: "Climate Change Adaptation & Carbon-Neutrality",
+            description: "Mitigation strategies, carbon budgeting, and resilient production systems.",
+            iconName: "CloudSun",
+            colorTheme: "green"
+        }
+    ];
+
+    const finalThemes = (themes && themes.length > 0) ? themes : (content.themes || defaultThemes);
 
     return {
         ...content,
-        themes: themes || content.themes,
+        themes: finalThemes,
         partners: partners || content.partners,
         dates: dates || content.dates,
         // speakers needs care: content.speakers might be IDs? or simplified objects?
