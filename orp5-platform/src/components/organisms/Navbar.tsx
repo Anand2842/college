@@ -123,12 +123,12 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     // Simplified Navbar for Static Layout
     return (
         <header
-            className="bg-white relative z-50 py-4 shadow-sm border-b border-gray-100"
+            className="bg-white sticky top-0 z-50 py-4 shadow-sm border-b border-gray-100"
         >
             <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-4 lg:mr-8 xl:mr-16 min-w-fit">
                     {/* Placeholder for Logo */}
-                    <div className="font-serif font-bold text-xl tracking-wide text-charcoal">
+                    <div className="font-serif font-bold text-xl tracking-wide text-black">
                         ORP-5
                     </div>
                 </Link>
@@ -180,7 +180,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                 <div className="flex items-center gap-4">
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="lg:hidden p-2 transition-colors text-charcoal"
+                        className="lg:hidden p-2 transition-colors text-black bg-gray-50 rounded-md hover:bg-gray-100"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
