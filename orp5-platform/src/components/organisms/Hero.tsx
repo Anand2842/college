@@ -32,7 +32,7 @@ export function Hero({
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-earth-green/50 to-black/80 z-10" />
 
             {/* Content Container */}
-            <div className="relative z-20 container mx-auto px-6 text-center text-white h-full flex flex-col justify-center items-center py-20">
+            <div className="relative z-20 container mx-auto px-6 text-center text-white h-full flex flex-col justify-center items-center py-10 md:py-20">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -90,7 +90,7 @@ export function Hero({
                                     const Icon = index % 3 === 0 ? Globe : (index % 3 === 1 ? Sprout : Leaf);
                                     return (
                                         <div key={partner.id || index} className="group relative">
-                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300">
+                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300 relative">
                                                 {partner.logoUrl ? (
                                                     <Image
                                                         src={partner.logoUrl}

@@ -88,9 +88,14 @@ export function Navbar({ variant = "default" }: NavbarProps) {
 
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+    const [openMobileSubmenu, setOpenMobileSubmenu] = React.useState<string | null>(null);
+
+    const toggleMobileSubmenu = (label: string) => {
+        setOpenMobileSubmenu(prev => prev === label ? null : label);
+    }
 
     React.useEffect(() => {
-        // Check if user is admin client-side
+        // ... existing auth check code ...
         const checkAdmin = async () => {
             try {
                 const { createClient } = await import("@/utils/supabase/client");
@@ -110,7 +115,6 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     }
                 }
             } catch (error) {
-                // Silently fail auth check on storage errors (e.g. strict privacy settings)
                 console.warn("Auth check suppressed:", error);
             }
         };
@@ -125,7 +129,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
         <header
             className="bg-white sticky top-0 z-50 py-4 shadow-sm border-b border-gray-100"
         >
-            <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between">
+            <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between relative z-50">
                 <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-4 lg:mr-8 xl:mr-16 min-w-fit">
                     {/* Placeholder for Logo */}
                     <div className="font-serif font-bold text-xl tracking-wide text-black">
@@ -197,19 +201,30 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                 <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
                                     {item.children ? (
                                         <>
-                                            <div className="font-bold text-earth-green mb-3">{item.label}</div>
-                                            <div className="flex flex-col space-y-3 pl-4">
-                                                {item.children.map(child => (
-                                                    <Link
-                                                        key={child.label}
-                                                        href={child.href}
-                                                        className="text-gray-600 hover:text-earth-green py-1"
-                                                        onClick={() => setIsMobileMenuOpen(false)}
-                                                    >
-                                                        {child.label}
-                                                    </Link>
-                                                ))}
-                                            </div>
+                                            <button
+                                                className="flex w-full items-center justify-between font-bold text-earth-green mb-3"
+                                                onClick={() => toggleMobileSubmenu(item.label)}
+                                            >
+                                                <span>{item.label}</span>
+                                                <ChevronDown
+                                                    size={16}
+                                                    className={cn("transition-transform duration-200", openMobileSubmenu === item.label && "rotate-180")}
+                                                />
+                                            </button>
+                                            {openMobileSubmenu === item.label && (
+                                                <div className="flex flex-col space-y-3 pl-4 animate-in slide-in-from-top-1 fade-in duration-200">
+                                                    {item.children.map(child => (
+                                                        <Link
+                                                            key={child.label}
+                                                            href={child.href}
+                                                            className="text-gray-600 hover:text-earth-green py-1"
+                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                        >
+                                                            {child.label}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </>
                                     ) : (
                                         <Link
