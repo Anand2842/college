@@ -212,14 +212,20 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
             {data.gallery?.map((img: any, i: number) => (
               <div key={i} className="overflow-hidden rounded-2xl h-64 shadow-md group relative">
-                <Image
-                  src={img.url}
-                  alt="Gallery"
-                  fill
-                  loading="lazy"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+                {img.url ? (
+                  <Image
+                    src={img.url}
+                    alt="Gallery"
+                    fill
+                    loading="lazy"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                    <span className="text-xs">No Image</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

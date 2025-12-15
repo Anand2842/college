@@ -204,12 +204,30 @@ export async function getRegistrationPageData() {
 
     const defaultData = {
         hero: { headline: "Registration", subheadline: "Join us for the 5th International Conference on Organic Rice Farming.", statusText: "Registration OPEN" },
+        whoCanParticipate: {
+            title: "Who Can Participate in ORP-5?",
+            description: "The 5th International Conference on Organic and Natural Rice Farming and Production Systems (ORP5) is open to a wide range of national and international stakeholders involved in advancing sustainable, organic, and climate-resilient rice-based agri-food systems. Participation is encouraged from:",
+            items: [
+                "Scientists and Researchers working in agriculture, organic and natural farming, climate change, soil and plant health, and related disciplines",
+                "Academicians and Faculty Members from agricultural universities and research institutions",
+                "Students and Young Professionals (UG, PG, PhD, and post-doctoral researchers)",
+                "Farmers and Farmer-Producer Organizations (FPOs) involved in organic and natural rice farming",
+                "Extension and Development Professionals",
+                "Policymakers, Government Officials, and Planners involved in agriculture, environment",
+                "Industry Representatives and Agri-entrepreneurs, including bio-input companies, start-ups, and value-chain actors",
+                "Certification Bodies working on sustainability and food systems",
+                "International Organizations and Development Agencies engaged in sustainable agriculture and food security"
+            ]
+        },
         categories: []
     };
 
+    const mergedContent = content || defaultData;
+
     return {
-        ...(content || defaultData),
-        categories: categories || content?.categories || []
+        ...mergedContent,
+        whoCanParticipate: mergedContent.whoCanParticipate || defaultData.whoCanParticipate,
+        categories: categories || mergedContent.categories || []
     };
 }
 
@@ -338,16 +356,21 @@ export async function updateThemesPageData(data: any) {
         // 2. Update Themes List
         if (data.themes && Array.isArray(data.themes)) {
             // Map frontend 'iconName' to DB 'icon'
-            const mappedThemes = data.themes.map((t: any) => ({
+            const mappedThemes = data.themes.map((t: any, index: number) => ({
                 id: t.id,
                 title: t.title,
                 description: t.description,
                 icon: t.iconName || t.icon,
                 colorTheme: t.colorTheme,
-                order: t.order || 0
+                order: index + 1 // Force order logic to match array index, fixing shuffling issue
             }));
             await syncTable('Theme', mappedThemes);
         }
+
+        // 3. Revalidate paths to ensure fresh data
+        revalidatePath('/themes');
+        revalidatePath('/'); // Themes are shown on homepage too
+        revalidatePath('/admin/pages/themes');
 
         return true;
     } catch (e) {

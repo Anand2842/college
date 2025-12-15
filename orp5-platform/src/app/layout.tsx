@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "ORP-5 Conference",
   description: "5th International Conference on Organic & Natural Rice Farming",
   verification: {
-    google: 'googlefc8ca8a578ae80e6',
+    google: 'zRwQmTsh44vfMqOPfNQTG9qQ_TUUg9KfSGA3LbXK41A',
   },
 };
 

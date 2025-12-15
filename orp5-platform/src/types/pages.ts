@@ -117,6 +117,11 @@ export interface RegistrationPageData {
     hero: HeroSection & {
         statusText?: string;
     };
+    whoCanParticipate?: {
+        title: string;
+        description: string;
+        items: string[];
+    };
     categories: RegistrationCategory[];
     faqs: FAQ[];
 }

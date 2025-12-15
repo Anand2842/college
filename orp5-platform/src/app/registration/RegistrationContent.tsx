@@ -73,6 +73,28 @@ export default function RegistrationContent() {
                 </div>
             </section>
 
+            {/* Who Can Participate Section */}
+            {data.whoCanParticipate && (
+                <section className="py-20 bg-gray-50 border-b border-gray-100">
+                    <div className="container mx-auto px-6 max-w-5xl">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">{data.whoCanParticipate.title}</h2>
+                            <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">{data.whoCanParticipate.description}</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                            {data.whoCanParticipate.items?.map((item: string, i: number) => (
+                                <div key={i} className="flex items-start gap-3">
+                                    <div className="mt-1 text-earth-green shrink-0">
+                                        <LucideIcons.CheckCircle2 size={20} />
+                                    </div>
+                                    <p className="text-gray-700 text-sm leading-relaxed">{item}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Categories Grid */}
             <section className="py-20 container mx-auto px-6">
                 <div className="text-left mb-12">

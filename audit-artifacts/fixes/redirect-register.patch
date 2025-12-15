@@ -1,0 +1,21 @@
+
+diff --git a/orp5-platform/next.config.mjs b/orp5-platform/next.config.mjs
+index 9e0c5d2..f8a2b1e 100644
+--- a/orp5-platform/next.config.mjs
++++ b/orp5-platform/next.config.mjs
+@@ -1,5 +1,14 @@
+ /** @type {import('next').NextConfig} */
+ const nextConfig = {
+-    /* config options here */
++    async redirects() {
++        return [
++            {
++                source: '/register',
++                destination: '/registration',
++                permanent: true,
++            },
++        ]
++    },
+ };
+ 
+ export default nextConfig;

@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getThemesPageData, updateThemesPageData } from '@/lib/cms';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function GET() {
     const data = await getThemesPageData();
     return NextResponse.json(data);
