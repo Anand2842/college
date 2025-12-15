@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5.org'),
   title: "ORP-5 Conference",
   description: "5th International Conference on Organic & Natural Rice Farming",
+  verification: {
+    google: 'googlefc8ca8a578ae80e6',
+  },
 };
 
 export default function RootLayout({

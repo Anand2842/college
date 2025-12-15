@@ -29,9 +29,19 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+    let user = null
+    try {
+        const { data: { user: authUser }, error } = await supabase.auth.getUser()
+        if (error) {
+            // If the error is about a missing/invalid refresh token, we just treat the user as logged out
+            // No need to throw, just proceed with user = null
+        } else {
+            user = authUser
+        }
+    } catch (e) {
+        // Ensure we don't crash the middleware on auth errors
+        console.warn("Middleware auth error (safe to ignore):", e);
+    }
 
     // Protected Admin Routes Logic
     if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
