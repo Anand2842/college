@@ -24,10 +24,10 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export const metadata = createPageMetadata({
-  title: '5th International Conference on Organic Rice Farming',
-  description: 'Join ORP-5 for cutting-edge discussions on sustainable organic rice farming, featuring leading experts, workshops, and networking opportunities.',
+  title: '5th International Conference on Organic and Natural Rice Production Systems',
+  description: 'Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production, featuring leading experts, workshops, and networking opportunities.',
   path: '/',
-  keywords: ['organic rice farming', 'sustainable agriculture', 'rice conference', 'ORP-5', 'agriculture symposium'],
+  keywords: ['organic rice', 'natural farming', 'sustainable agriculture', 'rice conference', 'ORP-5', 'production systems'],
 });
 
 export const revalidate = 0; // Ensure dynamic fetching for now, or use revalidatePath
@@ -36,13 +36,35 @@ export default async function Home() {
   let cmsData = null;
   try {
     cmsData = await getHomepageData();
+    console.log(`[${new Date().toISOString()}] Homepage Data Fetched:`, cmsData ? "Success" : "Failed");
   } catch (error) {
     console.error("Error fetching homepage data:", error);
   }
 
   // Fallback default data if CMS returns null (first load before admin save)
   const defaultData: any = {
-    // ... existing content ...
+    hero: {
+      headline: "5th International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
+      subheadline: "Cultivating a Sustainable Future",
+      backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop"
+    },
+    partners: [
+      { id: "p1", name: "Organizer 1", logoUrl: "" },
+      { id: "p2", name: "Organizer 2", logoUrl: "" },
+      { id: "p3", name: "Organizer 3", logoUrl: "" }
+    ],
+    themes: [],
+    speakers: [],
+    programme: {},
+    dates: [],
+    whyJoin: [],
+    gallery: [],
+    faq: [],
+    venue: {
+      title: "Conference Venue",
+      description: "Join us at our world-class facility.",
+      address: "123 Conference Center Dr."
+    }
   };
 
   const data = cmsData || defaultData;

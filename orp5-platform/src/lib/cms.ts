@@ -99,7 +99,7 @@ export async function getImportantDatesPageData() {
     const defaultData = {
         hero: {
             headline: "Important Dates",
-            subheadline: "Stay updated with the key milestones for the 5th International Conference on Organic Rice Farming."
+            subheadline: "Stay updated with the key milestones for the 5th International Conference on Organic and Natural Rice Production Systems."
         },
         intro: {
             title: "Master Schedule",
@@ -203,7 +203,7 @@ export async function getRegistrationPageData() {
     const { data: categories } = await supabase.from('RegistrationCategory').select('*').order('order');
 
     const defaultData = {
-        hero: { headline: "Registration", subheadline: "Join us for the 5th International Conference on Organic Rice Farming.", statusText: "Registration OPEN" },
+        hero: { headline: "Registration", subheadline: "Join us for the 5th International Conference on Organic and Natural Rice Production Systems.", statusText: "Registration OPEN" },
         whoCanParticipate: {
             title: "Who Can Participate in ORP-5?",
             description: "The 5th International Conference on Organic and Natural Rice Farming and Production Systems (ORP5) is open to a wide range of national and international stakeholders involved in advancing sustainable, organic, and climate-resilient rice-based agri-food systems. Participation is encouraged from:",

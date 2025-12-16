@@ -19,8 +19,11 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5.org'),
-  title: "ORP-5 Conference",
-  description: "5th International Conference on Organic & Natural Rice Farming",
+  title: {
+    template: '%s | ORP-5',
+    default: '5th International Conference on Organic and Natural Rice Production Systems'
+  },
+  description: "5th International Conference on Organic and Natural Rice Production Systems",
   verification: {
     google: 'zRwQmTsh44vfMqOPfNQTG9qQ_TUUg9KfSGA3LbXK41A',
   },

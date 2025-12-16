@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Themes | ORP-5 Conference',
-    description: '5th International Conference on Organic & Natural Rice Farming',
+    description: '5th International Conference on Organic and Natural Rice Production Systems',
 };
 
 import { Navbar } from "@/components/organisms/Navbar";
@@ -107,7 +107,7 @@ export default async function ThemesPage() {
                     <div className="bg-earth-green/10 rounded-3xl p-12 md:p-16 border border-earth-green/20 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div>
                             <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Submit your abstract aligned with any ORP-5 theme.</h2>
-                            <p className="text-gray-700">Contribute to the global discussion on organic rice farming.</p>
+                            <p className="text-gray-700">Contribute to the global discussion on organic and natural rice production.</p>
                         </div>
                         <Link href="/submission-guidelines">
                             <button className="bg-earth-green hover:bg-earth-green/90 text-white font-bold py-4 px-8 rounded-lg shadow-lg flex items-center gap-2 transition-transform hover:-translate-y-1">

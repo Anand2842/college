@@ -14,7 +14,7 @@ export function Footer() {
                         </div>
                         <h3 className="font-serif text-2xl font-bold mb-4">ORP-5</h3>
                         <p className="text-white/80 text-sm leading-relaxed mb-6">
-                            5th International Conference on Organic & Natural Rice Farming and Production Systems.
+                            5th International Conference on Organic and Natural Rice Production Systems.
                             <br />
                             Advancing Global Agricultural Innovation & Sustainability.
                         </p>

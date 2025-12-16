@@ -143,13 +143,13 @@ export default function HomepageEditor() {
                                     label="Highlighted Text (Gold)"
                                     value={headlineParts.highlight}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeadlineParts(p => ({ ...p, highlight: e.target.value }))}
-                                    placeholder="Organic Rice"
+                                    placeholder="Organic and Natural Rice"
                                 />
                                 <AdminInput
                                     label="Bottom Text"
                                     value={headlineParts.post}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeadlineParts(p => ({ ...p, post: e.target.value }))}
-                                    placeholder="Farming"
+                                    placeholder="Production Systems"
                                 />
                             </div>
 
