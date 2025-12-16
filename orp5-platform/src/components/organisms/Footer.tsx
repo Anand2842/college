@@ -1,4 +1,4 @@
-import { Button } from "@/components/atoms/Button";
+import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { Link2, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
@@ -61,16 +61,7 @@ export function Footer() {
                     <div>
                         <h4 className="font-bold text-lg mb-6">Stay Updated</h4>
                         <p className="text-sm text-white/80 mb-4">Subscribe to our newsletter for the latest updates and announcements.</p>
-                        <div className="space-y-3">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-sapling-green"
-                            />
-                            <Button className="w-full bg-sapling-green hover:bg-sapling-green/90 text-white">
-                                Subscribe
-                            </Button>
-                        </div>
+                        <NewsletterForm />
                     </div>
                 </div>
 
