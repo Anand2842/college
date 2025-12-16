@@ -42,13 +42,20 @@ export default function AdminNewsletterPage() {
     const handleSend = async () => {
         if (!confirm('Are you sure you want to send this to ALL confirmed subscribers?')) return;
 
+        // Convert plain text newlines to HTML paragraphs for the email
+        const formattedContent = content
+            .split('\n')
+            .filter(line => line.trim() !== '') // Remove empty lines
+            .map(line => `<p style="margin-bottom: 12px;">${line}</p>`)
+            .join('');
+
         setSending(true);
         setStatusMessage('');
         try {
             const res = await fetch('/api/admin/newsletter', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subject, content, action: 'send' })
+                body: JSON.stringify({ subject, content: formattedContent, action: 'send' })
             });
             const data = await res.json();
             if (res.ok) {
@@ -94,14 +101,14 @@ export default function AdminNewsletterPage() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Email Content (HTML)</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                                 <textarea
                                     value={content}
                                     onChange={e => setContent(e.target.value)}
-                                    placeholder="<p>Dear Colleagues,</p><p>We are pleased to announce...</p>"
-                                    className="w-full px-4 py-3 h-64 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-earth-green/20 font-mono text-sm"
+                                    placeholder="Type your message here..."
+                                    className="w-full px-4 py-3 h-64 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-earth-green/20 text-sm font-sans"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Supports basic HTML tags.</p>
+                                <p className="text-xs text-gray-400 mt-1">Plain text only. New lines will create paragraphs automatically.</p>
                             </div>
 
                             {statusMessage && (
