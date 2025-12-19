@@ -118,4 +118,43 @@ CREATE TABLE "Newsletter" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Subscriber_email_key" ON "Subscriber"("email");
+-- CreateTable
+CREATE TABLE "Registration" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "ticket_number" TEXT, -- Generated ID e.g., ORP5IC-IND-00124
+    
+    -- Personal Info
+    "full_name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "institution" TEXT NOT NULL,
+    "designation" TEXT NOT NULL,
+    
+    -- Conference Details
+    "mode" TEXT NOT NULL, -- 'Physical' | 'Virtual'
+    "nationality" TEXT NOT NULL, -- 'Indian' | 'Foreign'
+    "category" TEXT NOT NULL, -- 'UG Student', 'Scientist', etc.
+    "membership_type" TEXT, -- 'AIASA Member', etc.
+    
+    -- Payment & Status
+    "fee_amount" INTEGER NOT NULL DEFAULT 0,
+    "payment_status" TEXT NOT NULL DEFAULT 'pending', -- 'pending' | 'paid' | 'failed'
+    "payment_mode" TEXT,
+    "payment_date" TIMESTAMP(3),
+    "transaction_id" TEXT,
+    
+    -- CRM Tags & Logistics
+    "tags" TEXT[] DEFAULT ARRAY[]::TEXT[], -- ['INDIAN', 'STUDENT', 'PAID']
+    "check_in_status" BOOLEAN NOT NULL DEFAULT false,
+    "kit_distributed" BOOLEAN NOT NULL DEFAULT false,
+    
+    "submittedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Registration_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Registration_email_key" ON "Registration"("email");
+CREATE UNIQUE INDEX "Registration_ticket_number_key" ON "Registration"("ticket_number");

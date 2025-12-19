@@ -9,10 +9,13 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Column 1: Brand */}
                     <div>
-                        <div className="bg-white/10 w-12 h-12 rounded-lg flex items-center justify-center mb-6">
-                            <span className="font-serif font-bold text-xl">ORP</span>
+                        <div className="mb-6 bg-white p-2 rounded-xl inline-block">
+                            <img
+                                src="/orp5-logo.png"
+                                alt="ORP-5 Logo"
+                                className="h-24 w-auto object-contain"
+                            />
                         </div>
-                        <h3 className="font-serif text-2xl font-bold mb-4">ORP-5</h3>
                         <p className="text-white/80 text-sm leading-relaxed mb-6">
                             5th International Conference on Organic and Natural Rice Production Systems.
                             <br />

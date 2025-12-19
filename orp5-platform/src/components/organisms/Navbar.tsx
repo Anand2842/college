@@ -76,7 +76,7 @@ const navItems: NavItem[] = [
 ];
 
 interface NavbarProps {
-    variant?: "default" | "dark";
+    variant?: "default" | "dark" | "transparent";
 }
 
 export function Navbar({ variant = "default" }: NavbarProps) {
@@ -121,27 +121,44 @@ export function Navbar({ variant = "default" }: NavbarProps) {
         checkAdmin();
     }, []);
 
-    // text color condition
-    const isDarkText = variant === "dark" || isScrolled;
+    // Helper for text color
+    const isTransparentAtTop = variant === "transparent" && !isScrolled;
+    // If transparent at top, use White text. Otherwise (scrolled or default), use Charcoal.
+    const textColorClass = isTransparentAtTop ? "text-white hover:text-white/80" : "text-charcoal hover:text-rice-gold";
+    const logoClass = "h-12 w-auto object-contain transition-all duration-300";
 
-    // Simplified Navbar for Static Layout
     return (
         <header
-            className="bg-white sticky top-0 z-50 py-4 shadow-sm border-b border-gray-100"
+            className={cn(
+                "fixed top-0 w-full z-50 transition-all duration-300 border-b",
+                // Background Logic
+                isScrolled
+                    ? "bg-white/90 backdrop-blur-md shadow-sm border-gray-100 py-3"
+                    : variant === "transparent"
+                        ? "bg-transparent border-transparent py-6"
+                        : "bg-white border-gray-100 py-4"
+            )}
         >
             <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between relative z-50">
                 <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-4 lg:mr-8 xl:mr-16 min-w-fit">
-                    {/* Placeholder for Logo */}
-                    <div className="font-serif font-bold text-xl tracking-wide text-black">
-                        ORP-5
-                    </div>
+                    <img
+                        src="/orp5-logo.png"
+                        alt="ORP-5 Logo"
+                        className={cn(logoClass, isScrolled ? "h-10" : "h-12")}
+                    />
                 </Link>
 
                 <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
                     {navItems.map((item) => (
                         item.children ? (
                             <div key={item.label} className="relative group">
-                                <Link href={item.href} className="flex items-center gap-0.5 text-xs xl:text-sm font-medium transition-colors hover:text-rice-gold focus:outline-none text-charcoal whitespace-nowrap">
+                                <Link
+                                    href={item.href}
+                                    className={cn(
+                                        "flex items-center gap-0.5 text-xs xl:text-sm font-medium transition-colors focus:outline-none whitespace-nowrap",
+                                        textColorClass
+                                    )}
+                                >
                                     {item.label}
                                     <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-200 opacity-70" />
                                 </Link>
@@ -164,7 +181,10 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className="text-sm font-medium transition-colors hover:text-rice-gold text-charcoal"
+                                className={cn(
+                                    "text-sm font-medium transition-colors",
+                                    textColorClass
+                                )}
                             >
                                 {item.label}
                             </Link>
