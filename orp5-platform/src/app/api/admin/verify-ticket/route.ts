@@ -12,15 +12,19 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Ticket ID is required' }, { status: 400 });
         }
 
-        console.log(`Verifying ticket: ${ticketId}`);
+        console.log(`[VERIFY] Received request to verify ticket: "${ticketId}"`);
 
         // Search in the data JSONB column for ticket_number
         // Note: We use the arrow operator ->> to get text value from JSONB
+        // Debugging tip: Check if ticket_number is stored as string or number
         const { data, error } = await supabase
             .from('registrations')
             .select('*')
             .filter('data->>ticket_number', 'eq', ticketId)
             .single();
+
+        if (error) console.log(`[VERIFY] Search by ticket_number error: ${error.message}`);
+        if (data) console.log(`[VERIFY] Found by ticket_number: ${(data as any).id}`);
 
         if (error || !data) {
             // Check if it might be the UUID instead

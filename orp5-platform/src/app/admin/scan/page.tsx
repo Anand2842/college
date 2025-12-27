@@ -13,14 +13,22 @@ export default function AdminScannerPage() {
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     const handleScan = (result: any) => {
+        console.log("Scan result:", result);
         if (result && result[0] && result[0].rawValue) {
             // Avoid double scanning
             if (verificationStatus === 'idle' && !scanResult) {
                 const code = result[0].rawValue;
+                console.log("Found code:", code);
                 setScanResult(code);
                 verifyTicket(code);
             }
         }
+    };
+
+    const handleError = (error: any) => {
+        console.error("Scanner error:", error);
+        setErrorMsg("Camera error: " + (error?.message || "Unknown error"));
+        setVerificationStatus('error');
     };
 
     const verifyTicket = async (ticketId: string) => {
@@ -73,6 +81,7 @@ export default function AdminScannerPage() {
                         <div className="w-full h-full">
                             <Scanner
                                 onScan={handleScan}
+                                onError={handleError}
                                 styles={{ container: { width: '100%', height: '300px' } }}
                                 components={{ finder: true }}
                             />
