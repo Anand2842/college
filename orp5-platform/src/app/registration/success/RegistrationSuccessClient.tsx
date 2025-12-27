@@ -7,6 +7,7 @@ import { Footer } from "@/components/organisms/Footer";
 import { Loader2, CheckCircle, Download, CreditCard, Mail, Phone, ChevronRight, FileText } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
+import QRCode from "react-qr-code";
 
 export default function RegistrationSuccessClient() {
     const searchParams = useSearchParams();
@@ -224,9 +225,13 @@ export default function RegistrationSuccessClient() {
                             <div className="relative z-10">
                                 <h3 className="text-[#C1A87D] font-bold text-lg mb-6">Your QR Ticket</h3>
                                 <div className="bg-white p-3 rounded-xl w-40 h-40 mx-auto mb-6 flex items-center justify-center">
-                                    {/* Placeholder QR */}
-                                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                                        <span className="text-xs text-gray-400 font-mono">QR CODE</span>
+                                    <div className="w-full h-full flex items-center justify-center">
+                                        <QRCode
+                                            value={displayUser.registrationId || "PENDING"}
+                                            size={128}
+                                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                            viewBox={`0 0 256 256`}
+                                        />
                                     </div>
                                 </div>
                                 <h4 className="font-bold text-white text-lg">{displayUser.name}</h4>

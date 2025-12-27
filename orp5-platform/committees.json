@@ -1,0 +1,138 @@
+[dotenv@17.2.3] injecting env (4) from .env.local -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+{
+  "hero": {
+    "headline": "Committees — ORP-5",
+    "subheadline": "Led by distinguished national and international experts contributing to the scientific and organizational structure of ORP-5.",
+    "backgroundImage": "https://images.unsplash.com/photo-1576085898323-218337e3e43c?auto=format&fit=crop&q=80&w=2000"
+  },
+  "intro": {
+    "title": "Our Committees",
+    "description": "ORP-5 is supported by national and international committees comprising experts from leading institutions. These committees contribute to the scientific direction and organizational management of the conference.\n"
+  },
+  "advisory": {
+    "title": "",
+    "description": ""
+  },
+  "contacts": [
+    {
+      "id": "ct1",
+      "name": "Prof. (Dr.) Sahadeva Singh",
+      "email": "dean.soagri@galgotiasuniversity.edu.in",
+      "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466822791_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg"
+    },
+    {
+      "id": "ct2",
+      "name": "Prof. (Dr.) Uzma Manzoor",
+      "email": "uzma.manzoor@galgotiasuniversity.edu.in",
+      "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466827336_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg"
+    },
+    {
+      "id": "ct3",
+      "name": "Prof. (Dr.) Y.V. Singh",
+      "email": "yudhvir.singh@galgotiasuniversity.edu.in",
+      "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765559718240_WhatsApp_Image_2025-12-12_at_08.41.12.jpeg"
+    }
+  ],
+  "committees": [
+    {
+      "id": "c1",
+      "label": "International Scientific Committee",
+      "members": [
+        {
+          "id": "1765373774645",
+          "name": "Prof. Sahadeva Singh",
+          "country": "India",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466683508_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg",
+          "affiliation": "Dean, School of Agriculture, Galgotias University"
+        },
+        {
+          "id": "1765373806025",
+          "name": "Prof. Y. S. Shivay",
+          "country": "India",
+          "imageUrl": "",
+          "affiliation": "Agronomy, ICAR–Indian Agricultural Research Institute"
+        },
+        {
+          "id": "1765373823692",
+          "name": "Prof. Uzma Manzoor",
+          "country": "India",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466707392_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg",
+          "affiliation": "Entomology, Galgotias University"
+        },
+        {
+          "id": "1765373846193",
+          "name": "Prof. Yudh Vir Singh",
+          "country": "India",
+          "imageUrl": "",
+          "affiliation": "Agronomy, School of Agriculture, Galgotias University"
+        },
+        {
+          "id": "1765373876895",
+          "name": "Prof. Stefano Bocchi",
+          "country": "Italy",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1766777108936_Screenshot_2025-12-27_at_12.54.20_AM.png",
+          "affiliation": "Agroecology, University of Milan"
+        },
+        {
+          "id": "1765373901829",
+          "name": "Prof. Keiichi Ishii",
+          "country": "Japan",
+          "imageUrl": "",
+          "affiliation": "Rural Economics, Tohoku University"
+        },
+        {
+          "id": "1765373922464",
+          "name": "Jean-Marc Barbier",
+          "country": "France",
+          "imageUrl": "",
+          "affiliation": "Agronomy, French National Institute for Agriculture, Food and Environment (INRAE)"
+        },
+        {
+          "id": "1765373947781",
+          "name": "Prof. Joji Muramoto",
+          "country": "USA",
+          "imageUrl": "",
+          "affiliation": "Agroecology, University of California, Santa Cruz"
+        },
+        {
+          "id": "1765373971650",
+          "name": "Jean-Claude Mouret",
+          "country": "France",
+          "imageUrl": "",
+          "affiliation": "Agronomy, INRAE, Montpellier"
+        },
+        {
+          "id": "1765373995550",
+          "name": "Prof. Douglas George De Oliveira",
+          "country": "Brazil",
+          "imageUrl": "",
+          "affiliation": "Agronomy, Santa Catarina State Institution for Agricultural Research and Rural Extension"
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "label": "International Organizing Committee",
+      "members": []
+    },
+    {
+      "id": "c3",
+      "label": "National Organizing Committee",
+      "members": [
+        {
+          "id": "1765560430629",
+          "name": "Ninaad Mahajan",
+          "country": "India",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765560446758_WhatsApp_Image_2025-12-11_at_18.25.23.jpeg",
+          "affiliation": "National President, AIASA"
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "label": "Local Organizing Committee",
+      "members": []
+    }
+  ]
+}

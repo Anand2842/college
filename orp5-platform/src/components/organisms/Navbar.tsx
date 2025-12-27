@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 // import { Logo } from "@/components/atoms/Logo" // Placeholder
 
 import { ChevronDown, Menu, X } from "lucide-react";
+import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 interface NavItem {
     label: string;
@@ -22,10 +23,14 @@ const navItems: NavItem[] = [
         children: [
             { label: "About ORP-5", href: "/about" },
             { label: "Conference Themes", href: "/themes" },
-            { label: "Committees", href: "/committees" },
+            { label: "Organizing Committee", href: "/committees" },
             { label: "Speakers", href: "/speakers" },
             { label: "Awards & Prizes", href: "/awards" },
         ]
+    },
+    {
+        label: "Blog",
+        href: "/blog",
     },
     {
         label: "Exhibition & Sponsorship",
@@ -83,8 +88,9 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     const scrollY = useScrollPosition()
     const isScrolled = scrollY > 50
 
-    // Admin check state
     const [isAdmin, setIsAdmin] = React.useState(false);
+    const [isModerator, setIsModerator] = React.useState(false);
+    const { openModal } = useRegistrationModal();
 
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -112,6 +118,9 @@ export function Navbar({ variant = "default" }: NavbarProps) {
 
                     if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
                         setIsAdmin(true);
+                    }
+                    if (profile && profile.role === 'moderator') {
+                        setIsModerator(true);
                     }
                 }
             } catch (error) {
@@ -148,18 +157,30 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     />
                 </Link>
 
-                <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
-                    {navItems.map((item) => (
-                        item.children ? (
+                <div className="hidden xl:flex items-center space-x-4 xl:space-x-8">
+                    {navItems.map((item) => {
+                        // Hide Dashboard if not logged in
+                        if (item.label === "Dashboard" && !isLoggedIn) return null;
+
+                        // Customize Dashboard label/link for Moderators
+                        let label = item.label;
+                        let href = item.href;
+
+                        if (item.label === "Dashboard" && isModerator) {
+                            label = "Reviewer Portal";
+                            href = "/moderator/dashboard";
+                        }
+
+                        return item.children ? (
                             <div key={item.label} className="relative group">
                                 <Link
-                                    href={item.href}
+                                    href={href}
                                     className={cn(
                                         "flex items-center gap-0.5 text-xs xl:text-sm font-medium transition-colors focus:outline-none whitespace-nowrap",
                                         textColorClass
                                     )}
                                 >
-                                    {item.label}
+                                    {label}
                                     <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-200 opacity-70" />
                                 </Link>
                                 {/* Dropdown Menu */}
@@ -179,32 +200,60 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             </div>
                         ) : (
                             <Link
-                                key={item.label}
-                                href={item.href}
+                                key={label}
+                                href={href}
                                 className={cn(
                                     "text-sm font-medium transition-colors",
                                     textColorClass
                                 )}
                             >
-                                {item.label}
+                                {label}
                             </Link>
                         )
-                    ))}
+                    })}
 
-                    <Link href="/registration">
-                        <Button
-                            variant="default"
-                            className="font-bold border-charcoal bg-white text-earth-green hover:bg-earth-green hover:text-white border border-earth-green/20"
-                        >
-                            Register
-                        </Button>
-                    </Link>
+                    {/* Desktop Login/Logout */}
+                    {isLoggedIn ? (
+                        <div className="flex items-center gap-4">
+                            <form action="/auth/signout" method="post">
+                                <Button
+                                    variant="outline"
+                                    className="border-charcoal/20 text-charcoal hover:bg-gray-50"
+                                    type="submit"
+                                >
+                                    Sign Out
+                                </Button>
+                            </form>
+                            <Button
+                                variant="default"
+                                className="font-bold border-charcoal bg-white text-earth-green hover:bg-earth-green hover:text-white border border-earth-green/20"
+                                onClick={openModal}
+                            >
+                                Register
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-4">
+                            <Link href="/login">
+                                <Button variant="ghost" className="text-charcoal hover:text-earth-green font-medium">
+                                    Login
+                                </Button>
+                            </Link>
+                            <Button
+                                variant="default"
+                                className="font-bold border-charcoal bg-white text-earth-green hover:bg-earth-green hover:text-white border border-earth-green/20"
+                                onClick={openModal}
+                            >
+                                Register
+                            </Button>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex items-center gap-4">
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="lg:hidden p-2 transition-colors text-black bg-gray-50 rounded-md hover:bg-gray-100"
+                        className="xl:hidden p-2 transition-colors text-black bg-gray-50 rounded-md hover:bg-gray-100"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -215,58 +264,73 @@ export function Navbar({ variant = "default" }: NavbarProps) {
             {/* Mobile Menu Overlay */}
             {
                 isMobileMenuOpen && (
-                    <div className="fixed inset-0 z-40 bg-white pt-24 px-6 lg:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
+                    <div className="fixed inset-0 z-40 bg-white pt-24 px-6 xl:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
                         <div className="flex flex-col space-y-6 pb-20">
-                            {navItems.map((item) => (
-                                <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
-                                    {item.children ? (
-                                        <>
-                                            <button
-                                                className="flex w-full items-center justify-between font-bold text-earth-green mb-3"
-                                                onClick={() => toggleMobileSubmenu(item.label)}
+                            {navItems.map((item) => {
+                                if (item.label === "Dashboard" && !isLoggedIn) return null;
+                                return (
+                                    <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
+                                        {item.children ? (
+                                            <>
+                                                <button
+                                                    className="flex w-full items-center justify-between font-bold text-earth-green mb-3"
+                                                    onClick={() => toggleMobileSubmenu(item.label)}
+                                                >
+                                                    <span>{item.label}</span>
+                                                    <ChevronDown
+                                                        size={16}
+                                                        className={cn("transition-transform duration-200", openMobileSubmenu === item.label && "rotate-180")}
+                                                    />
+                                                </button>
+                                                {openMobileSubmenu === item.label && (
+                                                    <div className="flex flex-col space-y-3 pl-4 animate-in slide-in-from-top-1 fade-in duration-200">
+                                                        {item.children.map(child => (
+                                                            <Link
+                                                                key={child.label}
+                                                                href={child.href}
+                                                                className="text-gray-600 hover:text-earth-green py-1"
+                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                            >
+                                                                {child.label}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <Link
+                                                href={item.href}
+                                                className="font-bold text-earth-green block"
+                                                onClick={() => setIsMobileMenuOpen(false)}
                                             >
-                                                <span>{item.label}</span>
-                                                <ChevronDown
-                                                    size={16}
-                                                    className={cn("transition-transform duration-200", openMobileSubmenu === item.label && "rotate-180")}
-                                                />
-                                            </button>
-                                            {openMobileSubmenu === item.label && (
-                                                <div className="flex flex-col space-y-3 pl-4 animate-in slide-in-from-top-1 fade-in duration-200">
-                                                    {item.children.map(child => (
-                                                        <Link
-                                                            key={child.label}
-                                                            href={child.href}
-                                                            className="text-gray-600 hover:text-earth-green py-1"
-                                                            onClick={() => setIsMobileMenuOpen(false)}
-                                                        >
-                                                            {child.label}
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <Link
-                                            href={item.href}
-                                            className="font-bold text-earth-green block"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    )}
-                                </div>
-                            ))}
+                                                {item.label}
+                                            </Link>
+                                        )}
+                                    </div>
+                                )
+                            })}
 
                             <div className="flex flex-col gap-4 mt-8">
-                                {!isLoggedIn && (
+                                {isLoggedIn ? (
+                                    <form action="/auth/signout" method="post" className="w-full">
+                                        <Button variant="outline" className="w-full justify-center border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700" type="submit">
+                                            Sign Out
+                                        </Button>
+                                    </form>
+                                ) : (
                                     <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                                         <Button variant="outline" className="w-full justify-center">Login</Button>
                                     </Link>
                                 )}
-                                <Link href="/registration" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <Button className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90">Register Now</Button>
-                                </Link>
+                                <Button
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        openModal();
+                                    }}
+                                    className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90"
+                                >
+                                    Register Now
+                                </Button>
                             </div>
                         </div>
                     </div>

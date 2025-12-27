@@ -65,6 +65,26 @@ export async function updateSession(request: NextRequest) {
         }
     }
 
+    // Protected Moderator Routes Logic
+    if (request.nextUrl.pathname.startsWith('/moderator')) {
+        // 1. Require Authentication
+        if (!user) {
+            return NextResponse.redirect(new URL('/login', request.url))
+        }
+
+        // 2. Require Moderator Role or higher
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        if (!profile || !['moderator', 'admin', 'superadmin'].includes(profile.role)) {
+            // If logged in but not moderator+, redirect to home
+            return NextResponse.redirect(new URL('/', request.url))
+        }
+    }
+
     // Protected API Routes Logic (specifically admin APIs)
     if (request.nextUrl.pathname.startsWith('/api/admin')) {
         if (!user) {
@@ -79,6 +99,23 @@ export async function updateSession(request: NextRequest) {
 
         if (!profile || (profile.role !== 'admin' && profile.role !== 'superadmin')) {
             return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 })
+        }
+    }
+
+    // Protected API Routes Logic (moderator APIs)
+    if (request.nextUrl.pathname.startsWith('/api/moderator')) {
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        if (!profile || !['moderator', 'admin', 'superadmin'].includes(profile.role)) {
+            return NextResponse.json({ error: 'Forbidden: Moderator access required' }, { status: 403 })
         }
     }
 

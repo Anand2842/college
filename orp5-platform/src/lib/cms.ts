@@ -362,7 +362,7 @@ export async function updateThemesPageData(data: any) {
                 description: t.description,
                 icon: t.iconName || t.icon,
                 colorTheme: t.colorTheme,
-                order: index + 1 // Force order logic to match array index, fixing shuffling issue
+                order: t.order || (index + 1) // Use provided order, fallback to index
             }));
             await syncTable('Theme', mappedThemes);
         }

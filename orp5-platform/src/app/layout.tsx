@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -45,8 +46,10 @@ export default function RootLayout({
         )}
       >
         <ErrorBoundary>
-          {children}
-          <AdminToolbar />
+          <ClientProviders>
+            {children}
+            <AdminToolbar />
+          </ClientProviders>
         </ErrorBoundary>
       </body>
     </html>

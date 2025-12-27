@@ -53,11 +53,70 @@ export default function SubmissionClient() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setSubmitting(false);
-        setSubmitted(true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setError(null);
+
+        try {
+            let fileUrl = null;
+
+            // 1. Upload File if present
+            if (formState.file) {
+                const formData = new FormData();
+                formData.append('file', formState.file);
+
+                const uploadReq = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!uploadReq.ok) {
+                    const err = await uploadReq.json();
+                    throw new Error(err.error || 'File upload failed');
+                }
+
+                const uploadRes = await uploadReq.json();
+                fileUrl = uploadRes.url;
+            }
+
+            // 2. Submit Abstract Data
+            const payload = {
+                title: formState.title,
+                abstract: formState.abstract,
+                category: formState.category,
+                theme: formState.theme,
+                fileUrl: fileUrl,
+                // Extra fields can be added to DB if needed, currently schema supports these core ones
+                fullName: formState.fullName, // Optionally store in JSONB if schema expanded, but strictly schema only has core columns.
+                // For now we map form to strict schema. Table columns: title, topic (theme), category, abstract_text, file_url.
+            };
+
+            const submitReq = await fetch('/api/submissions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (submitReq.status === 401) {
+                window.location.href = '/login?redirect=/submission';
+                return;
+            }
+
+            if (!submitReq.ok) {
+                const err = await submitReq.json();
+                throw new Error(err.error || 'Submission failed');
+            }
+
+            const submitRes = await submitReq.json();
+            // setRegistrationId(submitRes.submission.id); // If we want to show real ID
+            setSubmitting(false);
+            setSubmitted(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } catch (err: any) {
+            console.error(err);
+            setError(err.message || "An error occurred. Please try again.");
+            setSubmitting(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     if (error) return (

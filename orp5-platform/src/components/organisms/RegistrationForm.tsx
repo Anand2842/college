@@ -114,14 +114,14 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
             const data = await res.json();
 
             if (res.ok && data.ticketId) {
-                // Emulate success state internally for now
-                setTicketData({
-                    id: data.ticketId, // ORP5IC-IND-XXXX
-                    name: formData.fullName,
-                    category: formData.category,
-                    fee: `${formData.currency} ${formData.feeAmount}`
-                });
-                setStep(4);
+                // Redirect to Payment Gateway
+                // REPLACE THIS LINK with your actual payment link provided by your bank/gateway
+                const PAYMENT_URL = "https://example.com/replace-with-your-payment-link";
+
+                // Optional: Append Ticket ID or Email for tracking
+                // window.location.href = `${PAYMENT_URL}?ref=${data.ticketId}&email=${formData.email}`;
+
+                window.location.href = PAYMENT_URL;
             } else {
                 alert("Registration failed. Please try again.");
             }
@@ -336,21 +336,18 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
                                 </ul>
                             </div>
 
-                            <div className="space-y-4 opacity-75">
-                                <div className="flex items-center gap-2 text-charcoal font-bold">
-                                    <CreditCard size={20} /> Payment Method
-                                </div>
-                                {/* Mock Fake Card */}
-                                <div className="space-y-2 filter grayscale pointer-events-none">
-                                    <input disabled value="0000 0000 0000 0000" className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50" />
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <input disabled value="MM/YY" className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50" />
-                                        <input disabled value="CVC" className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50" />
+                            <div className="space-y-4">
+                                <div className="text-center">
+                                    <p className="text-gray-600 mb-4">
+                                        You are about to be redirected to our secure payment gateway to complete your registration.
+                                    </p>
+                                    <div className="flex justify-center">
+                                        <div className="bg-gray-100 p-4 rounded-lg flex gap-4 items-center opacity-75">
+                                            <CreditCard className="text-gray-500" />
+                                            <span className="text-sm font-semibold text-gray-500">Secure Payment Gateway</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <p className="text-xs text-center text-gray-400 mt-2 italic">
-                                    * Payment Gateway Integration Pending. This is a simulation.
-                                </p>
                             </div>
                         </div>
                     )}
@@ -366,7 +363,7 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
                             </Button>
                         ) : (
                             <Button type="submit" disabled={loading} className="bg-rice-gold text-charcoal hover:bg-rice-gold/90 font-bold px-8 min-w-[200px]">
-                                {loading ? "Processing..." : `Pay ${formData.currency} ${formData.feeAmount}`}
+                                {loading ? "Redirecting..." : `Proceed to Pay ${formData.currency} ${formData.feeAmount}`}
                             </Button>
                         )}
                     </div>

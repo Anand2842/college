@@ -14,6 +14,7 @@ interface HeroProps {
 
 import Image from "next/image";
 import { Globe, Sprout, Leaf } from "lucide-react";
+import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 export function Hero({
     headline = "Organic and Natural Rice Production Systems",
@@ -21,6 +22,8 @@ export function Hero({
     backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop",
     partners = []
 }: HeroProps) {
+    const { openModal } = useRegistrationModal();
+
     return (
         <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[calc(100vh-80px)]">
             {/* Background Image */}
@@ -69,11 +72,13 @@ export function Hero({
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-5 justify-center w-full mb-16">
-                        <Link href="/registration">
-                            <Button size="lg" className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105">
-                                Register Now
-                            </Button>
-                        </Link>
+                        <Button
+                            size="lg"
+                            className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105"
+                            onClick={openModal}
+                        >
+                            Register Now
+                        </Button>
                         <Link href="/about">
                             <Button variant="outline" size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all">
                                 Learn More

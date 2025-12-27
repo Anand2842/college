@@ -83,12 +83,49 @@ export default function CommitteesClient() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {currentCommittee.members.map((member: any) => (
                                 <div key={member.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:-translate-y-1 transition-transform duration-300 group">
-                                    <div className="w-28 h-28 rounded-full p-1 border-2 border-rice-gold mb-6 overflow-hidden relative bg-gray-100">
-                                        {member.imageUrl ? <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-500" /> : <div className="w-full h-full flex items-center justify-center text-gray-300">No Img</div>}
+                                    <div className="w-28 h-28 rounded-full p-1 border-2 border-rice-gold mb-4 overflow-hidden relative bg-gray-100 flex-shrink-0">
+                                        {member.imageUrl ? <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-500" /> : <div className="w-full h-full flex items-center justify-center text-gray-300 text-3xl">👤</div>}
                                     </div>
+
                                     <h3 className="font-bold text-xl text-charcoal mb-1">{member.name}</h3>
-                                    <p className="text-gray-500 text-sm mb-1">{member.affiliation}</p>
-                                    <p className="text-earth-green font-bold text-xs uppercase tracking-wide">{member.country}</p>
+
+                                    {member.role && (
+                                        <div className="bg-earth-green/10 text-earth-green px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-3">
+                                            {member.role}
+                                        </div>
+                                    )}
+
+                                    <div className="text-gray-600 text-sm mb-4 leading-relaxed space-y-1">
+                                        {member.affiliation.split('\n').map((line: string, i: number) => (
+                                            <p key={i}>{line}</p>
+                                        ))}
+                                    </div>
+
+                                    {/* <p className="text-earth-green font-bold text-xs uppercase tracking-wide mb-2">{member.country}</p> */}
+
+                                    {(member.email || member.phone) && (
+                                        <div className="mt-auto pt-4 border-t border-gray-100 w-full flex flex-col items-center gap-3">
+                                            {member.phone && (
+                                                <div className="text-gray-500 text-sm flex flex-col gap-1">
+                                                    {member.phone.split('|').map((ph: string, i: number) => (
+                                                        <p key={i} className="flex items-center gap-2 justify-center">
+                                                            <span>📞</span> {ph.trim()}
+                                                        </p>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {member.email && (
+                                                <div className="flex flex-wrap justify-center gap-2">
+                                                    {member.email.split('|').map((em: string, i: number) => (
+                                                        <a key={i} href={`mailto:${em.trim()}`} className="inline-flex items-center gap-2 px-4 py-2 bg-earth-green text-white text-xs font-bold rounded-full hover:bg-earth-green/90 transition-colors">
+                                                            <Mail size={12} /> Email {i > 0 ? i + 1 : ''}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>

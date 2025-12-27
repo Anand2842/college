@@ -1,31 +1,55 @@
 "use client";
 import { useState, useEffect } from "react";
-
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { Button } from "@/components/atoms/Button";
 import Link from "next/link";
+import QRCode from "react-qr-code";
 import {
     DoorOpen, Briefcase, MonitorPlay, Megaphone, Store, Tractor,
     FileDown, Wallet, Printer, ShieldAlert, BadgeCheck, Camera, CreditCard, HelpCircle
 } from "lucide-react";
-// import ticketData from "@/data/ticket-page.json"; // REMOVED
 
 export default function RegistrationTicketClient() {
+    const searchParams = useSearchParams();
+    const id = searchParams.get('id');
+
     const [pageData, setPageData] = useState<any>(null);
+    const [registration, setRegistration] = useState<any>(null);
 
     useEffect(() => {
+        // Fetch static page content
         fetch('/api/content/ticket')
             .then(res => res.json())
             .then(data => setPageData(data))
             .catch(err => console.error("Failed to load ticket data", err));
-    }, []);
+
+        // Fetch registration data if ID is present
+        if (id) {
+            fetch(`/api/register/${id}`)
+                .then(res => {
+                    if (res.ok) return res.json();
+                    throw new Error("Registration not found");
+                })
+                .then(data => setRegistration(data))
+                .catch(err => console.error("Failed to load registration", err));
+        }
+    }, [id]);
 
     if (!pageData) {
         return <div className="min-h-screen flex items-center justify-center">Loading Ticket...</div>;
     }
 
     const { hero, intro, ticket, checkpoints, actions, notes } = pageData;
+
+    // Use registration data if available, otherwise fallback to static mock data
+    const displayTicket = {
+        name: registration ? (registration.fullName || registration.full_name) : ticket.registrantName,
+        id: registration ? (registration.ticket_number || registration.id) : ticket.registrationId,
+        category: registration ? registration.category : ticket.category,
+        validity: ticket.validity // Validity usually static for valid tickets
+    };
 
     const getIcon = (name: string) => {
         switch (name) {
@@ -77,26 +101,31 @@ export default function RegistrationTicketClient() {
                         <div className="space-y-6 w-full md:w-1/2">
                             <div>
                                 <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Registrant Name</p>
-                                <h3 className="text-2xl font-serif font-bold text-charcoal">{ticket.registrantName}</h3>
+                                <h3 className="text-2xl font-serif font-bold text-charcoal">{displayTicket.name}</h3>
                             </div>
                             <div>
                                 <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Registration ID</p>
-                                <p className="font-mono font-bold text-earth-green text-lg">{ticket.registrationId}</p>
+                                <p className="font-mono font-bold text-earth-green text-lg">{displayTicket.id}</p>
                             </div>
                             <div>
                                 <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Category</p>
-                                <p className="font-bold text-charcoal">{ticket.category}</p>
+                                <p className="font-bold text-charcoal">{displayTicket.category}</p>
                             </div>
                             <div>
                                 <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Validity</p>
-                                <p className="font-bold text-charcoal">{ticket.validity}</p>
+                                <p className="font-bold text-charcoal">{displayTicket.validity}</p>
                             </div>
                         </div>
 
                         {/* QR Code Section */}
                         <div className="bg-[#FFF8E1] p-8 rounded-xl border border-[#F3EACB] text-center w-full md:w-auto">
-                            <div className="bg-white p-4 rounded-lg shadow-sm mb-4 inline-block">
-                                {ticket.qrCodeUrl ? <img src={ticket.qrCodeUrl} alt="QR Code" className="w-40 h-40 mix-blend-multiply" /> : <div className="w-40 h-40 flex items-center justify-center text-xs text-gray-400">QR Loading</div>}
+                            <div className="bg-white p-4 rounded-lg shadow-sm mb-4 inline-block w-40 h-40">
+                                <QRCode
+                                    value={displayTicket.id}
+                                    size={128}
+                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                    viewBox={`0 0 256 256`}
+                                />
                             </div>
                             <p className="text-xs text-[#B89C50] font-bold">Scan at checkpoints</p>
                         </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from 'next/link';
 import {
     Users, Calendar, FileText, CreditCard, QrCode, Store, Folder, ShieldCheck,
-    AlertTriangle, CheckCircle, Clock, Cloud
+    AlertTriangle, CheckCircle, Clock, Cloud, Mail
 } from 'lucide-react';
 import { Button } from "@/components/atoms/Button";
 // Reconstructed Admin Data (previously in JSON)
@@ -29,6 +29,8 @@ const adminData = {
         { title: "Registrations", description: "View and manage attendee tickets.", icon: "CreditCard", link: "/admin/registrations" },
         { title: "Schedule", description: "Manage programme and sessions.", icon: "Calendar", link: "/admin/schedule" },
         { title: "Sponsors", description: "Manage partners and exhibition details.", icon: "Store", link: "/admin/sponsors" },
+        { title: "Blog & News", description: "Manage blog posts and updates.", icon: "FileText", link: "/admin/blog" },
+        { title: "Newsletter", description: "Send announcements to subscribers.", icon: "Mail", link: "/admin/newsletter" },
         { title: "QR Check-in", description: "Verify attendee tickets.", icon: "QrCode", link: "/admin/checkin" },
         { title: "Media Library", description: "Manage uploads and gallery.", icon: "Folder", link: "/admin/media" },
         { title: "Settings", description: "System configuration.", icon: "ShieldCheck", link: "/admin/settings" }
@@ -102,6 +104,7 @@ export default function Dashboard() {
             case "Store": return <Store size={24} />;
             case "Folder": return <Folder size={24} />;
             case "ShieldCheck": return <ShieldCheck size={24} />;
+            case "Mail": return <Mail size={24} />;
             default: return <FileText size={24} />;
         }
     };

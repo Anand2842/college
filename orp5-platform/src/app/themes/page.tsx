@@ -67,7 +67,7 @@ export default async function ThemesPage() {
                                 </div>
 
                                 <div className="flex-1">
-                                    <span className="block text-xs font-bold uppercase tracking-widest text-[#B89C50] mb-2">Theme {index + 1}</span>
+                                    <span className="block text-xs font-bold uppercase tracking-widest text-[#B89C50] mb-2">Theme {theme.order || index + 1}</span>
                                     <h3 className="text-2xl font-serif font-bold text-charcoal mb-3 group-hover:text-[#123125] transition-colors">{theme.title}</h3>
                                     <p className="text-gray-600 leading-relaxed text-lg">{theme.description}</p>
                                 </div>
