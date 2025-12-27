@@ -46,7 +46,7 @@ export async function POST(request: Request) {
                 data: registrationData,
                 status: 'pending' // Default status
                 // user_id is now nullable, so we don't need to provide it for guest users
-            })
+            } as any)
             .select('id')
             .single();
 

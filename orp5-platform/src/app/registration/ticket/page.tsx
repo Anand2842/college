@@ -6,6 +6,12 @@ export const metadata: Metadata = {
     description: '5th International Conference on Organic & Natural Rice Farming',
 };
 
+import { Suspense } from 'react';
+
 export default function TicketPage() {
-    return <RegistrationTicketClient />;
+    return (
+        <Suspense fallback={<div>Loading ticket...</div>}>
+            <RegistrationTicketClient />
+        </Suspense>
+    );
 }
