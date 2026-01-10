@@ -23,8 +23,8 @@ export function Hero({
     subheadline = "Advancing Sustainable Organic and Natural Rice Production Worldwide",
     backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop",
     partners = [],
-    venue = "Galgotias University, Greater Noida, India",
-    dateString = "21–25 September 2026"
+    venue = "Conference Venue, New Delhi, India",
+    dateString = "September 2026"
 }: HeroProps) {
     const { openModal } = useRegistrationModal();
 
