@@ -10,6 +10,8 @@ interface HeroProps {
     subheadline?: string;
     backgroundImage?: string;
     partners?: any[];
+    venue?: string;
+    dateString?: string;
 }
 
 import Image from "next/image";
@@ -18,9 +20,11 @@ import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 export function Hero({
     headline = "Organic and Natural Rice Production Systems",
-    subheadline = "Advancing Sustainable Organic and Natural Rice Production Worldwide 21-25 September 2026 | Galgotias University, Greater Noida, India",
+    subheadline = "Advancing Sustainable Organic and Natural Rice Production Worldwide",
     backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop",
-    partners = []
+    partners = [],
+    venue = "Galgotias University, Greater Noida, India",
+    dateString = "21–25 September 2026"
 }: HeroProps) {
     const { openModal } = useRegistrationModal();
 
@@ -49,16 +53,14 @@ export function Hero({
 
                     {/* Main Headline */}
                     <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-none mb-6 text-white drop-shadow-2xl">
-                        <span className="block mb-2 text-rice-gold">Organic and Natural Rice</span>
-                        <span className="block text-3xl md:text-5xl lg:text-6xl font-normal text-white">Production Systems</span>
-                        <span className="block text-xl md:text-3xl font-light mt-4 italic text-white/80">(5th International Conference)</span>
+                        <SafeHtml html={headline} />
                     </h1>
 
                     {/* Subtitle / Date & Venue */}
                     <div className="text-lg md:text-2xl text-white/90 mb-10 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
-                        <p className="mb-2">Advancing Sustainable Organic and Natural Rice Production Worldwide</p>
+                        <p className="mb-2">{subheadline}</p>
                         <p className="font-semibold text-white text-xl md:text-3xl mt-2">
-                            21–25 September 2026 <span className="mx-2 text-rice-gold">|</span> Galgotias University, Greater Noida, India
+                            {dateString} <span className="mx-2 text-rice-gold">|</span> {venue}
                         </p>
                     </div>
 

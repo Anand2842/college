@@ -41,33 +41,22 @@ export default async function Home() {
     console.error("Error fetching homepage data:", error);
   }
 
-  // Fallback default data if CMS returns null (first load before admin save)
-  const defaultData: any = {
-    hero: {
-      headline: "5th International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
-      subheadline: "Cultivating a Sustainable Future",
-      backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop"
-    },
-    partners: [
-      { id: "p1", name: "Organizer 1", logoUrl: "" },
-      { id: "p2", name: "Organizer 2", logoUrl: "" },
-      { id: "p3", name: "Organizer 3", logoUrl: "" }
-    ],
-    themes: [],
-    speakers: [],
-    programme: {},
-    dates: [],
-    whyJoin: [],
-    gallery: [],
-    faq: [],
-    venue: {
-      title: "Conference Venue",
-      description: "Join us at our world-class facility.",
-      address: "123 Conference Center Dr."
-    }
-  };
+  // Force usage of CMS Data
+  const data = cmsData;
 
-  const data = cmsData || defaultData;
+  if (!data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#FDFCF8]">
+        <div className="text-center">
+          <h1 className="text-2xl font-serif text-charcoal mb-4">Content Not Loaded</h1>
+          <p className="text-gray-600">The homepage content could not be retrieved from the database.</p>
+          <div className="mt-4 p-4 bg-red-50 text-red-600 rounded text-sm text-left max-w-md mx-auto">
+            Debug Info: getHomepageData returned null. Check Supabase connection and Page table content.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen relative bg-[#FDFCF8] font-sans">
@@ -79,6 +68,8 @@ export default async function Home() {
         subheadline={data.hero.subheadline}
         backgroundImage={data.hero.backgroundImage}
         partners={data.partners || []}
+        venue={data.venue?.title ? `${data.venue.title}${data.venue.address ? `, ${data.venue.address}` : ''}` : undefined}
+        dateString="21–25 September 2026"
       />
 
       {/* Quick Access Row - Overlapping Hero */}
