@@ -81,6 +81,7 @@ export default function BlogPostForm({ initialData, isEditing = false }: BlogPos
         try {
             const payload = {
                 ...formData,
+                slug: formData.slug.replace(/^\/+/, ''), // Ensure no leading slashes
                 published_at: formData.is_published
                     ? (initialData?.published_at || new Date().toISOString())
                     : null

@@ -36,10 +36,13 @@ export async function POST(request: Request) {
         // we might just accept it from body or default to null.
         // In a real app we'd verify the user.
 
+        // Sanitize body to remove fields that might not exist in DB yet (e.g. category)
+        const { category, ...safeBody } = body;
+
         const { data, error } = await supabase
             .from('blog_posts')
             // @ts-ignore
-            .insert([body] as any)
+            .insert([safeBody] as any)
             .select()
             .single();
 

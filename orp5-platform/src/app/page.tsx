@@ -39,6 +39,14 @@ export default async function Home() {
     console.log(`[${new Date().toISOString()}] Homepage Data Fetched:`, cmsData ? "Success" : "Failed");
   } catch (error) {
     console.error("Error fetching homepage data:", error);
+    // FALLBACK DATA TO PREVENT 500
+    cmsData = {
+      hero: { headline: "System Maintenance", subheadline: "We are currently undergoing maintenance.", registrationStart: null },
+      themes: [],
+      speakers: [],
+      partners: [],
+      dates: []
+    } as any;
   }
 
   // Force usage of CMS Data
@@ -70,6 +78,8 @@ export default async function Home() {
         partners={data.partners || []}
         venue={data.venue?.title ? `${data.venue.title}${data.venue.address ? `, ${data.venue.address}` : ''}` : undefined}
         dateString="21–25 September 2026"
+        registrationStart={data.hero.registrationStart}
+        registrationStatusText={data.hero.registrationStatusText}
       />
 
       {/* Quick Access Row - Overlapping Hero */}

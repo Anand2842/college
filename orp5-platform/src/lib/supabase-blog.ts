@@ -59,7 +59,8 @@ export async function getPostBySlug(slug: string) {
       *,
       profiles (
         display_name,
-        avatar_url
+        avatar_url,
+        role
       )
     `)
         .eq('slug', slug)

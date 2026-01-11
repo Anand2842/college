@@ -159,6 +159,21 @@ export default function HomepageEditor() {
                                 value={data.hero.subheadline}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "subheadline", e.target.value)}
                             />
+
+                            <AdminInput
+                                label="Registration Start Date (Optional)"
+                                helperText="YYYY-MM-DD format (e.g. 2026-06-01). Leave empty to HIDE the countdown."
+                                value={data.hero.registrationStart || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "registrationStart", e.target.value)}
+                            />
+
+                            <AdminInput
+                                label="Timer Label (Optional)"
+                                helperText="Custom text above the timer (default: 'Registration Opens In')"
+                                value={data.hero.registrationStatusText || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "registrationStatusText", e.target.value)}
+                            />
+
                             <div>
                                 <ImageUploader
                                     label="Hero Background Image"

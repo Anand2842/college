@@ -1,8 +1,43 @@
+"use client";
+
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
-import { Link2, Mail, MapPin, Phone } from "lucide-react";
+import { Link2, Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin, Globe } from "lucide-react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+
+// Icon map for dynamic socials
+const SocialIcons: any = { Facebook, Twitter, Instagram, Linkedin, Globe };
 
 export function Footer() {
+    const [footerData, setFooterData] = useState<any>({
+        aboutText: "5th International Conference on Organic and Natural Rice Production Systems.<br />Advancing Global Agricultural Innovation & Sustainability.",
+        contact: {
+            address: "Galgotias University,<br />Greater Noida, Uttar Pradesh, India",
+            email: "info@orp5.org",
+            phone: "+91 98765 43210"
+        },
+        socials: [
+            { platform: "Facebook", url: "#", iconName: "Facebook" },
+            { platform: "Twitter", url: "#", iconName: "Twitter" },
+            { platform: "Instagram", url: "#", iconName: "Instagram" }
+        ],
+        copyrightText: "2024-2026 ORP-5 Conference. All rights reserved."
+    });
+
+    useEffect(() => {
+        fetch("/api/content/global-settings")
+            .then(res => {
+                if (!res.ok) return null;
+                return res.json();
+            })
+            .then(data => {
+                if (data && data.footer) {
+                    setFooterData(data.footer);
+                }
+            })
+            .catch(err => console.error("Failed to fetch footer data", err));
+    }, []);
+
     return (
         <footer className="bg-earth-green text-white pt-20 pb-10">
             <div className="container mx-auto px-6">
@@ -16,16 +51,21 @@ export function Footer() {
                                 className="h-24 w-auto object-contain"
                             />
                         </div>
-                        <p className="text-white/80 text-sm leading-relaxed mb-6">
-                            5th International Conference on Organic and Natural Rice Production Systems.
-                            <br />
-                            Advancing Global Agricultural Innovation & Sustainability.
-                        </p>
+                        <div className="text-white/80 text-sm leading-relaxed mb-6">
+                            <SafeHtml html={footerData.aboutText} />
+                        </div>
                         <div className="flex gap-4">
-                            {/* Social Placeholders */}
-                            <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer" />
-                            <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer" />
-                            <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer" />
+                            {/* Dynamic Socials */}
+                            {footerData.socials?.map((social: any, idx: number) => {
+                                const Icon = SocialIcons[social.iconName] || Globe;
+                                return (
+                                    <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer">
+                                        <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors flex items-center justify-center">
+                                            <Icon size={16} />
+                                        </div>
+                                    </a>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -48,15 +88,15 @@ export function Footer() {
                         <ul className="space-y-4 text-sm text-white/80">
                             <li className="flex items-start gap-3">
                                 <MapPin size={18} className="mt-0.5 text-sapling-green" />
-                                <span>Galgotias University,<br />Greater Noida, Uttar Pradesh, India</span>
+                                <span><SafeHtml html={footerData.contact.address} /></span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail size={18} className="text-sapling-green" />
-                                <a href="mailto:info@orp5.org" className="hover:text-rice-gold">info@orp5.org</a>
+                                <a href={`mailto:${footerData.contact.email}`} className="hover:text-rice-gold">{footerData.contact.email}</a>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone size={18} className="text-sapling-green" />
-                                <a href="tel:+919876543210" className="hover:text-rice-gold">+91 98765 43210</a>
+                                <a href={`tel:${footerData.contact.phone}`} className="hover:text-rice-gold">{footerData.contact.phone}</a>
                             </li>
                         </ul>
                     </div>
@@ -71,14 +111,27 @@ export function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/60">
-                    <p>&copy; 2024-2026 ORP-5 Conference. All rights reserved.</p>
+                    <p>&copy; {footerData.copyrightText}</p>
                     <div className="flex gap-6 mt-4 md:mt-0">
-                        <Link href="/about" className="hover:text-white">Privacy Policy</Link>
-                        <Link href="/about" className="hover:text-white">Terms of Service</Link>
+                        <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+                        <Link href="/terms" className="hover:text-white">Terms of Service</Link>
                         <Link href="/sitemap" className="hover:text-white">Sitemap</Link>
                     </div>
                 </div>
             </div>
         </footer>
+    );
+}
+
+function SafeHtml({ html }: { html: string }) {
+    if (!html) return null;
+    const parts = html.split(/(<br\s*\/?>)/g);
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (part.match(/<br\s*\/?>/)) return <br key={index} />;
+                return part;
+            })}
+        </>
     );
 }

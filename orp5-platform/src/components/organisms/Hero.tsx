@@ -12,6 +12,8 @@ interface HeroProps {
     partners?: any[];
     venue?: string;
     dateString?: string;
+    registrationStart?: string;
+    registrationStatusText?: string;
 }
 
 import Image from "next/image";
@@ -24,7 +26,9 @@ export function Hero({
     backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop",
     partners = [],
     venue = "Conference Venue, New Delhi, India",
-    dateString = "September 2026"
+    dateString = "September 2026",
+    registrationStart,
+    registrationStatusText
 }: HeroProps) {
     const { openModal } = useRegistrationModal();
 
@@ -64,13 +68,15 @@ export function Hero({
                         </p>
                     </div>
 
-                    {/* Countdown */}
-                    <div className="mb-12 flex flex-col items-center">
-                        <p className="text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-rice-gold/80 mb-4 bg-black/30 px-4 py-1 rounded-full backdrop-blur-sm">
-                            Registration Opens In
-                        </p>
-                        <CountdownTimer targetDate="2026-01-01T00:00:00" />
-                    </div>
+                    {/* Countdown - Only show if date provided */}
+                    {registrationStart && (
+                        <div className="mb-12 flex flex-col items-center animate-in fade-in zoom-in duration-500">
+                            <p className="text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-rice-gold/80 mb-4 bg-black/30 px-4 py-1 rounded-full backdrop-blur-sm">
+                                {registrationStatusText || "Registration Opens In"}
+                            </p>
+                            <CountdownTimer targetDate={registrationStart} />
+                        </div>
+                    )}
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-5 justify-center w-full mb-16">
@@ -89,40 +95,42 @@ export function Hero({
                     </div>
 
                     {/* Collaborating Partners Wrapper - Added margin top to separate from buttons */}
-                    {partners && partners.length > 0 && (
-                        <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-                            <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-6 drop-shadow-md">Jointly organized by</p>
-                            <div className="flex flex-wrap justify-center items-start gap-8 md:gap-12">
-                                {partners.slice(0, 3).map((partner: any, index: number) => {
-                                    const Icon = index % 3 === 0 ? Globe : (index % 3 === 1 ? Sprout : Leaf);
-                                    return (
-                                        <div key={partner.id || index} className="group flex flex-col items-center gap-3 w-28 md:w-32">
-                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300 relative">
-                                                {partner.logoUrl ? (
-                                                    <Image
-                                                        src={partner.logoUrl}
-                                                        alt={partner.name}
-                                                        fill
-                                                        sizes="(max-width: 768px) 64px, 80px"
-                                                        className="object-contain p-3"
-                                                    />
-                                                ) : (
-                                                    <Icon className="text-earth-green w-8 h-8" strokeWidth={1.5} />
-                                                )}
+                    {
+                        partners && partners.length > 0 && (
+                            <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+                                <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-6 drop-shadow-md">Jointly organized by</p>
+                                <div className="flex flex-wrap justify-center items-start gap-8 md:gap-12">
+                                    {partners.slice(0, 3).map((partner: any, index: number) => {
+                                        const Icon = index % 3 === 0 ? Globe : (index % 3 === 1 ? Sprout : Leaf);
+                                        return (
+                                            <div key={partner.id || index} className="group flex flex-col items-center gap-3 w-28 md:w-32">
+                                                <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300 relative">
+                                                    {partner.logoUrl ? (
+                                                        <Image
+                                                            src={partner.logoUrl}
+                                                            alt={partner.name}
+                                                            fill
+                                                            sizes="(max-width: 768px) 64px, 80px"
+                                                            className="object-contain p-3"
+                                                        />
+                                                    ) : (
+                                                        <Icon className="text-earth-green w-8 h-8" strokeWidth={1.5} />
+                                                    )}
+                                                </div>
+                                                {/* Name always visible */}
+                                                <span className="text-[10px] md:text-xs text-white text-center font-bold uppercase tracking-wide leading-tight drop-shadow-md">
+                                                    {partner.name}
+                                                </span>
                                             </div>
-                                            {/* Name always visible */}
-                                            <span className="text-[10px] md:text-xs text-white text-center font-bold uppercase tracking-wide leading-tight drop-shadow-md">
-                                                {partner.name}
-                                            </span>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </motion.div>
-            </div>
-        </section>
+                        )
+                    }
+                </motion.div >
+            </div >
+        </section >
     )
 }
 

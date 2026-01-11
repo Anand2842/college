@@ -41,11 +41,26 @@ async function syncTable(table: string, items: any[], idField = 'id') {
 
 // Helper to get page content
 async function getPageContent(slug: string) {
-    const { data, error } = await supabase
+    // 5s Timeout race
+    const fetchPromise = supabase
         .from('Page')
         .select('content')
         .eq('slug', slug)
         .maybeSingle();
+
+    const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Supabase request timed out')), 5000)
+    );
+
+    let data, error;
+    try {
+        const result: any = await Promise.race([fetchPromise, timeoutPromise]);
+        data = result.data;
+        error = result.error;
+    } catch (e: any) {
+        console.error(`Timeout fetching page ${slug}:`, e);
+        return null;
+    }
 
     if (error) {
         console.error(`Error fetching page ${slug}: `, error);
@@ -697,4 +712,33 @@ export async function updateAccommodationPageData(newData: any) {
         console.error("Error updating accommodation page:", e);
         throw e;
     }
+}
+
+// Helper to get Global Settings (Footer, Socials, Contact Info)
+export async function getGlobalData() {
+    const content = await getPageContent('global-settings');
+
+    const defaultData = {
+        footer: {
+            aboutText: "5th International Conference on Organic and Natural Rice Production Systems.<br />Advancing Global Agricultural Innovation & Sustainability.",
+            contact: {
+                address: "Galgotias University,<br />Greater Noida, Uttar Pradesh, India",
+                email: "info@orp5.org",
+                phone: "+91 98765 43210"
+            },
+            socials: [
+                { platform: "Facebook", url: "#", iconName: "Facebook" },
+                { platform: "Twitter", url: "#", iconName: "Twitter" },
+                { platform: "Instagram", url: "#", iconName: "Instagram" }
+            ],
+            copyrightText: "2024-2026 ORP-5 Conference. All rights reserved."
+        }
+    };
+
+    return content || defaultData;
+}
+
+// Helper to update Global Settings
+export async function updateGlobalData(data: any) {
+    return upsertPage('global-settings', data);
 }

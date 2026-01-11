@@ -28,6 +28,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     // Strip HTML tags for description
     const plainText = post.excerpt || post.content.replace(/<[^>]+>/g, '').substring(0, 160);
 
+    const profile = Array.isArray(post.profiles) ? post.profiles[0] : post.profiles;
+    const authorName = profile?.display_name || 'ORP-5 Team';
+
     return {
         title: `${post.title} - ORP-5 Blog`,
         description: plainText,
@@ -37,7 +40,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
             images: post.cover_image ? [post.cover_image] : [],
             type: 'article',
             publishedTime: post.published_at || post.created_at,
-            authors: post.profiles?.display_name ? [post.profiles.display_name] : [],
+            authors: [authorName],
         },
     };
 }
@@ -93,15 +96,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                     })}
                                 </time>
                             </div>
-                            {post.profiles?.display_name && (
-                                <div className="flex items-center gap-2">
-                                    <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                            {(() => {
+                                const profile = Array.isArray(post.profiles) ? post.profiles[0] : post.profiles;
+                                if (!profile?.display_name) return null;
+
+                                return (
                                     <div className="flex items-center gap-2">
-                                        <User className="w-4 h-4 text-[#D9A648]" />
-                                        <span>{post.profiles.display_name}</span>
+                                        <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                                        <div className="flex items-center gap-2">
+                                            <User className="w-4 h-4 text-[#D9A648]" />
+                                            <span>{profile.display_name}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                );
+                            })()}
                         </div>
 
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-[#123125] mb-6 leading-tight tracking-tight">
@@ -217,7 +225,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         url: `https://orp5ic.com/blog/${post.slug}`,
                         author: {
                             '@type': 'Person',
-                            name: post.profiles?.display_name || 'ORP-5 Team',
+                            name: (Array.isArray(post.profiles) ? post.profiles[0]?.display_name : post.profiles?.display_name) || 'ORP-5 Team',
+                            jobTitle: (Array.isArray(post.profiles) ? post.profiles[0]?.role : post.profiles?.role) === 'admin' ? 'Content Steward' : 'Page Coordinator',
                         },
                         publisher: {
                             '@type': 'Organization',
