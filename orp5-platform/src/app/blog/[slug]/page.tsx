@@ -140,11 +140,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                         {/* Featured Image */}
                         {post.cover_image && (
-                            <div className="mb-12 relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-lg">
+                            <div className="mb-12 w-full rounded-2xl overflow-hidden shadow-lg bg-gray-50">
                                 <img
                                     src={post.cover_image}
                                     alt={post.title}
-                                    className="object-cover w-full h-full"
+                                    className="w-full h-auto max-h-[600px] object-contain mx-auto"
                                 />
                             </div>
                         )}
