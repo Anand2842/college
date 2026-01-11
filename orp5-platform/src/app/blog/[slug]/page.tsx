@@ -5,9 +5,18 @@ import { Calendar, User, ArrowLeft, FileText, Download } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Navbar } from '@/components/organisms/Navbar';
-import DOMPurify from 'isomorphic-dompurify';
 import { SocialShare } from '@/components/molecules/SocialShare';
 import BlogCard from '@/components/molecules/BlogCard';
+
+// Simple sanitizer - DOMPurify has issues in serverless
+function sanitizeHtml(html: string): string {
+    if (!html) return '';
+    // Basic XSS prevention - strip script tags
+    return html
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/on\w+="[^"]*"/gi, '')
+        .replace(/javascript:/gi, '');
+}
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -58,7 +67,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
 
         // Sanitize HTML content
-        const sanitizedContent = DOMPurify.sanitize(post.content || '');
+        const sanitizedContent = sanitizeHtml(post.content || '');
 
         // Fetch related posts
         const relatedPosts = await getRelatedPosts(post.slug, post.category);
