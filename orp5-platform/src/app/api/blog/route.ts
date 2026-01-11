@@ -38,6 +38,7 @@ export async function POST(request: Request) {
 
         // Sanitize body to remove fields that might not exist in DB yet (e.g. category)
         const { category, ...safeBody } = body;
+        console.log('Attempting to create post:', safeBody);
 
         const { data, error } = await supabase
             .from('blog_posts')
