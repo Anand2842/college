@@ -44,7 +44,7 @@ export async function POST(request: Request) {
             .from('blog_posts')
             // @ts-ignore
             .insert([safeBody] as any)
-            .select()
+            .select('id, title, slug, content, excerpt, cover_image, is_published, published_at, created_at, updated_at, author_id')
             .single();
 
         if (error) {
