@@ -37,7 +37,9 @@ export async function POST(request: Request) {
         // In a real app we'd verify the user.
 
         // Sanitize body to remove fields that might not exist in DB yet (e.g. category)
-        const { category, ...safeBody } = body;
+        // Sanitize body to remove fields that might not exist in DB yet (e.g. category)
+        // json/parse trick ensures we have a plain object with no hidden properties
+        const { category, ...safeBody } = JSON.parse(JSON.stringify(body));
         console.log('Attempting to create post:', safeBody);
 
         const { data, error } = await supabase
