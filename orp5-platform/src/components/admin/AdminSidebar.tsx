@@ -1,11 +1,13 @@
 "use client"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Users, Settings, LogOut, Mail, Newspaper } from "lucide-react";
+import { LayoutDashboard, FileText, Users, Settings, LogOut, Mail, Newspaper, TicketCheck, FileStack } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
+    { icon: TicketCheck, label: "Registrations", href: "/admin/registrations" },
+    { icon: FileStack, label: "Submissions", href: "/admin/submissions" },
     { icon: Mail, label: "Newsletter", href: "/admin/newsletter" },
     { icon: Newspaper, label: "Blog & News", href: "/admin/blog" },
     { icon: FileText, label: "Pages", href: "/admin/pages" }, // Parent for sub-pages
