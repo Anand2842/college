@@ -35,7 +35,7 @@ export async function PATCH(
         const currentData = current.data as Record<string, unknown>;
 
         // Update the data JSONB with payment info
-        const updatedData = {
+        const updatedData: Record<string, any> = {
             ...currentData,
             payment_status: payment_status || currentData.payment_status,
             payment_date: payment_date || new Date().toISOString(),
@@ -59,6 +59,18 @@ export async function PATCH(
             return NextResponse.json({ error: 'Failed to update registration' }, { status: 500 });
         }
 
+        // Send Email Notification if marked as PAID
+        if (payment_status === 'paid' && updatedData.email) {
+            const { sendRegistrationStatusEmail } = await import('@/lib/email');
+
+            sendRegistrationStatusEmail(
+                updatedData.email as string,
+                (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
+                updatedData.ticket_number as string,
+                'paid'
+            ).catch(err => console.error('Failed to send registration email:', err));
+        }
+
         return NextResponse.json({
             success: true,
             message: `Payment status updated to ${payment_status}`,
@@ -67,5 +79,33 @@ export async function PATCH(
     } catch (error: unknown) {
         console.error('Error updating payment:', error);
         return NextResponse.json({ error: 'Failed to update payment status' }, { status: 500 });
+    }
+}
+
+export async function DELETE(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+
+        if (!id) {
+            return NextResponse.json({ error: 'Registration ID is required' }, { status: 400 });
+        }
+
+        const { error } = await supabaseAdmin
+            .from('registrations')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Delete error:', error);
+            return NextResponse.json({ error: 'Failed to delete registration' }, { status: 500 });
+        }
+
+        return NextResponse.json({ success: true, message: 'Registration deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting registration:', error);
+        return NextResponse.json({ error: 'Failed to delete registration' }, { status: 500 });
     }
 }
