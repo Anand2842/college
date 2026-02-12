@@ -77,7 +77,7 @@ export default async function Home() {
         backgroundImage={data.hero.backgroundImage}
         partners={data.partners || []}
         venue={data.venue?.title ? `${data.venue.title}${data.venue.address ? `, ${data.venue.address}` : ''}` : undefined}
-        dateString="21–25 September 2026"
+        dateString={data.hero.dateString || "21–25 September 2026"}
         registrationStart={data.hero.registrationStart}
         registrationStatusText={data.hero.registrationStatusText}
       />
@@ -264,7 +264,7 @@ export default async function Home() {
       <section className="py-24 bg-[#123125] relative overflow-hidden text-center text-white">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
         <div className="container relative z-10 px-6">
-          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">Registration opens 1 January 2026</h2>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">{data.hero.registrationBannerText || "Registration opens 1 January 2026"}</h2>
           <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto font-light">
             Reserve your spot early for the premier organic rice farming conference.
           </p>
