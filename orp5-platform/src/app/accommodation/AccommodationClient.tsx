@@ -163,36 +163,26 @@ export default function AccommodationClient() {
                 <div className="container mx-auto px-6">
                     <h2 className="text-3xl font-serif font-bold text-charcoal mb-12">Nearby Recommended Hotels</h2>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-black">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-black">
                         {/* Nearby List */}
-                        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {data.nearbyHotels.map((hotel: any, i: number) => (
-                                <motion.div
-                                    key={hotel.id}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    className="bg-[#F8FAFC] border border-gray-100 p-6 rounded-xl flex flex-col justify-between"
-                                >
-                                    <div>
-                                        <h3 className="font-bold text-lg mb-2">{hotel.name}</h3>
-                                        <p className="text-xs text-gray-500 mb-4">{hotel.distance}</p>
-                                        <p className="font-bold text-[#10B981] mb-4">{hotel.price}</p>
-                                    </div>
-                                    <Button variant="outline" className="w-full text-xs font-bold border-gray-200 bg-emerald-50 hover:bg-emerald-100 text-[#065F46] border-0">
-                                        Check Availability
-                                    </Button>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* Map Placeholder */}
-                        <div className="bg-[#E5E7EB] rounded-2xl overflow-hidden relative min-h-[300px] shadow-inner">
-                            <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&q=80&w=800" alt="Map" className="w-full h-full object-cover mix-blend-multiply opacity-50" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold shadow-sm">Interactive Map</span>
-                            </div>
-                        </div>
+                        {data.nearbyHotels.map((hotel: any, i: number) => (
+                            <motion.div
+                                key={hotel.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                className="bg-[#F8FAFC] border border-gray-100 p-6 rounded-xl flex flex-col justify-between"
+                            >
+                                <div>
+                                    <h3 className="font-bold text-lg mb-2">{hotel.name}</h3>
+                                    <p className="text-xs text-gray-500 mb-4">{hotel.distance}</p>
+                                    <p className="font-bold text-[#10B981] mb-4">{hotel.price}</p>
+                                </div>
+                                <Button variant="outline" className="w-full text-xs font-bold border-gray-200 bg-emerald-50 hover:bg-emerald-100 text-[#065F46] border-0">
+                                    Check Availability
+                                </Button>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </div>
