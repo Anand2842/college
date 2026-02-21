@@ -2,96 +2,103 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export async function POST(req: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    getAll() {
-                        return cookieStore.getAll()
+        // Try to get authenticated user (optional - submissions can work without login)
+        let userId: string | null = null;
+        let userEmail: string | null = null;
+        try {
+            const cookieStore = await cookies();
+            const supabase = createServerClient(
+                process.env.NEXT_PUBLIC_SUPABASE_URL!,
+                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                {
+                    cookies: {
+                        getAll() { return cookieStore.getAll(); },
+                        setAll(cookiesToSet) {
+                            try { cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); } catch { }
+                        },
                     },
-                    setAll(cookiesToSet) {
-                        try {
-                            cookiesToSet.forEach(({ name, value, options }) =>
-                                cookieStore.set(name, value, options)
-                            )
-                        } catch {
-                            // The `setAll` method was called from a Server Component.
-                        }
-                    },
-                },
+                }
+            );
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                userId = user.id;
+                userEmail = user.email || null;
             }
-        );
-
-        // 1. Auth Check
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Unauthorized. Please log in.' }, { status: 401 });
+        } catch {
+            // Auth check failed, proceed without auth
         }
 
-        // 2. Parse Body
+        // Parse Body
         const body = await req.json();
-        const { title, abstract, category, theme, fileUrl } = body;
+        const { title, abstract, category, theme, fileUrl, authorName, email, phone, institution } = body;
 
-        if (!title || !abstract || !theme || !category) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        if (!title || !abstract || !category) {
+            return NextResponse.json({ error: 'Missing required fields (title, abstract, category)' }, { status: 400 });
         }
 
-        // 3. Insert into Database
-        const { data, error } = await supabase
+        // Use admin client for insertion (bypasses RLS)
+        const supabaseAdmin = getSupabaseAdmin();
+        const { data, error } = await supabaseAdmin
             .from('abstracts')
             .insert({
-                user_id: user.id,
+                user_id: userId,
                 title,
                 abstract_text: abstract,
                 category,
-                topic: theme,
+                topic: theme || null,
                 file_url: fileUrl || null,
-                status: 'pending'
+                status: 'pending',
+                authors: authorName || null,
+                email: email || userEmail || null,
+                institution: institution || null,
+                phone: phone || null,
             })
             .select()
             .single();
 
         if (error) {
             console.error('Submission DB Error:', error);
+            // Check if table doesn't exist
+            if (error.code === 'PGRST205' || error.message?.includes('Could not find')) {
+                return NextResponse.json({
+                    error: 'The submissions system is being set up. Please try again later or contact the organizers.'
+                }, { status: 503 });
+            }
             throw error;
         }
 
-        // 4. Send Confirmation Email
-        if (process.env.RESEND_API_KEY) {
+        // Send Confirmation Email (non-blocking)
+        const recipientEmail = email || userEmail;
+        if (process.env.RESEND_API_KEY && recipientEmail) {
             try {
                 const { Resend } = await import('resend');
                 const resend = new Resend(process.env.RESEND_API_KEY);
                 await resend.emails.send({
-                    from: 'ORP-5 Conference <updates@orp5.org>', // Make sure this domain is verified in Resend
-                    to: user.email!,
+                    from: 'ORP-5 Conference <updates@orp5.org>',
+                    to: recipientEmail,
                     subject: `Abstract Submission Received: ${title}`,
                     html: `
                         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
                             <h2>Submission Received</h2>
-                            <p>Dear ${user.email},</p>
+                            <p>Dear ${authorName || recipientEmail},</p>
                             <p>Thank you for submitting your abstract to the 5th International Conference on Organic and Natural Rice Production Systems (ORP-5).</p>
-                            
                             <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
                                 <p><strong>Title:</strong> ${title}</p>
                                 <p><strong>Reference ID:</strong> ${data.id}</p>
                                 <p><strong>Status:</strong> Pending Review</p>
                             </div>
-
-                            <p>You can track the status of your submission by logging into your <a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard">User Dashboard</a>.</p>
-                            
+                            <p>You can track the status of your submission by logging into your <a href="${process.env.NEXT_PUBLIC_SITE_URL || ''}/dashboard">User Dashboard</a>.</p>
                             <p>Best regards,<br/>The ORP-5 Organizing Committee</p>
                         </div>
                     `
                 });
-                console.log(`[Email] Submission confirmation sent to ${user.email}`);
+                console.log(`[Email] Submission confirmation sent to ${recipientEmail}`);
             } catch (emailError) {
                 console.error('[Email] Failed to send submission confirmation', emailError);
-                // Don't fail the request, just log it. Data is saved.
             }
         }
 
@@ -105,43 +112,27 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    getAll() {
-                        return cookieStore.getAll()
-                    },
-                    setAll(cookiesToSet) {
-                        try {
-                            cookiesToSet.forEach(({ name, value, options }) =>
-                                cookieStore.set(name, value, options)
-                            )
-                        } catch {
-                        }
-                    },
-                },
-            }
-        );
+        // Use admin client to fetch ALL submissions (for admin panel)
+        const supabaseAdmin = getSupabaseAdmin();
 
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('abstracts')
             .select('*')
-            .eq('user_id', user.id)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            // If table doesn't exist, return empty array instead of 500
+            if (error.code === 'PGRST205' || error.message?.includes('Could not find')) {
+                console.warn('abstracts table not found, returning empty array');
+                return NextResponse.json([]);
+            }
+            throw error;
+        }
 
-        return NextResponse.json(data);
+        return NextResponse.json(data || []);
 
     } catch (error) {
+        console.error('Fetch submissions error:', error);
         return NextResponse.json({ error: 'Failed to fetch submissions' }, { status: 500 });
     }
 }

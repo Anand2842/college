@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, Download, Filter, Eye, X } from 'lucide-react';
+import { Search, Download, Filter, Eye, X, Trash2 } from 'lucide-react';
 import { RegistrationDetailModal } from '@/components/admin/RegistrationDetailModal';
 
 interface Registration {
@@ -89,6 +89,23 @@ export default function AdminRegistrationsPage() {
         }
     };
 
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to REJECT and REMOVE this registration? This cannot be undone.')) return;
+
+        try {
+            const res = await fetch(`/api/admin/registrations/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                setRegistrations(prev => prev.filter(r => r.id !== id));
+                if (selectedRegistration?.id === id) setSelectedRegistration(null);
+            } else {
+                alert('Failed to delete registration');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('Error deleting registration');
+        }
+    };
+
     // Get unique categories and modes for filter dropdowns
     const categories = useMemo(() => {
         const cats = new Set(registrations.map(r => r.category).filter(Boolean));
@@ -156,7 +173,7 @@ export default function AdminRegistrationsPage() {
 
     // Export to CSV
     const exportToCSV = () => {
-        const headers = ['Ticket ID', 'Name', 'Email', 'Phone', 'Institution', 'Country', 'Category', 'Mode', 'Nationality', 'Membership', 'Amount', 'Currency', 'Payment Status', 'Submitted At'];
+        const headers = ['Ticket ID', 'Name', 'Email', 'Phone', 'Institution', 'Designation', 'Country', 'Category', 'Mode', 'Nationality', 'Membership', 'Amount', 'Currency', 'Payment Status', 'Submitted At'];
 
         const rows = filteredRegistrations.map(r => [
             r.ticket_number || '',
@@ -164,6 +181,7 @@ export default function AdminRegistrationsPage() {
             r.email || '',
             r.phone || '',
             r.institution || '',
+            r.designation || '',
             r.country || '',
             r.category || '',
             r.mode || '',
@@ -172,19 +190,26 @@ export default function AdminRegistrationsPage() {
             r.fee_amount || r.feeAmount || 0,
             r.currency || 'INR',
             r.payment_status || '',
-            r.submittedAt || ''
+            r.submittedAt ? new Date(r.submittedAt).toLocaleString() : ''
         ]);
 
         const csvContent = [
             headers.join(','),
-            ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+            ...rows.map(row => row.map(cell => {
+                const cellStr = String(cell || '');
+                // Escape quotes and wrap in quotes
+                return `"${cellStr.replace(/"/g, '""')}"`;
+            }).join(','))
         ].join('\n');
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        // Add BOM for Excel compatibility
+        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = `registrations_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     };
 
     if (loading) {
@@ -383,6 +408,13 @@ export default function AdminRegistrationsPage() {
                                                         {updating === reg.id ? '...' : 'Undo'}
                                                     </button>
                                                 )}
+                                                <button
+                                                    onClick={() => handleDelete(reg.id)}
+                                                    className="p-2 bg-gray-700 hover:bg-red-600 text-gray-300 hover:text-white rounded-lg transition"
+                                                    title="Reject / Delete"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

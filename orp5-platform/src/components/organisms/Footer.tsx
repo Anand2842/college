@@ -12,7 +12,7 @@ export function Footer() {
     const [footerData, setFooterData] = useState<any>({
         aboutText: "5th International Conference on Organic and Natural Rice Production Systems.<br />Advancing Global Agricultural Innovation & Sustainability.",
         contact: {
-            address: "Galgotias University,<br />Greater Noida, Uttar Pradesh, India",
+            address: "NASC Complex,<br />New Delhi, Delhi, India",
             email: "info@orp5.org",
             phone: "+91 98765 43210"
         },

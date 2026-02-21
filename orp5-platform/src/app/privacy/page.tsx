@@ -67,7 +67,7 @@ export default function PrivacyPage() {
                     <p>For privacy-related concerns, please contact:</p>
                     <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                         <p className="m-0 font-bold text-earth-green">ORP-5 Secretariat</p>
-                        <p className="m-0">Galgotias University, Greater Noida, India</p>
+                        <p className="m-0">NASC Complex, New Delhi, India</p>
                         <p className="mt-2 mb-0">
                             📧 <a href="mailto:info@orp5.org" className="text-earth-green hover:underline">info@orp5.org</a>
                         </p>

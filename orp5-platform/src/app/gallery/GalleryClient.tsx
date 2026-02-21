@@ -14,9 +14,40 @@ export default function GalleryClient() {
     const [activeFilter, setActiveFilter] = useState("All Photos");
 
     useEffect(() => {
-        fetch("/api/content/gallery")
-            .then((res) => res.json())
-            .then((jsonData) => setData(jsonData));
+        Promise.all([
+            fetch("/api/content/gallery").then((res) => res.json()),
+            fetch("/api/content/homepage").then((res) => res.json()).catch(() => null),
+        ]).then(([galleryData, homeData]) => {
+            // Merge homepage gallery images into mainGallery if mainGallery is empty
+            const homeGalleryImages = (homeData?.gallery || [])
+                .filter((img: any) => img.url)
+                .map((img: any, i: number) => ({
+                    id: `home-${i}`,
+                    image: img.url,
+                    title: img.caption || `Gallery Image ${i + 1}`,
+                    category: "All Photos",
+                }));
+
+            const existingMain = galleryData.mainGallery || [];
+            const existingFeatured = galleryData.featuredGallery || [];
+
+            // Use homepage images if no gallery-specific images exist
+            const mergedMain = existingMain.length > 0 ? existingMain : homeGalleryImages;
+            const mergedFeatured = existingFeatured.length > 0 ? existingFeatured : homeGalleryImages.slice(0, 3);
+
+            // Filter out "Explore Exhibition" button from footerCta
+            if (galleryData.footerCta?.buttons) {
+                galleryData.footerCta.buttons = galleryData.footerCta.buttons.filter(
+                    (btn: any) => btn.label !== "Explore Exhibition"
+                );
+            }
+
+            setData({
+                ...galleryData,
+                mainGallery: mergedMain,
+                featuredGallery: mergedFeatured,
+            });
+        });
     }, []);
 
     const getIcon = (name: string) => {

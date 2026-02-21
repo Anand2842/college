@@ -313,6 +313,7 @@ export default function SponsorshipClient() {
                 </div>
             </motion.div>
 
+            <Footer />
         </main>
     );
 }

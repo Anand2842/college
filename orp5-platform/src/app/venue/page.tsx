@@ -117,7 +117,7 @@ export default async function VenuePage() {
 
                     <div className="bg-white p-10 rounded-2xl shadow-sm border border-gray-200">
                         <h2 className="text-2xl font-serif font-bold text-charcoal mb-6">Location & Address</h2>
-                        <p className="font-bold text-charcoal mb-4">Galgotias University,</p>
+                        <p className="font-bold text-charcoal mb-4">NASC Complex,</p>
                         <p className="text-gray-600 mb-8 leading-relaxed max-w-sm">
                             {data.location.address}
                         </p>

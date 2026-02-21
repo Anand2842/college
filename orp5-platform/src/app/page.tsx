@@ -8,6 +8,7 @@ import { FAQItem } from "@/components/molecules/FAQItem";
 import { DateStep } from "@/components/molecules/DateStep";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { Footer } from "@/components/organisms/Footer";
+import { GalleryCarousel } from "@/components/molecules/GalleryCarousel";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   Info, Leaf, Calendar, UserPlus, Sprout, Mountain, Apple,
@@ -232,25 +233,8 @@ export default async function Home() {
       <section className="py-24 bg-[#FDFCF8]">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle title="Gallery Preview" subtitle="Moments from past successful symposia." centered />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-            {data.gallery?.map((img: any, i: number) => (
-              <div key={i} className="overflow-hidden rounded-2xl h-64 shadow-md group relative">
-                {img.url ? (
-                  <Image
-                    src={img.url}
-                    alt="Gallery"
-                    fill
-                    loading="lazy"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
-                    <span className="text-xs">No Image</span>
-                  </div>
-                )}
-              </div>
-            ))}
+          <div className="mt-16">
+            <GalleryCarousel images={data.gallery || []} />
           </div>
           <div className="text-center mt-10">
             <Link href="/gallery" className="text-earth-green font-serif italic text-sm hover:underline">

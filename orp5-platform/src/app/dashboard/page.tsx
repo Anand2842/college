@@ -75,7 +75,7 @@ export default async function DashboardPage() {
                                     <p className="text-sm text-gray-500 mb-6">You haven't submitted any abstracts yet. Share your research with the global community.</p>
 
                                     <div className="text-left bg-gray-50 p-4 rounded-lg mb-6 text-sm text-gray-600 space-y-2">
-                                        <p className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-earth-green text-white flex items-center justify-center text-xs font-bold">1</span> Prepare your abstract (max 300 words)</p>
+                                        <p className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-earth-green text-white flex items-center justify-center text-xs font-bold">1</span> Prepare your abstract (max 500 words)</p>
                                         <p className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-earth-green text-white flex items-center justify-center text-xs font-bold">2</span> Submit via portal</p>
                                         <p className="flex items-center gap-2"><span className="w-5 h-5 rounded-full bg-gray-300 text-white flex items-center justify-center text-xs font-bold">3</span> Wait for review</p>
                                     </div>
