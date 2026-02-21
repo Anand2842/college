@@ -427,10 +427,10 @@ export async function getHomepageData() {
         withTimeout(supabase.from('ImportantDate').select('*').order('order'), 10000),
     ]);
 
-    const themes = themesResult.status === 'fulfilled' ? themesResult.value?.data : null;
-    const speakers = speakersResult.status === 'fulfilled' ? speakersResult.value?.data : null;
-    const partners = partnersResult.status === 'fulfilled' ? partnersResult.value?.data : null;
-    const dates = datesResult.status === 'fulfilled' ? datesResult.value?.data : null;
+    const themes = themesResult.status === 'fulfilled' ? (themesResult.value as any)?.data : null;
+    const speakers = speakersResult.status === 'fulfilled' ? (speakersResult.value as any)?.data : null;
+    const partners = partnersResult.status === 'fulfilled' ? (partnersResult.value as any)?.data : null;
+    const dates = datesResult.status === 'fulfilled' ? (datesResult.value as any)?.data : null;
 
     // Homepage speakers logic: usually shows a subset. 
     // The seed script migrated `homepage.speakers` -> ?
