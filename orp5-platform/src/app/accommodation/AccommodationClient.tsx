@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Star, Clock, Bus, Mail, Wifi, Utensils, Plane, Dumbbell, Waves, Briefcase, Bed, Building } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -18,13 +19,17 @@ export default function AccommodationClient() {
     }, []);
 
     const getAmenityIcon = (name: string) => {
-        if (name.includes("Wi-Fi")) return <Wifi size={14} className="mr-1" />;
-        if (name.includes("Breakfast")) return <Utensils size={14} className="mr-1" />;
-        if (name.includes("Airport")) return <Plane size={14} className="mr-1" />;
-        if (name.includes("Shuttle")) return <Bus size={14} className="mr-1" />;
-        if (name.includes("Gym")) return <Dumbbell size={14} className="mr-1" />;
-        if (name.includes("Swimming")) return <Waves size={14} className="mr-1" />;
-        return <Star size={14} className="mr-1" />;
+        switch (name) {
+            case "Wifi": return <Wifi size={16} />;
+            case "Utensils": return <Utensils size={16} />;
+            case "Plane": return <Plane size={16} />;
+            case "Bus": return <Bus size={16} />;
+            case "Dumbbell": return <Dumbbell size={16} />;
+            case "Waves": return <Waves size={16} />;
+            case "Briefcase": return <Briefcase size={16} />;
+            case "Bed": return <Bed size={16} />;
+            default: return <Building size={16} />;
+        }
     };
 
     const getTypeIcon = (name: string) => {
@@ -45,45 +50,13 @@ export default function AccommodationClient() {
         <main className="min-h-screen bg-[#F9F7F0] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#0D241B] min-h-[60vh] flex items-center justify-center relative overflow-hidden pt-20">
-                <div className="absolute inset-0 z-0 bg-[#0D241B]">
-                    {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="Hotel" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0D241B] via-transparent to-transparent"></div>
-                </div>
-
-                <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl text-white">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl md:text-5xl font-serif font-bold mb-6 tracking-tight leading-tight"
-                    >
-                        {data.hero.headline}
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-lg text-emerald-100/90 max-w-2xl mx-auto leading-relaxed mb-10"
-                    >
-                        {data.hero.subheadline}
-                    </motion.p>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="flex flex-wrap justify-center gap-4"
-                    >
-                        {data.hero.buttons.map((btn: any, i: number) => (
-                            <Link key={i} href={btn.link}>
-                                <Button className={btn.variant === "primary" ? "bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full" : "bg-white text-charcoal hover:bg-gray-100 font-bold px-8 py-3 rounded-full"}>
-                                    {btn.label}
-                                </Button>
-                            </Link>
-                        ))}
-                    </motion.div>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Accommodation"
+                buttons={data.hero.buttons}
+            />
 
             {/* Info Bar */}
             <div className="bg-[#EFECE5] border-b border-gray-200 py-4 text-xs md:text-sm font-medium text-gray-700">
@@ -94,10 +67,10 @@ export default function AccommodationClient() {
                 </div>
             </div>
 
-            {/* Official Partner Hotels */}
+            {/* Convenient Hotels */}
             <div id="official-hotels" className="container mx-auto px-6 py-20">
                 <div className="text-left mb-12">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal">Official Partner Hotels</h2>
+                    <h2 className="text-3xl font-serif font-bold text-charcoal">Convenient Hotels</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -113,9 +86,6 @@ export default function AccommodationClient() {
                         >
                             <div className="h-56 overflow-hidden relative bg-gray-200">
                                 {hotel.image && <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
-                                <div className="absolute top-4 left-4 bg-[#D9A648] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-wider rounded-sm shadow-md">
-                                    Official Partner
-                                </div>
                             </div>
                             <div className="p-6 flex-1 flex flex-col">
                                 <div className="flex justify-between items-start mb-2">

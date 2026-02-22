@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, ChevronDown, ChevronUp, FlaskConical, Image as ImageIcon, Store, HelpCircle } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -37,27 +38,13 @@ export default function SubmissionGuidelinesClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="relative h-[500px] flex items-center justify-center text-center text-white px-6">
-                <div className="absolute inset-0 z-0 bg-gray-900">
-                    {data.hero.imageUrl && <img src={data.hero.imageUrl} alt="Background" className="w-full h-full object-cover brightness-[0.3]" />}
-                </div>
-                <div className="relative z-10 max-w-4xl mx-auto">
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tight">{data.hero.headline}</h1>
-                    <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed">{data.hero.subheadline}</p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        {data.hero.buttons.map((btn: any, i: number) => (
-                            <Link key={i} href={btn.link}>
-                                <Button
-                                    className={btn.variant === "primary" ? "bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full text-lg shadow-lg" : "bg-white text-charcoal hover:bg-gray-100 font-bold px-8 py-3 rounded-full text-lg"}
-                                >
-                                    {btn.label}
-                                </Button>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.imageUrl}
+                breadcrumb="Home / Submission Guidelines"
+                buttons={data.hero.buttons}
+            />
 
             <div className="container mx-auto px-6 max-w-4xl py-20">
                 {/* Intro */}

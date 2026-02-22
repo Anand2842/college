@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Globe, Users, Leaf, Sprout, Sun, FlaskConical, Rocket, CheckCircle, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -40,24 +41,13 @@ export default function ExhibitionClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#123125] pt-40 pb-32 text-center text-white relative overflow-hidden">
-                <div className="container mx-auto px-6 relative z-10 max-w-4xl">
-                    <div className="text-earth-green/60 text-sm font-semibold mb-6 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-white transition-colors">Home</Link> / Exhibition
-                    </div>
-                    <h1 className="text-5xl md:text-7xl font-serif font-bold mb-8 tracking-tight">{data.hero.headline}</h1>
-                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">{data.hero.subheadline}</p>
-                    <Link href={data.hero.button.link}>
-                        <Button className="bg-[#DFC074] hover:bg-[#d6b567] text-[#123125] font-bold px-8 py-3 rounded-md text-lg shadow-lg">
-                            {data.hero.button.label}
-                        </Button>
-                    </Link>
-                </div>
-                {/* Decorative background stripes */}
-                <div className="absolute top-0 left-0 w-full h-2 bg-[#DFC074]/20"></div>
-                <div className="absolute bottom-0 left-0 w-full h-2 bg-[#DFC074]/20"></div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Exhibition"
+                buttons={[{ label: data.hero.button.label, link: data.hero.button.link, variant: "primary" as const }]}
+            />
 
             {/* Intro Section */}
             <div className="container mx-auto px-6 py-24 max-w-5xl">

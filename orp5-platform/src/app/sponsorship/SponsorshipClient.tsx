@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Globe, Award, Users, Sprout, CheckCircle, Mail, Phone, Sun, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -44,48 +45,13 @@ export default function SponsorshipClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#123125] pt-40 pb-32 text-center text-white relative overflow-hidden">
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={stagger}
-                    className="container mx-auto px-6 relative z-10 max-w-4xl"
-                >
-                    <motion.div variants={fadeInUp} className="text-earth-green/60 text-sm font-semibold mb-6 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-white transition-colors">Home</Link> / Sponsorship
-                    </motion.div>
-                    <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tight">
-                        {data.hero.headline}
-                    </motion.h1>
-                    <motion.p variants={fadeInUp} className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10">
-                        {data.hero.subheadline}
-                    </motion.p>
-                    <motion.div variants={fadeInUp} className="flex justify-center gap-4">
-                        {data.hero.buttons.map((btn: any, i: number) => (
-                            <Link key={i} href={btn.link}>
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                    <Button className={btn.variant === "primary" ? "bg-[#DFC074] hover:bg-[#d6b567] text-[#123125] font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all" : "bg-transparent text-white border border-white hover:bg-white/10 font-bold px-8 py-3 rounded-full"}>
-                                        {btn.label}
-                                    </Button>
-                                </motion.div>
-                            </Link>
-                        ))}
-                    </motion.div>
-                </motion.div>
-
-                {/* Decorative circles with parallax feel (simple animation) */}
-                <motion.div
-                    animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-20 -left-20 w-96 h-96 bg-[#DFC074]/10 rounded-full blur-3xl"
-                />
-                <motion.div
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute top-1/2 -right-40 w-[30rem] h-[30rem] bg-[#24C535]/10 rounded-full blur-3xl"
-                />
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Sponsorship"
+                buttons={data.hero.buttons}
+            />
 
             {/* Intro Section */}
             <motion.div

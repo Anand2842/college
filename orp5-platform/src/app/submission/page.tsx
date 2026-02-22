@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import SubmissionClient from './SubmissionClient';
 
 export const metadata: Metadata = {
-    title: 'Submission | ORP-5 Conference',
+    title: 'Abstract Submission | ORP-5',
     description: '5th International Conference on Organic & Natural Rice Farming',
 };
 

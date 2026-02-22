@@ -2,12 +2,13 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Venue | ORP-5 Conference',
+    title: 'Conference Venue | ORP-5',
     description: '5th International Conference on Organic & Natural Rice Farming',
 };
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { getVenuePageData } from "@/lib/cms";
 import * as LucideIcons from "lucide-react";
 import { ArrowRight, MapPin, Plane, Train, Hotel } from "lucide-react";
@@ -30,29 +31,12 @@ export default async function VenuePage() {
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal selection:bg-rice-gold/30">
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 z-0 bg-earth-green/80">
-                    {data.hero.backgroundImage && (
-                        <img
-                            src={data.hero.backgroundImage}
-                            alt="Venue Hero"
-                            className="w-full h-full object-cover"
-                        />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-b from-earth-green/80 to-earth-green/90 mix-blend-multiply" />
-                </div>
-                <div className="relative z-10 container mx-auto px-6 text-center text-white">
-
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-                        {data.hero.headline}
-                    </h1>
-                    <div className="w-24 h-1 bg-rice-gold mx-auto mb-8 rounded-full"></div>
-                    <p className="text-xl md:text-2xl text-white/90 font-light max-w-3xl mx-auto leading-relaxed">
-                        {data.hero.subheadline}
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Conference Venue"
+            />
 
             {/* Introduction */}
             <section className="py-20 container mx-auto px-6 max-w-5xl">

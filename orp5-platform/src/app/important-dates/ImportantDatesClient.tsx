@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Calendar, CheckCircle, FileText, Download, Clock } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -27,18 +28,12 @@ export default function ImportantDatesClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#123125] pt-32 pb-24 text-white rounded-b-[40px] mb-8 relative overflow-hidden">
-                <div className="container mx-auto px-6 max-w-5xl relative z-10">
-                    <div className="flex items-center gap-2 text-earth-green/60 text-sm font-semibold mb-4 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-white transition-colors">Home</Link> / Important Dates
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tight">{data.hero.headline}</h1>
-                    <p className="text-xl text-gray-300 max-w-2xl leading-relaxed">{data.hero.subheadline}</p>
-                </div>
-                {/* Decorative circle */}
-                <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-earth-green/10 rounded-full blur-3xl"></div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Important Dates"
+            />
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 max-w-5xl mb-16 relative -mt-12 z-20">

@@ -8,6 +8,7 @@ import { ListEditor } from "@/components/admin/ListEditor";
 import { Save, Loader2, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { FileUploader } from "@/components/admin/FileUploader";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 export default function ImportantDatesEditor() {
     const [data, setData] = useState<any>(null);
@@ -99,6 +100,7 @@ export default function ImportantDatesEditor() {
                             <div className="grid gap-6">
                                 <AdminInput label="Headline" value={data.hero.headline} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
                                 <AdminInput label="Subheadline" value={data.hero.subheadline} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
+                                <ImageUploader label="Background Image" value={data.hero.backgroundImage} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
                             </div>
                         </div>
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">

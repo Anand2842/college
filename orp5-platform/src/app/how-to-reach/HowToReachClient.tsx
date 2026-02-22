@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Plane, Train, TrainFront, Car, Bus, MapPin, ChevronDown, ChevronUp, Clock, Users, Accessibility, ShieldAlert, Phone } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -49,57 +50,13 @@ export default function HowToReachClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#0D241B] min-h-[70vh] flex items-center justify-center relative overflow-hidden pt-24 pb-24">
-                <div className="absolute inset-0 z-0 bg-[#0D241B]">
-                    {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="Travel" className="w-full h-full object-cover opacity-50 mix-blend-overlay" />}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#0D241B] via-[#0D241B]/80 to-transparent"></div>
-                </div>
-
-                <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div className="text-white">
-                        <div className="text-earth-green/80 text-sm font-semibold mb-6 uppercase tracking-widest">
-                            <Link href="/venue" className="hover:text-white transition-colors">Venue</Link> / How to Reach
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tight leading-tight">
-                            {data.hero.headline}
-                        </h1>
-                        <p className="text-lg text-emerald-100/80 max-w-xl leading-relaxed mb-10">
-                            {data.hero.subheadline}
-                        </p>
-                        <Link href="/contact?subject=Pickup">
-                            <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-emerald-500/30 transition-all">
-                                {data.hero.buttonLabel}
-                            </Button>
-                        </Link>
-                    </div>
-
-                    {/* Quick Summary Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="bg-white rounded-2xl p-8 shadow-2xl max-w-sm ml-auto text-charcoal relative overflow-hidden"
-                    >
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#E0F2FE] rounded-full -mr-10 -mt-10 opacity-50 blur-xl"></div>
-                        <h3 className="font-bold text-lg mb-6 border-b pb-2">Quick Summary</h3>
-                        <div className="space-y-4 text-sm">
-                            <div>
-                                <p className="text-[#10B981] font-bold text-xs uppercase mb-1">Venue</p>
-                                <p className="font-medium text-gray-700">{data.quickSummary.venue}</p>
-                            </div>
-                            <div>
-                                <p className="text-[#10B981] font-bold text-xs uppercase mb-1">Dates</p>
-                                <p className="font-medium text-gray-600">{data.quickSummary.dates}</p>
-                            </div>
-                            <div>
-                                <p className="text-red-500 font-bold text-xs uppercase mb-1">Emergency Contact</p>
-                                <p className="font-medium text-gray-600">{data.quickSummary.emergencyContact}</p>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / How to Reach"
+                buttons={[{ label: data.hero.buttonLabel, link: "/contact?subject=Pickup", variant: "primary" as const }]}
+            />
 
             {/* Transport Modes Accordion */}
             <div className="container mx-auto px-6 py-16 max-w-4xl -mt-10 relative z-20">

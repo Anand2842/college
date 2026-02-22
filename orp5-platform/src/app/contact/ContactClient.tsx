@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Mail, MapPin, Clock, Store, MonitorPlay, Handshake } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -33,25 +34,12 @@ export default function ContactClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
             <Navbar variant="dark" />
 
-            {/* Hero Section */}
-            <div className="pt-32 pb-16 px-6">
-                <div className="container mx-auto max-w-5xl rounded-3xl bg-[#0D241B] text-white p-12 md:p-20 text-center relative overflow-hidden">
-                    <div className="relative z-10">
-                        <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4">
-                            Home / Contact Us
-                        </p>
-                        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tight">
-                            {data.hero.headline}
-                        </h1>
-                        <p className="text-lg text-emerald-100/80 max-w-2xl mx-auto leading-relaxed">
-                            {data.hero.subheadline}
-                        </p>
-                    </div>
-                    {/* Decorative circles */}
-                    <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-900/30 rounded-full blur-3xl -ml-20 -mt-20"></div>
-                    <div className="absolute bottom-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl -mr-20 -mb-20"></div>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Contact Us"
+            />
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 mb-16 max-w-4xl">

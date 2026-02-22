@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Calendar, CheckCircle, Upload, FileText } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { SubmissionPageData } from "@/types/pages";
@@ -181,17 +182,12 @@ export default function SubmissionClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#FDFCF8] pt-32 pb-20 text-center">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <div className="flex justify-center items-center gap-2 text-earth-green/60 text-sm font-semibold mb-4 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-earth-green transition-colors">Home</Link> / Abstract Submission
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6 tracking-tight text-charcoal">{data.hero.headline}</h1>
-                    <p className="text-sm text-gray-500 uppercase tracking-widest mb-12">{data.hero.subheadline}</p>
-                    <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">{data.hero.description}</p>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Abstract Submission"
+            />
 
             <div className="container mx-auto px-6 max-w-5xl pb-20">
 

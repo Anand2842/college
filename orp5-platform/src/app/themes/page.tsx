@@ -2,12 +2,13 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Themes | ORP-5 Conference',
+    title: 'Themes | ORP-5',
     description: '5th International Conference on Organic and Natural Rice Production Systems',
 };
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 
 import { getThemesPageData } from "@/lib/cms";
 import * as LucideIcons from "lucide-react"; // Import all icons
@@ -30,21 +31,12 @@ export default async function ThemesPage() {
         <main className="min-h-screen bg-gray-50 font-sans text-charcoal selection:bg-rice-gold/30">
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="relative pt-32 pb-20 overflow-hidden bg-charcoal text-white">
-                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-earth-green/20 rounded-full blur-3xl opacity-50 animate-pulse"></div>
-                <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-rice-gold/10 rounded-full blur-3xl opacity-50"></div>
-
-                <div className="container mx-auto px-6 text-center relative z-10">
-                    <p className="text-rice-gold/80 text-sm font-bold uppercase tracking-widest mb-4">Focus Areas</p>
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">
-                        {data.hero.headline}
-                    </h1>
-                    <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                        {data.hero.subheadline}
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Themes"
+            />
 
             {/* Core Themes Grid */}
             <section className="py-24 container mx-auto px-6">
@@ -106,7 +98,7 @@ export default async function ThemesPage() {
                 <div className="container mx-auto px-6">
                     <div className="bg-earth-green/10 rounded-3xl p-12 md:p-16 border border-earth-green/20 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div>
-                            <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Submit your abstract aligned with any ORP-5 theme.</h2>
+                            <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Submit your abstract aligned with any conference theme.</h2>
                             <p className="text-gray-700">Contribute to the global discussion on organic and natural rice production.</p>
                         </div>
                         <Link href="/submission-guidelines">

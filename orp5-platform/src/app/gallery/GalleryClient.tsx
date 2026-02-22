@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Download, Image as ImageIcon, Newspaper, FileImage, Share2 } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -77,20 +78,12 @@ export default function GalleryClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
             <Navbar variant="dark" />
 
-            {/* Hero Section */}
-            <div className="bg-[#FFFDF7] pt-32 pb-16 text-center">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <p className="text-earth-green/60 text-sm font-semibold mb-4 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-earth-green transition-colors">Home</Link> / Photo Gallery
-                    </p>
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-charcoal tracking-tight">
-                        {data.hero.headline}
-                    </h1>
-                    <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                        {data.hero.subheadline}
-                    </p>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Photo Gallery"
+            />
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 mb-16 max-w-5xl">
