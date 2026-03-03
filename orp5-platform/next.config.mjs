@@ -23,6 +23,11 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
+                hostname: 'orp5ic.jiobase.com',
+                pathname: '/storage/v1/object/public/**',
+            },
+            {
+                protocol: 'https',
                 hostname: 'vvqnxqtiwbfmipawtqet.supabase.co',
                 pathname: '/storage/v1/object/public/**',
             },
