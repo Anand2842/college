@@ -55,7 +55,7 @@ async function main() {
             country: "India",
             phone: "+91-99996-41545",
             email: "info@orp5ic.com | dean.soagri@galgotiasuniversity.edu.in",
-            imageUrl: "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765466683508_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg"
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466683508_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg"
         },
         {
             id: "org3",
@@ -65,7 +65,7 @@ async function main() {
             country: "Italy",
             phone: "", // Not provided
             email: "stefano.bocchi@unimi.it",
-            imageUrl: "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1766777108936_Screenshot_2025-12-27_at_12.54.20_AM.png"
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1766777108936_Screenshot_2025-12-27_at_12.54.20_AM.png"
         },
         {
             id: "org4",
@@ -75,7 +75,7 @@ async function main() {
             country: "India",
             phone: "+91-98684-16215",
             email: "yudhvir.singh@galgotiasuniversity.edu.in",
-            imageUrl: "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765559718240_WhatsApp_Image_2025-12-12_at_08.41.12.jpeg"
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765559718240_WhatsApp_Image_2025-12-12_at_08.41.12.jpeg"
         },
         {
             id: "org5",
@@ -95,7 +95,7 @@ async function main() {
             country: "India",
             phone: "", // Not provided in text block, though earlier had ID. I will respect the text block.
             email: "", // Not provided in text block
-            imageUrl: "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765466707392_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg"
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466707392_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg"
         },
         {
             id: "org7",
@@ -105,7 +105,7 @@ async function main() {
             country: "India",
             phone: "+91-85058-08080",
             email: "nationalpresident@aiasa.co.in",
-            imageUrl: "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765560446758_WhatsApp_Image_2025-12-11_at_18.25.23.jpeg"
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765560446758_WhatsApp_Image_2025-12-11_at_18.25.23.jpeg"
         },
         {
             id: "org8",

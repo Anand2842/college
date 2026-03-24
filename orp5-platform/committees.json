@@ -19,19 +19,19 @@
       "id": "ct1",
       "name": "Prof. (Dr.) Sahadeva Singh",
       "email": "dean.soagri@galgotiasuniversity.edu.in",
-      "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765466822791_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg"
+      "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466822791_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg"
     },
     {
       "id": "ct2",
       "name": "Prof. (Dr.) Uzma Manzoor",
       "email": "uzma.manzoor@galgotiasuniversity.edu.in",
-      "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765466827336_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg"
+      "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466827336_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg"
     },
     {
       "id": "ct3",
       "name": "Prof. (Dr.) Y.V. Singh",
       "email": "yudhvir.singh@galgotiasuniversity.edu.in",
-      "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765559718240_WhatsApp_Image_2025-12-12_at_08.41.12.jpeg"
+      "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765559718240_WhatsApp_Image_2025-12-12_at_08.41.12.jpeg"
     }
   ],
   "committees": [
@@ -43,7 +43,7 @@
           "id": "1765373774645",
           "name": "Prof. Sahadeva Singh",
           "country": "India",
-          "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765466683508_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466683508_WhatsApp_Image_2025-12-11_at_13.58.31.jpeg",
           "affiliation": "Dean, School of Agriculture, Galgotias University"
         },
         {
@@ -57,7 +57,7 @@
           "id": "1765373823692",
           "name": "Prof. Uzma Manzoor",
           "country": "India",
-          "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765466707392_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765466707392_WhatsApp_Image_2025-12-11_at_15.02.20.jpeg",
           "affiliation": "Entomology, Galgotias University"
         },
         {
@@ -71,7 +71,7 @@
           "id": "1765373876895",
           "name": "Prof. Stefano Bocchi",
           "country": "Italy",
-          "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1766777108936_Screenshot_2025-12-27_at_12.54.20_AM.png",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1766777108936_Screenshot_2025-12-27_at_12.54.20_AM.png",
           "affiliation": "Agroecology, University of Milan"
         },
         {
@@ -124,7 +124,7 @@
           "id": "1765560430629",
           "name": "Ninaad Mahajan",
           "country": "India",
-          "imageUrl": "https://orp5ic.jiobase.com/storage/v1/object/public/uploads/1765560446758_WhatsApp_Image_2025-12-11_at_18.25.23.jpeg",
+          "imageUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765560446758_WhatsApp_Image_2025-12-11_at_18.25.23.jpeg",
           "affiliation": "National President, AIASA"
         }
       ]
