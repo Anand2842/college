@@ -137,7 +137,7 @@ export default function HomepageEditor() {
                                     label="Top Text"
                                     value={headlineParts.pre}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeadlineParts(p => ({ ...p, pre: e.target.value }))}
-                                    placeholder="5<sup>th</sup> International Conference on..."
+                                    placeholder="5ᵗʰ International Conference on..."
                                 />
                                 <AdminInput
                                     label="Highlighted Text (Gold)"

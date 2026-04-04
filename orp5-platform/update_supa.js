@@ -19,7 +19,7 @@ async function run() {
   for (const page of data) {
     let strContent = JSON.stringify(page.content);
     if (strContent.includes('5th')) {
-      strContent = strContent.replace(/5th/g, '5<sup>th</sup>');
+      strContent = strContent.replace(/5th/g, '5ᵗʰ');
       const { error: updateError } = await supabase.from('Page').update({ content: JSON.parse(strContent) }).eq('id', page.id);
       if (updateError) console.error('Update err', updateError);
       else console.log('Updated Page:', page.slug);

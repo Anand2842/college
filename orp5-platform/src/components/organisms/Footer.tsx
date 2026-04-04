@@ -17,7 +17,7 @@ export function Footer() {
                             />
                         </div>
                         <p className="text-white/80 text-sm leading-relaxed mb-6">
-                            5<sup>th</sup> International Conference on Organic and Natural Rice Production Systems.
+                            5ᵗʰ International Conference on Organic and Natural Rice Production Systems.
                             <br />
                             Advancing Global Agricultural Innovation & Sustainability.
                         </p>

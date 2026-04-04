@@ -24,7 +24,7 @@ const DEFAULT_PROMO_MODAL = {
         {
             id: "slide-2",
             title: "Register for ORP-5",
-            subtitle: "Secure your spot at the 5<sup>th</sup> International Conference on Organic and Natural Rice Production Systems.",
+            subtitle: "Secure your spot at the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems.",
             ctaLabel: "Register Now",
             ctaLink: "/registration",
             imageUrl: "",

@@ -44,7 +44,7 @@ export default async function Home() {
   // Fallback default data if CMS returns null (first load before admin save)
   const defaultData: any = {
     hero: {
-      headline: "5<sup>th</sup> International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
+      headline: "5ᵗʰ International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
       subheadline: "Cultivating a Sustainable Future",
       backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop"
     },

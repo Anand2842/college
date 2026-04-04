@@ -216,7 +216,7 @@ export async function getRegistrationPageData() {
         hero: { headline: "Registration", subheadline: "Join us for the 5th International Conference on Organic and Natural Rice Production Systems.", statusText: "Registration OPEN" },
         whoCanParticipate: {
             title: "Who Can Participate in ORP-5?",
-            description: "The 5<sup>th</sup> International Conference on Organic and Natural Rice Farming and Production Systems (ORP5) is open to a wide range of national and international stakeholders involved in advancing sustainable, organic, and climate-resilient rice-based agri-food systems. Participation is encouraged from:",
+            description: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP5) is open to a wide range of national and international stakeholders involved in advancing sustainable, organic, and climate-resilient rice-based agri-food systems. Participation is encouraged from:",
             items: [
                 "Scientists and Researchers working in agriculture, organic and natural farming, climate change, soil and plant health, and related disciplines",
                 "Academicians and Faculty Members from agricultural universities and research institutions",
@@ -443,7 +443,7 @@ export async function getHomepageData() {
         // If content.speakers is null/empty, maybe grab top 4 keynote speakers?
         speakers: content.speakers || speakers?.slice(0, 4), // Fallback
         faq: content.faq || [
-            { question: "What is the date and venue of ORP-5?", answer: "The 5<sup>th</sup> International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at Galgotias University, Greater Noida, India." },
+            { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at Galgotias University, Greater Noida, India." },
             { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
             { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
             { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be sent to the conference email (organizingsecretary@orp5ic.com) on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },
