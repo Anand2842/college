@@ -48,6 +48,11 @@ async function getPageContent(slug: string) {
         .maybeSingle();
 
     if (error) {
+        // Bubble up Next.js internal bail-out errors (Dynamic Server Usage)
+        // so Next.js handles them silently instead of Supabase swallowing them and printing scary logs.
+        if (error.message?.includes('Dynamic server usage') || error.details?.includes('Dynamic server usage')) {
+            throw error;
+        }
         console.error(`Error fetching page ${slug}: `, error);
         return null;
     }
