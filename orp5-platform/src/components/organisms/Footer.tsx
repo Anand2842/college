@@ -73,9 +73,9 @@ export function Footer() {
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/60">
                     <p>&copy; 2024-2026 ORP-5 Conference. All rights reserved.</p>
                     <div className="flex gap-6 mt-4 md:mt-0">
-                        <Link href="/about" className="hover:text-white">Privacy Policy</Link>
-                        <Link href="/about" className="hover:text-white">Terms of Service</Link>
-                        <Link href="/sitemap" className="hover:text-white">Sitemap</Link>
+                        <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+                        <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+                        <a href="/sitemap.xml" className="hover:text-white">Sitemap</a>
                     </div>
                 </div>
             </div>
