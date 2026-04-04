@@ -21,7 +21,7 @@ function LoginForm() {
     const [timeLeft, setTimeLeft] = useState<number>(0)
 
     const supabase = createClient()
-    const message = searchParams.get('message')
+    const message = searchParams?.get('message')
 
     // Load rate limit state from storage
     useEffect(() => {

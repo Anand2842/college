@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 export function BlogSearch() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const initialSearch = searchParams.get('q') || '';
+    const initialSearch = searchParams?.get('q') || '';
     const [search, setSearch] = useState(initialSearch);
 
     // Simple debounce effect

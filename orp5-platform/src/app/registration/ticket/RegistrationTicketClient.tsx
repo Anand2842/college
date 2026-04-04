@@ -13,7 +13,7 @@ import {
 
 export default function RegistrationTicketClient() {
     const searchParams = useSearchParams();
-    const id = searchParams.get('id');
+    const id = searchParams?.get('id');
 
     const [pageData, setPageData] = useState<any>(null);
     const [registration, setRegistration] = useState<any>(null);

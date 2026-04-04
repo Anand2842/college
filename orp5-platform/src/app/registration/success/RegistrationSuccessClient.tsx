@@ -11,7 +11,7 @@ import QRCode from "react-qr-code";
 
 export default function RegistrationSuccessClient() {
     const searchParams = useSearchParams();
-    const registrationId = searchParams.get('id');
+    const registrationId = searchParams?.get('id');
 
     const [data, setData] = useState<any>(null);
     const [registration, setRegistration] = useState<any>(null);

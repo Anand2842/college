@@ -15,17 +15,19 @@ export function RegistrationModal() {
 
     // Check for ?register=true
     useEffect(() => {
-        if (searchParams.get("register") === "true") {
+        if (searchParams?.get("register") === "true") {
             openModal();
             // Optional: Clean up URL without refreshing
-            const params = new URLSearchParams(searchParams);
+            const params = new URLSearchParams(searchParams?.toString() || "");
             params.delete("register");
             // If we are on home with just ?register=true, we can replace state
             // But let's just leave it or replace it cleanly.
             // router.replace(`${pathname}?${params.toString()}`, { scroll: false });
             // Actually, leaving it might be fine, but cleaning it is better UX.
             // We can just replace with pathname if no other params.
-            router.replace(pathname, { scroll: false });
+            if (pathname) {
+                router.replace(pathname, { scroll: false });
+            }
         }
     }, [searchParams, openModal, pathname, router]);
 
