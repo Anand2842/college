@@ -33,12 +33,15 @@ export async function PUT(request: Request, { params }: Params) {
         const body = await request.json();
         const supabase = getSupabaseAdmin();
 
+        // Sanitize body to remove fields that might not exist in DB yet (e.g. category)
+        const { category, ...safeBody } = JSON.parse(JSON.stringify(body));
+
         const { data, error } = await supabase
             .from('blog_posts')
             // @ts-ignore
-            .update(body as any)
+            .update(safeBody as any)
             .eq('id', id)
-            .select()
+            .select('id, title, slug, content, excerpt, cover_image, is_published, published_at, created_at, updated_at, author_id')
             .single();
 
         if (error) {

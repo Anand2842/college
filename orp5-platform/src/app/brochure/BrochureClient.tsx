@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Download, Info, FlaskConical, CalendarDays, Users, MapPin, BedDouble, FileText, Image as ImageIcon, Store, Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -40,25 +41,12 @@ export default function BrochureClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
-            {/* Hero Section - Card Style */}
-            <div className="pt-32 pb-16 px-6">
-                <div className="container mx-auto max-w-6xl rounded-3xl overflow-hidden relative min-h-[500px] flex items-end bg-gray-900">
-                    {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="Brochure Background" className="absolute inset-0 w-full h-full object-cover" />}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-
-                    <div className="relative z-10 p-10 md:p-16 text-white max-w-4xl">
-                        <p className="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
-                            Home / Brochure
-                        </p>
-                        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tight leading-none">
-                            {data.hero.headline}
-                        </h1>
-                        <p className="text-lg md:text-xl text-emerald-100/90 leading-relaxed font-light">
-                            {data.hero.subheadline}
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Brochure"
+            />
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 mb-16 max-w-5xl">

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import AwardsClient from './AwardsClient';
 
 export const metadata: Metadata = {
-    title: 'Awards | ORP-5 Conference',
+    title: 'Awards & Prizes | ORP-5',
     description: '5th International Conference on Organic & Natural Rice Farming',
 };
 

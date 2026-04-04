@@ -86,7 +86,7 @@ export default function AccommodationEditor() {
                 <AdminTabs
                     activeTab={activeTab}
                     onTabChange={setActiveTab}
-                    tabs={["Hero & Info", "Official Hotels", "Nearby Hotels", "Types & CTA"]}
+                    tabs={["Hero & Info", "Convenient Hotels", "Nearby Hotels", "Types & CTA"]}
                 />
 
                 {activeTab === "Hero & Info" && (
@@ -110,9 +110,9 @@ export default function AccommodationEditor() {
                     </div>
                 )}
 
-                {activeTab === "Official Hotels" && (
+                {activeTab === "Convenient Hotels" && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Official Partner Hotels</h2>
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Convenient Hotels</h2>
                         <ListEditor
                             title="Hotels"
                             items={data.officialHotels || []}

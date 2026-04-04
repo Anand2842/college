@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Settings, Edit, LayoutDashboard, X } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/client";
 
 // Map public routes to their admin editor counterparts
 const routeMapping: Record<string, string> = {
@@ -38,7 +39,6 @@ export function AdminToolbar() {
     useEffect(() => {
         // Check if user is admin client-side
         const checkAdmin = async () => {
-            const { createClient } = await import("@/utils/supabase/client");
             const supabase = createClient();
 
             const { data: { user } } = await supabase.auth.getUser();

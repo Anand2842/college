@@ -4,14 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 let supabaseAdminInstance: ReturnType<typeof createClient> | null = null;
 
 export const getSupabaseAdmin = () => {
-    if (supabaseAdminInstance) return supabaseAdminInstance;
-
+    // Always create a new instance to prevent schema caching issues in serverless/edge overrides
+    // or long-running node processes.
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
     if (!supabaseUrl) throw new Error("NEXT_PUBLIC_SUPABASE_URL is required");
 
-    supabaseAdminInstance = createClient(supabaseUrl, supabaseServiceKey, {
+    return createClient(supabaseUrl, supabaseServiceKey, {
         auth: {
             persistSession: false,
             autoRefreshToken: false,
@@ -25,8 +25,6 @@ export const getSupabaseAdmin = () => {
             },
         },
     });
-
-    return supabaseAdminInstance;
 };
 
 // Backwards compatibility for existing imports (but safer to migrate them)

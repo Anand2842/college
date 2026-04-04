@@ -6,34 +6,32 @@ import { Button } from "@/components/atoms/Button";
 import { Check, CheckCircle2, ChevronRight, Download, Calendar, User, Globe, CreditCard, Monitor } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// --- FEE LOGIC EXCTRACTED FROM PAGE CONTENT ---
+// --- FEE LOGIC - UPDATED JAN 2026 ---
 const FEE_STRUCTURE = {
     physical: {
         indian: {
-            "UG/PG Student": { member: 2500, nonMember: 3000 },
-            "Research Scholar/SRF/RA": { member: 3500, nonMember: 4000 },
-            "Scientist/Professional": { member: 6000, nonMember: 7000 },
-            "Innovative Farmer": { member: 1000, nonMember: 1500 },
-            "Accompanied Person": { member: 2000, nonMember: 2000 },
-            "Corporate/Industry": { member: 10000, nonMember: 10000 },
+            "UG Student": { member: 2500, nonMember: 3500 },
+            "PG Student/Research Scholar": { member: 3000, nonMember: 4000 },
+            "Scientist/Professional": { member: 8000, nonMember: 10000 },
+            "Innovative Farmer (KKM/AIASA)": { member: 2700, nonMember: 3700 },
         },
         foreign: {
-            "Student": 100,
-            "Scientist/Professional": 200,
-            "Accompanied Person": 100
+            "UG Student": 250,
+            "PG Student/Research Scholar": 300,
+            "Scientist/Professional": 500
         }
     },
     virtual: {
         indian: {
-            "UG/PG Student": { member: 1000, nonMember: 1500 },
-            "Research Scholar/SRF/RA": { member: 1500, nonMember: 2000 },
-            "Scientist/Professional": { member: 3000, nonMember: 4000 },
-            "Innovative Farmer": { member: 500, nonMember: 1000 },
-            "Corporate/Industry": { member: 5000, nonMember: 5000 },
+            "UG Student": { member: 1000, nonMember: 1300 },
+            "PG Student/Research Scholar": { member: 1500, nonMember: 1700 },
+            "Scientist/Professional": { member: 2800, nonMember: 3600 },
+            "Innovative Farmer (KKM/AIASA)": { member: 900, nonMember: 1300 },
         },
         foreign: {
-            "Student": 50,
-            "Scientist/Professional": 100
+            "UG Student": 25,
+            "PG Student/Research Scholar": 35,
+            "Scientist/Professional": 50
         }
     }
 } as const;
@@ -98,7 +96,29 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
 
     const handleNext = (e?: React.FormEvent) => {
         e?.preventDefault();
-        // Validation logic could go here
+
+        // Step validation
+        if (step === 1) {
+            // Validate personal info
+            if (!formData.fullName || !formData.email || !formData.phone || !formData.institution || !formData.designation) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+            // Basic email validation
+            if (!formData.email.includes('@')) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+        }
+
+        if (step === 2) {
+            // Validate category selection
+            if (!formData.category) {
+                alert("Please select a category.");
+                return;
+            }
+        }
+
         if (step < 3) setStep(step + 1);
     };
 
@@ -114,14 +134,8 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
             const data = await res.json();
 
             if (res.ok && data.ticketId) {
-                // Redirect to Payment Gateway
-                // REPLACE THIS LINK with your actual payment link provided by your bank/gateway
-                const PAYMENT_URL = "https://example.com/replace-with-your-payment-link";
-
-                // Optional: Append Ticket ID or Email for tracking
-                // window.location.href = `${PAYMENT_URL}?ref=${data.ticketId}&email=${formData.email}`;
-
-                window.location.href = PAYMENT_URL;
+                // Redirect to success page with ticket ID
+                router.push(`/registration/success?id=${data.ticketId}`);
             } else {
                 alert("Registration failed. Please try again.");
             }
@@ -182,7 +196,7 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
 
     // --- Form Wizard ---
     return (
-        <form id="registration-form" onSubmit={step === 3 ? handleSubmit : handleNext} className="bg-white rounded-3xl p-8 shadow-large border border-gray-100 max-w-4xl mx-auto relative overflow-hidden">
+        <form id="registration-form" onSubmit={(e) => e.preventDefault()} className="bg-white rounded-3xl p-8 shadow-large border border-gray-100 max-w-4xl mx-auto relative overflow-hidden">
             {/* Progress Bar */}
             <div className="absolute top-0 left-0 h-1.5 bg-gray-100 w-full">
                 <div
@@ -255,27 +269,27 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
                             <div className="space-y-2 col-span-2 md:col-span-1">
                                 <label className="text-sm font-bold text-gray-700">Full Name</label>
-                                <input name="fullName" value={formData.fullName} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="Dr. John Doe" required />
+                                <input name="fullName" value={formData.fullName} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="Dr. John Doe" />
                             </div>
                             <div className="space-y-2 col-span-2 md:col-span-1">
                                 <label className="text-sm font-bold text-gray-700">Email Address</label>
-                                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="john@university.edu" required />
+                                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="john@university.edu" />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-gray-700">Phone / WhatsApp</label>
-                                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="+91 98765 43210" required />
+                                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="+91 98765 43210" />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-gray-700">Country</label>
-                                <input name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" required />
+                                <input name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" />
                             </div>
                             <div className="space-y-2 col-span-2">
                                 <label className="text-sm font-bold text-gray-700">Institution / Organization</label>
-                                <input name="institution" value={formData.institution} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="University of Agriculture, New Delhi" required />
+                                <input name="institution" value={formData.institution} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="University of Agriculture, New Delhi" />
                             </div>
                             <div className="space-y-2 col-span-2">
                                 <label className="text-sm font-bold text-gray-700">Designation</label>
-                                <input name="designation" value={formData.designation} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="Professor / Student / Scientist" required />
+                                <input name="designation" value={formData.designation} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="Professor / Student / Scientist" />
                             </div>
                         </div>
                     )}
@@ -285,7 +299,7 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
                         <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
                             <div className="space-y-3">
                                 <label className="text-sm font-bold text-gray-700">Select Category</label>
-                                <select name="category" value={formData.category} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" required>
+                                <select name="category" value={formData.category} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none">
                                     <option value="">-- Select Category --</option>
                                     {Object.keys(formData.nationality === "indian" ? FEE_STRUCTURE[formData.mode].indian : FEE_STRUCTURE[formData.mode].foreign).map(cat => (
                                         <option key={cat} value={cat}>{cat}</option>
@@ -336,18 +350,51 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
                                 </ul>
                             </div>
 
-                            <div className="space-y-4">
-                                <div className="text-center">
-                                    <p className="text-gray-600 mb-4">
-                                        You are about to be redirected to our secure payment gateway to complete your registration.
-                                    </p>
-                                    <div className="flex justify-center">
-                                        <div className="bg-gray-100 p-4 rounded-lg flex gap-4 items-center opacity-75">
-                                            <CreditCard className="text-gray-500" />
-                                            <span className="text-sm font-semibold text-gray-500">Secure Payment Gateway</span>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {/* QR Code Payment */}
+                                <div className="flex flex-col items-center p-4 bg-white rounded-xl border border-gray-200">
+                                    <h5 className="font-bold text-charcoal mb-3">Pay via UPI</h5>
+                                    <div className="bg-white p-3 rounded-lg border-2 border-earth-green/20 mb-3">
+                                        <img
+                                            src="/payment-qr.png"
+                                            alt="UPI Payment QR Code"
+                                            className="w-36 h-36 object-contain"
+                                        />
+                                    </div>
+                                    <p className="text-xs text-gray-500 mb-2">Scan with any UPI app</p>
+                                    <code className="bg-gray-100 px-3 py-1 rounded text-sm font-mono text-earth-green">
+                                        orp5conference@sbi
+                                    </code>
+                                </div>
+
+                                {/* Bank Transfer Details */}
+                                <div className="p-4 bg-white rounded-xl border border-gray-200">
+                                    <h5 className="font-bold text-charcoal mb-3">Bank Transfer</h5>
+                                    <div className="space-y-2 text-sm">
+                                        <div className="flex justify-between py-1 border-b border-gray-100">
+                                            <span className="text-gray-500">Account Name</span>
+                                            <span className="font-medium">ORP 5 Conference</span>
+                                        </div>
+                                        <div className="flex justify-between py-1 border-b border-gray-100">
+                                            <span className="text-gray-500">Account No.</span>
+                                            <span className="font-mono font-medium">44767771724</span>
+                                        </div>
+                                        <div className="flex justify-between py-1 border-b border-gray-100">
+                                            <span className="text-gray-500">IFSC Code</span>
+                                            <span className="font-mono font-medium">SBIN0005389</span>
+                                        </div>
+                                        <div className="flex justify-between py-1">
+                                            <span className="text-gray-500">Bank</span>
+                                            <span className="font-medium text-right text-xs">SBI, Pusa Complex, Delhi</span>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+                                <p className="text-sm text-amber-800">
+                                    <strong>Note:</strong> Click "Submit Registration" below. After payment, our team will verify and confirm your registration within 24-48 hours. You will receive a confirmation email with your QR ticket.
+                                </p>
                             </div>
                         </div>
                     )}
@@ -358,12 +405,12 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
                             <Button type="button" variant="outline" onClick={() => setStep(step - 1)}>Back</Button>
                         )}
                         {step < 3 ? (
-                            <Button type="submit" onClick={handleNext} className="bg-earth-green text-white hover:bg-earth-green/90 px-8">
+                            <Button type="button" onClick={handleNext} className="bg-earth-green text-white hover:bg-earth-green/90 px-8">
                                 Next Step <ChevronRight size={16} className="ml-2" />
                             </Button>
                         ) : (
-                            <Button type="submit" disabled={loading} className="bg-rice-gold text-charcoal hover:bg-rice-gold/90 font-bold px-8 min-w-[200px]">
-                                {loading ? "Redirecting..." : `Proceed to Pay ${formData.currency} ${formData.feeAmount}`}
+                            <Button type="button" onClick={handleSubmit} disabled={loading} className="bg-rice-gold text-charcoal hover:bg-rice-gold/90 font-bold px-8 min-w-[200px]">
+                                {loading ? "Submitting..." : `Submit Registration (${formData.currency} ${formData.feeAmount})`}
                             </Button>
                         )}
                     </div>

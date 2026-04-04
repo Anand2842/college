@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Download, Image as ImageIcon, Newspaper, FileImage, Share2 } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -14,9 +15,40 @@ export default function GalleryClient() {
     const [activeFilter, setActiveFilter] = useState("All Photos");
 
     useEffect(() => {
-        fetch("/api/content/gallery")
-            .then((res) => res.json())
-            .then((jsonData) => setData(jsonData));
+        Promise.all([
+            fetch("/api/content/gallery").then((res) => res.json()),
+            fetch("/api/content/homepage").then((res) => res.json()).catch(() => null),
+        ]).then(([galleryData, homeData]) => {
+            // Merge homepage gallery images into mainGallery if mainGallery is empty
+            const homeGalleryImages = (homeData?.gallery || [])
+                .filter((img: any) => img.url)
+                .map((img: any, i: number) => ({
+                    id: `home-${i}`,
+                    image: img.url,
+                    title: img.caption || `Gallery Image ${i + 1}`,
+                    category: "All Photos",
+                }));
+
+            const existingMain = galleryData.mainGallery || [];
+            const existingFeatured = galleryData.featuredGallery || [];
+
+            // Use homepage images if no gallery-specific images exist
+            const mergedMain = existingMain.length > 0 ? existingMain : homeGalleryImages;
+            const mergedFeatured = existingFeatured.length > 0 ? existingFeatured : homeGalleryImages.slice(0, 3);
+
+            // Filter out "Explore Exhibition" button from footerCta
+            if (galleryData.footerCta?.buttons) {
+                galleryData.footerCta.buttons = galleryData.footerCta.buttons.filter(
+                    (btn: any) => btn.label !== "Explore Exhibition"
+                );
+            }
+
+            setData({
+                ...galleryData,
+                mainGallery: mergedMain,
+                featuredGallery: mergedFeatured,
+            });
+        });
     }, []);
 
     const getIcon = (name: string) => {
@@ -46,20 +78,12 @@ export default function GalleryClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
             <Navbar variant="dark" />
 
-            {/* Hero Section */}
-            <div className="bg-[#FFFDF7] pt-32 pb-16 text-center">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <p className="text-earth-green/60 text-sm font-semibold mb-4 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-earth-green transition-colors">Home</Link> / Photo Gallery
-                    </p>
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-charcoal tracking-tight">
-                        {data.hero.headline}
-                    </h1>
-                    <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                        {data.hero.subheadline}
-                    </p>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Photo Gallery"
+            />
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 mb-16 max-w-5xl">

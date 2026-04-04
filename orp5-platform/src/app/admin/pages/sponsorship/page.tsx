@@ -6,6 +6,7 @@ import { AdminInput } from "@/components/admin/AdminInput";
 import { AdminTabs } from "@/components/admin/AdminTabs";
 import { ListEditor } from "@/components/admin/ListEditor";
 import { Save, Loader2, ExternalLink } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import Link from "next/link";
 
 export default function SponsorshipPageEditor() {
@@ -106,6 +107,7 @@ export default function SponsorshipPageEditor() {
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Hero Section</h2>
                             <AdminInput label="Headline" value={data.hero.headline} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
                             <AdminInput label="Subheadline" value={data.hero.subheadline} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
+                            <ImageUploader label="Background Image" value={data.hero.backgroundImage} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
                         </div>
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Introduction</h2>

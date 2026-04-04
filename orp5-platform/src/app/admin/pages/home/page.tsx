@@ -159,6 +159,35 @@ export default function HomepageEditor() {
                                 value={data.hero.subheadline}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "subheadline", e.target.value)}
                             />
+
+                            <AdminInput
+                                label="Conference Date Display"
+                                helperText="The date string displayed in the hero section (e.g. 21–25 September 2026)"
+                                value={data.hero.dateString || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "dateString", e.target.value)}
+                            />
+
+                            <AdminInput
+                                label="Registration Banner Text"
+                                helperText="The large heading in the green registration section (bottom of page)"
+                                value={data.hero.registrationBannerText || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "registrationBannerText", e.target.value)}
+                            />
+
+                            <AdminInput
+                                label="Registration Start Date (Optional)"
+                                helperText="YYYY-MM-DD format (e.g. 2026-06-01). Leave empty to HIDE the countdown."
+                                value={data.hero.registrationStart || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "registrationStart", e.target.value)}
+                            />
+
+                            <AdminInput
+                                label="Registration Counter Label (Optional)"
+                                helperText="Custom text above the timer (default: 'Registration Opens In')"
+                                value={data.hero.registrationStatusText || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("hero", "registrationStatusText", e.target.value)}
+                            />
+
                             <div>
                                 <ImageUploader
                                     label="Hero Background Image"

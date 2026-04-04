@@ -81,6 +81,7 @@ export default function BlogPostForm({ initialData, isEditing = false }: BlogPos
         try {
             const payload = {
                 ...formData,
+                slug: formData.slug.replace(/^\/+/, ''), // Ensure no leading slashes
                 published_at: formData.is_published
                     ? (initialData?.published_at || new Date().toISOString())
                     : null
@@ -95,13 +96,16 @@ export default function BlogPostForm({ initialData, isEditing = false }: BlogPos
                 body: JSON.stringify(payload)
             });
 
-            if (!res.ok) throw new Error('Failed to save post');
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Failed to save post');
+            }
 
             router.push('/admin/blog');
             router.refresh();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving post:', error);
-            alert('Failed to save post');
+            alert(`Failed to save post: ${error.message}`);
         } finally {
             setLoading(false);
         }

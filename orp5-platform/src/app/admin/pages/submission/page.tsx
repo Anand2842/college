@@ -6,6 +6,7 @@ import { AdminInput } from "@/components/admin/AdminInput";
 import { AdminTabs } from "@/components/admin/AdminTabs";
 import { ListEditor } from "@/components/admin/ListEditor";
 import { Save, Loader2, ExternalLink } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import Link from "next/link";
 
 export default function SubmissionPageEditor() {
@@ -99,6 +100,7 @@ export default function SubmissionPageEditor() {
                             <div className="grid gap-6">
                                 <AdminInput label="Headline" value={data.hero.headline} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
                                 <AdminInput label="Subheadline" value={data.hero.subheadline} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
+                                <ImageUploader label="Background Image" value={data.hero.backgroundImage} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
                                 <textarea
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20"
                                     rows={4}

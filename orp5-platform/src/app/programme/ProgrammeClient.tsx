@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Calendar, Clock, MapPin, Download, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
@@ -31,33 +32,13 @@ export default function ProgrammeClient() {
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal selection:bg-rice-gold/30">
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="relative pt-32 pb-20 overflow-hidden bg-charcoal text-white">
-                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-earth-green/20 rounded-full blur-3xl opacity-50 animate-pulse"></div>
-
-                <div className="container mx-auto px-6 max-w-5xl relative z-10 flex flex-col md:flex-row items-center gap-12">
-                    <div className="flex-1">
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-                            {data.hero.headline}
-                        </h1>
-                        <p className="text-xl text-gray-300 leading-relaxed mb-8">
-                            {data.hero.subheadline}
-                        </p>
-                        <Link href="/registration">
-                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-md">Register Now</Button>
-                        </Link>
-                    </div>
-                    {/* Decorative trees/plants graphic placeholder */}
-                    <div className="hidden md:block opacity-30">
-                        {/* This would be an SVG or image in reality */}
-                        <div className="w-64 h-32 border-b-2 border-white/20 flex items-end justify-between">
-                            <div className="w-8 h-12 bg-white/20 rounded-t-full"></div>
-                            <div className="w-12 h-20 bg-white/20 rounded-t-full mx-2"></div>
-                            <div className="w-10 h-16 bg-white/20 rounded-t-full"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Programme"
+                buttons={[{ label: "Register Now", link: "/registration", variant: "primary" as const }]}
+            />
 
             {/* Programme Structure Overview */}
             <section className="py-20 container mx-auto px-6 max-w-4xl">

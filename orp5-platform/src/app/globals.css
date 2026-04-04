@@ -53,4 +53,11 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+
+  /* Reset for responsive images/videos */
+  img,
+  video,
+  iframe {
+    @apply max-w-full h-auto;
+  }
 }

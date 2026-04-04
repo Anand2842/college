@@ -48,7 +48,7 @@ export default function CityClient() {
             {/* Hero Section */}
             <div className="bg-[#0A1F18] min-h-[60vh] flex items-center justify-center text-center text-white relative overflow-hidden pt-20">
                 <div className="absolute inset-0 z-0 bg-[#0A1F18]">
-                    {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="Greater Noida" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />}
+                    {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="New Delhi" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F18] via-transparent to-transparent"></div>
                 </div>
 
@@ -117,7 +117,7 @@ export default function CityClient() {
             {/* About Grid (Location, Weather, Connectivity) */}
             <div className="container mx-auto px-6 py-24 max-w-6xl">
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-12">About Greater Noida</h2>
+                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-12">About New Delhi</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         <div>
                             <div className="flex items-center gap-2 mb-4 text-earth-green font-bold">
@@ -230,6 +230,7 @@ export default function CityClient() {
                 </div>
             </div>
 
+            <Footer />
         </main>
     );
 }

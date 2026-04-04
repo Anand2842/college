@@ -5,6 +5,7 @@ import { AdminInput } from "@/components/admin/AdminInput";
 import { AdminTabs } from "@/components/admin/AdminTabs";
 import { ListEditor } from "@/components/admin/ListEditor";
 import { Loader2 } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import { PageHeader } from "@/components/admin/PageHeader";
 
 export default function ContactEditor() {
@@ -104,6 +105,7 @@ export default function ContactEditor() {
                             <div className="grid gap-6">
                                 <AdminInput label="Headline" value={data.hero.headline} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
                                 <AdminInput label="Subheadline" value={data.hero.subheadline} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
+                                <ImageUploader label="Background Image" value={data.hero.backgroundImage} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
                             </div>
                         </div>
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">

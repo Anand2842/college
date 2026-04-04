@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import HowToReachClient from './HowToReachClient';
 
 export const metadata: Metadata = {
-    title: 'How to reach | ORP-5 Conference',
+    title: 'How to Reach | ORP-5',
     description: '5th International Conference on Organic & Natural Rice Farming',
 };
 

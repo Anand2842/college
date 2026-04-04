@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { BookOpen, FileText, Download } from "lucide-react";
 import Link from 'next/link';
 
@@ -10,17 +11,11 @@ export default function PublicationsClient() {
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal selection:bg-rice-gold/30">
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="bg-charcoal text-white pt-32 pb-20 text-center">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-white">
-                        Publications
-                    </h1>
-                    <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                        Access conference proceedings, abstracts, and journals from ORP-5.
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                headline="Publications"
+                subheadline="Access conference proceedings, abstracts, and journals."
+                breadcrumb="Home / Publications"
+            />
 
             {/* Content Section */}
             <section className="py-20 container mx-auto px-6 max-w-5xl text-center">

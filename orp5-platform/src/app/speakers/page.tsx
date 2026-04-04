@@ -2,13 +2,14 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Speakers | ORP-5 Conference',
+    title: 'Keynote & Invited Speakers | ORP-5',
     description: '5th International Conference on Organic & Natural Rice Farming',
 };
 
 // Force rebuild
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { getSpeakersPageData } from "@/lib/cms";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -22,18 +23,12 @@ export default async function SpeakersPage() {
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal selection:bg-rice-gold/30">
             <Navbar />
 
-            {/* Hero Section - Dark Green */}
-            <section className="bg-charcoal text-white pt-32 pb-20 text-center">
-                <div className="container mx-auto px-6 max-w-4xl">
-
-                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-white">
-                        {data.hero.headline}
-                    </h1>
-                    <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                        {data.hero.subheadline}
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Speakers"
+            />
 
             {/* Intro Section - Beige with Gold Accent */}
             <section className="py-20 container mx-auto px-6 max-w-5xl">

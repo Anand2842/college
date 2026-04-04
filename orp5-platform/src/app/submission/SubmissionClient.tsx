@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
+import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Calendar, CheckCircle, Upload, FileText } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { SubmissionPageData } from "@/types/pages";
@@ -68,9 +69,20 @@ export default function SubmissionClient() {
                     body: formData,
                 });
 
+                if (uploadReq.status === 413) {
+                    throw new Error("File is too large. Please upload a file smaller than 4MB.");
+                }
+
                 if (!uploadReq.ok) {
-                    const err = await uploadReq.json();
-                    throw new Error(err.error || 'File upload failed');
+                    let errorMessage = 'File upload failed';
+                    try {
+                        const err = await uploadReq.json();
+                        errorMessage = err.error || errorMessage;
+                    } catch (e) {
+                        // Fallback if response is not JSON (e.g. 500 HTML page)
+                        errorMessage = `Upload failed with status: ${uploadReq.status}`;
+                    }
+                    throw new Error(errorMessage);
                 }
 
                 const uploadRes = await uploadReq.json();
@@ -84,9 +96,10 @@ export default function SubmissionClient() {
                 category: formState.category,
                 theme: formState.theme,
                 fileUrl: fileUrl,
-                // Extra fields can be added to DB if needed, currently schema supports these core ones
-                fullName: formState.fullName, // Optionally store in JSONB if schema expanded, but strictly schema only has core columns.
-                // For now we map form to strict schema. Table columns: title, topic (theme), category, abstract_text, file_url.
+                authorName: formState.fullName,
+                email: formState.email,
+                phone: formState.phone,
+                institution: formState.institution,
             };
 
             const submitReq = await fetch('/api/submissions', {
@@ -95,14 +108,20 @@ export default function SubmissionClient() {
                 body: JSON.stringify(payload),
             });
 
-            if (submitReq.status === 401) {
-                window.location.href = '/login?redirect=/submission';
-                return;
+            if (submitReq.status === 413) {
+                throw new Error("Request payload is too large.");
             }
 
+
             if (!submitReq.ok) {
-                const err = await submitReq.json();
-                throw new Error(err.error || 'Submission failed');
+                let errorMessage = 'Submission failed';
+                try {
+                    const err = await submitReq.json();
+                    errorMessage = err.error || errorMessage;
+                } catch (e) {
+                    errorMessage = `Submission failed with status: ${submitReq.status}`;
+                }
+                throw new Error(errorMessage);
             }
 
             const submitRes = await submitReq.json();
@@ -163,17 +182,12 @@ export default function SubmissionClient() {
         <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
             <Navbar />
 
-            {/* Hero Section */}
-            <div className="bg-[#FDFCF8] pt-32 pb-20 text-center">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <div className="flex justify-center items-center gap-2 text-earth-green/60 text-sm font-semibold mb-4 uppercase tracking-widest">
-                        <Link href="/" className="hover:text-earth-green transition-colors">Home</Link> / Abstract Submission
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6 tracking-tight text-charcoal">{data.hero.headline}</h1>
-                    <p className="text-sm text-gray-500 uppercase tracking-widest mb-12">{data.hero.subheadline}</p>
-                    <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">{data.hero.description}</p>
-                </div>
-            </div>
+            <PageHero
+                headline={data.hero.headline}
+                subheadline={data.hero.subheadline}
+                backgroundImage={data.hero.backgroundImage}
+                breadcrumb="Home / Abstract Submission"
+            />
 
             <div className="container mx-auto px-6 max-w-5xl pb-20">
 
@@ -269,7 +283,7 @@ export default function SubmissionClient() {
                         <div>
                             <label className="block text-sm text-gray-500 mb-2">Abstract</label>
                             <textarea required name="abstract" value={formState.abstract} onChange={handleInputChange} rows={6} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 text-sm" placeholder="Paste your abstract text here..." />
-                            <p className="text-xs text-gray-400 mt-2">300 words limit. Alternatively you can upload a DOCX file below.</p>
+                            <p className="text-xs text-gray-400 mt-2">500 words limit. Alternatively you can upload a DOCX file below.</p>
                         </div>
 
                         <div>

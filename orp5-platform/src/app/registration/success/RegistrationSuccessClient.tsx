@@ -51,33 +51,33 @@ export default function RegistrationSuccessClient() {
 
     // Use real registration data if available, otherwise show placeholder
     const displayUser = registration ? {
-        name: registration.fullName || 'N/A',
+        name: registration.fullName || registration.full_name || 'N/A',
         email: registration.email || 'N/A',
         mobile: registration.phone || 'N/A',
-        institution: registration.affiliation || 'N/A',
+        institution: registration.institution || registration.affiliation || 'N/A',
         country: registration.country || 'N/A',
-        registrationId: registration.id || 'N/A',
+        registrationId: registration.ticket_number || registration.id || 'N/A',
         category: registration.category || 'General Delegate',
-        mode: 'Online',
+        mode: registration.mode || 'Physical',
         submittedOn: registration.submittedAt ? new Date(registration.submittedAt).toLocaleDateString() : 'N/A',
-        fees: data.mockUser?.fees || { registration: 'Pending', tax: 'N/A', total: 'Pending' },
-        payment: data.mockUser?.payment || { mode: 'Bank Transfer (Pending)' }
+        fees: {
+            registration: `${registration.currency === 'USD' ? '$' : '₹'}${registration.fee_amount || registration.feeAmount || 0}`,
+            total: `${registration.currency === 'USD' ? '$' : '₹'}${registration.fee_amount || registration.feeAmount || 0}`
+        },
+        payment: { mode: registration.payment_status === 'paid' ? 'Confirmed' : 'Bank Transfer (Pending Verification)' }
     } : data.mockUser;
 
     return (
         <main className="min-h-screen bg-[#F9F9F7] font-sans text-charcoal flex flex-col">
             <Navbar />
 
-            {/* Header Section with Pattern */}
+            {/* Header Section */}
             <div className="bg-[#FFFDF7] pt-28 pb-12 relative overflow-hidden border-b border-gray-100">
                 <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#243e36 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
                 <div className="container mx-auto px-6 max-w-4xl relative z-10 text-center">
-                    <h5 className="text-gray-400 text-sm uppercase tracking-wide mb-2 font-bold">Home / Registration / Receipt</h5>
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-earth-green/10 uppercase mb-4 tracking-widest">{data.hero.title}</h1>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
-                        <h1 className="text-3xl md:text-4xl font-serif font-bold text-charcoal">{data.hero.title}</h1>
-                    </div>
-                    <p className="text-orange-800/80 max-w-xl mx-auto mt-8 font-medium">
+                    <p className="text-gray-400 text-sm uppercase tracking-wide mb-4 font-medium">Home / Registration / Receipt</p>
+                    <h1 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">{data.hero.title}</h1>
+                    <p className="text-gray-600 max-w-xl mx-auto">
                         {data.hero.message}
                     </p>
                 </div>
@@ -161,10 +161,6 @@ export default function RegistrationSuccessClient() {
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Registration Fee</span>
                                             <span className="font-bold text-gray-900">{displayUser.fees.registration}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500">GST / Taxes (18%)</span>
-                                            <span className="font-bold text-gray-900">{displayUser.fees.tax}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Payment Mode</span>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Merriweather } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -23,12 +24,15 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5.org'),
   title: {
-    template: '%s | ORP-5',
+    template: '%s',
     default: '5th International Conference on Organic and Natural Rice Production Systems'
   },
   description: "5th International Conference on Organic and Natural Rice Production Systems",
   verification: {
     google: 'zRwQmTsh44vfMqOPfNQTG9qQ_TUUg9KfSGA3LbXK41A',
+    other: {
+      'msvalidate.01': '1B0138A031A4AC1559B7B1ABAF852723',
+    },
   },
   icons: {
     icon: '/icon.png',
@@ -52,6 +56,19 @@ export default function RootLayout({
           merriweather.variable
         )}
       >
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-516QQW6NKY"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-516QQW6NKY');
+          `}
+        </Script>
         <ErrorBoundary>
           <ClientProviders>
             {children}
@@ -61,6 +78,7 @@ export default function RootLayout({
           </ClientProviders>
         </ErrorBoundary>
       </body>
-    </html>
+    </html >
   );
 }
+
