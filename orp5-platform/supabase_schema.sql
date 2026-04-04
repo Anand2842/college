@@ -158,3 +158,18 @@ CREATE TABLE "Registration" (
 -- CreateIndex
 CREATE UNIQUE INDEX "Registration_email_key" ON "Registration"("email");
 CREATE UNIQUE INDEX "Registration_ticket_number_key" ON "Registration"("ticket_number");
+
+-- CreateTable
+CREATE TABLE "Inquiry" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "full_name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "institution" TEXT,
+    "country" TEXT,
+    "category" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "is_read" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Inquiry_pkey" PRIMARY KEY ("id")
+);

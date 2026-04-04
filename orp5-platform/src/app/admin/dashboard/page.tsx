@@ -28,7 +28,7 @@ const adminData = {
         { title: "Speakers", description: "Update keynote and invited speakers.", icon: "Users", link: "/admin/speakers" },
         { title: "Registrations", description: "View and manage attendee tickets.", icon: "CreditCard", link: "/admin/registrations" },
         { title: "Schedule", description: "Manage programme and sessions.", icon: "Calendar", link: "/admin/schedule" },
-        { title: "Sponsors", description: "Manage partners and exhibition details.", icon: "Store", link: "/admin/sponsors" },
+        { title: "Sponsors", description: "Manage partners and sponsorship details.", icon: "Store", link: "/admin/sponsors" },
         { title: "Blog & News", description: "Manage blog posts and updates.", icon: "FileText", link: "/admin/blog" },
         { title: "Newsletter", description: "Send announcements to subscribers.", icon: "Mail", link: "/admin/newsletter" },
         { title: "QR Check-in", description: "Verify attendee tickets.", icon: "QrCode", link: "/admin/checkin" },

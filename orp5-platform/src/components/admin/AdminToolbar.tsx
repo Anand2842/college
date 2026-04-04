@@ -16,7 +16,6 @@ const routeMapping: Record<string, string> = {
     "/speakers": "/admin/pages/speakers",
     "/awards": "/admin/pages/awards",
     "/brochure": "/admin/pages/brochure",
-    "/exhibition": "/admin/pages/exhibition",
     "/sponsorship": "/admin/pages/sponsorship",
     "/programme": "/admin/pages/programme",
     "/submission-guidelines": "/admin/pages/submission-guidelines",
@@ -32,7 +31,7 @@ const routeMapping: Record<string, string> = {
 };
 
 export function AdminToolbar() {
-    const pathname = usePathname();
+    const pathname = usePathname() || "";
     const [isAdmin, setIsAdmin] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
 

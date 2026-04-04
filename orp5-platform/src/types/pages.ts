@@ -358,6 +358,21 @@ export interface SiteSettings {
         abstractDeadline: string;
         earlyBirdDeadline: string;
     };
+    whatsappGroupLink?: string;
+    promoModal?: {
+        enabled: boolean;
+        slides: Array<{
+            id: string;
+            title: string;
+            subtitle: string;
+            ctaLabel: string;
+            ctaLink: string;
+            imageUrl?: string; // placeholder when blank
+        }>;
+        slideIntervalSeconds: number;
+        showOncePerSession: boolean;
+        delaySeconds: number;
+    };
     meta?: {
         siteName: string;
         description: string;

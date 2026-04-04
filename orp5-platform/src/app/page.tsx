@@ -44,7 +44,7 @@ export default async function Home() {
   // Fallback default data if CMS returns null (first load before admin save)
   const defaultData: any = {
     hero: {
-      headline: "5th International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
+      headline: "5<sup>th</sup> International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
       subheadline: "Cultivating a Sustainable Future",
       backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop"
     },
@@ -77,8 +77,12 @@ export default async function Home() {
       <Hero
         headline={data.hero.headline}
         subheadline={data.hero.subheadline}
+        dateVenueLine={data.hero.dateVenueLine}
         backgroundImage={data.hero.backgroundImage}
         partners={data.partners || []}
+        registrationStart={data.hero.registrationStart}
+        registrationStatusText={data.hero.registrationStatusText}
+        registrationBannerText={data.hero.registrationBannerText}
       />
 
       {/* Quick Access Row - Overlapping Hero */}
@@ -263,7 +267,7 @@ export default async function Home() {
       <section className="py-24 bg-[#123125] relative overflow-hidden text-center text-white">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
         <div className="container relative z-10 px-6">
-          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">Registration opens 1 January 2026</h2>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">{data.hero?.registrationBannerText || 'Registration Open'}</h2>
           <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto font-light">
             Reserve your spot early for the premier organic rice farming conference.
           </p>

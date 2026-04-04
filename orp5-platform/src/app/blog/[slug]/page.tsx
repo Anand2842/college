@@ -42,8 +42,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     };
 }
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Always fetch fresh data from Supabase
+export const revalidate = 0;
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;

@@ -1,11 +1,12 @@
 "use client"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Users, Settings, LogOut, Mail, Newspaper } from "lucide-react";
+import { LayoutDashboard, FileText, Users, Settings, LogOut, Mail, Newspaper, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
+    { icon: MessageCircle, label: "Inquiries", href: "/admin/inquiries" },
     { icon: Mail, label: "Newsletter", href: "/admin/newsletter" },
     { icon: Newspaper, label: "Blog & News", href: "/admin/blog" },
     { icon: FileText, label: "Pages", href: "/admin/pages" }, // Parent for sub-pages
@@ -14,7 +15,7 @@ const menuItems = [
 ];
 
 export function AdminSidebar() {
-    const pathname = usePathname();
+    const pathname = usePathname() || '';
 
     return (
         <div className="w-64 bg-white h-screen border-r border-gray-200 flex flex-col fixed left-0 top-0 z-40">
@@ -89,9 +90,7 @@ export function AdminSidebar() {
                     <Link href="/admin/pages/submission" className={cn("flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors", pathname === "/admin/pages/submission" ? "bg-rice-gold/10 text-yellow-700" : "text-gray-600 hover:bg-gray-50")}>
                         <span className="w-1.5 h-1.5 rounded-full bg-earth-green/50" /> Submission Form
                     </Link>
-                    <Link href="/admin/pages/exhibition" className={cn("flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors", pathname === "/admin/pages/exhibition" ? "bg-rice-gold/10 text-yellow-700" : "text-gray-600 hover:bg-gray-50")}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-earth-green/50" /> Exhibition
-                    </Link>
+
                     <Link href="/admin/pages/sponsorship" className={cn("flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors", pathname === "/admin/pages/sponsorship" ? "bg-rice-gold/10 text-yellow-700" : "text-gray-600 hover:bg-gray-50")}>
                         <span className="w-1.5 h-1.5 rounded-full bg-earth-green/50" /> Sponsorship
                     </Link>

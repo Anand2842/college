@@ -9,8 +9,8 @@ export const metadata: Metadata = {
     description: 'Latest news, updates, and articles from the 5th International Conference on Ovine and Caprine Retrovirology.',
 };
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Always fetch fresh data from Supabase
+export const revalidate = 0;
 
 interface BlogPageProps {
     searchParams: Promise<{ q?: string }>;

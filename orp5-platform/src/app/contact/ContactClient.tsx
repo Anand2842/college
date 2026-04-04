@@ -11,6 +11,56 @@ import { cn } from "@/lib/utils";
 
 export default function ContactClient() {
     const [data, setData] = useState<any>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [formError, setFormError] = useState("");
+
+    // Form states
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [institution, setInstitution] = useState("");
+    const [country, setCountry] = useState("");
+    const [category, setCategory] = useState("General Inquiry");
+    const [message, setMessage] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setFormError("");
+        
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    full_name: fullName,
+                    email,
+                    institution,
+                    country,
+                    category,
+                    message
+                })
+            });
+
+            const result = await res.json();
+            
+            if (!res.ok) throw new Error(result.error || "Failed to submit");
+            
+            setIsSuccess(true);
+            setFullName("");
+            setEmail("");
+            setInstitution("");
+            setCountry("");
+            setCategory("General Inquiry");
+            setMessage("");
+            
+            setTimeout(() => setIsSuccess(false), 5000);
+        } catch (err: any) {
+            setFormError(err.message || "An unexpected error occurred");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     useEffect(() => {
         fetch("/api/content/contact")
@@ -121,30 +171,36 @@ export default function ContactClient() {
                 <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Send us a Message</h2>
                 <p className="text-gray-500 mb-10">We will get back to you as soon as possible.</p>
 
-                <form className="space-y-6 text-left">
+                {formError && (
+                    <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6 text-sm font-medium border border-red-100">
+                        {formError}
+                    </div>
+                )}
+
+                <form className="space-y-6 text-left" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Full Name</label>
-                            <input type="text" placeholder="John Doe" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
+                            <input required value={fullName} onChange={e => setFullName(e.target.value)} type="text" placeholder="John Doe" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Email Address</label>
-                            <input type="email" placeholder="john.doe@example.com" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
+                            <input required value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="john.doe@example.com" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Institution / Organization</label>
-                            <input type="text" placeholder="University of Agriculture" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
+                            <input value={institution} onChange={e => setInstitution(e.target.value)} type="text" placeholder="University of Agriculture" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Country</label>
-                            <input type="text" placeholder="e.g. India" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
+                            <input value={country} onChange={e => setCountry(e.target.value)} type="text" placeholder="e.g. India" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
                         </div>
                     </div>
                     <div>
                         <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Query Category</label>
-                        <select className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981] appearance-none">
+                        <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981] appearance-none">
                             <option>General Inquiry</option>
                             <option>Registration Issue</option>
                             <option>Abstract Submission</option>
@@ -153,11 +209,26 @@ export default function ContactClient() {
                     </div>
                     <div>
                         <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Message</label>
-                        <textarea rows={5} placeholder="Please type your question here..." className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]"></textarea>
+                        <textarea required value={message} onChange={e => setMessage(e.target.value)} rows={5} placeholder="Please type your question here..." className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]"></textarea>
                     </div>
+
+                    {isSuccess && (
+                        <div className="bg-emerald-50 text-emerald-700 p-4 rounded-lg text-sm font-medium border border-emerald-100 flex items-center justify-center text-center">
+                            Thank you! Your message has been sent successfully. We will be in touch soon.
+                        </div>
+                    )}
+
                     <div className="flex justify-end">
-                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full">
-                            Send Message
+                        <Button 
+                            disabled={isSubmitting}
+                            className="bg-[#10B981] disabled:opacity-70 disabled:cursor-not-allowed hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full min-w-[200px]"
+                        >
+                            {isSubmitting ? (
+                                <span className="flex items-center gap-2 justify-center">
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    Sending...
+                                </span>
+                            ) : "Send Message"}
                         </Button>
                     </div>
                 </form>

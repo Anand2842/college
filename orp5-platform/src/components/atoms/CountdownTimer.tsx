@@ -11,9 +11,11 @@ interface TimeLeft {
 }
 
 export function CountdownTimer({ targetDate }: { targetDate: string }) {
+    const [isMounted, setIsMounted] = useState(false);
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
+        setIsMounted(true);
         const calculateTimeLeft = () => {
             const difference = +new Date(targetDate) - +new Date();
             let newTimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -34,6 +36,17 @@ export function CountdownTimer({ targetDate }: { targetDate: string }) {
 
         return () => clearInterval(timer);
     }, [targetDate]);
+
+    if (!isMounted) {
+        return (
+            <div className="flex gap-4 md:gap-6 justify-center mt-12">
+                <TimeUnit value={0} label="Days" />
+                <TimeUnit value={0} label="Hours" />
+                <TimeUnit value={0} label="Minutes" />
+                <TimeUnit value={0} label="Seconds" />
+            </div>
+        );
+    }
 
     return (
         <div className="flex gap-4 md:gap-6 justify-center mt-12 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">

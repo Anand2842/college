@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
 import { ClientProviders } from "@/components/providers/ClientProviders";
+import { WhatsAppWidget } from "@/components/atoms/WhatsAppWidget";
+import { PromoModal } from "@/components/organisms/PromoModal";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,6 +30,11 @@ export const metadata: Metadata = {
   verification: {
     google: 'zRwQmTsh44vfMqOPfNQTG9qQ_TUUg9KfSGA3LbXK41A',
   },
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({
@@ -49,6 +56,8 @@ export default function RootLayout({
           <ClientProviders>
             {children}
             <AdminToolbar />
+            <WhatsAppWidget />
+            <PromoModal />
           </ClientProviders>
         </ErrorBoundary>
       </body>

@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
                         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
                             <h2>Submission Received</h2>
                             <p>Dear ${user.email},</p>
-                            <p>Thank you for submitting your abstract to the 5th International Conference on Organic and Natural Rice Production Systems (ORP-5).</p>
+                            <p>Thank you for submitting your abstract to the 5<sup>th</sup> International Conference on Organic and Natural Rice Production Systems (ORP-5).</p>
                             
                             <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
                                 <p><strong>Title:</strong> ${title}</p>

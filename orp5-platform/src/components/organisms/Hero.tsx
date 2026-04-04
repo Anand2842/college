@@ -8,8 +8,12 @@ import { CountdownTimer } from "@/components/atoms/CountdownTimer"
 interface HeroProps {
     headline?: string;
     subheadline?: string;
+    dateVenueLine?: string;
     backgroundImage?: string;
     partners?: any[];
+    registrationStart?: string;
+    registrationStatusText?: string;
+    registrationBannerText?: string;
 }
 
 import Image from "next/image";
@@ -17,10 +21,14 @@ import { Globe, Sprout, Leaf } from "lucide-react";
 import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 export function Hero({
-    headline = "Organic and Natural Rice Production Systems",
-    subheadline = "Advancing Sustainable Organic and Natural Rice Production Worldwide 21-25 September 2026 | Galgotias University, Greater Noida, India",
-    backgroundImage = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2940&auto=format&fit=crop",
-    partners = []
+    headline = "",
+    subheadline = "",
+    dateVenueLine = "",
+    backgroundImage = "",
+    partners = [],
+    registrationStart = "",
+    registrationStatusText = "",
+    registrationBannerText = "",
 }: HeroProps) {
     const { openModal } = useRegistrationModal();
 
@@ -47,27 +55,31 @@ export function Hero({
                         ORP-5
                     </span>
 
-                    {/* Main Headline */}
-                    <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-none mb-6 text-white drop-shadow-2xl">
-                        <span className="block mb-2 text-rice-gold">Organic and Natural Rice</span>
-                        <span className="block text-3xl md:text-5xl lg:text-6xl font-normal text-white">Production Systems</span>
-                        <span className="block text-xl md:text-3xl font-light mt-4 italic text-white/80">(5th International Conference)</span>
+                    {/* Main Headline — rendered from Supabase */}
+                    <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold leading-none mb-6 text-white drop-shadow-2xl">
+                        <SafeHtml html={headline} />
                     </h1>
 
-                    {/* Subtitle / Date & Venue */}
-                    <div className="text-lg md:text-2xl text-white/90 mb-10 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
-                        <p className="mb-2">Advancing Sustainable Organic and Natural Rice Production Worldwide</p>
-                        <p className="font-semibold text-white text-xl md:text-3xl mt-2">
-                            21–25 September 2026 <span className="mx-2 text-rice-gold">|</span> Galgotias University, Greater Noida, India
-                        </p>
-                    </div>
+                    {/* Subtitle — from Supabase */}
+                    {subheadline && (
+                        <div className="text-lg md:text-2xl text-white/90 mb-4 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
+                            <SafeHtml html={subheadline} />
+                        </div>
+                    )}
 
-                    {/* Countdown */}
+                    {/* Date & Venue — from Supabase */}
+                    {dateVenueLine && (
+                        <p className="font-semibold text-white text-xl md:text-3xl mb-10">
+                            <SafeHtml html={dateVenueLine} />
+                        </p>
+                    )}
+
+                    {/* Countdown — uses Supabase registrationStart date */}
                     <div className="mb-12 flex flex-col items-center">
                         <p className="text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-rice-gold/80 mb-4 bg-black/30 px-4 py-1 rounded-full backdrop-blur-sm">
-                            Registration Opens In
+                            {registrationStatusText}
                         </p>
-                        <CountdownTimer targetDate="2026-01-01T00:00:00" />
+                        <CountdownTimer targetDate={registrationStart} />
                     </div>
 
                     {/* CTA Buttons */}
@@ -86,7 +98,7 @@ export function Hero({
                         </Link>
                     </div>
 
-                    {/* Collaborating Partners Wrapper - Added margin top to separate from buttons */}
+                    {/* Collaborating Partners Wrapper */}
                     {partners && partners.length > 0 && (
                         <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                             <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-6 drop-shadow-md">Jointly organized by</p>
@@ -108,7 +120,6 @@ export function Hero({
                                                     <Icon className="text-earth-green w-8 h-8" strokeWidth={1.5} />
                                                 )}
                                             </div>
-                                            {/* Name always visible */}
                                             <span className="text-[10px] md:text-xs text-white text-center font-bold uppercase tracking-wide leading-tight drop-shadow-md">
                                                 {partner.name}
                                             </span>
@@ -125,25 +136,5 @@ export function Hero({
 }
 
 function SafeHtml({ html }: { html: string }) {
-    // Simple parser for specific tags: <br />, <br/>, <span class='...'>...</span>
-    // This removes the need for dangerouslySetInnerHTML for our specific use case
-    const parts = html.split(/(<br\s*\/?>|<span[^>]*>.*?<\/span>)/g);
-
-    return (
-        <>
-            {parts.map((part, index) => {
-                if (part.match(/<br\s*\/?>/)) {
-                    return <br key={index} />;
-                }
-                if (part.startsWith("<span")) {
-                    const content = part.replace(/<[^>]+>/g, ""); // Extract text
-                    // extract class
-                    const classMatch = part.match(/class=['"]([^'"]*)['"]/);
-                    const className = classMatch ? classMatch[1] : "";
-                    return <span key={index} className={className}>{content}</span>;
-                }
-                return part;
-            })}
-        </>
-    );
+    return <span dangerouslySetInnerHTML={{ __html: html }} />;
 }

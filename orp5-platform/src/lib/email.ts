@@ -11,7 +11,7 @@ export async function sendConfirmationEmail(email: string, token: string) {
     const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h2>Confirm your subscription to ORP-5 Updates</h2>
-        <p>You requested to receive official updates for the 5th International Conference on Organic and Natural Rice Production Systems.</p>
+        <p>You requested to receive official updates for the 5<sup>th</sup> International Conference on Organic and Natural Rice Production Systems.</p>
         <p>Please click the button below to confirm your email address:</p>
         <a href="${confirmUrl}" style="display: inline-block; background-color: #123125; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold;">Confirm Subscription</a>
         <p style="margin-top: 20px; font-size: 12px; color: #666;">If you did not request this, please ignore this email.</p>

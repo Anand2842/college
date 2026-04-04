@@ -29,12 +29,23 @@ export function ImageUploader({ label, value, onChange, className }: ImageUpload
                 method: "POST",
                 body: formData,
             });
+
+            if (!res.ok) {
+                if (res.status === 413) {
+                    alert("File too large. Please upload an image smaller than 10MB.");
+                    return;
+                }
+                const errorData = await res.json().catch(() => ({ error: res.statusText }));
+                alert(errorData.error || "Upload failed");
+                return;
+            }
+
             const data = await res.json();
 
             if (data.success) {
                 onChange(data.url);
             } else {
-                alert("Upload failed");
+                alert(data.error || "Upload failed");
             }
         } catch (error) {
             console.error(error);
@@ -43,6 +54,7 @@ export function ImageUploader({ label, value, onChange, className }: ImageUpload
             setUploading(false);
         }
     };
+
 
     return (
         <div className={cn("mb-4", className)}>

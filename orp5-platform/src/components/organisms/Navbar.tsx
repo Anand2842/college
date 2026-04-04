@@ -33,12 +33,8 @@ const navItems: NavItem[] = [
         href: "/blog",
     },
     {
-        label: "Exhibition & Sponsorship",
-        href: "/exhibition",
-        children: [
-            { label: "Exhibition", href: "/exhibition" },
-            { label: "Sponsorship", href: "/sponsorship" },
-        ]
+        label: "Sponsorship",
+        href: "/sponsorship",
     },
     {
         label: "Programme & Participation",
