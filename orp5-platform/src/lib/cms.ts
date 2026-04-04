@@ -708,3 +708,43 @@ export async function updateAccommodationPageData(newData: any) {
         throw e;
     }
 }
+
+export async function getGlobalSettings() {
+    const content = await getPageContent('site-settings');
+
+    const defaultData = {
+        dates: {
+            conferenceStart: "2026-09-21",
+            conferenceEnd: "2026-09-25",
+            registrationOpen: "2026-01-01",
+            abstractDeadline: "2026-06-30",
+            earlyBirdDeadline: "2026-03-31"
+        },
+        whatsappGroupLink: "https://chat.whatsapp.com/Lk5D6IQH8HK28sic9v3kk8",
+        promoModal: {
+            enabled: true,
+            slideIntervalSeconds: 3,
+            showOncePerSession: true,
+            delaySeconds: 2,
+            slides: []
+        },
+        meta: {
+            siteName: "ORP-5",
+            description: "5th International Conference on Organic and Natural Rice Production Systems"
+        }
+    };
+
+    return content || defaultData;
+}
+
+export async function updateGlobalSettings(data: any) {
+    try {
+        await upsertPage('site-settings', data);
+        // Revalidate all pages since settings are global (whatsapp, etc)
+        revalidatePath('/', 'layout');
+        return true;
+    } catch (e) {
+        console.error("Error updating global settings:", e);
+        throw e;
+    }
+}
