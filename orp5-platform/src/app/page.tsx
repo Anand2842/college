@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Hero } from "@/components/organisms/Hero";

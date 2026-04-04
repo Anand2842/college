@@ -246,13 +246,13 @@ export async function getVenuePageData() {
 
     const defaultData = {
         hero: {
-            headline: "Galgotias University",
-            subheadline: "A world-class venue for a world-class conference, located in the educational hub of Greater Noida.",
+            headline: "NASC Complex, New Delhi",
+            subheadline: "A world-class venue for a world-class conference, located in the heart of New Delhi.",
             backgroundImage: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1920"
         },
         intro: {
             title: "About the Venue",
-            description: "Galgotias University is a premier institution known for its state-of-the-art infrastructure and commitment to academic excellence. Spread across a sprawling campus, it provides the perfect setting for high-impact academic gatherings."
+            description: "The National Agricultural Science Complex (NASC) is a premier facility known for its state-of-the-art infrastructure and commitment to agricultural excellence. Located in New Delhi, it provides the perfect setting for high-impact academic gatherings."
         },
         highlights: [
             { id: "h1", iconName: "Users", title: "3000+ Seating", description: "Main auditorium with massive capacity." },
@@ -264,11 +264,11 @@ export async function getVenuePageData() {
             { id: "s2", title: "Conference Hall A", description: "Dedicated for technical sessions.", imageUrl: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&q=80&w=800" }
         ],
         location: {
-            address: "Plot No. 2, Techzone 4, Greater Noida, Uttar Pradesh 201310, India",
-            coordinates: "28.36N, 77.53E",
-            airportDist: "45 km (approx 1 hr)",
-            metroDist: "5 km (Knowledge Park II)",
-            hotelsDist: "Within 2-5 km radius"
+            address: "DPS Marg, Todapur Village, Pusa, New Delhi, Delhi 110012, India",
+            coordinates: "28.63N, 77.16E",
+            airportDist: "18 km (approx 45 min)",
+            metroDist: "1.5 km (Pusa Road Metro)",
+            hotelsDist: "Within 1-3 km radius"
         },
         facilities: [
             { id: "f1", iconName: "Printer", name: "Business Center" },
@@ -443,7 +443,7 @@ export async function getHomepageData() {
         // If content.speakers is null/empty, maybe grab top 4 keynote speakers?
         speakers: content.speakers || speakers?.slice(0, 4), // Fallback
         faq: content.faq || [
-            { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at Galgotias University, Greater Noida, India." },
+            { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
             { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
             { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
             { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be sent to the conference email (organizingsecretary@orp5ic.com) on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },

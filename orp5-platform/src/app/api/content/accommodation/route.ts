@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { getAccommodationPageData, updateAccommodationPageData } from '@/lib/cms';
 import { NextResponse } from 'next/server';
 

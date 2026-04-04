@@ -23,7 +23,7 @@ export const getSupabaseAdmin = () => {
                 const { cache, next, ...restOptions } = options as any;
                 return fetch(url, {
                     ...restOptions,
-                    next: { revalidate: 60 },
+                    next: { revalidate: 0 },
                 });
             },
         },

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { getSponsorshipPageData, updateSponsorshipPageData } from '@/lib/cms';
 import { NextResponse } from 'next/server';
 

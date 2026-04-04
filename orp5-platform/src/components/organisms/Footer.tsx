@@ -48,7 +48,7 @@ export function Footer() {
                         <ul className="space-y-4 text-sm text-white/80">
                             <li className="flex items-start gap-3">
                                 <MapPin size={18} className="mt-0.5 text-sapling-green" />
-                                <span>Galgotias University,<br />Greater Noida, Uttar Pradesh, India</span>
+                                <span>NASC Complex,<br />New Delhi, India</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail size={18} className="text-sapling-green" />
