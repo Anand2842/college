@@ -31,7 +31,6 @@ export const metadata = createPageMetadata({
   keywords: ['organic rice', 'natural farming', 'sustainable agriculture', 'rice conference', 'ORP-5', 'production systems'],
 });
 
-export const revalidate = 0; // Ensure dynamic fetching for now, or use revalidatePath
 
 export default async function Home() {
   let cmsData = null;
