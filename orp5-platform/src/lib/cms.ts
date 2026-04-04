@@ -59,7 +59,6 @@ async function getPageContent(slug: string) {
         ) {
             throw error;
         }
-        console.error(`Error fetching page ${slug}: `, error);
         return null;
     }
     return data?.content || null;
