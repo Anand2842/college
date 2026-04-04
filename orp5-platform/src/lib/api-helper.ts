@@ -8,7 +8,6 @@ export function createPageHandler(slug: string) {
             const supabase = getSupabaseAdmin();
             const { data, error } = await supabase.from('Page').select('content').eq('slug', slug).single() as any;
             if (error) {
-                console.error(`Error fetching page ${slug}:`, error);
                 // Return empty object if not found, rather than 500, to allow editor to initialize default state
                 return NextResponse.json({});
             }
