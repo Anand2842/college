@@ -17,9 +17,13 @@ export const getSupabaseAdmin = () => {
             autoRefreshToken: false,
         },
         global: {
-            fetch: (url, options) => {
+            fetch: (url, options = {}) => {
+                // Strip Supabase's default cache:'no-store' which conflicts with
+                // Next.js static generation. Use ISR (revalidate every 60s) instead.
+                const { cache, next, ...restOptions } = options as any;
                 return fetch(url, {
-                    ...options,
+                    ...restOptions,
+                    next: { revalidate: 60 },
                 });
             },
         },

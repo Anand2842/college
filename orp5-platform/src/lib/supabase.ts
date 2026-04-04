@@ -5,6 +5,15 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase = createClient(supabaseUrl, supabaseKey, {
     auth: {
-        persistSession: false // This disables localStorage usage, avoiding "Access to storage is not allowed" errors
-    }
+        persistSession: false
+    },
+    global: {
+        fetch: (url, options = {}) => {
+            const { cache, next, ...restOptions } = options as any;
+            return fetch(url, {
+                ...restOptions,
+                next: { revalidate: 60 },
+            });
+        },
+    },
 });
