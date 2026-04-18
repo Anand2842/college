@@ -56,12 +56,22 @@ export default function AwardsClient() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {data.categories.map((cat: any) => (
-                        <div key={cat.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-t-rice-gold hover:-translate-y-1 transition-transform duration-300">
+                        <div key={cat.id} className="bg-white flex flex-col p-8 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-t-rice-gold hover:-translate-y-1 transition-transform duration-300">
                             <div className="text-rice-gold mb-6">
                                 {getIcon(cat.iconName)}
                             </div>
                             <h3 className="font-bold text-xl text-charcoal mb-3 font-serif">{cat.title}</h3>
-                            <p className="text-gray-600 text-sm leading-relaxed">{cat.description}</p>
+                            <p className="text-gray-600 text-sm leading-relaxed flex-grow">{cat.description}</p>
+                            
+                            {cat.badges && cat.badges.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mt-6">
+                                    {cat.badges.map((badge: string, i: number) => (
+                                        <span key={i} className="px-3 py-1 bg-[#FDFBF2] text-earth-green text-xs font-bold rounded-full border border-[#E6E1D0]">
+                                            {badge}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -120,15 +130,28 @@ export default function AwardsClient() {
             {/* Footer CTA */}
             <section className="bg-earth-green py-20 text-center mt-12">
                 <div className="container mx-auto px-6">
-                    <h2 className="text-3xl font-serif font-bold text-white mb-4">Present your best work at ORP-5.</h2>
-                    <p className="text-white/80 max-w-2xl mx-auto mb-10">Showcase your research and innovations to a global audience. The next big breakthrough could be yours.</p>
-                    <div className="flex gap-4 justify-center">
-                        <Link href="/submission">
+                    <h2 className="text-3xl font-serif font-bold text-white mb-4">
+                        {data.cta?.title || "Present your best work at ORP-5."}
+                    </h2>
+                    <p className="text-white/80 max-w-2xl mx-auto mb-10">
+                        {data.cta?.description || "Showcase your research and innovations to a global audience. The next big breakthrough could be yours."}
+                    </p>
+                    <div className="flex flex-wrap gap-4 justify-center">
+                        {data.cta?.formLink && (
+                            <Link href={data.cta.formLink} target="_blank" rel="noopener noreferrer">
+                                <Button className="bg-white text-earth-green font-bold hover:bg-gray-100 flex items-center gap-2">
+                                    <LucideIcons.ExternalLink size={18} /> Apply for Awards
+                                </Button>
+                            </Link>
+                        )}
+                        <Link href={data.cta?.abstractLink || "/submission"}>
                             <Button className="bg-rice-gold text-charcoal font-bold hover:bg-yellow-500">Submit Abstract</Button>
                         </Link>
-                        <Link href="/submission-guidelines">
-                            <Button variant="secondary" className="bg-[#FFFDF7] text-charcoal font-bold">View Guidelines</Button>
-                        </Link>
+                        {!data.cta?.formLink && (
+                            <Link href="/submission-guidelines">
+                                <Button variant="secondary" className="bg-[#FFFDF7] text-charcoal font-bold">View Guidelines</Button>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </section>
