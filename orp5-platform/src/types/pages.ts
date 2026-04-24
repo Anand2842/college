@@ -359,6 +359,13 @@ export interface SiteSettings {
         earlyBirdDeadline: string;
     };
     whatsappGroupLink?: string;
+    socialLinks?: {
+        facebook?: string;
+        twitter?: string;
+        linkedin?: string;
+        instagram?: string;
+        youtube?: string;
+    };
     promoModal?: {
         enabled: boolean;
         slides: Array<{

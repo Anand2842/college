@@ -147,7 +147,7 @@ export default function SettingsPage() {
 
             {/* Integrations */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-2xl mb-8">
-                <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Integrations</h2>
+                <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Integrations & Socials</h2>
                 <div className="grid gap-6">
                     <AdminInput
                         label="WhatsApp Group Link"
@@ -156,6 +156,33 @@ export default function SettingsPage() {
                         onChange={(e) => setData({ ...data, whatsappGroupLink: e.target.value })}
                     />
                     <p className="text-xs text-gray-500 -mt-4">Redirects the floating WhatsApp button to a group invite link.</p>
+                    
+                    <div className="h-px bg-gray-100 my-2" />
+                    
+                    <AdminInput
+                        label="Facebook URL"
+                        type="url"
+                        value={data.socialLinks?.facebook || ""}
+                        onChange={(e) => setData({ ...data, socialLinks: { ...data.socialLinks, facebook: e.target.value } })}
+                    />
+                    <AdminInput
+                        label="Twitter/X URL"
+                        type="url"
+                        value={data.socialLinks?.twitter || ""}
+                        onChange={(e) => setData({ ...data, socialLinks: { ...data.socialLinks, twitter: e.target.value } })}
+                    />
+                    <AdminInput
+                        label="LinkedIn URL"
+                        type="url"
+                        value={data.socialLinks?.linkedin || ""}
+                        onChange={(e) => setData({ ...data, socialLinks: { ...data.socialLinks, linkedin: e.target.value } })}
+                    />
+                    <AdminInput
+                        label="Instagram URL"
+                        type="url"
+                        value={data.socialLinks?.instagram || ""}
+                        onChange={(e) => setData({ ...data, socialLinks: { ...data.socialLinks, instagram: e.target.value } })}
+                    />
                 </div>
             </div>
 

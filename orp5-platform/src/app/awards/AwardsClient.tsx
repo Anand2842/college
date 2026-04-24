@@ -43,7 +43,7 @@ export default function AwardsClient() {
                 <div className="border-l-4 border-rice-gold pl-8 py-2">
                     <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">{data.intro.title}</h2>
                     <p className="text-gray-600 leading-relaxed text-lg">
-                        {data.intro.description}
+                        {data.intro.description.replace(" The nominee can receive awards up to 2 times within 5 years.", "")}
                     </p>
                 </div>
             </section>
@@ -95,34 +95,82 @@ export default function AwardsClient() {
                 </div>
             </section>
 
-            {/* Judging Committee */}
-            <section className="py-20 container mx-auto px-6 max-w-3xl text-center">
-                <div className="mb-6 flex justify-center">
-                    <LucideIcons.Gavel size={40} className="text-earth-green" />
-                </div>
-                <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">{data.judging.title}</h2>
-                <p className="text-gray-600 leading-relaxed text-lg">
-                    {data.judging.description}
-                </p>
-            </section>
 
-            {/* Logistics Cards */}
-            <section className="py-12 bg-white container mx-auto px-6 max-w-6xl">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="border border-gray-100 p-8 rounded-2xl text-center shadow-sm">
-                        <Calendar className="text-rice-gold mx-auto mb-4" size={24} />
-                        <h4 className="font-bold text-charcoal">Date</h4>
-                        <p className="text-sm text-gray-500">{data.logistics.date}</p>
+
+            {/* Awards Guidelines Notification & Documents */}
+            <section id="awards-notification-2026" className="py-20 bg-[#FFFDF7] container mx-auto px-6 border-t border-gray-100">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Awards Notification & Important Documents</h2>
+                    <p className="text-gray-600 leading-relaxed text-lg max-w-2xl mx-auto">
+                        Please ensure you read the official guidelines before proceeding with your application. Download the respective application forms and annexures below.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    {/* Primary Guidelines */}
+                    <div className="bg-earth-green text-white p-8 rounded-2xl shadow-lg flex flex-col h-full transform transition hover:-translate-y-1">
+                        <div className="mb-6 text-rice-gold">
+                            <LucideIcons.BookOpen size={40} />
+                        </div>
+                        <h3 className="text-2xl font-serif font-bold mb-3">Official Guidelines</h3>
+                        <p className="text-white/80 mb-8 flex-grow">
+                            Comprehensive rules, eligibility criteria, and instructions for the National Awards submission process.
+                        </p>
+                        <Link href="https://drive.google.com/file/d/11OfrZl8ZBjU-bs4a5DtnQdvTq-HlRgfg/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="w-full">
+                            <Button className="w-full bg-white text-earth-green hover:bg-gray-100 font-bold flex items-center justify-center gap-2">
+                                <LucideIcons.Download size={18} /> Download Guidelines
+                            </Button>
+                        </Link>
                     </div>
-                    <div className="border border-gray-100 p-8 rounded-2xl text-center shadow-sm">
-                        <MapPin className="text-rice-gold mx-auto mb-4" size={24} />
-                        <h4 className="font-bold text-charcoal">Venue</h4>
-                        <p className="text-sm text-gray-500">{data.logistics.venue}</p>
+
+                    {/* Application Forms */}
+                    <div className="bg-white border border-gray-100 p-8 rounded-2xl shadow-sm flex flex-col h-full transform transition hover:-translate-y-1">
+                        <div className="mb-6 text-earth-green">
+                            <LucideIcons.FileEdit size={40} />
+                        </div>
+                        <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">Application Forms</h3>
+                        <p className="text-gray-500 mb-8 flex-grow">
+                            Standard formats for submitting your nomination. Choose the form corresponding to the award year.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <Link href="https://docs.google.com/document/d/1-1dQVxuzkNWVhuca--HSDW8APansjfOQ/edit?usp=drive_link&ouid=105886527698035665353&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:border-earth-green hover:bg-earth-green/5 transition-colors">
+                                <span className="text-sm font-medium text-charcoal group-hover:text-earth-green transition-colors">National Awards 2024</span>
+                                <LucideIcons.ExternalLink size={16} className="text-gray-400 group-hover:text-earth-green transition-colors" />
+                            </Link>
+                            <Link href="https://docs.google.com/document/d/1rIa_9kYSgo3KOBnNM7UNFp-FqzeMq686/edit?usp=drive_link&ouid=105886527698035665353&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:border-earth-green hover:bg-earth-green/5 transition-colors">
+                                <span className="text-sm font-medium text-charcoal group-hover:text-earth-green transition-colors">National Awards 2025</span>
+                                <LucideIcons.ExternalLink size={16} className="text-gray-400 group-hover:text-earth-green transition-colors" />
+                            </Link>
+                        </div>
                     </div>
-                    <div className="border border-gray-100 p-8 rounded-2xl text-center shadow-sm">
-                        <PartyPopper className="text-rice-gold mx-auto mb-4" size={24} />
-                        <h4 className="font-bold text-charcoal">Event</h4>
-                        <p className="text-sm text-gray-500">{data.logistics.event}</p>
+
+                    {/* Annexures */}
+                    <div className="bg-white border border-gray-100 p-8 rounded-2xl shadow-sm flex flex-col h-full transform transition hover:-translate-y-1">
+                        <div className="mb-6 text-earth-green">
+                            <LucideIcons.Paperclip size={40} />
+                        </div>
+                        <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">Supporting Annexures</h3>
+                        <p className="text-gray-500 mb-8 flex-grow">
+                            Required supporting documents and declarations to attach with your primary application.
+                        </p>
+                        <div className="flex flex-col gap-2">
+                            <Link href="https://docs.google.com/document/d/1E2Ru2PNZpXmxj96zgAiNov0eAww30pUr/edit?usp=drive_link&ouid=105886527698035665353&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 py-2 hover:text-earth-green transition-colors">
+                                <LucideIcons.FileText size={16} className="text-rice-gold flex-shrink-0" />
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-earth-green transition-colors">Annexure IA & IIA (2024)</span>
+                            </Link>
+                            <Link href="https://docs.google.com/document/d/1tjuHKtMoY5vCDGWTdWZ1DAbgypfYKBEv/edit?usp=drive_link&ouid=105886527698035665353&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 py-2 hover:text-earth-green transition-colors">
+                                <LucideIcons.FileText size={16} className="text-rice-gold flex-shrink-0" />
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-earth-green transition-colors">Annexure IB & IIB (2025)</span>
+                            </Link>
+                            <Link href="https://docs.google.com/document/d/1JEEey-rsr4W2plBkcw_2-x_jQkX6Zclh/edit?usp=drive_link&ouid=105886527698035665353&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 py-2 hover:text-earth-green transition-colors">
+                                <LucideIcons.FileText size={16} className="text-rice-gold flex-shrink-0" />
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-earth-green transition-colors">Annexure III (2024)</span>
+                            </Link>
+                            <Link href="https://docs.google.com/document/d/1_GY1QZ60TsxcbooIUyeF2Mj94VaAf7zg/edit?usp=drive_link&ouid=105886527698035665353&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 py-2 hover:text-earth-green transition-colors">
+                                <LucideIcons.FileText size={16} className="text-rice-gold flex-shrink-0" />
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-earth-green transition-colors">Annexure IV (2025)</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -144,9 +192,7 @@ export default function AwardsClient() {
                                 </Button>
                             </Link>
                         )}
-                        <Link href={data.cta?.abstractLink || "/submission"}>
-                            <Button className="bg-rice-gold text-charcoal font-bold hover:bg-yellow-500">Submit Abstract</Button>
-                        </Link>
+
                         {!data.cta?.formLink && (
                             <Link href="/submission-guidelines">
                                 <Button variant="secondary" className="bg-[#FFFDF7] text-charcoal font-bold">View Guidelines</Button>

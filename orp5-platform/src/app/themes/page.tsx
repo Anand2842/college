@@ -55,7 +55,7 @@ export default async function ThemesPage() {
                             <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
                                 <div className="shrink-0">
                                     <div className="w-16 h-16 bg-[#123125]/5 rounded-xl flex items-center justify-center text-[#123125] group-hover:bg-[#123125] group-hover:text-[#DFC074] transition-colors duration-300">
-                                        {getIcon(theme.iconName)}
+                                        {getIcon(theme.iconName || theme.icon)}
                                     </div>
                                 </div>
 
@@ -84,7 +84,7 @@ export default async function ThemesPage() {
                         {data.pillars.items.map((pillar: any, index: number) => (
                             <div key={pillar.id} className="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:border-earth-green/30 transition-colors group">
                                 <div className="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-earth-green mb-6 group-hover:bg-earth-green group-hover:text-white transition-colors duration-300">
-                                    {getIcon(pillar.iconName)}
+                                    {getIcon(pillar.iconName || pillar.icon)}
                                 </div>
                                 <h3 className="text-xl font-bold text-charcoal mb-4">{pillar.title}</h3>
                                 <p className="text-gray-600 leading-relaxed">{pillar.description}</p>

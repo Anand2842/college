@@ -1,8 +1,24 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
-import { Link2, Mail, MapPin, Phone } from "lucide-react";
+import { Link2, Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
+    const [social, setSocial] = useState<{ facebook?: string; twitter?: string; linkedin?: string; instagram?: string }>({});
+
+    useEffect(() => {
+        fetch("/api/settings")
+            .then(res => res.json())
+            .then(data => {
+                if (data.socialLinks) {
+                    setSocial(data.socialLinks);
+                }
+            })
+            .catch(err => console.error("Failed to load footer settings:", err));
+    }, []);
+
     return (
         <footer className="bg-earth-green text-white pt-20 pb-10">
             <div className="container mx-auto px-6">
@@ -22,10 +38,40 @@ export function Footer() {
                             Advancing Global Agricultural Innovation & Sustainability.
                         </p>
                         <div className="flex gap-4">
-                            {/* Social Placeholders */}
-                            <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer" />
-                            <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer" />
-                            <div className="w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer" />
+                            {/* Social Links */}
+                            {social.facebook && (
+                                <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <Facebook size={16} />
+                                </a>
+                            )}
+                            {social.twitter && (
+                                <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <Twitter size={16} />
+                                </a>
+                            )}
+                            {social.linkedin && (
+                                <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <Linkedin size={16} />
+                                </a>
+                            )}
+                            {social.instagram && (
+                                <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <Instagram size={16} />
+                                </a>
+                            )}
+                            {(!social.facebook && !social.twitter && !social.linkedin && !social.instagram) && (
+                                <>
+                                    <a href="#" aria-label="Facebook" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                        <Facebook size={16} />
+                                    </a>
+                                    <a href="#" aria-label="Twitter" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                        <Twitter size={16} />
+                                    </a>
+                                    <a href="#" aria-label="LinkedIn" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                        <Linkedin size={16} />
+                                    </a>
+                                </>
+                            )}
                         </div>
                     </div>
 

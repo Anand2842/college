@@ -75,7 +75,7 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
 
                 <motion.h1
                     variants={fadeInUp}
-                    className="text-4xl md:text-6xl font-serif font-bold text-white mb-6 tracking-tight leading-tight"
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 tracking-tight leading-tight"
                 >
                     {headline}
                 </motion.h1>
