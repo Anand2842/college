@@ -197,7 +197,7 @@ export async function getCommitteesPageData() {
             description: "Comprising world-renowned scientists and policy makers guiding the strategic direction of the conference."
         },
         contacts: [
-            { id: "ct1", name: "Secretariat", email: "secretariat@orp5ic.com" }
+            { id: "ct1", name: "Secretariat", email: "info@orp5ic.com" }
         ]
     };
 
@@ -446,7 +446,7 @@ export async function getHomepageData() {
             { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
             { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
             { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be sent to the conference email (organizingsecretary@orp5ic.com) on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },
+            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be sent to the conference email (info@orp5ic.com) on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },
             { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
             { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
             { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." }
@@ -540,7 +540,7 @@ export async function getSponsorshipPageData() {
         contact: {
             title: "Ready to get started?",
             text: "Our team is here to help you choose the perfect sponsorship package.",
-            email: "sponsors@orp5.org",
+            email: "info@orp5ic.com",
             phone: "+1 (555) 123-4567"
         },
         footerCta: {
@@ -609,7 +609,7 @@ export async function getAccommodationPageData() {
         infoBar: {
             checkInOut: "Check-in: 2:00 PM / Check-out: 11:00 AM",
             shuttle: "Free shuttle from partner hotels",
-            contact: "support@orp5.org"
+            contact: "info@orp5ic.com"
         },
         officialHotels: [
             {

@@ -2,7 +2,7 @@
 import { Resend } from 'resend';
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const FROM_EMAIL = 'ORP-5 Conference <updates@orp5.org>'; // Configure this in Resend dashboard
+const FROM_EMAIL = 'ORP-5 Conference <info@orp5ic.com>'; // Configure this in Resend dashboard
 
 export async function sendConfirmationEmail(email: string, token: string) {
     const confirmUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/newsletter/verify?token=${token}`;
@@ -147,6 +147,168 @@ export async function sendSubmissionStatusEmail(
         console.log(`[Email] Status update sent to ${email}`);
     } catch (error) {
         console.error('[Email] Failed to send status update:', error);
+    }
+}
+
+export async function sendRegistrationAcknowledgementEmail(
+    email: string,
+    name: string,
+    ticketId: string,
+    feeAmount: number,
+    currency: string,
+    category: string,
+    mode: string
+) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
+    const payUrl = `${siteUrl}/registration/pay?id=${ticketId}`;
+    const currencySymbol = currency === 'USD' ? '$' : '₹';
+    const formattedFee = `${currencySymbol}${feeAmount.toLocaleString()}`;
+
+    const html = `
+    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333; background: #f9f9f7; padding: 20px; border-radius: 8px;">
+        
+        <div style="background: #123125; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0; text-align: center;">
+            <h1 style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 1px;">ORP-5 CONFERENCE</h1>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #a3d9b1; text-transform: uppercase; letter-spacing: 2px;">5th International Conference on Organic Rice Production</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
+            <p style="color: #555; margin: 0 0 20px;">Dear <strong>${name}</strong>,</p>
+            <p style="color: #555; margin: 0 0 24px;">Your registration has been saved! Please complete your payment to confirm your spot at ORP-5.</p>
+
+            <!-- Ticket ID Box -->
+            <div style="background: #f0fdf4; border: 2px dashed #86efac; border-radius: 8px; padding: 20px; text-align: center; margin: 0 0 28px;">
+                <p style="margin: 0 0 8px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #166534;">Your Ticket ID</p>
+                <p style="margin: 0; font-size: 28px; font-weight: bold; font-family: monospace; color: #123125; letter-spacing: 2px;">${ticketId}</p>
+                <p style="margin: 8px 0 0; font-size: 12px; color: #555;">⚠️ Use this EXACT ID while making payment on SBI Collect</p>
+            </div>
+
+            <!-- Fee Box -->
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px 20px; margin: 0 0 28px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr><td style="color: #666; padding: 4px 0;">Category</td><td style="text-align: right; font-weight: bold; color: #333;">${category}</td></tr>
+                    <tr><td style="color: #666; padding: 4px 0;">Mode</td><td style="text-align: right; font-weight: bold; color: #333; text-transform: capitalize;">${mode}</td></tr>
+                    <tr style="border-top: 1px solid #fde68a;">
+                        <td style="color: #666; padding: 8px 0 4px; font-weight: bold;">Amount Due</td>
+                        <td style="text-align: right; font-size: 22px; font-weight: bold; color: #123125;">${formattedFee}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Steps -->
+            <h3 style="font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #333; margin: 0 0 16px;">How to Pay</h3>
+            <div style="space-y: 12px;">
+                <div style="display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;">
+                    <div style="background: #123125; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">1</div>
+                    <p style="margin: 0; font-size: 14px; color: #555; padding-top: 2px;">Copy your Ticket ID: <strong style="font-family: monospace;">${ticketId}</strong></p>
+                </div>
+                <div style="display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;">
+                    <div style="background: #123125; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">2</div>
+                    <p style="margin: 0; font-size: 14px; color: #555; padding-top: 2px;">Click "Pay Now" below to go to SBI Collect</p>
+                </div>
+                <div style="display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;">
+                    <div style="background: #123125; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">3</div>
+                    <p style="margin: 0; font-size: 14px; color: #555; padding-top: 2px;">On SBI page: Enter Ticket ID → Mobile (same as registration) → Name → Amount <strong>${formattedFee}</strong></p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="background: #123125; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">4</div>
+                    <p style="margin: 0; font-size: 14px; color: #555; padding-top: 2px;">After payment, click "I have paid" on our website to notify us</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align: center; margin: 32px 0 24px;">
+                <a href="${payUrl}" style="background: #123125; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 15px; display: inline-block;">Continue to Payment →</a>
+            </div>
+
+            <!-- Trust -->
+            <div style="background: #f0fdf4; border-radius: 6px; padding: 12px 16px; font-size: 12px; color: #166534; text-align: center;">
+                ✔ Safe Payment via SBI &nbsp;|&nbsp; ✔ Govt. Authorized System &nbsp;|&nbsp; ✔ Receipt generated after verification
+            </div>
+        </div>
+
+        <p style="text-align: center; font-size: 11px; color: #999; margin: 16px 0 0;">ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a></p>
+    </div>
+    `;
+
+    if (resend) {
+        try {
+            await resend.emails.send({
+                from: FROM_EMAIL,
+                to: email,
+                subject: `Your ORP-5 Registration ID: ${ticketId} — Complete Payment Now`,
+                html
+            });
+            console.log(`[Email] Acknowledgement sent to ${email}`);
+        } catch (error) {
+            console.error('[Email] Failed to send acknowledgement:', error);
+        }
+    } else {
+        console.log(`[Dev Email] To: ${email} | Subject: Registration Acknowledgement | Ticket: ${ticketId} | Fee: ${formattedFee} | Pay: ${payUrl}`);
+    }
+}
+
+export async function sendAdminPaymentClaimEmail(
+    adminEmail: string,
+    ticketId: string,
+    name: string,
+    mobile: string,
+    amountExpected: number,
+    amountPaid: number,
+    currency: string,
+    hasProof: boolean
+) {
+    const currencySymbol = currency === 'USD' ? '$' : '₹';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
+    const adminUrl = `${siteUrl}/admin/registrations`;
+    const isMismatch = amountExpected > 0 && amountPaid !== amountExpected;
+
+    const statusColor = isMismatch ? '#dc2626' : '#166534';
+    const statusBg = isMismatch ? '#fef2f2' : '#f0fdf4';
+    const statusBorder = isMismatch ? '#fecaca' : '#bbf7d0';
+    const statusLabel = isMismatch
+        ? `⚠️ AMOUNT MISMATCH: User entered ${currencySymbol}${amountPaid}, expected ${currencySymbol}${amountExpected}`
+        : `✅ Amount matches (${currencySymbol}${amountPaid})`;
+
+    const html = `
+    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+        <div style="background: #1e293b; color: white; padding: 20px 28px; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0; font-size: 18px;">💰 Payment Claimed — Action Required</h2>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #94a3b8;">ORP-5 Admin Notification</p>
+        </div>
+        <div style="background: white; padding: 28px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
+            <div style="background: ${statusBg}; border: 1px solid ${statusBorder}; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-weight: bold; color: ${statusColor}; font-size: 13px;">
+                ${statusLabel}
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Ticket ID</td><td style="padding: 8px 0; font-weight: bold; font-family: monospace;">${ticketId}</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Name</td><td style="padding: 8px 0; font-weight: bold;">${name}</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Mobile</td><td style="padding: 8px 0; font-weight: bold;">${mobile}</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Amount (User Entered)</td><td style="padding: 8px 0; font-weight: bold; font-size: 18px;">${currencySymbol}${amountPaid}</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Amount (Expected)</td><td style="padding: 8px 0; font-weight: bold;">${currencySymbol}${amountExpected}</td></tr>
+                <tr><td style="padding: 8px 0; color: #666;">Payment Proof</td><td style="padding: 8px 0; font-weight: bold;">${hasProof ? '📎 Uploaded (view in admin)' : 'Not uploaded'}</td></tr>
+            </table>
+            <div style="text-align: center; margin-top: 24px;">
+                <a href="${adminUrl}" style="background: #1e293b; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">View in Admin Dashboard →</a>
+            </div>
+        </div>
+    </div>
+    `;
+
+    if (resend) {
+        try {
+            await resend.emails.send({
+                from: FROM_EMAIL,
+                to: adminEmail,
+                subject: `[ORP-5] Payment Claimed: ${ticketId}${isMismatch ? ' ⚠️ MISMATCH' : ''}`,
+                html
+            });
+            console.log(`[Email] Admin payment claim notification sent for ${ticketId}`);
+        } catch (error) {
+            console.error('[Email] Failed to send admin notification:', error);
+        }
+    } else {
+        console.log(`[Dev Email] Admin notification | Ticket: ${ticketId} | Amount: ${currencySymbol}${amountPaid} | Mismatch: ${isMismatch}`);
     }
 }
 

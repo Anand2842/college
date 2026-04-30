@@ -36,7 +36,7 @@ const FEE_STRUCTURE = {
     }
 } as const;
 
-export function RegistrationForm({ selectedCategory: initialCategory }: { selectedCategory: string }) {
+export function RegistrationForm({ selectedCategory: initialCategory, onSuccess }: { selectedCategory: string; onSuccess?: () => void }) {
     const router = useRouter();
     // Steps: 0 = Mode/Nat, 1 = Personal, 2 = Category/Fee, 3 = Payment, 4 = Success
     const [step, setStep] = useState(0);
@@ -134,14 +134,18 @@ export function RegistrationForm({ selectedCategory: initialCategory }: { select
             const data = await res.json();
 
             if (res.ok && data.ticketId) {
-                // Redirect to success page with ticket ID
-                router.push(`/registration/success?id=${data.ticketId}`);
+                // Instantly dismiss modal for immediate user feedback
+                if (onSuccess) onSuccess();
+                
+                // Use soft navigation after a short delay so exit animation can start
+                setTimeout(() => {
+                    router.push(`/registration/pay?id=${data.ticketId}`);
+                }, 300);
             } else {
-                alert("Registration failed. Please try again.");
+                throw new Error(data.error || "Registration failed. Please try again.");
             }
-        } catch (_e) {
-            alert("Network error. Please try again.");
-        } finally {
+        } catch (err: any) {
+            alert(err.message || "Network error. Please try again.");
             setLoading(false);
         }
     };

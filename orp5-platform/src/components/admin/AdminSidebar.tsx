@@ -1,11 +1,13 @@
 "use client"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Users, Settings, LogOut, Mail, Newspaper, MessageCircle } from "lucide-react";
+import { LayoutDashboard, FileText, Users, Settings, LogOut, Mail, Newspaper, MessageCircle, Scan, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
+    { icon: ClipboardList, label: "Registrations", href: "/admin/registrations" },
+    { icon: Scan, label: "Scan Tickets", href: "/admin/scan" },
     { icon: MessageCircle, label: "Inquiries", href: "/admin/inquiries" },
     { icon: Mail, label: "Newsletter", href: "/admin/newsletter" },
     { icon: Newspaper, label: "Blog & News", href: "/admin/blog" },

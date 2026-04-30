@@ -32,8 +32,8 @@ export async function POST(request: Request) {
             membership_type: body.membershipType,
             fee_amount: body.feeAmount,
             currency: body.currency,
-            payment_status: 'pending', // Default to pending for external gateway
-            payment_mode: 'External Gateway',
+            payment_status: 'awaiting_payment', // User registered, payment not yet attempted
+            payment_mode: 'SBI Collect (Pending)',
             payment_date: null,
             tags: tags,
             submittedAt: new Date().toISOString()
@@ -44,8 +44,7 @@ export async function POST(request: Request) {
             .from('registrations')
             .insert({
                 data: registrationData,
-                status: 'pending' // Default status
-                // user_id is now nullable, so we don't need to provide it for guest users
+                status: 'pending'
             } as any)
             .select('id')
             .single();
@@ -55,7 +54,20 @@ export async function POST(request: Request) {
             throw error;
         }
 
-        return NextResponse.json({ success: true, ticketId: ticketId });
+        // 5. Send acknowledgement email — fire & forget, don't block the response
+        import('@/lib/email').then(({ sendRegistrationAcknowledgementEmail }) => {
+            sendRegistrationAcknowledgementEmail(
+                body.email,
+                body.fullName,
+                ticketId,
+                body.feeAmount,
+                body.currency,
+                body.category,
+                body.mode
+            ).catch((emailErr: any) => console.error("Failed to send acknowledgement email:", emailErr));
+        });
+
+        return NextResponse.json({ success: true, ticketId });
     } catch (error: any) {
         console.error("Error saving registration:", error);
         return NextResponse.json({ error: 'Failed to save registration', details: error.message || error }, { status: 500 });
@@ -67,14 +79,14 @@ export async function GET() {
         const { data, error } = await supabase
             .from('registrations')
             .select('*')
-            .order('submitted_at', { ascending: false });
+            .order('created_at', { ascending: false });
 
         if (error) throw error;
 
         // Flatten JSONB 'data' to top-level for frontend
         const flattened = data.map((row: any) => ({
             id: row.id,
-            submittedAt: row.submitted_at,
+            submittedAt: row.created_at || row.data?.submittedAt,
             ...row.data
         }));
 

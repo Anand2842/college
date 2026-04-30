@@ -98,7 +98,7 @@ export function Footer() {
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail size={18} className="text-sapling-green" />
-                                <a href="mailto:info@orp5.org" className="hover:text-rice-gold">info@orp5.org</a>
+                                <a href="mailto:info@orp5ic.com" className="hover:text-rice-gold">info@orp5ic.com</a>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone size={18} className="text-sapling-green" />

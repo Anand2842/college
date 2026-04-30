@@ -85,7 +85,7 @@ export function RegistrationModal() {
                     RegistrationForm expects a 'selectedCategory' prop.
                     For the general popup, we can pass an empty string to let the user choose.
                  */}
-                            <RegistrationForm selectedCategory="" />
+                        <RegistrationForm selectedCategory="" onSuccess={closeModal} />
                         </div>
                     </motion.div>
                 </div>

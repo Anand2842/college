@@ -69,7 +69,7 @@ export default function PrivacyPage() {
                         <p className="m-0 font-bold text-earth-green">ORP-5 Secretariat</p>
                         <p className="m-0">NASC Complex, New Delhi, India</p>
                         <p className="mt-2 mb-0">
-                            📧 <a href="mailto:info@orp5.org" className="text-earth-green hover:underline">info@orp5.org</a>
+                            📧 <a href="mailto:info@orp5ic.com" className="text-earth-green hover:underline">info@orp5ic.com</a>
                         </p>
                         <p className="m-0">
                             📞 <strong>+91 9868416215</strong>

@@ -176,8 +176,7 @@ export default function RegistrationTicketClient() {
                     <div>
                         <h4 className="font-bold text-charcoal text-sm mb-1">Lost or Not Received Your QR Ticket?</h4>
                         <p className="text-xs text-gray-500 leading-relaxed">
-                            If you haven't received your QR ticket or have misplaced it, please email our support team with your registration ID.
-                            We will re-issue your ticket promptly. <a href="mailto:support@orp5ic.com" className="text-[#DFC074] hover:underline">support@orp5ic.com</a>
+                            We will re-issue your ticket promptly. <a href="mailto:info@orp5ic.com" className="text-[#DFC074] hover:underline">info@orp5ic.com</a>
                         </p>
                     </div>
                 </div>

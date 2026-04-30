@@ -1,0 +1,190 @@
+{
+  "cta": {
+    "title": "Apply for National Awards",
+    "formLink": "https://forms.gle/KarTK6PCFWTmWTyY9",
+    "description": "Be recognized for your outstanding contributions. Submit your nominations before the deadline of 15th July 2026.",
+    "abstractLink": "/submission"
+  },
+  "hero": {
+    "headline": "AIASA National Awards 2026",
+    "subheadline": "5th International Conference on Organic & Natural Rice Production Systems (ORP-5)",
+    "backgroundImage": "/images/heroes/awards.jpg"
+  },
+  "intro": {
+    "title": "Awards & Prizes",
+    "description": "The Governing Board of AIASA annually confers National Awards to persons/institutions for their outstanding contribution on empowerment of youth in Agriculture. Adopting rigorous screening at state/zonal and central levels, all awards carry a Citation and a Memento. The nominee can receive awards up to 2 times within 5 years."
+  },
+  "judging": {
+    "title": "Selection Process",
+    "description": "The awards will be conferred by adopting rigorous screening at each stage in States/zones and at the Central level on an all-India nomination basis."
+  },
+  "criteria": [
+    {
+      "id": "crit-1",
+      "title": "Application Rules",
+      "description": "Individual/institution needs to submit only one application for any award irrespective of year. Multiple applications shall be outrightly rejected."
+    },
+    {
+      "id": "crit-2",
+      "title": "Frequency Limits",
+      "description": "Among AIASA members, nominees can receive awards up to 2 times within 5 years. Eligible again only after a 5-year gap."
+    },
+    {
+      "id": "crit-3",
+      "title": "Format & Deadline",
+      "description": "Recommendations/nominations must be sent in the prescribed format latest by 15th July 2026."
+    }
+  ],
+  "logistics": {
+    "date": "21-25 September 2026",
+    "event": "ORP-5 Conference",
+    "venue": "New Delhi"
+  },
+  "categories": [
+    {
+      "id": "cat-1",
+      "title": "Outstanding Leadership in Agriculture",
+      "badges": [
+        "2 Awards",
+        "Rs 50k Prize",
+        "10-15 Yrs Exp"
+      ],
+      "iconName": "Star",
+      "description": "For individuals who made a positive impact on the well-being of stakeholders in agriculture and given a definite direction for the betterment of the sector."
+    },
+    {
+      "id": "cat-2",
+      "title": "Lifetime Achievement Award",
+      "badges": [
+        "2 Awards"
+      ],
+      "iconName": "Award",
+      "description": "For unique and special contributions over a prolonged period to the farming community and advancement of agriculture through production, innovation, leadership, or advocacy."
+    },
+    {
+      "id": "cat-3",
+      "title": "Best Vice-Chancellor Award",
+      "badges": [
+        "2 Awards"
+      ],
+      "iconName": "GraduationCap",
+      "description": "Conferred to energetic Honorable Vice Chancellors for outstanding contributions at colleges and research stations, creating exceptional academic pedagogy."
+    },
+    {
+      "id": "cat-4",
+      "title": "Dr. M.S. Swaminathan Award (Master Research)",
+      "badges": [
+        "8 Awards",
+        "Min OGPA 7.5/10"
+      ],
+      "iconName": "Trophy",
+      "description": "Outstanding Master Research in Agricultural & Allied Sciences including Crop/Horticulture, NRM, Animal/Fisheries, and Social Sciences."
+    },
+    {
+      "id": "cat-5",
+      "title": "Dr. M.S. Swaminathan Award (Doctoral Research)",
+      "badges": [
+        "8 Awards",
+        "Min OGPA 7.5/10"
+      ],
+      "iconName": "Trophy",
+      "description": "Outstanding Doctoral Research in Agricultural & Allied Sciences including Crop/Horticulture, NRM, Animal/Fisheries, and Social Sciences."
+    },
+    {
+      "id": "cat-6",
+      "title": "Harit Ratna Awards",
+      "badges": [
+        "8 Awards",
+        "10-15 Yrs Exp"
+      ],
+      "iconName": "Trees",
+      "description": "For outstanding empowerment of youth in agriculture at the level of Dean, Director, Vice-Chancellor, or CEO."
+    },
+    {
+      "id": "cat-7",
+      "title": "Krishi Jeevan Jyoti Award",
+      "badges": [
+        "2 Awards",
+        "AIASA Members Only"
+      ],
+      "iconName": "Flame",
+      "description": "Exclusively for AIASA members for their outstanding contribution towards the empowerment of youth and social mobilization."
+    },
+    {
+      "id": "cat-8",
+      "title": "Pragati Puraskar (Best Farmer Award)",
+      "badges": [
+        "2 Awards"
+      ],
+      "iconName": "Sprout",
+      "description": "For the best progressive farmers adapting and disseminating improved technology and practices for increased income and sustainability."
+    },
+    {
+      "id": "cat-9",
+      "title": "Student of the Year Award",
+      "badges": [
+        "14 Awards",
+        "Zone Wise"
+      ],
+      "iconName": "BookOpen",
+      "description": "For outstanding contributions toward the empowerment of youth and social activities for the betterment of the agricultural fraternity."
+    },
+    {
+      "id": "cat-10",
+      "title": "AIASA Gold Medal",
+      "badges": [
+        "14 Awards",
+        "Zone Wise"
+      ],
+      "iconName": "Medal",
+      "description": "Conferred to AIASA members, Associate members, officers, and individuals working in Govt, NGOs, or Private sectors."
+    },
+    {
+      "id": "cat-11",
+      "title": "Best Teacher Award",
+      "badges": [
+        "2 Awards",
+        "8-10 Yrs Exp"
+      ],
+      "iconName": "Library",
+      "description": "For a student-friendly faculty member with substantial experience in teaching and research in agriculture and allied sectors."
+    },
+    {
+      "id": "cat-12",
+      "title": "Young Scientist Award",
+      "badges": [
+        "8 Awards",
+        "Under 38 Years"
+      ],
+      "iconName": "Microscope",
+      "description": "For outstanding research work and publications in National/International journals in the field of agriculture and allied sectors."
+    },
+    {
+      "id": "cat-13",
+      "title": "Harit Kranti Award",
+      "badges": [
+        "4 Awards"
+      ],
+      "iconName": "Leaf",
+      "description": "For agriculture activists from private or public sectors mobilizing progressive farmers and raising the voice of farmers."
+    },
+    {
+      "id": "cat-14",
+      "title": "Harit Puraskar Award",
+      "badges": [
+        "10 Awards"
+      ],
+      "iconName": "Award",
+      "description": "For a renowned agriculturist for outstanding contribution to best agricultural practices in govt departments, universities, public sectors, and NGOs."
+    },
+    {
+      "id": "cat-15",
+      "title": "Institution of Excellence Award",
+      "badges": [
+        "5 Awards"
+      ],
+      "iconName": "Building",
+      "description": "Recognizes outstanding performance in developing infrastructure, research output, and extension services in agriculture."
+    }
+  ]
+}

@@ -157,7 +157,7 @@ export default function SubmissionGuidelinesEditor() {
                                 title="Contact Cards"
                                 items={data.contacts || []}
                                 onUpdate={(items) => handleListUpdate("contacts", items)}
-                                itemTemplate={{ id: "", label: "Support Team", email: "help@orp5.org", icon: "HelpCircle" }}
+                                itemTemplate={{ id: "", label: "Support Team", email: "info@orp5ic.com", icon: "HelpCircle" }}
                                 renderItemFields={(item, i, update) => (
                                     <>
                                         <AdminInput label="Department Name" value={item.label} onChange={(e) => update("label", e.target.value)} />

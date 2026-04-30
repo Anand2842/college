@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
                 const { Resend } = await import('resend');
                 const resend = new Resend(process.env.RESEND_API_KEY);
                 await resend.emails.send({
-                    from: 'ORP-5 Conference <updates@orp5.org>', // Make sure this domain is verified in Resend
+                    from: 'ORP-5 Conference <info@orp5ic.com>', // Make sure this domain is verified in Resend
                     to: user.email!,
                     subject: `Abstract Submission Received: ${title}`,
                     html: `
