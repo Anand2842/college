@@ -264,7 +264,7 @@ export default function SponsorshipClient() {
                     <p className="text-gray-400 mb-10 leading-relaxed font-light">
                         {data.footerCta.subheadline}
                     </p>
-                    <div className="flex justify-center gap-4">
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
                         {data.footerCta.buttons.map((btn: any, i: number) => (
                             <Link key={i} href={btn.link}>
                                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

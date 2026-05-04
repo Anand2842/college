@@ -69,46 +69,50 @@ export default async function SpeakersPage() {
             </section>
 
             {/* Invited Speakers */}
-            <section className="py-20 bg-[#FDFBF2]">
-                <div className="container mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Distinguished Invited Speakers</h2>
-                    </div>
+            {data.invited && data.invited.length > 0 && (
+                <section className="py-20 bg-[#FDFBF2]">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Distinguished Invited Speakers</h2>
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        {data.invited.map((speaker: any) => (
-                            <div key={speaker.id} className="bg-white rounded-xl p-6 text-center border border-gray-100 hover:border-earth-green/30 transition-colors">
-                                <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 bg-gray-200">
-                                    {speaker.imageUrl ? <img src={speaker.imageUrl} alt={speaker.name} className="w-full h-full object-cover" /> : null}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            {data.invited.map((speaker: any) => (
+                                <div key={speaker.id} className="bg-white rounded-xl p-6 text-center border border-gray-100 hover:border-earth-green/30 transition-colors">
+                                    <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 bg-gray-200">
+                                        {speaker.imageUrl ? <img src={speaker.imageUrl} alt={speaker.name} className="w-full h-full object-cover" /> : null}
+                                    </div>
+                                    <h3 className="font-bold text-charcoal mb-1">{speaker.name} {getFlagEmoji(speaker.country || speaker.countryCode)}</h3>
+                                    <p className="text-xs text-gray-500 mb-2">{speaker.role}</p>
+                                    {speaker.tags?.map((tag: string) => (
+                                        <span key={tag} className="inline-block bg-sapling-green/10 text-earth-green text-[10px] font-semibold px-2 py-1 rounded-md">
+                                            {tag}
+                                        </span>
+                                    ))}
                                 </div>
-                                <h3 className="font-bold text-charcoal mb-1">{speaker.name} {getFlagEmoji(speaker.country || speaker.countryCode)}</h3>
-                                <p className="text-xs text-gray-500 mb-2">{speaker.role}</p>
-                                {speaker.tags?.map((tag: string) => (
-                                    <span key={tag} className="inline-block bg-sapling-green/10 text-earth-green text-[10px] font-semibold px-2 py-1 rounded-md">
-                                        {tag}
-                                    </span>
-                                ))}
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Scientific Panel */}
+            {data.panel && data.panel.length > 0 && (
+                <section className="py-20 container mx-auto px-6 max-w-5xl">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Scientific & Peer Review Panel</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {data.panel.map((member: any) => (
+                            <div key={member.id} className="border border-rice-gold rounded-xl p-6 bg-white hover:bg-rice-gold/5 transition-colors">
+                                <h4 className="font-bold text-charcoal text-lg mb-1">{member.name}</h4>
+                                <p className="text-sm text-gray-500 mb-2">{member.role}</p>
+                                <p className="text-xs text-gray-400">Expertise: <span className="text-gray-600">{member.expertise}</span></p>
                             </div>
                         ))}
                     </div>
-                </div>
-            </section>
-
-            {/* Scientific Panel */}
-            <section className="py-20 container mx-auto px-6 max-w-5xl">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Scientific & Peer Review Panel</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {data.panel.map((member: any) => (
-                        <div key={member.id} className="border border-rice-gold rounded-xl p-6 bg-white hover:bg-rice-gold/5 transition-colors">
-                            <h4 className="font-bold text-charcoal text-lg mb-1">{member.name}</h4>
-                            <p className="text-sm text-gray-500 mb-2">{member.role}</p>
-                            <p className="text-xs text-gray-400">Expertise: <span className="text-gray-600">{member.expertise}</span></p>
-                        </div>
-                    ))}
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Call for Speakers CTA */}
             <section className="py-12 container mx-auto px-6 max-w-5xl">

@@ -20,7 +20,7 @@ export function Footer() {
     }, []);
 
     return (
-        <footer className="bg-earth-green text-white pt-20 pb-10">
+        <footer className="bg-earth-green text-white pt-20 pb-24 sm:pb-10">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Column 1: Brand */}

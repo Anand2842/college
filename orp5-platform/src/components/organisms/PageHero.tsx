@@ -30,7 +30,7 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
     };
 
     return (
-        <section className="relative min-h-[400px] h-[50vh] flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[300px] md:min-h-[400px] h-auto md:h-[50vh] py-16 md:py-0 flex items-center justify-center overflow-hidden">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0 bg-[#0D241B]">
                 {backgroundImage && (
@@ -41,7 +41,7 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
                     />
                 )}
                 {/* Dark overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D241B]/80 via-[#0D241B]/50 to-[#0D241B]/60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/70" />
             </div>
 
             {/* Decorative Elements */}
@@ -90,7 +90,7 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
                 )}
 
                 {buttons && buttons.length > 0 && (
-                    <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-4 mt-2">
+                    <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
                         {buttons.map((btn, i) => (
                             <Link key={i} href={btn.link}>
                                 <Button

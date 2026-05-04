@@ -42,7 +42,9 @@ export default async function ThemesPage() {
             {/* Core Themes Grid */}
             <section className="py-24 container mx-auto px-6">
                 <div className="mb-16">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">{data.intro.title}</h2>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">
+                        {data.intro.title?.replace('Confrence', 'Conference')}
+                    </h2>
                     <div className="h-1 w-20 bg-earth-green rounded-full"></div>
                 </div>
 

@@ -41,7 +41,7 @@ export default async function AboutPage() {
 
             {/* Intro & At A Glance */}
             <section className="py-20 container mx-auto px-6 max-w-6xl">
-                <h2 className="text-3xl font-serif font-bold text-charcoal mb-8">{data.intro.title}</h2>
+                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal mb-8">{data.intro.title}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     <div className="md:col-span-2">
                         <p className="text-gray-600 leading-relaxed text-lg whitespace-pre-wrap">
@@ -149,7 +149,7 @@ export default async function AboutPage() {
             </section>
 
             {/* Custom Footer CTA */}
-            <section className="py-12 container mx-auto px-6 max-w-5xl">
+            <section className="pt-12 pb-24 container mx-auto px-6 max-w-5xl">
                 <div className="bg-charcoal rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                     <div>
                         <h3 className="text-2xl font-serif font-bold text-white mb-2">Explore Themes, Programme & Registration</h3>

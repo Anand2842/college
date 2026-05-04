@@ -133,17 +133,18 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     const logoClass = "h-12 w-auto object-contain transition-all duration-300";
 
     return (
-        <header
-            className={cn(
-                "fixed top-0 w-full z-50 transition-all duration-300 border-b",
-                // Background Logic
-                isScrolled
-                    ? "bg-white/90 backdrop-blur-md shadow-sm border-gray-100 py-3"
-                    : variant === "transparent"
-                        ? "bg-transparent border-transparent py-6"
-                        : "bg-white border-gray-100 py-4"
-            )}
-        >
+        <>
+            <header
+                className={cn(
+                    "fixed top-0 w-full z-50 transition-all duration-300 border-b",
+                    // Background Logic
+                    isMobileMenuOpen || isScrolled
+                        ? "bg-white/95 backdrop-blur-md shadow-sm border-gray-100 py-3"
+                        : variant === "transparent"
+                            ? "bg-transparent border-transparent py-6"
+                            : "bg-white border-gray-100 py-4"
+                )}
+            >
             <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between relative z-50">
                 <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-4 lg:mr-8 xl:mr-16 min-w-fit">
                     <img
@@ -257,81 +258,81 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            {
-                isMobileMenuOpen && (
-                    <div className="fixed inset-0 z-40 bg-white pt-24 px-6 xl:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
-                        <div className="flex flex-col space-y-6 pb-20">
-                            {navItems.map((item) => {
-                                if (item.label === "Dashboard" && !isLoggedIn) return null;
-                                return (
-                                    <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
-                                        {item.children ? (
-                                            <>
-                                                <button
-                                                    className="flex w-full items-center justify-between font-bold text-earth-green mb-3"
-                                                    onClick={() => toggleMobileSubmenu(item.label)}
-                                                >
-                                                    <span>{item.label}</span>
-                                                    <ChevronDown
-                                                        size={16}
-                                                        className={cn("transition-transform duration-200", openMobileSubmenu === item.label && "rotate-180")}
-                                                    />
-                                                </button>
-                                                {openMobileSubmenu === item.label && (
-                                                    <div className="flex flex-col space-y-3 pl-4 animate-in slide-in-from-top-1 fade-in duration-200">
-                                                        {item.children.map(child => (
-                                                            <Link
-                                                                key={child.label}
-                                                                href={child.href}
-                                                                className="text-gray-600 hover:text-earth-green py-1"
-                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                            >
-                                                                {child.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <Link
-                                                href={item.href}
-                                                className="font-bold text-earth-green block"
-                                                onClick={() => setIsMobileMenuOpen(false)}
-                                            >
-                                                {item.label}
-                                            </Link>
-                                        )}
-                                    </div>
-                                )
-                            })}
+            </header>
 
-                            <div className="flex flex-col gap-4 mt-8">
-                                {isLoggedIn ? (
-                                    <form action="/auth/signout" method="post" className="w-full">
-                                        <Button variant="outline" className="w-full justify-center border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700" type="submit">
-                                            Sign Out
-                                        </Button>
-                                    </form>
-                                ) : (
-                                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                                        <Button variant="outline" className="w-full justify-center">Login</Button>
-                                    </Link>
-                                )}
-                                <Button
-                                    onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        openModal();
-                                    }}
-                                    className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90"
-                                >
-                                    Register Now
-                                </Button>
-                            </div>
+            {/* Mobile Menu Overlay */}
+            {isMobileMenuOpen && (
+                <div className="fixed inset-0 z-40 bg-white pt-24 px-6 xl:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-200">
+                    <div className="flex flex-col space-y-6 pb-20">
+                        {navItems.map((item) => {
+                            if (item.label === "Dashboard" && !isLoggedIn) return null;
+                            return (
+                                <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
+                                    {item.children ? (
+                                        <>
+                                            <button
+                                                className="flex w-full items-center justify-between font-bold text-gray-900 mb-3"
+                                                onClick={() => toggleMobileSubmenu(item.label)}
+                                            >
+                                                <span className="text-xl">{item.label}</span>
+                                                <ChevronDown
+                                                    size={16}
+                                                    className={cn("transition-transform duration-200", openMobileSubmenu === item.label && "rotate-180")}
+                                                />
+                                            </button>
+                                            {openMobileSubmenu === item.label && (
+                                                <div className="flex flex-col space-y-3 pl-4 animate-in slide-in-from-top-1 fade-in duration-200">
+                                                    {item.children.map(child => (
+                                                        <Link
+                                                            key={child.label}
+                                                            href={child.href}
+                                                            className="text-gray-600 hover:text-earth-green py-2 text-lg"
+                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                        >
+                                                            {child.label}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <Link
+                                            href={item.href}
+                                            className="font-bold text-gray-900 block text-xl"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    )}
+                                </div>
+                            )
+                        })}
+
+                        <div className="flex flex-col gap-4 mt-8">
+                            {isLoggedIn ? (
+                                <form action="/auth/signout" method="post" className="w-full">
+                                    <Button variant="outline" className="w-full justify-center border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700" type="submit">
+                                        Sign Out
+                                    </Button>
+                                </form>
+                            ) : (
+                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Button variant="outline" className="w-full justify-center">Login</Button>
+                                </Link>
+                            )}
+                            <Button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    openModal();
+                                }}
+                                className="w-full justify-center bg-earth-green text-white hover:bg-earth-green/90"
+                            >
+                                Register Now
+                            </Button>
                         </div>
                     </div>
-                )
-            }
-        </header >
+                </div>
+            )}
+        </>
     )
 }

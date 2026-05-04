@@ -56,7 +56,7 @@ export function Hero({
                     </span>
 
                     {/* Main Headline — rendered from Supabase */}
-                    <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold leading-none mb-6 text-white drop-shadow-2xl">
+                    <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-none mb-6 text-white drop-shadow-2xl">
                         <SafeHtml html={headline} />
                     </h1>
 

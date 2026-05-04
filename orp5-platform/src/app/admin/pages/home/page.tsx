@@ -362,6 +362,18 @@ export default function HomepageEditor() {
                                     value={data.venue?.address || ""}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("venue", "address", e.target.value)}
                                 />
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+                                    <ImageUploader
+                                        label="Venue Image 1 (Left)"
+                                        value={data.venue?.image1 || ""}
+                                        onChange={(url) => handleChange("venue", "image1", url)}
+                                    />
+                                    <ImageUploader
+                                        label="Venue Image 2 (Right)"
+                                        value={data.venue?.image2 || ""}
+                                        onChange={(url) => handleChange("venue", "image2", url)}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

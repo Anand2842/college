@@ -74,9 +74,9 @@ export default function ProgrammeClient() {
 
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300 min-h-[400px]">
                     {data.schedule[activeDay]?.map((session: any) => (
-                        <div key={session.id} className="flex gap-6 group hover:bg-white hover:shadow-sm hover:rounded-xl p-4 transition-all -mx-4 border-b border-gray-100 last:border-0 border-dashed md:border-none">
-                            <div className="w-32 shrink-0 pt-1">
-                                <div className="flex items-center gap-2 text-gray-500 text-sm font-bold">
+                        <div key={session.id} className="flex flex-col md:flex-row gap-2 md:gap-6 group bg-white md:bg-transparent shadow-sm md:shadow-none rounded-xl md:rounded-none hover:bg-white hover:shadow-sm hover:rounded-xl p-5 md:p-4 transition-all mb-4 md:mb-0 border border-gray-100 md:border-0 md:border-b border-solid md:border-dashed last:border-0">
+                            <div className="md:w-32 shrink-0 md:pt-1 mb-2 md:mb-0">
+                                <div className="flex items-center gap-2 text-earth-green md:text-gray-500 text-sm font-bold bg-green-50 md:bg-transparent inline-flex md:flex px-2 py-1 md:p-0 rounded-md md:rounded-none">
                                     <Clock size={16} /> {session.time}
                                 </div>
                             </div>

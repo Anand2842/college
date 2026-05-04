@@ -200,7 +200,7 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
 
     // --- Form Wizard ---
     return (
-        <form id="registration-form" onSubmit={(e) => e.preventDefault()} className="bg-white rounded-3xl p-8 shadow-large border border-gray-100 max-w-4xl mx-auto relative overflow-hidden">
+        <form id="registration-form" onSubmit={(e) => e.preventDefault()} className="bg-white rounded-3xl p-5 sm:p-8 shadow-large border border-gray-100 max-w-4xl mx-auto relative overflow-hidden">
             {/* Progress Bar */}
             <div className="absolute top-0 left-0 h-1.5 bg-gray-100 w-full">
                 <div
@@ -212,7 +212,7 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Steps Sidebar (Desktop) */}
                 <div className="hidden md:flex flex-col gap-6 w-48 shrink-0 pt-6 border-r border-gray-100 pr-6">
-                    {["Mode & Origin", "Personal Info", "Category & Fee", "Payment"].map((label, idx) => (
+                    {["Mode & Origin", "Personal Info", "Category & Fee", "Review & Submit"].map((label, idx) => (
                         <div key={idx} className={cn("flex items-center gap-3 transition-colors", step === idx ? "text-earth-green font-bold" : step > idx ? "text-charcoal font-medium" : "text-gray-300")}>
                             <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-xs border-2", step === idx ? "border-earth-green bg-earth-green/10" : step > idx ? "border-earth-green bg-earth-green text-white" : "border-gray-200")}>
                                 {step > idx ? <Check size={14} /> : idx + 1}
@@ -228,7 +228,7 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                         {step === 0 && "Select Mode & Origin"}
                         {step === 1 && "Personal Details"}
                         {step === 2 && "Confirm Category & Fee"}
-                        {step === 3 && "Secure Payment"}
+                        {step === 3 && "Review & Submit"}
                     </h3>
 
                     {/* STEP 0: Mode & Nationality */}
@@ -256,12 +256,12 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                                     <label className={cn("cursor-pointer border-2 rounded-xl p-4 flex flex-col items-center gap-2 hover:bg-gray-50 transition-all", formData.nationality === "indian" ? "border-earth-green bg-green-50/30 text-earth-green" : "border-gray-100 text-gray-500")}>
                                         <input type="radio" name="nationality" value="indian" checked={formData.nationality === "indian"} onChange={handleChange} className="hidden" />
                                         <span className="text-2xl">🇮🇳</span>
-                                        <span className="font-bold">Indian Delegate</span>
+                                        <span className="font-bold text-center">Indian Delegate</span>
                                     </label>
                                     <label className={cn("cursor-pointer border-2 rounded-xl p-4 flex flex-col items-center gap-2 hover:bg-gray-50 transition-all", formData.nationality === "foreign" ? "border-earth-green bg-green-50/30 text-earth-green" : "border-gray-100 text-gray-500")}>
                                         <input type="radio" name="nationality" value="foreign" checked={formData.nationality === "foreign"} onChange={handleChange} className="hidden" />
                                         <span className="text-2xl">🌍</span>
-                                        <span className="font-bold">Foreign Delegate</span>
+                                        <span className="font-bold text-center">Foreign Delegate</span>
                                     </label>
                                 </div>
                             </div>
@@ -330,7 +330,7 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
 
                             {/* Fee Preview */}
                             <div className="bg-stone-50 p-6 rounded-xl border border-stone-200 mt-6">
-                                <div className="flex justify-between items-center mb-2">
+                                <div className="flex justify-between items-center mb-2 gap-4">
                                     <span className="text-gray-600">Registration Fee ({formData.currency})</span>
                                     <span className="text-2xl font-bold text-charcoal">{formData.feeAmount}</span>
                                 </div>
@@ -341,80 +341,65 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                         </div>
                     )}
 
-                    {/* STEP 3: Payment */}
+                    {/* STEP 3: Review & Submit */}
                     {step === 3 && (
                         <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
-                            <div className="p-6 bg-green-50/50 border border-green-100 rounded-xl mb-6">
-                                <h4 className="font-bold text-lg text-earth-green mb-1">Registration Summary</h4>
+                            {/* Registration Summary */}
+                            <div className="p-6 bg-green-50/50 border border-green-100 rounded-xl">
+                                <h4 className="font-bold text-lg text-earth-green mb-3">Registration Summary</h4>
                                 <ul className="space-y-2 text-sm text-gray-700">
-                                    <li className="flex justify-between"><span>Delegate:</span> <span className="font-bold">{formData.fullName}</span></li>
-                                    <li className="flex justify-between"><span>Category:</span> <span>{formData.category} ({formData.nationality})</span></li>
-                                    <li className="flex justify-between"><span>Mode:</span> <span className="uppercase">{formData.mode}</span></li>
-                                    <li className="flex justify-between pt-2 border-t border-green-200 mt-2 text-base"><span>Total Fee:</span> <span className="font-bold text-earth-green">{formData.currency} {formData.feeAmount}</span></li>
+                                    <li className="flex justify-between gap-4">
+                                        <span className="text-gray-500 shrink-0">Delegate</span>
+                                        <span className="font-bold text-right break-words">{formData.fullName}</span>
+                                    </li>
+                                    <li className="flex justify-between gap-4">
+                                        <span className="text-gray-500 shrink-0">Category</span>
+                                        <span className="text-right break-words">{formData.category} ({formData.nationality})</span>
+                                    </li>
+                                    <li className="flex justify-between gap-4">
+                                        <span className="text-gray-500 shrink-0">Mode</span>
+                                        <span className="uppercase font-medium text-right">{formData.mode}</span>
+                                    </li>
+                                    <li className="flex justify-between gap-4 pt-3 border-t border-green-200 mt-1 text-base">
+                                        <span className="font-bold shrink-0">Total Fee</span>
+                                        <span className="font-bold text-earth-green text-lg text-right">{formData.currency} {formData.feeAmount}</span>
+                                    </li>
                                 </ul>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {/* QR Code Payment */}
-                                <div className="flex flex-col items-center p-4 bg-white rounded-xl border border-gray-200">
-                                    <h5 className="font-bold text-charcoal mb-3">Pay via UPI</h5>
-                                    <div className="bg-white p-3 rounded-lg border-2 border-earth-green/20 mb-3">
-                                        <img
-                                            src="/payment-qr.png"
-                                            alt="UPI Payment QR Code"
-                                            className="w-36 h-36 object-contain"
-                                        />
-                                    </div>
-                                    <p className="text-xs text-gray-500 mb-2">Scan with any UPI app</p>
-                                    <code className="bg-gray-100 px-3 py-1 rounded text-sm font-mono text-earth-green">
-                                        orp5conference@sbi
-                                    </code>
-                                </div>
-
-                                {/* Bank Transfer Details */}
-                                <div className="p-4 bg-white rounded-xl border border-gray-200">
-                                    <h5 className="font-bold text-charcoal mb-3">Bank Transfer</h5>
-                                    <div className="space-y-2 text-sm">
-                                        <div className="flex justify-between py-1 border-b border-gray-100">
-                                            <span className="text-gray-500">Account Name</span>
-                                            <span className="font-medium">ORP 5 Conference</span>
-                                        </div>
-                                        <div className="flex justify-between py-1 border-b border-gray-100">
-                                            <span className="text-gray-500">Account No.</span>
-                                            <span className="font-mono font-medium">44767771724</span>
-                                        </div>
-                                        <div className="flex justify-between py-1 border-b border-gray-100">
-                                            <span className="text-gray-500">IFSC Code</span>
-                                            <span className="font-mono font-medium">SBIN0005389</span>
-                                        </div>
-                                        <div className="flex justify-between py-1">
-                                            <span className="text-gray-500">Bank</span>
-                                            <span className="font-medium text-right text-xs">SBI, Pusa Complex, Delhi</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-                                <p className="text-sm text-amber-800">
-                                    <strong>Note:</strong> Click "Submit Registration" below. After payment, our team will verify and confirm your registration within 24-48 hours. You will receive a confirmation email with your QR ticket.
-                                </p>
+                            {/* What Happens Next */}
+                            <div className="rounded-xl border border-blue-100 bg-blue-50/60 p-5">
+                                <p className="text-sm font-bold text-blue-800 mb-3">What happens next?</p>
+                                <ol className="space-y-3">
+                                    <li className="flex gap-3 text-sm text-blue-900">
+                                        <span className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                                        <span>Click <strong>"Confirm & Proceed to Payment"</strong> — your registration details are saved instantly.</span>
+                                    </li>
+                                    <li className="flex gap-3 text-sm text-blue-900">
+                                        <span className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+                                        <span>You'll get a <strong>Ticket ID</strong> and a link to pay via <strong>SBI Collect</strong> (government-authorized portal).</span>
+                                    </li>
+                                    <li className="flex gap-3 text-sm text-blue-900">
+                                        <span className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+                                        <span>After paying, click <strong>"I have paid"</strong> on the next page — our team verifies within <strong>24–48 hours</strong>.</span>
+                                    </li>
+                                </ol>
                             </div>
                         </div>
                     )}
 
                     {/* Navigation Buttons */}
-                    <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-50">
+                    <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-6 border-t border-gray-50">
                         {step > 0 && (
-                            <Button type="button" variant="outline" onClick={() => setStep(step - 1)}>Back</Button>
+                            <Button type="button" variant="outline" onClick={() => setStep(step - 1)} className="w-full sm:w-auto">Back</Button>
                         )}
                         {step < 3 ? (
-                            <Button type="button" onClick={handleNext} className="bg-earth-green text-white hover:bg-earth-green/90 px-8">
+                            <Button type="button" onClick={handleNext} className="bg-earth-green text-white hover:bg-earth-green/90 px-8 w-full sm:w-auto">
                                 Next Step <ChevronRight size={16} className="ml-2" />
                             </Button>
                         ) : (
-                            <Button type="button" onClick={handleSubmit} disabled={loading} className="bg-rice-gold text-charcoal hover:bg-rice-gold/90 font-bold px-8 min-w-[200px]">
-                                {loading ? "Submitting..." : `Submit Registration (${formData.currency} ${formData.feeAmount})`}
+                            <Button type="button" onClick={handleSubmit} disabled={loading} className="bg-earth-green text-white hover:bg-earth-green/90 font-bold px-4 sm:px-8 w-full sm:w-auto sm:min-w-[220px]">
+                                {loading ? "Submitting..." : "Confirm & Proceed to Payment →"}
                             </Button>
                         )}
                     </div>

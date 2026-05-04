@@ -99,7 +99,7 @@ export default function RegistrationContent() {
                                     <User size={20} /> PHYSICAL MODE
                                 </div>
                                 <div className="overflow-x-auto">
-                                    <table className="w-full">
+                                    <table className="w-full min-w-[600px]">
                                         <thead className="bg-gray-50">
                                             <tr>
                                                 <th className="text-left p-4 font-semibold text-gray-700">Category</th>
@@ -139,7 +139,7 @@ export default function RegistrationContent() {
                                     <Monitor size={20} /> VIRTUAL/ONLINE MODE
                                 </div>
                                 <div className="overflow-x-auto">
-                                    <table className="w-full">
+                                    <table className="w-full min-w-[600px]">
                                         <thead className="bg-gray-50">
                                             <tr>
                                                 <th className="text-left p-4 font-semibold text-gray-700">Category</th>
@@ -357,7 +357,7 @@ export default function RegistrationContent() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
-                        className="text-center py-8"
+                        className="text-center pt-8 pb-24"
                     >
                         <div className="bg-gradient-to-r from-earth-green to-earth-green/90 rounded-3xl p-8 md:p-12 text-white">
                             <h2 className="text-3xl font-serif font-bold mb-4">Ready to Register?</h2>

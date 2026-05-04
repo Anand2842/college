@@ -238,9 +238,9 @@ export default function PaymentInstructionClient() {
                                                 SBI Collect Form — Fill It Like This
                                             </div>
                                             {step.table.map((row, j) => (
-                                                <div key={j} className={`flex items-start justify-between gap-3 px-4 py-3 text-sm border-b border-gray-100 last:border-none ${row.highlight ? "bg-green-50" : ""}`}>
-                                                    <span className="text-gray-500 shrink-0 w-40">{row.field}</span>
-                                                    <span className={`font-bold text-right ${row.highlight ? "text-earth-green font-mono" : "text-charcoal"}`}>{row.value}</span>
+                                                <div key={j} className={`flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 px-4 py-3 text-sm border-b border-gray-100 last:border-none ${row.highlight ? "bg-green-50" : ""}`}>
+                                                    <span className="text-gray-500 shrink-0 sm:w-40">{row.field}</span>
+                                                    <span className={`font-bold sm:text-right ${row.highlight ? "text-earth-green font-mono break-all sm:break-normal" : "text-charcoal"}`}>{row.value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -252,7 +252,7 @@ export default function PaymentInstructionClient() {
                 </div>
 
                 {/* ── Trust Badges ── */}
-                <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
                     {[
                         { icon: <ShieldCheck size={20} />, label: "Safe Payment", sub: "via SBI Collect" },
                         { icon: <Building2 size={20} />, label: "Govt. Authorized", sub: "PSU banking system" },

@@ -89,7 +89,7 @@ export default async function Home() {
       {/* Quick Access Row - Overlapping Hero */}
       {/* Quick Access Row - Standard flow */}
       <div className="container mx-auto px-6 relative z-30 -mt-16 mb-24">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <QuickAccessCard icon={<Info size={28} />} title="About the Conference" href="/about" delay={0.1} />
           <QuickAccessCard icon={<Leaf size={28} />} title="Themes (ORP-5)" href="/themes" delay={0.2} />
           <QuickAccessCard icon={<Calendar size={28} />} title="Programme Overview" href="/programme" delay={0.3} />
@@ -318,14 +318,24 @@ export default async function Home() {
                 View Venue & Directions &rarr;
               </Link>
             </div>
-            <div className="flex gap-6">
-              <div className="w-40 h-40 bg-[#123125] rounded-xl flex items-center justify-center">
-                {/* Placeholder Logo */}
-                <Sprout className="text-[#DFC074]" size={40} />
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-md relative group">
+                <Image
+                  src={data.venue?.image1 || "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800"}
+                  alt="Venue Auditorium"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 128px, 160px"
+                />
               </div>
-              <div className="w-40 h-40 bg-[#123125] rounded-xl flex items-center justify-center">
-                {/* Placeholder Logo */}
-                <Globe className="text-[#DFC074]" size={40} />
+              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-md relative group">
+                <Image
+                  src={data.venue?.image2 || "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&q=80&w=800"}
+                  alt="Conference Hall"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 128px, 160px"
+                />
               </div>
             </div>
           </div>

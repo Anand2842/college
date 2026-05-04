@@ -39,7 +39,7 @@ export function CountdownTimer({ targetDate }: { targetDate: string }) {
 
     if (!isMounted) {
         return (
-            <div className="flex gap-4 md:gap-6 justify-center mt-12">
+            <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center mt-12">
                 <TimeUnit value={0} label="Days" />
                 <TimeUnit value={0} label="Hours" />
                 <TimeUnit value={0} label="Minutes" />
@@ -49,7 +49,7 @@ export function CountdownTimer({ targetDate }: { targetDate: string }) {
     }
 
     return (
-        <div className="flex gap-4 md:gap-6 justify-center mt-12 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
+        <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 justify-center mt-12 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
             <TimeUnit value={timeLeft.days} label="Days" />
             <TimeUnit value={timeLeft.hours} label="Hours" />
             <TimeUnit value={timeLeft.minutes} label="Minutes" />
@@ -61,8 +61,8 @@ export function CountdownTimer({ targetDate }: { targetDate: string }) {
 function TimeUnit({ value, label }: { value: number; label: string }) {
     return (
         <div className="flex flex-col items-center group">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-black/20 backdrop-blur-sm rounded-none border-[0.5px] border-rice-gold/40 flex items-center justify-center transition-all duration-500 group-hover:border-rice-gold/80 group-hover:bg-rice-gold/5">
-                <span className="text-2xl md:text-3xl font-light text-rice-gold font-serif tracking-tighter">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-black/20 backdrop-blur-sm rounded-none border-[0.5px] border-rice-gold/40 flex items-center justify-center transition-all duration-500 group-hover:border-rice-gold/80 group-hover:bg-rice-gold/5">
+                <span className="text-xl sm:text-2xl md:text-3xl font-light text-rice-gold font-serif tracking-tighter">
                     {value.toString().padStart(2, "0")}
                 </span>
             </div>

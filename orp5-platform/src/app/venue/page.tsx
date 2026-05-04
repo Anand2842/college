@@ -59,7 +59,7 @@ export default async function VenuePage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {data.highlights.map((item: any) => (
-                            <div key={item.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                            <div key={item.id} className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                                 <div className="w-16 h-16 bg-[#FFFDF7] rounded-full flex items-center justify-center text-rice-gold mb-6 border border-rice-gold/20">
                                     {getIcon(item.iconName)}
                                 </div>
