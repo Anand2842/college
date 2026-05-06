@@ -614,15 +614,19 @@ export async function getAccommodationPageData() {
         officialHotels: [
             {
                 id: "h1",
-                name: "Grand Emerald Hotel",
-                distance: "0.5 miles from venue",
+                name: "Hotel Jaypee Siddharth",
+                distance: "3, Rajendra Place, New Delhi – 110008",
                 stars: 5,
-                priceRange: "$150 - $220",
-                priceUnit: "/ night",
+                priceRange: "Contact for rates",
+                priceUnit: "(conference rate)",
                 image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800",
                 amenities: ["Free Wi-Fi", "Breakfast Included", "Airport Shuttle", "Swimming Pool"],
-                bookingLink: "#book-grand-emerald",
-                promoCode: "ORP5CONF"
+                contactDetails: {
+                    name: "Shailender Aggarwal (Sales Manager)",
+                    phone: "+91-9871225326 / +91-9871790290",
+                    email: "saggarwal@jaypeehotels.com"
+                },
+                promoCode: ""
             },
             {
                 id: "h2",

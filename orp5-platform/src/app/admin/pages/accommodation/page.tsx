@@ -50,6 +50,36 @@ export default function AccommodationEditor() {
         setData((prev: any) => ({ ...prev, types: updatedTypes }));
     };
 
+    // Update a nested contactDetails field on a hotel
+    const handleContactUpdate = (hotelIndex: number, field: string, value: string) => {
+        const updatedHotels = [...data.officialHotels];
+        updatedHotels[hotelIndex] = {
+            ...updatedHotels[hotelIndex],
+            contactDetails: {
+                ...(updatedHotels[hotelIndex].contactDetails || {}),
+                [field]: value,
+            },
+        };
+        setData((prev: any) => ({ ...prev, officialHotels: updatedHotels }));
+    };
+
+    // Toggle a hotel between booking-link mode and contact-details mode
+    const handleContactModeToggle = (hotelIndex: number, useContact: boolean) => {
+        const updatedHotels = [...data.officialHotels];
+        const hotel = { ...updatedHotels[hotelIndex] };
+        if (useContact) {
+            hotel.contactDetails = hotel.contactDetails || { name: '', phone: '', email: '' };
+            delete hotel.bookingLink;
+            delete hotel.promoCode;
+        } else {
+            delete hotel.contactDetails;
+            hotel.bookingLink = hotel.bookingLink || '#';
+            hotel.promoCode = hotel.promoCode || '';
+        }
+        updatedHotels[hotelIndex] = hotel;
+        setData((prev: any) => ({ ...prev, officialHotels: updatedHotels }));
+    };
+
 
     const handleSave = async () => {
         setSaving(true);
@@ -121,23 +151,61 @@ export default function AccommodationEditor() {
                             renderItemFields={(item, i, update) => (
                                 <>
                                     <div className="grid grid-cols-2 gap-4">
-                                        <AdminInput label="Hotel Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
-                                        <AdminInput label="Price Range" value={item.priceRange} onChange={(e) => update("priceRange", e.target.value)} />
+                                        <AdminInput label="Hotel Name" value={item.name || ''} onChange={(e) => update("name", e.target.value)} />
+                                        <AdminInput label="Price Range" value={item.priceRange || ''} onChange={(e) => update("priceRange", e.target.value)} />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4 mt-2">
-                                        <AdminInput label="Distance" value={item.distance} onChange={(e) => update("distance", e.target.value)} />
-                                        <AdminInput label="Promo Code" value={item.promoCode} onChange={(e) => update("promoCode", e.target.value)} />
+                                        <AdminInput label="Distance / Address" value={item.distance || ''} onChange={(e) => update("distance", e.target.value)} />
+                                        <AdminInput label="Price Unit (e.g. / night)" value={item.priceUnit || ''} onChange={(e) => update("priceUnit", e.target.value)} />
                                     </div>
                                     <div className="mt-4">
-                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Amenities (Newline separated)</label>
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 block">Amenities (one per line)</label>
                                         <textarea
                                             className="w-full border border-gray-300 rounded-md p-2 text-sm h-24"
-                                            value={Array.isArray(item.amenities) ? item.amenities.join('\n') : item.amenities}
+                                            placeholder={"Free Wi-Fi\nBreakfast Included\nSwimming Pool"}
+                                            value={Array.isArray(item.amenities) ? item.amenities.join('\n') : item.amenities || ''}
                                             onChange={(e) => handleAmenitiesUpdate(i, e.target.value)}
                                         />
                                     </div>
+
+                                    {/* ── Booking Method ── */}
+                                    <div className="mt-4 border-t border-gray-100 pt-4">
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Booking Method</label>
+                                        <div className="flex gap-2 mb-3">
+                                            <button
+                                                type="button"
+                                                onClick={() => handleContactModeToggle(i, false)}
+                                                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                                                    !item.contactDetails ? 'bg-earth-green text-white border-earth-green' : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                                                }`}
+                                            >🔗 Booking Link</button>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleContactModeToggle(i, true)}
+                                                className={`flex-1 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                                                    item.contactDetails ? 'bg-earth-green text-white border-earth-green' : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                                                }`}
+                                            >📞 Direct Contact</button>
+                                        </div>
+
+                                        {item.contactDetails ? (
+                                            <div className="bg-gray-50 rounded-lg p-3 grid gap-2 border border-gray-100">
+                                                <p className="text-[11px] text-gray-400 mb-1">Shown as an expandable accordion on the card — no booking button.</p>
+                                                <AdminInput label="Contact Person & Title" value={item.contactDetails?.name || ''} onChange={(e) => handleContactUpdate(i, 'name', e.target.value)} placeholder="e.g. Shailender Aggarwal (Sales Manager)" />
+                                                <AdminInput label="Phone Number(s)" value={item.contactDetails?.phone || ''} onChange={(e) => handleContactUpdate(i, 'phone', e.target.value)} placeholder="e.g. +91-9871225326" />
+                                                <AdminInput label="Email Address" value={item.contactDetails?.email || ''} onChange={(e) => handleContactUpdate(i, 'email', e.target.value)} placeholder="e.g. sales@hotel.com" />
+                                            </div>
+                                        ) : (
+                                            <div className="bg-gray-50 rounded-lg p-3 grid gap-2 border border-gray-100">
+                                                <p className="text-[11px] text-gray-400 mb-1">Shows a "Check Availability" button linking to this URL.</p>
+                                                <AdminInput label="Booking Link URL" value={item.bookingLink || ''} onChange={(e) => update('bookingLink', e.target.value)} placeholder="https://..." />
+                                                <AdminInput label="Promo Code (optional)" value={item.promoCode || ''} onChange={(e) => update('promoCode', e.target.value)} placeholder="e.g. ORP5CONF" />
+                                            </div>
+                                        )}
+                                    </div>
+
                                     <div className="mt-4">
-                                        <ImageUploader label="Hotel Image" value={item.image} onChange={(url) => update("image", url)} />
+                                        <ImageUploader label="Hotel Image" value={item.image || ''} onChange={(url) => update("image", url)} />
                                     </div>
                                 </>
                             )}

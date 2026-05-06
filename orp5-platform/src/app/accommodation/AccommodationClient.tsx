@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
-import { Loader2, Star, Clock, Bus, Mail, Wifi, Utensils, Plane, Dumbbell, Waves, Briefcase, Bed, Building } from "lucide-react";
+import { Loader2, Star, Clock, Bus, Mail, Phone, Wifi, Utensils, Plane, Dumbbell, Waves, Briefcase, Bed, Building, ChevronDown } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AccommodationClient() {
     const [data, setData] = useState<any>(null);
+    const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
     useEffect(() => {
         fetch("/api/content/accommodation")
@@ -114,12 +115,63 @@ export default function AccommodationClient() {
                                 </div>
 
                                 <div className="mt-auto pt-4 border-t border-gray-100">
-                                    <Link href={hotel.bookingLink} className="block w-full">
-                                        <Button className="w-full bg-[#10B981] hover:bg-[#059669] text-white font-bold py-2 rounded-lg mb-2">
-                                            Book at Conference Rate
-                                        </Button>
-                                    </Link>
-                                    <p className="text-center text-[10px] text-gray-500">Use code: <span className="font-bold font-mono text-gray-800 bg-gray-100 px-1 rounded">{hotel.promoCode}</span></p>
+                                    {hotel.contactDetails ? (
+                                        /* ── Expandable Accordion ── */
+                                        <div>
+                                            <button
+                                                onClick={() => setOpenAccordion(openAccordion === hotel.id ? null : hotel.id)}
+                                                className="w-full flex items-center justify-between text-sm text-gray-500 hover:text-gray-800 transition-colors py-1"
+                                            >
+                                                <span className="font-medium">Need accommodation help?</span>
+                                                <ChevronDown
+                                                    size={15}
+                                                    className={`transition-transform duration-200 ${openAccordion === hotel.id ? 'rotate-180' : ''}`}
+                                                />
+                                            </button>
+                                            <AnimatePresence>
+                                                {openAccordion === hotel.id && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, height: 0 }}
+                                                        animate={{ opacity: 1, height: 'auto' }}
+                                                        exit={{ opacity: 0, height: 0 }}
+                                                        transition={{ duration: 0.2 }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <div className="pt-2 pb-1 flex flex-col gap-1.5 text-[12px] text-gray-600">
+                                                            {hotel.contactDetails.name && (
+                                                                <p className="font-semibold text-gray-700">{hotel.contactDetails.name}</p>
+                                                            )}
+                                                            {hotel.contactDetails.phone && (
+                                                                <a
+                                                                    href={`tel:${hotel.contactDetails.phone.split('/')[0].trim()}`}
+                                                                    className="flex items-center gap-1.5 text-gray-500 hover:text-gray-800 transition-colors"
+                                                                >
+                                                                    <Phone size={11} /> {hotel.contactDetails.phone}
+                                                                </a>
+                                                            )}
+                                                            {hotel.contactDetails.email && (
+                                                                <a
+                                                                    href={`mailto:${hotel.contactDetails.email}`}
+                                                                    className="flex items-center gap-1.5 text-gray-500 hover:text-gray-800 transition-colors break-all"
+                                                                >
+                                                                    <Mail size={11} /> {hotel.contactDetails.email}
+                                                                </a>
+                                                            )}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Link href={hotel.bookingLink || '#'} className="block w-full">
+                                                <Button className="w-full bg-[#1C5C43] hover:bg-[#154434] text-white font-semibold py-2 rounded-xl mb-2">
+                                                    Check Availability
+                                                </Button>
+                                            </Link>
+                                            {hotel.promoCode && <p className="text-center text-[10px] text-gray-400">Code: <span className="font-mono font-semibold text-gray-600 bg-gray-100 px-1 rounded">{hotel.promoCode}</span></p>}
+                                        </>
+                                    )}
                                 </div>
 
                             </div>

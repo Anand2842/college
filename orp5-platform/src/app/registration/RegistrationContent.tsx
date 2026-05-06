@@ -6,18 +6,10 @@ import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 import { Button } from "@/components/atoms/Button";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
-import { User, Monitor, CreditCard, Clock, Gift, AlertCircle, Copy, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
+import { User, Monitor, Clock, Gift, AlertCircle, CheckCircle2 } from "lucide-react";
 
 export default function RegistrationContent() {
     const { openModal } = useRegistrationModal();
-    const [copied, setCopied] = useState<string | null>(null);
-
-    const copyToClipboard = (text: string, field: string) => {
-        navigator.clipboard.writeText(text);
-        setCopied(field);
-        setTimeout(() => setCopied(null), 2000);
-    };
 
     return (
         <>
@@ -273,84 +265,7 @@ export default function RegistrationContent() {
                         </div>
                     </motion.section>
 
-                    {/* Payment Section */}
-                    <motion.section
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5 }}
-                        className="mb-12"
-                    >
-                        <h2 className="text-2xl font-serif font-bold text-charcoal mb-4 flex items-center gap-2">
-                            <CreditCard className="text-earth-green" /> Payment Details
-                        </h2>
 
-                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                            <div className="grid md:grid-cols-2 gap-8 items-center">
-                                {/* QR Code */}
-                                <div className="flex flex-col items-center">
-                                    <div className="bg-white p-4 rounded-2xl shadow-lg border-2 border-earth-green/20 mb-4">
-                                        <Image
-                                            src="/payment-qr.png"
-                                            alt="Payment QR Code - UPI: orp5conference@sbi"
-                                            width={250}
-                                            height={250}
-                                            className="rounded-lg"
-                                        />
-                                    </div>
-                                    <p className="text-center text-gray-600 text-sm">
-                                        Scan with any UPI app to pay
-                                    </p>
-                                    <button
-                                        onClick={() => copyToClipboard("orp5conference@sbi", "upi")}
-                                        className="mt-2 flex items-center gap-2 px-4 py-2 bg-earth-green/10 hover:bg-earth-green/20 text-earth-green rounded-lg transition-colors"
-                                    >
-                                        {copied === "upi" ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-                                        <span className="font-mono font-bold">orp5conference@sbi</span>
-                                    </button>
-                                </div>
-
-                                {/* Bank Details */}
-                                <div className="space-y-4">
-                                    <h3 className="font-bold text-charcoal text-lg mb-4">Bank Transfer Details</h3>
-
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                                            <span className="text-gray-600">Account Name</span>
-                                            <span className="font-bold text-charcoal">ORP 5 Conference</span>
-                                        </div>
-                                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                                            <span className="text-gray-600">Account Number</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-mono font-bold text-charcoal">44767771724</span>
-                                                <button onClick={() => copyToClipboard("44767771724", "acc")} className="text-earth-green hover:text-earth-green/80">
-                                                    {copied === "acc" ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                                            <span className="text-gray-600">Account Type</span>
-                                            <span className="font-bold text-charcoal">Current</span>
-                                        </div>
-                                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                                            <span className="text-gray-600">IFSC Code</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-mono font-bold text-charcoal">SBIN0005389</span>
-                                                <button onClick={() => copyToClipboard("SBIN0005389", "ifsc")} className="text-earth-green hover:text-earth-green/80">
-                                                    {copied === "ifsc" ? <CheckCircle2 size={16} /> : <Copy size={16} />}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="flex justify-between items-start p-3 bg-gray-50 rounded-lg">
-                                            <span className="text-gray-600">Bank</span>
-                                            <span className="font-bold text-charcoal text-right text-sm max-w-[200px]">
-                                                State Bank of India, NSC Beej Bhawan, Pusa Complex, New Delhi-110012
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.section>
 
                     {/* Register CTA */}
                     <motion.section
