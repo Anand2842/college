@@ -143,7 +143,7 @@ export async function GET(req: NextRequest) {
         const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
         const isAdmin = profile?.role === 'admin' || profile?.role === 'superadmin' || profile?.role === 'moderator';
 
-        let query = getSupabaseAdmin().from('abstracts').select('*, profiles(display_name, email)').order('created_at', { ascending: false });
+        let query = getSupabaseAdmin().from('abstracts').select('*, profiles!user_id(display_name, email)').order('created_at', { ascending: false });
         
         if (!isAdmin) {
             query = query.or(`user_id.eq.${user.id},email.eq.${user.email}`);
