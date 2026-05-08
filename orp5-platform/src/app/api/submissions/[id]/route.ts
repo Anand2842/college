@@ -1,5 +1,6 @@
 
 import { NextResponse, type NextRequest } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export async function GET(
@@ -62,6 +63,11 @@ export async function PATCH(
             ).catch(err => console.error('Failed to send status email:', err));
         }
 
+        // Revalidate caches
+        revalidatePath('/dashboard');
+        revalidatePath('/moderator/dashboard');
+        revalidatePath('/admin/submissions');
+
         return NextResponse.json({ success: true, submission: data });
     } catch (error) {
         console.error('Update submission error:', error);
@@ -83,6 +89,10 @@ export async function DELETE(
             .eq('id', id);
 
         if (error) throw error;
+
+        revalidatePath('/dashboard');
+        revalidatePath('/moderator/dashboard');
+        revalidatePath('/admin/submissions');
 
         return NextResponse.json({ success: true });
     } catch (error) {

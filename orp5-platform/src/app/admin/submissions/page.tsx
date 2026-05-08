@@ -44,7 +44,9 @@ export default function AdminSubmissionsPage() {
                 const normalized = data.map((s: any) => ({
                     ...s,
                     submittedAt: s.created_at,
-                    abstract: s.abstract_text || s.abstract
+                    abstract: s.abstract_text || s.abstract,
+                    authors: s.author_name || s.profiles?.display_name || s.authors || 'Unknown User',
+                    email: s.email || s.profiles?.email || 'No Email Provided'
                 }));
                 setSubmissions(normalized);
             }

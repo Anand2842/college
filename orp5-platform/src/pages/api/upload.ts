@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { IncomingForm, File } from 'formidable';
-import { createServerClient } from '@supabase/ssr';
+import { IncomingForm } from 'formidable';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import fs from 'fs';
 
@@ -19,36 +18,8 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        // 1. Auth Check
-        // createServerClient for Pages Router
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    getAll() {
-                        return Object.keys(req.cookies).map((name) => ({
-                            name,
-                            value: req.cookies[name] || '',
-                        }));
-                    },
-                    setAll(cookiesToSet) {
-                        // Basic implementation - we might not need to write back strictly for just an upload check
-                        // providing empty implementation to satisfy type if strictly needed, or basic header set
-                        const cookieHeaders = cookiesToSet.map(({ name, value, options }) => {
-                            // simplistic serialize, ideally use a library but for now we trust existing session
-                            return `${name}=${value}; Path=${options.path || '/'}; SameSite=${options.sameSite || 'Lax'}`; // simplified
-                        });
-                        res.setHeader('Set-Cookie', cookieHeaders);
-                    },
-                },
-            }
-        );
-
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+        // No auth required — file upload is allowed for guests submitting abstracts.
+        // Storage upload uses the admin service role key which bypasses all RLS.
 
         // 2. Parse Form
         const form = new IncomingForm({
@@ -72,9 +43,16 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
         const fileObj = Array.isArray(uploadedFile) ? uploadedFile[0] : uploadedFile;
 
         // Validate Type
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+        const allowedTypes = [
+            'image/jpeg', 
+            'image/png', 
+            'image/webp', 
+            'application/pdf',
+            'application/msword', // .doc
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
+        ];
         if (!allowedTypes.includes(fileObj.mimetype || '')) {
-            return res.status(400).json({ error: 'Invalid file type. Only Images and PDFs allowed.' });
+            return res.status(400).json({ error: 'Invalid file type. Only Images, PDFs, and Word Documents (.doc, .docx) are allowed.' });
         }
 
         // 3. Upload to Supabase
