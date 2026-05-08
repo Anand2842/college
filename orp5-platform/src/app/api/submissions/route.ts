@@ -143,17 +143,19 @@ export async function GET(req: NextRequest) {
         const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
         const isAdmin = profile?.role === 'admin' || profile?.role === 'superadmin' || profile?.role === 'moderator';
 
-        let query = getSupabaseAdmin().from('abstracts').select('*, profiles!user_id(display_name, email)').order('created_at', { ascending: false });
+        let query = getSupabaseAdmin().from('abstracts').select('*').order('created_at', { ascending: false });
         
         if (!isAdmin) {
-            query = query.or(`user_id.eq.${user.id},email.eq.${user.email}`);
+            const safeEmail = user.email || 'no-email@placeholder.com';
+            query = query.or(`user_id.eq.${user.id},email.eq.${safeEmail}`);
         }
 
         const { data, error } = await query;
         if (error) throw error;
         return NextResponse.json(data);
 
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch submissions' }, { status: 500 });
+    } catch (error: any) {
+        console.error('Submissions GET Error:', error);
+        return NextResponse.json({ error: 'Failed to fetch submissions', details: error?.message || String(error) }, { status: 500 });
     }
 }

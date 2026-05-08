@@ -31,7 +31,7 @@ export default async function ModeratorDashboard() {
     
     const { data: allSubmissions, error } = await supabaseAdmin
         .from('abstracts')
-        .select('*, profiles!user_id(display_name, email)')
+        .select('*')
         .order('created_at', { ascending: true })
 
     if (error) {
