@@ -1,7 +1,7 @@
 import { getPublishedPosts } from '@/lib/supabase-blog';
 import { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://orp5ic.com'; // Adjust if you have a different production URL
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // 1. Static Routes

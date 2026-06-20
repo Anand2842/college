@@ -79,7 +79,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         // Fetch related posts
         const relatedPosts = await getRelatedPosts(post.slug, post.category);
-        const postUrl = `https://orp5ic.com/blog/${slug}`;
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
+        const postUrl = `${baseUrl}/blog/${slug}`;
 
         return (
             <div className="min-h-screen bg-[#FDFCF8]">
@@ -243,7 +244,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             dateModified: post.updated_at || post.confirmed_at,
                             description: post.excerpt || post.content.replace(/<[^>]+>/g, '').substring(0, 160),
                             image: post.cover_image ? [post.cover_image] : [],
-                            url: `https://orp5ic.com/blog/${post.slug}`,
+                            url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/blog/${post.slug}`,
                             author: {
                                 '@type': 'Person',
                                 name: (Array.isArray(post.profiles) ? post.profiles[0]?.display_name : post.profiles?.display_name) || 'ORP-5 Team',
@@ -254,7 +255,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 name: 'ORP-5',
                                 logo: {
                                     '@type': 'ImageObject',
-                                    url: 'https://orp5ic.com/orp5-logo.png' // Ensure this path is correct
+                                    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/orp5-logo.png` // Ensure this path is correct
                                 }
                             }
                         })

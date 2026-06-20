@@ -152,12 +152,15 @@ export default function CommitteesPageEditor() {
                                     title={`${c.label} Members`}
                                     items={c.members || []}
                                     onUpdate={(items) => handleCommitteeMemberUpdate(index, items)}
-                                    itemTemplate={{ id: "", name: "New Member", affiliation: "", country: "", imageUrl: "https://placehold.co/150" }}
+                                    itemTemplate={{ id: "", name: "New Member", role: "", affiliation: "", country: "", email: "", phone: "", imageUrl: "https://placehold.co/150" }}
                                     renderItemFields={(item, i, update) => (
                                         <>
-                                            <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
-                                            <AdminInput label="Affiliation" value={item.affiliation} onChange={(e) => update("affiliation", e.target.value)} />
-                                            <AdminInput label="Country/Role" value={item.country} onChange={(e) => update("country", e.target.value)} />
+                                            <AdminInput label="Name" value={item.name || ""} onChange={(e) => update("name", e.target.value)} />
+                                            <AdminInput label="Role" value={item.role || ""} onChange={(e) => update("role", e.target.value)} />
+                                            <AdminInput label="Country" value={item.country || ""} onChange={(e) => update("country", e.target.value)} />
+                                            <AdminInput label="Affiliation" value={item.affiliation || ""} onChange={(e) => update("affiliation", e.target.value)} />
+                                            <AdminInput label="Email (Multiple? pipe-separate them '|')" value={item.email || ""} onChange={(e) => update("email", e.target.value)} />
+                                            <AdminInput label="Phone (Multiple? pipe-separate them '|')" value={item.phone || ""} onChange={(e) => update("phone", e.target.value)} />
                                             <ImageUploader label="Profile Image" value={item.imageUrl} onChange={(url) => update("imageUrl", url)} />
                                         </>
                                     )}
@@ -174,11 +177,13 @@ export default function CommitteesPageEditor() {
                             title="Contact Persons"
                             items={data.contacts || []}
                             onUpdate={(items) => handleListUpdate("contacts", items)}
-                            itemTemplate={{ id: "", name: "New Contact", email: "", imageUrl: "https://placehold.co/150" }}
+                            itemTemplate={{ id: "", name: "New Contact", role: "", email: "", phone: "", imageUrl: "https://placehold.co/150" }}
                             renderItemFields={(item, i, update) => (
                                 <>
-                                    <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
-                                    <AdminInput label="Email" value={item.email} onChange={(e) => update("email", e.target.value)} />
+                                    <AdminInput label="Name" value={item.name || ""} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Role" value={item.role || ""} onChange={(e) => update("role", e.target.value)} />
+                                    <AdminInput label="Email" value={item.email || ""} onChange={(e) => update("email", e.target.value)} />
+                                    <AdminInput label="Phone" value={item.phone || ""} onChange={(e) => update("phone", e.target.value)} />
                                     <ImageUploader label="Profile Image" value={item.imageUrl} onChange={(url) => update("imageUrl", url)} />
                                 </>
                             )}

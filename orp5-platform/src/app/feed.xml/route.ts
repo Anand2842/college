@@ -1,6 +1,6 @@
 import { getPublishedPosts } from '@/lib/supabase-blog';
 
-const BASE_URL = 'https://orp5ic.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
 
 export async function GET() {
     const posts = await getPublishedPosts();
