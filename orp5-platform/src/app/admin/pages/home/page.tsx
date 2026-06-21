@@ -211,7 +211,9 @@ export default function HomepageEditor() {
                             renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
                                 <div className="col-span-1 md:col-span-2 grid gap-4">
                                     <AdminInput label="Partner Name" value={item.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("name", e.target.value)} />
+                                    <AdminInput label="Category" value={item.category || ""} placeholder="e.g., Organizers, Academic Partners, Sponsors" onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("category", e.target.value)} />
                                     <ImageUploader label="Logo URL" value={item.logoUrl} onChange={(url) => update("logoUrl", url)} />
+                                    <AdminInput label="Website URL" value={item.website || ""} placeholder="https://..." onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("website", e.target.value)} />
                                 </div>
                             )}
                         />

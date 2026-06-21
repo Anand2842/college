@@ -14,9 +14,10 @@ interface ThemeCardProps {
     colorTheme?: "green" | "mint" | "gold" | "brown" | "red" | string;
     delay?: number;
     subtitle?: string;
+    submissionHref?: string;
 }
 
-export function ThemeCard({ icon, title, description, href, colorTheme = "green", delay = 0, subtitle }: ThemeCardProps) {
+export function ThemeCard({ icon, title, description, href, colorTheme = "green", delay = 0, subtitle, submissionHref }: ThemeCardProps) {
 
     const bgColors: Record<string, string> = {
         green: "bg-earth-green/10",
@@ -58,10 +59,10 @@ export function ThemeCard({ icon, title, description, href, colorTheme = "green"
                 {description}
             </p>
             <Link
-                href={href}
-                className={cn("inline-flex items-center gap-2 font-semibold text-sm hover:gap-3 transition-all", activeIcon)}
+                href={submissionHref || href}
+                className={cn("inline-flex items-center gap-2 font-semibold text-sm mt-auto hover:gap-3 transition-all", activeIcon)}
             >
-                Learn More <ArrowRight size={16} />
+                {submissionHref ? "Submit to this theme" : "Learn More"} <ArrowRight size={16} />
             </Link>
         </motion.div>
     );

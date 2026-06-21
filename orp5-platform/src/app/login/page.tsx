@@ -3,8 +3,9 @@
 import { useState, Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
-import { Loader2, AlertCircle } from 'lucide-react'
+import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 function LoginForm() {
     const router = useRouter()
@@ -127,102 +128,137 @@ function LoginForm() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-            <div className="max-w-md w-full space-y-8">
-                <div className="text-center">
-                    <h2 className="mt-6 text-3xl font-bold text-gray-900">
-                        {isSignUp ? 'Create an Account' : 'Welcome Back'}
-                    </h2>
-                    <p className="mt-2 text-sm text-gray-600">
-                        {isSignUp ? 'Sign up to submit your abstract' : 'Sign in to access your dashboard'}
-                    </p>
+        <div className="min-h-screen flex font-sans">
+            {/* Left Side: Visuals (Hidden on small mobile) */}
+            <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden bg-earth-green">
+                {/* CSS Pattern Background instead of external image */}
+                <div className="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-[#123125] via-earth-green to-[#0a1a14] z-0 opacity-90" />
+                
+                <div className="relative z-20 flex flex-col justify-between p-12 lg:p-20 h-full w-full">
+                    <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity w-fit bg-white p-4 rounded-2xl shadow-xl">
+                        <img src="/orp5-logo.png" alt="ORP-5 Logo" className="h-16 w-auto object-contain" />
+                    </Link>
+                    
+                    <div className="text-white space-y-6">
+                        <h1 className="text-4xl xl:text-5xl font-serif font-bold leading-tight">
+                            5th International Conference on Organic and Natural Rice Production Systems
+                        </h1>
+                        <p className="text-lg text-white/80 max-w-lg font-medium">
+                            Join global experts in New Delhi to shape the future of sustainable agriculture.
+                        </p>
+                    </div>
                 </div>
+            </div>
 
-                {message && (
-                    <div className="p-4 bg-blue-50 text-blue-700 rounded-md text-sm">
-                        {message}
-                    </div>
-                )}
+            {/* Right Side: Portal */}
+            <div className="w-full lg:w-[55%] flex flex-col items-center justify-center p-6 sm:p-12 relative bg-white min-h-screen">
+                <Link href="/" className="absolute top-8 left-8 text-sm font-bold text-gray-500 hover:text-earth-green flex items-center gap-2 transition-colors">
+                    <ArrowLeft size={16} />
+                    Back to Homepage
+                </Link>
 
-                {lockoutUntil ? (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-                        <AlertCircle className="w-10 h-10 text-red-500 mx-auto mb-3" />
-                        <h3 className="text-red-800 font-bold mb-2">Login Locked</h3>
-                        <p className="text-red-600 text-sm mb-4">Too many failed attempts.</p>
-                        <div className="text-2xl font-mono font-bold text-red-700">
-                            {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 mt-12 lg:mt-0">
+                    {/* Header */}
+                    <div className="text-center">
+                        <div className="lg:hidden flex justify-center mb-6">
+                            <img src="/orp5-logo.png" alt="ORP-5 Logo" className="h-16 w-auto object-contain" />
                         </div>
-                        <p className="text-xs text-red-500 mt-2">Please wait before trying again.</p>
+                        <h2 className="text-3xl font-serif font-bold text-charcoal tracking-tight">
+                            {isSignUp ? 'Create an Account' : 'Welcome Back'}
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-500 font-medium">
+                            {isSignUp ? 'Sign up to submit your abstract and register' : 'Sign in to access your delegate dashboard'}
+                        </p>
                     </div>
-                ) : (
-                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                        <div className="rounded-md shadow-sm -space-y-px">
+
+                    {message && (
+                        <div className="p-4 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium border border-blue-100">
+                            {message}
+                        </div>
+                    )}
+
+                    {/* Toggle */}
+                    <div className="flex p-1 bg-gray-100/80 rounded-xl border border-gray-200/50">
+                        <button
+                            type="button"
+                            onClick={() => setIsSignUp(false)}
+                            className={cn(
+                                "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all",
+                                !isSignUp ? "bg-white text-earth-green shadow-sm" : "text-gray-500 hover:text-gray-900"
+                            )}
+                        >
+                            Sign In
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setIsSignUp(true)}
+                            className={cn(
+                                "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all",
+                                isSignUp ? "bg-white text-earth-green shadow-sm" : "text-gray-500 hover:text-gray-900"
+                            )}
+                        >
+                            Sign Up
+                        </button>
+                    </div>
+
+                    {lockoutUntil ? (
+                        <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center animate-in zoom-in-95 duration-300">
+                            <AlertCircle className="w-10 h-10 text-red-500 mx-auto mb-3" />
+                            <h3 className="text-red-800 font-bold mb-2">Login Locked</h3>
+                            <p className="text-red-600 text-sm mb-4">Too many failed attempts.</p>
+                            <div className="text-3xl font-mono font-bold text-red-700 tracking-wider">
+                                {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                            </div>
+                            <p className="text-xs text-red-500 mt-3 font-medium">Please wait before trying again.</p>
+                        </div>
+                    ) : (
+                        <form className="space-y-5" onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="email-address" className="sr-only">
-                                    Email address
-                                </label>
+                                <label className="block text-sm font-bold text-gray-700 mb-1.5">Email Address</label>
                                 <input
-                                    id="email-address"
-                                    name="email"
                                     type="email"
-                                    autoComplete="email"
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-earth-green focus:border-earth-green focus:z-10 sm:text-sm"
-                                    placeholder="Email address"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-rice-gold focus:border-rice-gold transition-all text-gray-900 shadow-sm placeholder:text-gray-400"
+                                    placeholder="you@institution.edu"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="password" className="sr-only">
-                                    Password
-                                </label>
+                                <label className="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
                                 <input
-                                    id="password"
-                                    name="password"
                                     type="password"
-                                    autoComplete="current-password"
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-earth-green focus:border-earth-green focus:z-10 sm:text-sm"
-                                    placeholder="Password"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-rice-gold focus:border-rice-gold transition-all text-gray-900 shadow-sm placeholder:text-gray-400"
+                                    placeholder="••••••••"
                                 />
                             </div>
-                        </div>
+                            
+                            {error && (
+                                <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3.5 rounded-lg font-medium border border-red-100">
+                                    <AlertCircle className="w-4 h-4 shrink-0" />
+                                    {error}
+                                </div>
+                            )}
 
-                        {error && (
-                            <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-md">
-                                <AlertCircle className="w-4 h-4" />
-                                {error}
-                            </div>
-                        )}
-
-                        <div>
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-earth-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-earth-green disabled:opacity-50"
+                                className="w-full flex justify-center py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-earth-green hover:bg-[#0f2a1f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-earth-green transition-all shadow-md disabled:opacity-70 mt-2"
                             >
-                                {isLoading ? (
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                ) : (
-                                    isSignUp ? 'Sign Up' : 'Sign In'
-                                )}
+                                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (isSignUp ? 'Create Account' : 'Sign In')}
                             </button>
-                        </div>
-
-                        <div className="text-center mt-4">
-                            <button
-                                type="button"
-                                onClick={() => setIsSignUp(!isSignUp)}
-                                className="text-sm text-earth-green hover:underline font-medium"
-                            >
-                                {isSignUp ? 'Already have an account? Sign In' : 'New to ORP-5? Create an Account'}
-                            </button>
-                        </div>
-                    </form>
-                )}
+                        </form>
+                    )}
+                </div>
+                
+                {/* Footer Copyright */}
+                <div className="absolute bottom-6 text-xs text-gray-400 font-medium text-center">
+                    &copy; 2026 ORP-5 Conference. All rights reserved.
+                </div>
             </div>
         </div>
     )

@@ -58,6 +58,12 @@ export default function SubmissionClient() {
         setSubmitting(true);
         setError(null);
 
+        if (!formState.abstract.trim() && !formState.file) {
+            setError("Please provide either the abstract text or upload a document.");
+            setSubmitting(false);
+            return;
+        }
+
         try {
             let fileUrl = null;
 
@@ -457,7 +463,7 @@ export default function SubmissionClient() {
 
                         <div>
                             <label className="block text-sm text-gray-500 mb-2">Abstract</label>
-                            <textarea required name="abstract" value={formState.abstract} onChange={handleInputChange} rows={6} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 text-sm" placeholder="Paste your abstract text here..." />
+                            <textarea name="abstract" value={formState.abstract} onChange={handleInputChange} rows={6} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 text-sm" placeholder="Paste your abstract text here..." />
                             <p className="text-xs text-gray-400 mt-2">500 words limit. Alternatively you can upload a Document (PDF, DOC, DOCX) below.</p>
                         </div>
 

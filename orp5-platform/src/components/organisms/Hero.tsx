@@ -14,6 +14,7 @@ interface HeroProps {
     registrationStart?: string;
     registrationStatusText?: string;
     registrationBannerText?: string;
+    whyJoin?: any[];
 }
 
 import Image from "next/image";
@@ -29,11 +30,12 @@ export function Hero({
     registrationStart = "",
     registrationStatusText = "",
     registrationBannerText = "",
+    whyJoin = [],
 }: HeroProps) {
     const { openModal } = useRegistrationModal();
 
     return (
-        <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[calc(100vh-80px)]">
+        <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[60vh] md:min-h-[70vh]">
             {/* Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center z-0"
@@ -83,27 +85,33 @@ export function Hero({
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-5 justify-center w-full mb-16">
+                    <div className="flex flex-col sm:flex-row gap-5 justify-center w-full mb-10">
+                        <Link href="/submission">
+                            <Button
+                                size="lg"
+                                className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105"
+                            >
+                                Submit Abstract
+                            </Button>
+                        </Link>
                         <Button
+                            variant="outline"
                             size="lg"
-                            className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105"
+                            className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
                             onClick={openModal}
                         >
                             Register Now
                         </Button>
-                        <Link href="/about">
-                            <Button variant="outline" size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all">
-                                Learn More
-                            </Button>
-                        </Link>
                     </div>
+
+
 
                     {/* Collaborating Partners Wrapper */}
                     {partners && partners.length > 0 && (
                         <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                             <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-6 drop-shadow-md">Jointly organized by</p>
                             <div className="flex flex-wrap justify-center items-start gap-8 md:gap-12">
-                                {partners.slice(0, 3).map((partner: any, index: number) => {
+                                {partners.slice(0, 6).map((partner: any, index: number) => {
                                     const Icon = index % 3 === 0 ? Globe : (index % 3 === 1 ? Sprout : Leaf);
                                     return (
                                         <div key={partner.id || index} className="group flex flex-col items-center gap-3 w-28 md:w-32">

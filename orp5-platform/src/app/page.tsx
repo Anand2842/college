@@ -2,18 +2,24 @@ export const dynamic = 'force-dynamic';
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Hero } from "@/components/organisms/Hero";
-import { QuickAccessCard } from "@/components/molecules/QuickAccessCard";
 import { ThemeCard } from "@/components/molecules/ThemeCard";
 import { SpeakerCard } from "@/components/molecules/SpeakerCard";
 import { ProgrammeCard } from "@/components/molecules/ProgrammeCard";
 import { FAQItem } from "@/components/molecules/FAQItem";
 import { DateStep } from "@/components/molecules/DateStep";
+import { PartnerCard } from "@/components/molecules/PartnerCard";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
+import { StatsStrip } from "@/components/organisms/StatsStrip";
+import { AboutPreview } from "@/components/organisms/AboutPreview";
+import { CallForPapers } from "@/components/organisms/CallForPapers";
+import { AwardsPreview } from "@/components/organisms/AwardsPreview";
+import { PublicationInfo } from "@/components/organisms/PublicationInfo";
+import { VenuePreview } from "@/components/organisms/VenuePreview";
 import { Footer } from "@/components/organisms/Footer";
 import { createPageMetadata } from "@/lib/metadata";
 import {
-  Info, Leaf, Calendar, UserPlus, Sprout, Mountain, Apple,
-  LucideIcon, Globe, Lightbulb, Briefcase, Star, MapPin
+  Sprout, Mountain, Apple, Info, Leaf, Calendar, UserPlus,
+  LucideIcon, Globe, Lightbulb, Briefcase, Star
 } from "lucide-react";
 import { getHomepageData } from "@/lib/cms";
 import Link from "next/link";
@@ -31,7 +37,6 @@ export const metadata = createPageMetadata({
   path: '/',
   keywords: ['organic rice', 'natural farming', 'sustainable agriculture', 'rice conference', 'ORP-5', 'production systems'],
 });
-
 
 export default async function Home() {
   let cmsData = null;
@@ -57,7 +62,14 @@ export default async function Home() {
     themes: [],
     speakers: [],
     programme: {},
-    dates: [],
+    dates: [
+      { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
+      { date: "20 January 2026", label: "Registration Opens", status: "completed" },
+      { date: "30 June 2026", label: "Abstract Submission Deadline", status: "urgent" },
+      { date: "15 July 2026", label: "Notification of Abstract Status", status: "upcoming" },
+      { date: "01 August 2026", label: "Registration Deadline", status: "upcoming" },
+      { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
+    ],
     whyJoin: [],
     gallery: [],
     faq: [],
@@ -74,7 +86,7 @@ export default async function Home() {
     <main className="min-h-screen relative bg-[#FDFCF8] font-sans">
       <Navbar />
 
-      {/* Hero Section */}
+      {/* 1. Hero */}
       <Hero
         headline={data.hero.headline}
         subheadline={data.hero.subheadline}
@@ -84,103 +96,17 @@ export default async function Home() {
         registrationStart={data.hero.registrationStart}
         registrationStatusText={data.hero.registrationStatusText}
         registrationBannerText={data.hero.registrationBannerText}
+        whyJoin={data.whyJoin || []}
       />
 
-      {/* Quick Access Row - Overlapping Hero */}
-      {/* Quick Access Row - Standard flow */}
-      <div className="container mx-auto px-6 relative z-30 -mt-16 mb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <QuickAccessCard icon={<Info size={28} />} title="About the Conference" href="/about" delay={0.1} />
-          <QuickAccessCard icon={<Leaf size={28} />} title="Themes (ORP-5)" href="/themes" delay={0.2} />
-          <QuickAccessCard icon={<Calendar size={28} />} title="Programme Overview" href="/programme" delay={0.3} />
-          <QuickAccessCard icon={<UserPlus size={28} />} title="Delegate Registration" href="/registration" delay={0.4} />
-        </div>
-      </div>
+      {/* 2. Stats Strip */}
+      <StatsStrip />
 
-      {/* Themes Preview Section */}
-      <section id="themes" className="py-20 bg-[#FDFCF8]">
-        <div className="container mx-auto px-6 text-center">
-          <SectionTitle
-            title="Themes Preview"
-            subtitle="Exploring new seeds for sustainable rice farming to shape the future of agriculture."
-            centered
-          />
+      {/* 3. About Preview */}
+      <AboutPreview />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 text-left">
-            {data.themes.map((theme: any, index: number) => {
-              const Icon = iconMap[theme.iconName] || Sprout;
-              return (
-                <ThemeCard
-                  key={theme.id}
-                  icon={<Icon size={40} strokeWidth={1.5} />}
-                  title={theme.title}
-                  description={theme.description}
-                  href="/themes"
-                  colorTheme={theme.colorTheme}
-                  delay={0.1 * (index + 1)}
-                  subtitle={`Theme ${index + 1}`}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Speakers Highlight */}
-      <section id="speakers" className="py-24 bg-white">
-        <div className="container mx-auto px-6 text-center">
-          <SectionTitle
-            title="Speakers Highlight"
-            subtitle="Hear from leading experts and advisors in the field of organic agriculture."
-            centered
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mt-16">
-            {data.speakers.map((speaker: any, index: number) => (
-              <SpeakerCard
-                key={speaker.id}
-                name={speaker.name}
-                role={speaker.role}
-                institution={speaker.institution}
-                imageUrl={speaker.imageUrl}
-                delay={0.1 * (index + 1)}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Programme Snapshot */}
-      <section id="programme" className="py-24 bg-[#FDFCF8]">
-        <div className="container mx-auto px-6">
-          <SectionTitle
-            title="Programme Snapshot"
-            subtitle="A glimpse into curated sessions of insightful talks, workshops, and networking events."
-            centered
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-16 max-w-7xl mx-auto">
-            {['day1', 'day2', 'day3', 'day4', 'day5'].map((dayKey, index) => (
-              <ProgrammeCard
-                key={dayKey}
-                day={`Day ${index + 1}`}
-                date={data.programme?.[dayKey]?.date || "TBD"}
-                activities={data.programme?.[dayKey]?.activities || []}
-                delay={0.1 * (index + 1)}
-              />
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/programme" className="text-earth-green font-serif italic text-lg hover:underline transition-all">
-              View Full Agenda &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Important Dates */}
-      <section id="dates" className="py-24 bg-white">
+      {/* 4. Important Dates */}
+      <section id="dates" className="py-24 bg-white border-y border-gray-100">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle
             title="Important Dates"
@@ -210,30 +136,103 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Why Join ORP-5 */}
-      <section className="py-24 bg-[#FDFCF8]">
-        <div className="container mx-auto px-6">
-          <SectionTitle title="Why Join ORP-5?" subtitle="Connect, learn, and contribute to the future of sustainable agriculture." centered />
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
-            {data.whyJoin?.map((item: any, i: number) => {
-              const Icon = iconMap[item.iconName] || Star;
+      {/* 5. Conference Themes */}
+      <section id="themes" className="py-20 bg-[#FDFCF8]">
+        <div className="container mx-auto px-6 text-center">
+          <SectionTitle
+            title="Conference Themes"
+            subtitle="Explore the 9 core thematic areas shaping the future of organic agriculture."
+            centered
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 text-left">
+            {data.themes.map((theme: any, index: number) => {
+              const Icon = iconMap[theme.iconName] || Sprout;
               return (
-                <div key={i} className="bg-white p-8 rounded-xl text-center border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
-                  <div className="w-14 h-14 bg-[#123125]/5 group-hover:bg-[#DFC074]/10 rounded-full mx-auto mb-6 flex items-center justify-center text-[#123125] group-hover:text-[#B88A38] transition-colors">
-                    <Icon size={24} />
-                  </div>
-                  <h4 className="font-serif font-bold text-lg mb-3 text-charcoal">{item.title}</h4>
-                  <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
-                </div>
-              )
+                <ThemeCard
+                  key={theme.id}
+                  icon={<Icon size={36} strokeWidth={1.5} />}
+                  title={theme.title}
+                  description={theme.description}
+                  href="/themes"
+                  submissionHref="/submission"
+                  colorTheme={theme.colorTheme}
+                  delay={0.1 * (index + 1)}
+                  subtitle={`Theme ${index + 1}`}
+                />
+              );
             })}
           </div>
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="py-24 bg-[#FDFCF8]">
+      {/* 6. Call For Papers */}
+      <CallForPapers />
+
+      {/* 7. Speakers */}
+      {data.speakers && data.speakers.length > 0 && (
+        <section id="speakers" className="py-20 bg-white">
+          <div className="container mx-auto px-6 text-center">
+            <SectionTitle
+              title="Speakers"
+              subtitle="Hear from leading experts and advisors in the field of organic agriculture."
+              centered
+            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-12">
+            {data.speakers.map((speaker: any, index: number) => (
+              <SpeakerCard
+                key={speaker.id}
+                name={speaker.name}
+                role={speaker.role}
+                institution={speaker.institution}
+                imageUrl={speaker.imageUrl}
+                delay={0.1 * (index + 1)}
+              />
+            ))}
+          </div>
+        </div>
+        </section>
+      )}
+
+      {/* 8. Awards Preview */}
+      <AwardsPreview />
+
+      {/* 9. Publication Info */}
+      <PublicationInfo />
+
+      {/* 10. Partners & Institutions */}
+      {data.partnersByCategory && Object.keys(data.partnersByCategory).length > 0 && (
+        <section id="partners" className="py-20 bg-white border-y border-gray-100">
+          <div className="container mx-auto px-6 text-center">
+            <SectionTitle
+              title="Organizers & Partners"
+              subtitle="Collaboratively driving the future of organic rice production."
+              centered
+            />
+            {Object.entries(data.partnersByCategory).map(([category, catPartners]: [string, any]) => (
+              <div key={category} className="mt-10">
+                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/50 mb-6">{category}</h3>
+                <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+                  {catPartners.map((partner: any, index: number) => (
+                    <PartnerCard
+                      key={partner.id || index}
+                      name={partner.name}
+                      logoUrl={partner.logoUrl}
+                      website={partner.website}
+                      delay={0.05 * (index + 1)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 11. Venue Preview */}
+      <VenuePreview />
+
+      {/* 12. Gallery Section */}
+      <section className="py-24 bg-[#FDFCF8] border-y border-gray-100">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle title="Gallery Preview" subtitle="Moments from past successful symposia." centered />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
@@ -264,38 +263,72 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Registration Banner */}
-      <section className="py-24 bg-[#123125] relative overflow-hidden text-center text-white">
+      {/* 13. Programme Snapshot */}
+      <section id="programme" className="py-24 bg-white border-b border-gray-100">
+        <div className="container mx-auto px-6">
+          <SectionTitle
+            title="Programme Snapshot"
+            subtitle="A glimpse into curated sessions of insightful talks, workshops, and networking events."
+            centered
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-16 max-w-7xl mx-auto">
+            {['day1', 'day2', 'day3', 'day4', 'day5'].map((dayKey, index) => (
+              <ProgrammeCard
+                key={dayKey}
+                day={`Day ${index + 1}`}
+                date={data.programme?.[dayKey]?.date || "TBD"}
+                activities={data.programme?.[dayKey]?.activities || []}
+                delay={0.1 * (index + 1)}
+              />
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/programme" className="text-earth-green font-serif italic text-lg hover:underline transition-all">
+              View Full Agenda &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 14. Registration Banner */}
+      <section className="py-20 bg-[#123125] relative overflow-hidden text-center text-white">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
         <div className="container relative z-10 px-6">
-          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">{data.hero?.registrationBannerText || 'Registration Open'}</h2>
-          <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto font-light">
-            Reserve your spot early for the premier organic rice farming conference.
+          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">Call for Papers & Registration Now Open</h2>
+          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light">
+            Secure your participation in the world's leading conference on organic rice farming. Early bird rates available.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <Link href="/submission">
+              <button className="bg-earth-green border border-earth-green text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-earth-green/90 transition-colors">
+                Submit Abstract
+              </button>
+            </Link>
             <Link href="/registration">
               <button className="bg-white text-[#123125] font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-[#DFC074] transition-colors">
                 Register Now
               </button>
             </Link>
-            <Link href="/brochure">
+            <Link href="/submission-guidelines">
               <button className="bg-transparent border border-white/30 text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-white/10 transition-colors">
-                Download Guidelines
+                Download Brochure
               </button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-24 bg-white">
+      {/* 15. FAQ */}
+      <section id="faq" className="py-20 bg-[#FDFCF8]">
         <div className="container mx-auto px-6">
           <SectionTitle
             title="Have Questions?"
             subtitle="Find answers to common queries about ORP-5."
             centered
           />
-          <div className="max-w-3xl mx-auto mt-16">
+          <div className="max-w-3xl mx-auto mt-12">
             {data.faq?.map((item: any, i: number) => (
               <FAQItem key={i} question={item.question} answer={item.answer} />
             ))}
@@ -303,41 +336,26 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Venue Section (Footer Top) */}
-      <section className="bg-[#FBF9F4] py-20">
+      {/* 16. Closing CTA */}
+      <section className="py-20 bg-white text-center border-t border-gray-100">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="font-serif font-bold text-3xl text-charcoal mb-4">{data.venue?.title}</h2>
-              <p className="text-gray-600 mb-6 leading-relaxed">{data.venue?.description}</p>
-              <div className="flex items-center gap-3 text-earth-green font-bold text-sm">
-                <MapPin size={20} />
-                <span>{data.venue?.address}</span>
-              </div>
-              <Link href="/venue" className="inline-block mt-8 text-xs font-bold uppercase tracking-widest text-[#B89C50] hover:text-[#123125] border-b border-[#B89C50] pb-1">
-                View Venue & Directions &rarr;
-              </Link>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-md relative group">
-                <Image
-                  src={data.venue?.image1 || "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800"}
-                  alt="Venue Auditorium"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 640px) 128px, 160px"
-                />
-              </div>
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-md relative group">
-                <Image
-                  src={data.venue?.image2 || "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&q=80&w=800"}
-                  alt="Conference Hall"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 640px) 128px, 160px"
-                />
-              </div>
-            </div>
+          <h2 className="font-serif font-bold text-3xl md:text-4xl text-charcoal mb-4">
+            Be Part of the Organic Revolution
+          </h2>
+          <p className="text-gray-500 mb-8 max-w-xl mx-auto">
+            Submit your research, showcase your innovations, and connect with global leaders.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/submission">
+              <button className="bg-earth-green hover:bg-earth-green/90 text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors shadow-lg">
+                Submit Abstract
+              </button>
+            </Link>
+            <Link href="/registration">
+              <button className="bg-white border-2 border-earth-green text-earth-green hover:bg-earth-green hover:text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors">
+                Register for ORP-5
+              </button>
+            </Link>
           </div>
         </div>
       </section>

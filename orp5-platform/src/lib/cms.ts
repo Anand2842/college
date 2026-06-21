@@ -433,10 +433,19 @@ export async function getHomepageData() {
 
     const finalThemes = (themes && themes.length > 0) ? themes : (content.themes || defaultThemes);
 
-    return {
+        const partnerList = partners || content.partners || [];
+        const partnersByCategory = partnerList.reduce((acc: Record<string, any[]>, p: any) => {
+            const cat = p.category || 'Collaborators';
+            if (!acc[cat]) acc[cat] = [];
+            acc[cat].push(p);
+            return acc;
+        }, {});
+
+        return {
         ...content,
         themes: finalThemes,
-        partners: partners || content.partners,
+        partners: partnerList,
+        partnersByCategory,
         dates: dates || content.dates,
         // speakers needs care: content.speakers might be IDs? or simplified objects?
         // Let's stick to content.speakers if available for layout, but usually we want dynamic.
@@ -446,10 +455,13 @@ export async function getHomepageData() {
             { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
             { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
             { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be sent to the conference email (info@orp5ic.com) on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },
+            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 30 June 2026. The call for abstracts opens on 01 January 2026." },
             { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
             { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
-            { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." }
+            { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
+            { question: "Do I need to register before submitting an abstract?", answer: "No, abstract submission is free and independent of registration." },
+            { question: "Will I get a visa invitation letter?", answer: "Yes, registered delegates can request an official letter of invitation." },
+            { question: "Are the proceedings indexed?", answer: "Yes, full papers will be published in Plant Science Today, a Scopus-indexed, UGC-CARE listed journal." }
         ]
     };
 }
