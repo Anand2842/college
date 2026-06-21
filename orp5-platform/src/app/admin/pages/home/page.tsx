@@ -203,6 +203,20 @@ export default function HomepageEditor() {
                 {activeTab === "Partners" && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
                         <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Collaborating Partners</h2>
+                        <div className="grid gap-6 mb-8">
+                            <AdminInput
+                                label="Section Title"
+                                value={data.partnersSectionTitle || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev: any) => ({ ...prev, partnersSectionTitle: e.target.value }))}
+                                placeholder="Organizers & Partners"
+                            />
+                            <AdminInput
+                                label="Section Subtitle"
+                                value={data.partnersSectionSubtitle || ""}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev: any) => ({ ...prev, partnersSectionSubtitle: e.target.value }))}
+                                placeholder="Collaboratively driving the future of organic rice production."
+                            />
+                        </div>
                         <ListEditor
                             title="Partners"
                             items={data.partners || []}

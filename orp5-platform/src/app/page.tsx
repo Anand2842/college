@@ -204,8 +204,8 @@ export default async function Home() {
         <section id="partners" className="py-20 bg-white border-y border-gray-100">
           <div className="container mx-auto px-6 text-center">
             <SectionTitle
-              title="Organizers & Partners"
-              subtitle="Collaboratively driving the future of organic rice production."
+              title={data.partnersSectionTitle || "Organizers & Partners"}
+              subtitle={data.partnersSectionSubtitle || "Collaboratively driving the future of organic rice production."}
               centered
             />
             {Object.entries(data.partnersByCategory).map(([category, catPartners]: [string, any]) => (
@@ -229,7 +229,7 @@ export default async function Home() {
       )}
 
       {/* 11. Venue Preview */}
-      <VenuePreview />
+      <VenuePreview venue={data.venue} />
 
       {/* 12. Gallery Section */}
       <section className="py-24 bg-[#FDFCF8] border-y border-gray-100">

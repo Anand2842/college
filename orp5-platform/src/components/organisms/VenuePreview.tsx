@@ -2,14 +2,18 @@ import Link from 'next/link';
 import { Button } from '@/components/atoms/Button';
 import { MapPin, Plane, Train, Car, ArrowRight } from 'lucide-react';
 
-export function VenuePreview() {
+export function VenuePreview({ venue }: { venue?: any }) {
+  const title = venue?.title || "Conference Venue";
+  const description = venue?.description || "Join us in the heart of India's capital at the premier National Agricultural Science Complex.";
+  const image = venue?.image1 || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1920";
+
   return (
     <section className="py-20 bg-[#FDFCF8] border-y border-gray-100">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Conference Venue</h2>
+          <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">{title}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Join us in the heart of India's capital at the premier National Agricultural Science Complex.
+            {description}
           </p>
         </div>
 
@@ -18,8 +22,8 @@ export function VenuePreview() {
           {/* Left Column - Image */}
           <div className="lg:w-1/2 h-64 lg:h-auto relative">
             <img 
-              src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1920" 
-              alt="NASC Complex, New Delhi" 
+              src={image} 
+              alt={title} 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent flex items-end p-8">
