@@ -8,6 +8,7 @@ import { ProgrammeCard } from "@/components/molecules/ProgrammeCard";
 import { FAQItem } from "@/components/molecules/FAQItem";
 import { DateStep } from "@/components/molecules/DateStep";
 import { PartnerCard } from "@/components/molecules/PartnerCard";
+import { InfiniteMarquee } from "@/components/molecules/InfiniteMarquee";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { StatsStrip } from "@/components/organisms/StatsStrip";
 import { AboutPreview } from "@/components/organisms/AboutPreview";
@@ -208,22 +209,36 @@ export default async function Home() {
               subtitle={data.partnersSectionSubtitle || "Collaboratively driving the future of organic rice production."}
               centered
             />
-            {Object.entries(data.partnersByCategory).map(([category, catPartners]: [string, any]) => (
-              <div key={category} className="mt-10">
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/50 mb-6">{category}</h3>
-                <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-                  {catPartners.map((partner: any, index: number) => (
-                    <PartnerCard
-                      key={partner.id || index}
-                      name={partner.name}
-                      logoUrl={partner.logoUrl}
-                      website={partner.website}
-                      delay={0.05 * (index + 1)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+            {Object.entries(data.partnersByCategory)
+              .sort(([catA], [catB]) => {
+                const orderA = data.partnerCategorySettings?.find((s: any) => s.name === catA)?.order ?? 99;
+                const orderB = data.partnerCategorySettings?.find((s: any) => s.name === catB)?.order ?? 99;
+                return orderA - orderB;
+              })
+              .map(([category, catPartners]: [string, any]) => {
+                const setting = data.partnerCategorySettings?.find((s: any) => s.name === category);
+                const mode = setting?.mode || "grid";
+                return (
+                  <div key={category} className="mt-10">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/50 mb-6">{category}</h3>
+                    {mode === "marquee" ? (
+                      <InfiniteMarquee partners={catPartners} />
+                    ) : (
+                      <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+                        {catPartners.map((partner: any, index: number) => (
+                          <PartnerCard
+                            key={partner.id || index}
+                            name={partner.name}
+                            logoUrl={partner.logoUrl}
+                            website={partner.website}
+                            delay={0.05 * (index + 1)}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+            })}
           </div>
         </section>
       )}

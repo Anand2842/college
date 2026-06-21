@@ -231,6 +231,33 @@ export default function HomepageEditor() {
                                 </div>
                             )}
                         />
+                        <div className="mt-12 pt-8 border-t border-gray-200">
+                            <h3 className="text-lg font-bold mb-4 text-earth-green">Category Layout Settings</h3>
+                            <p className="text-sm text-gray-500 mb-6">Define how specific partner categories should be displayed. By default, categories display as a Grid. For 10+ partners, use the "Marquee" mode for an infinite horizontal auto-scroll.</p>
+                            <ListEditor
+                                title="Category Settings"
+                                items={data.partnerCategorySettings || []}
+                                onUpdate={(items) => handleListUpdate("partnerCategorySettings", items)}
+                                itemTemplate={{ name: "", mode: "grid", order: 99 }}
+                                renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
+                                    <>
+                                        <AdminInput label="Exact Category Name" value={item.name} placeholder="e.g., In Collaboration With" onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("name", e.target.value)} />
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-bold text-earth-green mb-2">Display Mode</label>
+                                            <select
+                                                value={item.mode || "grid"}
+                                                onChange={(e) => update("mode", e.target.value)}
+                                                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-earth-green focus:border-transparent transition-all text-gray-700"
+                                            >
+                                                <option value="grid">Grid (Centered Wrap)</option>
+                                                <option value="marquee">Marquee (Infinite Horizontal Scroll)</option>
+                                            </select>
+                                        </div>
+                                        <AdminInput label="Display Order" value={item.order?.toString() || ""} placeholder="e.g., 1 (Lower appears first)" type="number" onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("order", parseInt(e.target.value) || 99)} />
+                                    </>
+                                )}
+                            />
+                        </div>
                     </div>
                 )}
 
