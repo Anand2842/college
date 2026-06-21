@@ -30,7 +30,7 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
     };
 
     return (
-        <section className="relative min-h-[300px] md:min-h-[400px] h-auto md:h-[50vh] py-16 md:py-0 flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[300px] md:min-h-[400px] h-auto pt-32 pb-16 md:pt-48 md:pb-20 flex items-center justify-center overflow-hidden">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0 bg-[#0D241B]">
                 {backgroundImage && (
