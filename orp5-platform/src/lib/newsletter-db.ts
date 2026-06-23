@@ -88,7 +88,7 @@ export async function getNewsletters() {
     const { data } = await supabase
         .from('Newsletter' as any)
         .select('*')
-        .order('createdAt', { ascending: false });
+        .order('created_at', { ascending: false });
     return data || [];
 }
 

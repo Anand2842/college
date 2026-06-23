@@ -1,9 +1,92 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import Link from 'next/link';
-import { Search, Download, Eye, FileText, Clock, CheckCircle, XCircle, Trash2, X, Loader2 } from 'lucide-react';
+import { Search, Download, Eye, FileText, Clock, CheckCircle, XCircle, Trash2, X, Loader2, MessageSquare, Send, RefreshCw } from 'lucide-react';
+
+function AdminCommentThread({ submissionId }: { submissionId: string }) {
+    const [comments, setComments] = useState<any[]>([]);
+    const [newMessage, setNewMessage] = useState('');
+    const [sending, setSending] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const fetchComments = useCallback(async () => {
+        try {
+            const res = await fetch(`/api/submissions/${submissionId}/comments`);
+            if (res.ok) setComments(await res.json());
+        } catch (e) { console.error(e); } finally { setLoading(false); }
+    }, [submissionId]);
+
+    useEffect(() => { fetchComments(); }, [fetchComments]);
+
+    const handleSend = async () => {
+        if (!newMessage.trim()) return;
+        setSending(true);
+        try {
+            const res = await fetch(`/api/submissions/${submissionId}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: newMessage, authorName: 'Admin', authorRole: 'admin' }),
+            });
+            if (res.ok) { setNewMessage(''); await fetchComments(); }
+        } catch (e) { console.error(e); } finally { setSending(false); }
+    };
+
+    const roleBadge = (role: string) => {
+        if (role === 'moderator') return 'bg-blue-900/50 text-blue-300';
+        if (role === 'admin' || role === 'superadmin') return 'bg-purple-900/50 text-purple-300';
+        return 'bg-gray-700 text-gray-300';
+    };
+    const roleLabel = (role: string) => {
+        if (role === 'moderator') return 'Reviewer';
+        if (role === 'admin' || role === 'superadmin') return 'Admin';
+        return 'Author';
+    };
+
+    return (
+        <div className="space-y-3">
+            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                <MessageSquare size={14} className="text-blue-400" /> Review Thread ({comments.length})
+            </h3>
+            <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                {loading ? (
+                    <div className="flex justify-center py-4"><RefreshCw size={16} className="animate-spin text-gray-500" /></div>
+                ) : comments.length === 0 ? (
+                    <div className="text-center py-6 text-sm text-gray-600 bg-gray-800/50 rounded-lg border border-dashed border-gray-700">
+                        No comments yet.
+                    </div>
+                ) : (
+                    comments.map((c) => (
+                        <div key={c.id} className={`rounded-lg p-3 ${c.author_role === 'author' ? 'bg-gray-800/50 border border-gray-700 ml-4' : 'bg-blue-900/20 border border-blue-800/50 mr-4'}`}>
+                            <div className="flex items-center gap-2 mb-1.5">
+                                <span className="text-xs font-semibold text-gray-200">{c.author_name}</span>
+                                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${roleBadge(c.author_role)}`}>{roleLabel(c.author_role)}</span>
+                                <span className="text-[10px] text-gray-500 ml-auto" suppressHydrationWarning>{new Date(c.created_at).toLocaleString()}</span>
+                            </div>
+                            <p className="text-sm text-gray-300 whitespace-pre-wrap">{c.message}</p>
+                        </div>
+                    ))
+                )}
+            </div>
+            <div className="border border-gray-700 rounded-xl overflow-hidden">
+                <textarea
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Add an admin comment (visible to moderators and authors)..."
+                    className="w-full p-3 text-sm text-gray-200 resize-none focus:outline-none bg-gray-900 placeholder-gray-600"
+                    rows={2}
+                />
+                <div className="flex items-center justify-between px-3 py-2 bg-gray-800 border-t border-gray-700">
+                    <span className="text-xs text-gray-500">Admin comment · all parties notified</span>
+                    <button onClick={handleSend} disabled={sending || !newMessage.trim()} className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white text-xs font-bold rounded-lg transition">
+                        {sending ? <RefreshCw size={12} className="animate-spin" /> : <Send size={12} />} Post
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 
 interface Submission {
@@ -384,7 +467,7 @@ export default function AdminSubmissionsPage() {
                             <div className="md:col-span-2 space-y-6">
                                 <div>
                                     <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">Abstract</h3>
-                                    <div className="bg-gray-950 p-6 rounded-xl border border-gray-800 text-gray-300 leading-relaxed text-sm whitespace-pre-wrap">
+                                    <div className="bg-gray-950 p-6 rounded-xl border border-gray-800 text-gray-300 leading-relaxed text-sm whitespace-pre-wrap max-h-48 overflow-y-auto">
                                         {selectedSubmission.abstract}
                                     </div>
                                 </div>
@@ -415,6 +498,11 @@ export default function AdminSubmissionsPage() {
                                         <Clock size={18} />
                                         Request Revision
                                     </button>
+                                </div>
+
+                                {/* Comment Thread for Transparency */}
+                                <div className="pt-4 border-t border-gray-800">
+                                    <AdminCommentThread submissionId={selectedSubmission.id} />
                                 </div>
                             </div>
 

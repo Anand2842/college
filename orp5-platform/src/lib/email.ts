@@ -312,6 +312,74 @@ export async function sendAdminPaymentClaimEmail(
     }
 }
 
+export async function sendCommentNotificationEmail(
+    toEmail: string,
+    toName: string,
+    submissionTitle: string,
+    commenterRole: string,
+    message: string,
+    submissionId: string
+) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
+    const isAuthorRecipient = commenterRole === 'moderator' || commenterRole === 'admin' || commenterRole === 'superadmin';
+    const dashboardUrl = isAuthorRecipient ? `${siteUrl}/dashboard` : `${siteUrl}/moderator/dashboard`;
+    const commenterLabel = commenterRole === 'author' ? 'the Author' : 'the Review Committee';
+
+    const subject = isAuthorRecipient
+        ? `New Review Comment on Your Submission | ORP-5`
+        : `Author Reply on Submission | ORP-5`;
+
+    const html = `
+    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+        <div style="background: #123125; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0; text-align: center;">
+            <h1 style="margin: 0; font-size: 20px; font-weight: bold; letter-spacing: 1px;">ORP-5 CONFERENCE</h1>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #a3d9b1; text-transform: uppercase; letter-spacing: 2px;">Reviewer Communication</p>
+        </div>
+        <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
+            <p style="color: #555; margin: 0 0 20px;">Dear <strong>${toName}</strong>,</p>
+            <p style="color: #555; margin: 0 0 16px;">You have received a new message from <strong>${commenterLabel}</strong> regarding your abstract submission:</p>
+
+            <div style="background: #f9f9f7; border-left: 4px solid #123125; border-radius: 4px; padding: 16px 20px; margin: 0 0 20px;">
+                <p style="margin: 0 0 8px; font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px;">Submission</p>
+                <p style="margin: 0; font-weight: bold; color: #333;">${submissionTitle}</p>
+            </div>
+
+            <div style="background: #f0f4f8; border-radius: 8px; padding: 20px; margin: 0 0 28px;">
+                <p style="margin: 0 0 8px; font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Message</p>
+                <p style="margin: 0; color: #333; line-height: 1.7; white-space: pre-wrap;">${message}</p>
+            </div>
+
+            <div style="text-align: center; margin: 0 0 24px;">
+                <a href="${dashboardUrl}" style="background: #123125; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">
+                    ${isAuthorRecipient ? 'View & Reply in Dashboard →' : 'View in Reviewer Portal →'}
+                </a>
+            </div>
+
+            <p style="text-align: center; font-size: 12px; color: #999; margin: 0;">
+                ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a>
+            </p>
+        </div>
+    </div>
+    `;
+
+    if (resend) {
+        try {
+            await resend.emails.send({
+                from: FROM_EMAIL,
+                to: toEmail,
+                subject,
+                html
+            });
+            console.log(`[Email] Comment notification sent to ${toEmail}`);
+        } catch (error) {
+            console.error('[Email] Failed to send comment notification:', error);
+            throw error;
+        }
+    } else {
+        console.log(`[Dev Email] Comment notification to: ${toEmail} | Title: ${submissionTitle}`);
+    }
+}
+
 export async function sendRegistrationStatusEmail(
     email: string,
     name: string,

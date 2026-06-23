@@ -3,12 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/atoms/Button';
-import { Loader2, Send, FileText, CheckCircle, Smartphone } from 'lucide-react';
+import { Loader2, Send, FileText, CheckCircle, Smartphone, Users } from 'lucide-react';
 import { AdminHeader } from '@/components/admin/AdminHeader';
 
 export default function AdminNewsletterPage() {
     // Stats
-    const [subscribers, setSubscribers] = useState<number | null>(null);
+    const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
 
     // List
     const [newsletters, setNewsletters] = useState<any[]>([]);
@@ -27,12 +27,12 @@ export default function AdminNewsletterPage() {
         try {
             const res = await fetch('/api/admin/newsletter');
             const data = await res.json();
-            if (Array.isArray(data)) {
+            if (data.newsletters) {
+                setNewsletters(data.newsletters);
+                setSubscriberCount(data.subscriberCount ?? null);
+            } else if (Array.isArray(data)) {
+                // fallback for old shape
                 setNewsletters(data);
-                // In a real app, separate subscriber count endpoint. 
-                // Here we might not have it unless we add it to the GET /api/admin/newsletter logic or add a new route.
-                // For now, I'll skip showing exact count or add a quick hack if needed.
-                // Let's assume we want to show it. I'll add a fetch for it later or skip.
             }
         } catch (e) {
             console.error(e);
@@ -80,6 +80,19 @@ export default function AdminNewsletterPage() {
                 description="Send official announcements to all registered newsletter subscribers."
             />
 
+            {/* Subscriber count badge */}
+            {subscriberCount !== null && (
+                <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl p-4">
+                    <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                        <Users size={20} className="text-white" />
+                    </div>
+                    <div>
+                        <p className="font-bold text-green-900">{subscriberCount} Confirmed Subscriber{subscriberCount !== 1 ? 's' : ''}</p>
+                        <p className="text-xs text-green-700">Sending a broadcast will reach all of these email addresses via Resend.</p>
+                    </div>
+                </div>
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Compose Column */}
                 <div className="lg:col-span-2 space-y-6">
@@ -117,12 +130,16 @@ export default function AdminNewsletterPage() {
                                 </div>
                             )}
 
-                            <div className="flex justify-end gap-3">
-                                {/* <Button variant="outline" onClick={() => {}}>Save Draft</Button> */}
+                            <div className="flex items-center justify-between">
+                                {subscriberCount !== null && (
+                                    <p className="text-xs text-gray-500">
+                                        📧 Will be sent to <strong>{subscriberCount}</strong> confirmed subscriber{subscriberCount !== 1 ? 's' : ''}
+                                    </p>
+                                )}
                                 <Button
                                     onClick={handleSend}
                                     disabled={sending || !subject || !content}
-                                    className="bg-earth-green hover:bg-earth-green/90 text-white"
+                                    className="bg-earth-green hover:bg-earth-green/90 text-white ml-auto"
                                 >
                                     {sending ? <Loader2 className="animate-spin mr-2" /> : <Send size={16} className="mr-2" />}
                                     Send Broadcast
@@ -151,7 +168,7 @@ export default function AdminNewsletterPage() {
                                             </span>
                                         </div>
                                         <p className="text-xs text-gray-500 mb-2">
-                                            {new Date(nl.createdAt).toLocaleDateString()}
+                                            {nl.created_at ? new Date(nl.created_at).toLocaleDateString() : '—'}
                                         </p>
                                         {nl.status === 'sent' && (
                                             <div className="flex items-center gap-1 text-xs text-gray-600">

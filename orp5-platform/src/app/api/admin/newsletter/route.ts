@@ -57,8 +57,10 @@ export async function GET(request: NextRequest) {
         }
 
         const newsletters = await getNewsletters();
-        return NextResponse.json(newsletters);
+        const subscribers = await getConfirmedSubscribers();
+        return NextResponse.json({ newsletters, subscriberCount: subscribers.length });
     } catch (error) {
+        console.error('Newsletter GET error:', error);
         return NextResponse.json({ error: 'Failed to fetch newsletters' }, { status: 500 });
     }
 }

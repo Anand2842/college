@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import Link from 'next/link';
+import AuthorSubmissionCard from './AuthorSubmissionCard';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +18,7 @@ export default async function DashboardPage() {
     // Check role
     const { data: profile } = await supabase
         .from('profiles')
-        .select('role')
+        .select('role, display_name')
         .eq('id', user.id)
         .single();
 
@@ -29,11 +30,9 @@ export default async function DashboardPage() {
         redirect('/moderator/dashboard');
     }
 
-    // Fetch My Submissions using admin client to bypass potential RLS misconfigurations
-    // Security is maintained because we explicitly filter by the verified user.id
     const { getSupabaseAdmin } = await import('@/lib/supabase-admin');
     const supabaseAdmin = getSupabaseAdmin();
-    
+
     const { data: submissions } = await supabaseAdmin
         .from('abstracts')
         .select('*')
@@ -44,26 +43,9 @@ export default async function DashboardPage() {
     const underReview = submissions?.filter((s: any) => s.status === 'pending' || s.status === 'under_review').length ?? 0;
     const accepted = submissions?.filter((s: any) => s.status === 'accepted').length ?? 0;
     const rejected = submissions?.filter((s: any) => s.status === 'rejected').length ?? 0;
+    const revision = submissions?.filter((s: any) => s.status === 'revision').length ?? 0;
 
-    const statusBadge = (status: string) => {
-        const map: Record<string, string> = {
-            pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-            under_review: 'bg-blue-100 text-blue-800 border-blue-200',
-            accepted: 'bg-green-100 text-green-800 border-green-200',
-            rejected: 'bg-red-100 text-red-800 border-red-200',
-        };
-        return map[status] ?? 'bg-gray-100 text-gray-700 border-gray-200';
-    };
-
-    const statusLabel = (status: string) => {
-        const map: Record<string, string> = {
-            pending: 'Under Review',
-            under_review: 'Under Review',
-            accepted: 'Accepted',
-            rejected: 'Rejected',
-        };
-        return map[status] ?? status.replace('_', ' ');
-    };
+    const authorName = profile?.display_name || user.email || 'Author';
 
     return (
         <main className="min-h-screen bg-[#F7F9F7] font-sans">
@@ -89,12 +71,13 @@ export default async function DashboardPage() {
             <div className="container mx-auto max-w-5xl px-6 py-10">
 
                 {/* ── Stats Row ── */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
                     {[
                         { label: 'Total Submitted', value: total, color: 'text-gray-900' },
                         { label: 'Under Review', value: underReview, color: 'text-yellow-700' },
                         { label: 'Accepted', value: accepted, color: 'text-green-700' },
                         { label: 'Rejected', value: rejected, color: 'text-red-700' },
+                        { label: 'Needs Revision', value: revision, color: 'text-blue-700' },
                     ].map(({ label, value, color }) => (
                         <div key={label} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center">
                             <p className={`text-3xl font-bold ${color} mb-1`}>{value}</p>
@@ -103,66 +86,38 @@ export default async function DashboardPage() {
                     ))}
                 </div>
 
+                {/* Revision alert banner */}
+                {revision > 0 && (
+                    <div className="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+                        <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p className="font-bold text-blue-900 text-sm">Action Required — Revision Requested</p>
+                            <p className="text-blue-700 text-xs mt-0.5">
+                                {revision} of your submission{revision > 1 ? 's have' : ' has'} been sent back for revision.
+                                Please review the comments below and reply to the reviewers.
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 {/* ── Submissions ── */}
                 <div className="mb-10">
                     <h2 className="text-lg font-bold text-gray-900 mb-4">My Submissions</h2>
 
                     {submissions && submissions.length > 0 ? (
                         <div className="flex flex-col gap-4">
-                            {submissions.map((sub: any) => {
-                                const absId = `ORP5-ABS-2026-${String(sub.id).slice(0, 8).toUpperCase()}`;
-                                const submittedOn = new Date(sub.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-                                return (
-                                    <div key={sub.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 hover:shadow-md transition-all">
-                                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-4">
-                                            <div className="flex-1">
-                                                <p className="font-mono text-xs text-gray-400 mb-1">{absId}</p>
-                                                <h3 className="font-bold text-gray-900 leading-snug">{sub.title}</h3>
-                                            </div>
-                                            <span className={`text-xs font-bold px-3 py-1 rounded-full border self-start flex-shrink-0 ${statusBadge(sub.status)}`}>
-                                                {statusLabel(sub.status)}
-                                            </span>
-                                        </div>
-
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                                            {[
-                                                { label: 'Submitted', value: submittedOn },
-                                                { label: 'Track', value: sub.topic || '—' },
-                                                { label: 'Category', value: sub.category || '—' },
-                                                { label: 'Payment', value: 'Pending' },
-                                            ].map(({ label, value }) => (
-                                                <div key={label}>
-                                                    <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-                                                    <p className="text-sm font-semibold text-gray-700 truncate">{value}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        {sub.abstract_text && (
-                                            <p className="text-sm text-gray-500 line-clamp-2 mb-4 leading-relaxed">{sub.abstract_text}</p>
-                                        )}
-
-                                        <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-100">
-                                            {sub.file_url && (
-                                                <a
-                                                    href={sub.file_url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-xs font-semibold text-earth-green hover:underline border border-green-200 bg-green-50 rounded-md px-3 py-1.5"
-                                                >
-                                                    Download File
-                                                </a>
-                                            )}
-                                            <a
-                                                href="mailto:organizingsecretary@orp5ic.com"
-                                                className="text-xs font-semibold text-gray-600 hover:underline border border-gray-200 bg-gray-50 rounded-md px-3 py-1.5 flex items-center gap-1"
-                                            >
-                                                organizingsecretary@orp5ic.com
-                                            </a>
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                            {submissions.map((sub: any) => (
+                                <AuthorSubmissionCard
+                                    key={sub.id}
+                                    submission={sub}
+                                    authorName={authorName}
+                                    userEmail={user.email || ''}
+                                />
+                            ))}
                         </div>
                     ) : (
                         <div className="bg-white rounded-xl border border-dashed border-gray-300 p-12 text-center">
@@ -194,4 +149,3 @@ export default async function DashboardPage() {
         </main>
     )
 }
-
