@@ -46,7 +46,7 @@ export default function CityClient() {
             <Navbar />
 
             {/* Hero Section */}
-            <div className="bg-[#0A1F18] min-h-[60vh] flex items-center justify-center text-center text-white relative overflow-hidden pt-20">
+            <div className="bg-[#0A1F18] min-h-[60vh] flex items-center justify-center text-center text-white relative overflow-hidden pt-36 md:pt-40">
                 <div className="absolute inset-0 z-0 bg-[#0A1F18]">
                     {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="New Delhi" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F18] via-transparent to-transparent"></div>

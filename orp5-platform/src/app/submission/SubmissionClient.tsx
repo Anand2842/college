@@ -326,7 +326,7 @@ export default function SubmissionClient() {
                             {[
                                 'Your abstract will undergo blind peer review by subject-matter experts.',
                                 'Decision emails will be sent to all authors before July 15, 2026.',
-                                'You can track your submission status anytime from your dashboard.',
+                                'Track your submission status anytime at orp5ic.com/ticket-status — no account needed.',
                             ].map((point, i) => (
                                 <li key={i} className="flex items-start gap-3 text-sm text-gray-700">
                                     <span className="w-5 h-5 rounded-full bg-earth-green text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
@@ -338,9 +338,9 @@ export default function SubmissionClient() {
 
                     {/* ── CTA Hierarchy ─────────────────────────────── */}
                     <div className="flex flex-col sm:flex-row justify-center gap-3 no-print">
-                        <Link href="/dashboard">
+                        <Link href={`/ticket-status?tab=abstract&email=${encodeURIComponent(formState.email)}`}>
                             <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full flex items-center gap-2 w-full sm:w-auto justify-center">
-                                <LayoutDashboard size={16} /> Go to Dashboard
+                                <LayoutDashboard size={16} /> Track My Submission
                             </Button>
                         </Link>
                         <button
@@ -368,6 +368,10 @@ export default function SubmissionClient() {
                 subheadline={data.hero.subheadline}
                 backgroundImage={data.hero.backgroundImage}
                 breadcrumb="Home / Abstract Submission"
+                buttons={[
+                    { label: "Submit Now", link: "#form", variant: "primary" },
+                    { label: "Track Submission", link: "/ticket-status?tab=abstract", variant: "secondary" }
+                ]}
             />
 
             <div className="container mx-auto px-6 max-w-5xl pb-20">

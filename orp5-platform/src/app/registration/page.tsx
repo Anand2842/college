@@ -1,10 +1,11 @@
-import { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/metadata';
 import RegistrationContent from "./RegistrationContent";
 
-export const metadata: Metadata = {
-    title: 'Registration | ORP-5 Conference',
+export const metadata = createPageMetadata({
+    title: 'Registration',
     description: '5th International Conference on Organic & Natural Rice Farming',
-};
+    path: '/registration',
+});
 
 export default function RegistrationPage() {
     return <RegistrationContent />;

@@ -110,7 +110,7 @@ export default function RegistrationSuccessClient() {
                 <Navbar />
 
             {/* Header Section */}
-            <div className="bg-[#FFFDF7] pt-28 pb-12 relative overflow-hidden border-b border-gray-100">
+            <div className="bg-[#FFFDF7] pt-36 md:pt-40 pb-12 relative overflow-hidden border-b border-gray-100">
                 <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#243e36 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
                 <div className="container mx-auto px-6 max-w-4xl relative z-10 text-center">
                     <p className="text-gray-400 text-sm uppercase tracking-wide mb-4 font-medium">Home / Registration / Receipt</p>

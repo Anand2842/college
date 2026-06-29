@@ -102,6 +102,15 @@ export function Hero({
                         >
                             Register Now
                         </Button>
+                        <Link href="/ticket-status">
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className="bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
+                            >
+                                Track Status
+                            </Button>
+                        </Link>
                     </div>
 
 

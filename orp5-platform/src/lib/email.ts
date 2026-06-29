@@ -114,26 +114,36 @@ export async function sendSubmissionStatusEmail(
     const statusText = status === 'accepted' ? 'Accepted' : status === 'revision' ? 'Revision Requested' : 'Not Accepted';
 
     const html = `
-    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-        <h2 style="color: #123125;">Submission Status Update</h2>
-        <p>Dear ${name},</p>
-        <p>The status of your abstract submission for <strong>ORP-5</strong> has been updated.</p>
-        
-        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid ${statusColor};">
-            <p><strong>Title:</strong> ${title}</p>
-            <p><strong>New Status:</strong> <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span></p>
-            ${notes ? `<p><strong>Admin Notes:</strong><br/>${notes}</p>` : ''}
+    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333; background: #f9f9f7; padding: 20px; border-radius: 8px;">
+        <div style="background: #123125; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0; text-align: center;">
+            <h1 style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 1px;">ORP-5 CONFERENCE</h1>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #a3d9b1; text-transform: uppercase; letter-spacing: 2px;">Submission Status Update</p>
         </div>
+        
+        <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
+            <p style="color: #555; margin: 0 0 20px;">Dear <strong>${name}</strong>,</p>
+            <p style="color: #555; margin: 0 0 24px;">The status of your abstract submission for <strong>ORP-5</strong> has been updated.</p>
+            
+            <div style="background: #f9f9f7; padding: 15px; margin: 20px 0 28px; border-left: 4px solid ${statusColor}; border-radius: 0 4px 4px 0;">
+                <p style="margin: 0 0 8px;"><strong>Title:</strong> ${title}</p>
+                <p style="margin: 0 0 8px;"><strong>New Status:</strong> <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span></p>
+                ${notes ? `<p style="margin: 0; font-size: 13px; color: #555;"><strong>Admin Notes:</strong><br/>${notes}</p>` : ''}
+            </div>
 
-        ${status === 'accepted' ? `
-            <p>Congratulations! We are excited to have you present at the conference. Further details regarding the presentation schedule and guidelines will be shared shortly.</p>
-        ` : status === 'revision' ? `
-            <p>Please review the comments above and resubmit your abstract with the necessary changes.</p>
-        ` : `
-            <p>Thank you for your interest in ORP-5. Due to the high volume of submissions, we are unable to accept your abstract at this time.</p>
-        `}
-
-        <p>Best regards,<br/>The ORP-5 Organizing Committee</p>
+            ${status === 'accepted' ? `
+                <p style="color: #166534; font-weight: bold;">🎉 Congratulations!</p>
+                <p style="color: #555; font-size: 14px; line-height: 1.6;">We are excited to have you present at the conference. Further details regarding the presentation schedule and guidelines will be shared shortly.</p>
+            ` : status === 'revision' ? `
+                <p style="color: #ca8a04; font-weight: bold;">✏️ Action Required</p>
+                <p style="color: #555; font-size: 14px; line-height: 1.6;">Please log into your dashboard to review the detailed comments and resubmit your abstract with the necessary changes.</p>
+                <div style="text-align: center; margin: 24px 0;">
+                    <a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard" style="background: #1a5c26; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">Go to Dashboard →</a>
+                </div>
+            ` : `
+                <p style="color: #555; font-size: 14px; line-height: 1.6;">Thank you for your interest in ORP-5. Due to the high volume of submissions, we are unable to accept your abstract at this time.</p>
+            `}
+        </div>
+        <p style="text-align: center; font-size: 11px; color: #999; margin: 16px 0 0;">ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a></p>
     </div>
     `;
 
@@ -395,20 +405,25 @@ export async function sendRegistrationStatusEmail(
     }
 
     const html = `
-    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-        <h2 style="color: #123125;">Registration Confirmed! 🎉</h2>
-        <p>Dear ${name},</p>
-        <p>We are pleased to confirm your registration for the <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong>.</p>
-        
-        <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #bbf7d0; text-align: center;">
-            <p style="margin: 0; color: #166534; font-weight: bold;">Payment Successful</p>
-            <h3 style="margin: 10px 0; font-size: 24px;">Ticket ID: ${ticketId}</h3>
-            <p style="margin: 0; font-size: 14px; color: #666;">Please save this ID for future reference.</p>
+    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333; background: #f9f9f7; padding: 20px; border-radius: 8px;">
+        <div style="background: #123125; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0; text-align: center;">
+            <h1 style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 1px;">ORP-5 CONFERENCE</h1>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #a3d9b1; text-transform: uppercase; letter-spacing: 2px;">Registration Confirmed</p>
         </div>
+        
+        <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
+            <p style="color: #555; margin: 0 0 20px;">Dear <strong>${name}</strong>,</p>
+            <p style="color: #555; margin: 0 0 24px; line-height: 1.6;">We are pleased to confirm your registration and payment for the <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong>.</p>
+            
+            <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 0 0 28px; border: 1px dashed #4ade80; text-align: center;">
+                <p style="margin: 0 0 8px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #166534;">Payment Successful ✅</p>
+                <p style="margin: 0; font-size: 28px; font-weight: bold; font-family: monospace; color: #123125; letter-spacing: 2px;">${ticketId}</p>
+                <p style="margin: 8px 0 0; font-size: 13px; color: #166534;">Please save this Ticket ID for your records and check-in at the venue.</p>
+            </div>
 
-        <p>We look forward to welcoming you to the conference!</p>
-
-        <p>Best regards,<br/>The ORP-5 Organizing Committee</p>
+            <p style="color: #555; font-size: 14px; text-align: center; margin-bottom: 0;">We look forward to welcoming you to the conference!</p>
+        </div>
+        <p style="text-align: center; font-size: 11px; color: #999; margin: 16px 0 0;">ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a></p>
     </div>
     `;
 

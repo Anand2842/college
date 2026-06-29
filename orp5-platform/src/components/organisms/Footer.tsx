@@ -85,6 +85,7 @@ export function Footer() {
                             <li><Link href="/venue" className="hover:text-rice-gold transition-colors">Venue & Travel</Link></li>
                             <li><Link href="/blog" className="hover:text-rice-gold transition-colors">Blog & News</Link></li>
                             <li><Link href="/submission" className="hover:text-rice-gold transition-colors">Abstract Submission</Link></li>
+                            <li><Link href="/ticket-status" className="hover:text-rice-gold transition-colors">Track Status</Link></li>
                         </ul>
                     </div>
 

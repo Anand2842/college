@@ -1,11 +1,12 @@
+import { createPageMetadata } from '@/lib/metadata';
 export const dynamic = 'force-dynamic';
 
-import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-    title: 'Keynote & Invited Speakers | ORP-5',
+export const metadata = createPageMetadata({
+    title: 'Keynote & Invited Speakers',
     description: '5th International Conference on Organic & Natural Rice Farming',
-};
+    path: '/speakers',
+});
 
 // Force rebuild
 import { Navbar } from "@/components/organisms/Navbar";

@@ -178,19 +178,19 @@ export default async function Home() {
               subtitle="Hear from leading experts and advisors in the field of organic agriculture."
               centered
             />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-12">
-            {data.speakers.map((speaker: any, index: number) => (
-              <SpeakerCard
-                key={speaker.id}
-                name={speaker.name}
-                role={speaker.role}
-                institution={speaker.institution}
-                imageUrl={speaker.imageUrl}
-                delay={0.1 * (index + 1)}
-              />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-12">
+              {data.speakers.map((speaker: any, index: number) => (
+                <SpeakerCard
+                  key={speaker.id}
+                  name={speaker.name}
+                  role={speaker.role}
+                  institution={speaker.institution}
+                  imageUrl={speaker.imageUrl}
+                  delay={0.1 * (index + 1)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
         </section>
       )}
 
@@ -238,7 +238,7 @@ export default async function Home() {
                     )}
                   </div>
                 );
-            })}
+              })}
           </div>
         </section>
       )}
@@ -331,6 +331,11 @@ export default async function Home() {
                 Download Brochure
               </button>
             </Link>
+            <Link href="/ticket-status">
+              <button className="bg-transparent border border-white/30 text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-white/10 transition-colors">
+                Track Status
+              </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -369,6 +374,11 @@ export default async function Home() {
             <Link href="/registration">
               <button className="bg-white border-2 border-earth-green text-earth-green hover:bg-earth-green hover:text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors">
                 Register for ORP-5
+              </button>
+            </Link>
+            <Link href="/ticket-status">
+              <button className="bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-earth-green font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors">
+                Track Status
               </button>
             </Link>
           </div>

@@ -80,20 +80,41 @@ export async function POST(req: NextRequest) {
                     to: email,
                     subject: `Abstract Submission Received: ${title}`,
                     html: `
-                        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                            <h2>Submission Received</h2>
-                            <p>Dear ${authorName || email},</p>
-                            <p>Thank you for submitting your abstract to the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems (ORP-5).</p>
-                            
-                            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                                <p><strong>Title:</strong> ${title}</p>
-                                <p><strong>Reference ID:</strong> ${data.id}</p>
-                                <p><strong>Status:</strong> Pending Review</p>
+                        <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333; background: #f9f9f7; padding: 20px; border-radius: 8px;">
+                            <div style="background: #123125; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0; text-align: center;">
+                                <h1 style="margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 1px;">ORP-5 CONFERENCE</h1>
+                                <p style="margin: 4px 0 0; font-size: 12px; color: #a3d9b1; text-transform: uppercase; letter-spacing: 2px;">Abstract Submission Received</p>
                             </div>
-
-                            <p>You can track the status of your submission by logging into your <a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard">User Dashboard</a>.</p>
                             
-                            <p>Best regards,<br/>The ORP-5 Organizing Committee</p>
+                            <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
+                                <p style="color: #555; margin: 0 0 20px;">Dear <strong>${authorName || email}</strong>,</p>
+                                <p style="color: #555; margin: 0 0 24px;">Thank you for submitting your abstract to the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems (ORP-5).</p>
+                                
+                                <div style="background: #f0fdf4; border: 2px dashed #86efac; border-radius: 8px; padding: 20px; text-align: center; margin: 0 0 28px;">
+                                    <p style="margin: 0 0 8px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #166534;">Your Abstract ID</p>
+                                    <p style="margin: 0; font-size: 28px; font-weight: bold; font-family: monospace; color: #123125; letter-spacing: 2px;">ABS-${data.id.substring(0, 8).toUpperCase()}</p>
+                                </div>
+                                
+                                <div style="background: #f9f9f7; border-left: 4px solid #123125; padding: 16px; margin-bottom: 28px; border-radius: 0 4px 4px 0;">
+                                    <p style="margin: 0 0 4px; font-size: 12px; color: #666; text-transform: uppercase;">Title</p>
+                                    <p style="margin: 0 0 12px; font-weight: bold; color: #333;">${title}</p>
+                                    <p style="margin: 0 0 4px; font-size: 12px; color: #666; text-transform: uppercase;">Status</p>
+                                    <p style="margin: 0; font-weight: bold; color: #ca8a04;">Pending Review ⏳</p>
+                                </div>
+
+                                <h3 style="font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #333; margin: 0 0 16px; text-align: center;">Track Your Submission</h3>
+                                <p style="color: #555; font-size: 14px; text-align: center; margin-bottom: 24px;">You can track your submission status anytime without an account.</p>
+                                
+                                <div style="text-align: center; margin: 0 0 24px;">
+                                    <a href="${process.env.NEXT_PUBLIC_SITE_URL}/ticket-status" 
+                                       style="background-color: #1a5c26; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block;">
+                                        Check Submission Status →
+                                    </a>
+                                </div>
+                                <p style="color: #666; font-size: 12px; text-align: center;">Go to the <strong>Abstract Submission</strong> tab and enter your email address.</p>
+                            </div>
+                            
+                            <p style="text-align: center; font-size: 11px; color: #999; margin: 16px 0 0;">ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a></p>
                         </div>
                     `
                 });

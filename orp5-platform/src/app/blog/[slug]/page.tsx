@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="min-h-screen bg-[#FDFCF8]">
                 <Navbar variant="default" />
 
-                <main className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+                <main className="pt-36 md:pt-40 pb-16 px-4 sm:px-6 lg:px-8">
                     <article className="max-w-2xl mx-auto">
                         {/* Back Link */}
                         <Link

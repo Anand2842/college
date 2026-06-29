@@ -39,6 +39,25 @@ export default async function DashboardPage() {
         .or(`user_id.eq.${user.id},email.eq.${user.email}`)
         .order('created_at', { ascending: false });
 
+    const { data: registrations } = await supabaseAdmin
+        .from('registrations')
+        .select('*')
+        .or(`user_id.eq.${user.id},data->>email.eq.${user.email}`)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+    const registration = registrations?.[0] || null;
+
+    // Auto-link: if we found a registration by email but user_id doesn't match (e.g. anonymous
+    // registration, or admin placeholder), silently claim it for this user.
+    // Safe because Supabase requires email verification — only the real owner can log in.
+    if (registration && registration.user_id !== user.id) {
+        await supabaseAdmin
+            .from('registrations')
+            .update({ user_id: user.id })
+            .eq('id', registration.id);
+    }
+
     const total = submissions?.length ?? 0;
     const underReview = submissions?.filter((s: any) => s.status === 'pending' || s.status === 'under_review').length ?? 0;
     const accepted = submissions?.filter((s: any) => s.status === 'accepted').length ?? 0;
@@ -52,7 +71,7 @@ export default async function DashboardPage() {
             <Navbar />
 
             {/* Header band */}
-            <div className="bg-gradient-to-r from-[#1a5c26] to-[#24C535] pt-28 pb-10 px-6">
+            <div className="bg-gradient-to-r from-[#1a5c26] to-[#24C535] pt-36 md:pt-40 pb-10 px-6">
                 <div className="container mx-auto max-w-5xl flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
                         <p className="text-green-200 text-xs font-semibold tracking-widest uppercase mb-1">ORP-5 Conference Portal</p>
@@ -137,11 +156,40 @@ export default async function DashboardPage() {
 
                 {/* ── Registration ── */}
                 <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-                    <h2 className="font-bold text-gray-900 mb-1">Conference Registration</h2>
-                    <p className="text-sm text-gray-500 mb-4">You are not yet registered for ORP-5. Registration is required to attend and present.</p>
-                    <Link href="/registration" className="inline-flex items-center gap-1 text-sm font-bold text-earth-green hover:underline">
-                        Register Now →
-                    </Link>
+                    <h2 className="font-bold text-gray-900 mb-4">Conference Registration</h2>
+                    
+                    {registration ? (
+                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                            <div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${registration.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                        {registration.status === 'approved' ? 'Approved' : 'Pending Review'}
+                                    </span>
+                                    <span className="text-sm font-medium text-gray-900 font-mono bg-gray-50 px-2 py-0.5 rounded">
+                                        Ticket ID: {registration.data?.ticket_number || 'N/A'}
+                                    </span>
+                                </div>
+                                <p className="text-sm text-gray-600">
+                                    Category: <span className="font-medium text-gray-800">{registration.data?.category}</span> &nbsp;|&nbsp; 
+                                    Mode: <span className="font-medium text-gray-800 capitalize">{registration.data?.mode}</span> &nbsp;|&nbsp; 
+                                    Payment: <span className="font-medium text-gray-800 capitalize">{registration.data?.payment_status?.replace('_', ' ') || 'Pending'}</span>
+                                </p>
+                            </div>
+                            
+                            {registration.status !== 'approved' && registration.data?.payment_status !== 'paid' && (
+                                <Link href={`/registration/pay?id=${registration.data?.ticket_number}`} className="bg-earth-green text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-green-700 transition-colors shrink-0">
+                                    Complete Payment
+                                </Link>
+                            )}
+                        </div>
+                    ) : (
+                        <div>
+                            <p className="text-sm text-gray-500 mb-4">You are not yet registered for ORP-5. Registration is required to attend and present.</p>
+                            <Link href="/registration" className="inline-flex items-center gap-1 text-sm font-bold text-earth-green hover:underline">
+                                Register Now →
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
 

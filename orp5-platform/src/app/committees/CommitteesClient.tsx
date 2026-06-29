@@ -204,7 +204,7 @@ export default function CommitteesClient() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative min-h-[520px] flex items-center justify-center overflow-hidden"
+        className="relative min-h-[520px] flex items-center justify-center overflow-hidden pt-32 md:pt-40"
       >
         {/* Background image */}
         <div className="absolute inset-0">

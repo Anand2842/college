@@ -24,7 +24,7 @@ export async function PATCH(
         // First, get the current registration
         const { data: current, error: fetchError } = await supabaseAdmin
             .from('registrations')
-            .select('data')
+            .select('data, user_id')
             .eq('id', id)
             .single();
 
@@ -47,6 +47,29 @@ export async function PATCH(
         const updatePayload: Record<string, unknown> = { data: updatedData };
         if (payment_status === 'paid') {
             updatePayload.status = 'approved';
+        }
+
+        // WORKAROUND: If user_id is null (anonymous registration), the DB trigger for notifications
+        // will crash. We assign the registration to an admin user to prevent this.
+        if (!current.user_id) {
+            const { data: adminUser } = await supabaseAdmin
+                .from('profiles')
+                .select('id')
+                .eq('role', 'admin')
+                .limit(1)
+                .single();
+            if (adminUser) {
+                updatePayload.user_id = adminUser.id;
+            } else {
+                // Fallback to superadmin if no admin found
+                const { data: superAdmin } = await supabaseAdmin
+                    .from('profiles')
+                    .select('id')
+                    .eq('role', 'superadmin')
+                    .limit(1)
+                    .single();
+                if (superAdmin) updatePayload.user_id = superAdmin.id;
+            }
         }
 
         const { error: updateError } = await supabaseAdmin

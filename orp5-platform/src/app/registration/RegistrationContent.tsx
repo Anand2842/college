@@ -14,7 +14,7 @@ export default function RegistrationContent() {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-[#FFFDF7] pt-20">
+            <div className="min-h-screen bg-[#FFFDF7] pt-36 md:pt-40">
                 {/* Hero Section */}
                 <section className="bg-gradient-to-br from-earth-green via-earth-green to-earth-green/90 text-white py-16 md:py-24">
                     <div className="container mx-auto px-4 text-center">

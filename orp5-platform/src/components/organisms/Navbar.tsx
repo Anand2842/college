@@ -141,6 +141,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     </div>
                     <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-white/70">
                         <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+                        <Link href="/ticket-status" className="text-[#a3d9b1] hover:text-white transition-colors">Track Status</Link>
                         <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
                         
                         {isLoggedIn ? (
@@ -320,6 +321,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                         ))}
 
                         <div className="border-b border-gray-100 pb-4">
+                            <Link href="/ticket-status" className="font-bold text-earth-green block text-lg mb-4" onClick={() => setIsMobileMenuOpen(false)}>Track Status</Link>
                             <Link href="/blog" className="font-bold text-gray-900 block text-lg mb-4" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
                             <Link href="/contact" className="font-bold text-gray-900 block text-lg mb-4" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
                             

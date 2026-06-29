@@ -1,10 +1,11 @@
-import { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/metadata';
 import GalleryClient from './GalleryClient';
 
-export const metadata: Metadata = {
-    title: 'Gallery | ORP-5 Conference',
+export const metadata = createPageMetadata({
+    title: 'Gallery',
     description: '5th International Conference on Organic & Natural Rice Farming',
-};
+    path: '/gallery',
+});
 
 export default function GalleryPage() {
     return <GalleryClient />;

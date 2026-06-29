@@ -69,6 +69,35 @@ export default function RootLayout({
             gtag('config', 'G-516QQW6NKY');
           `}
         </Script>
+        <Script id="event-schema" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Event",
+            "name": "5th International Conference on Organic and Natural Rice Production Systems",
+            "startDate": "2026-08-01T09:00",
+            "endDate": "2026-08-03T17:00",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "location": {
+              "@type": "Place",
+              "name": "ORP-5 Venue",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "To be announced",
+                "addressLocality": "City",
+                "addressRegion": "State",
+                "postalCode": "00000",
+                "addressCountry": "Country"
+              }
+            },
+            "description": "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.",
+            "organizer": {
+              "@type": "Organization",
+              "name": "ORP-5 Organizer",
+              "url": "https://www.orp5ic.com"
+            }
+          })}
+        </Script>
         <ErrorBoundary>
           <ClientProviders>
             {children}

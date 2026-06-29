@@ -362,6 +362,7 @@ export default function AdminSubmissionsPage() {
                         <table className="w-full">
                             <thead className="bg-gray-800/50">
                                 <tr>
+                                    <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Abstract ID</th>
                                     <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Title</th>
                                     <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Authors</th>
                                     <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Category</th>
@@ -373,6 +374,11 @@ export default function AdminSubmissionsPage() {
                             <tbody className="divide-y divide-gray-800">
                                 {filteredSubmissions.map((sub) => (
                                     <tr key={sub.id} className="hover:bg-gray-800/50 transition-colors group">
+                                        <td className="p-4">
+                                            <span className="font-mono text-xs font-bold bg-gray-800 text-gray-300 px-2 py-1 rounded border border-gray-700">
+                                                ABS-{sub.id.substring(0, 8).toUpperCase()}
+                                            </span>
+                                        </td>
                                         <td className="p-4 font-medium">
                                             <div className="max-w-[300px] truncate text-white" title={sub.title}>{sub.title}</div>
                                             <div className="text-xs text-gray-500 mt-1 truncate">{sub.topic}</div>
@@ -442,10 +448,12 @@ export default function AdminSubmissionsPage() {
             {selectedSubmission && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className="bg-gray-900 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-800 shadow-2xl">
-                        <div className="sticky top-0 bg-gray-900/95 backdrop-blur border-b border-gray-800 p-6 flex justify-between items-start z-10">
+                        <div className="p-6 border-b border-gray-800 flex justify-between items-start bg-gray-800/20">
                             <div>
-                                <h2 className="text-2xl font-bold text-white leading-tight">{selectedSubmission.title}</h2>
-                                <div className="flex gap-3 mt-3">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <span className="font-mono text-xs font-bold bg-gray-800 text-gray-300 px-2 py-1 rounded border border-gray-700">
+                                        ORP5-ABS-2026-{selectedSubmission.id.substring(0, 8).toUpperCase()}
+                                    </span>
                                     <span className={`px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide inline-flex items-center gap-1.5 ${getStatusBadge(selectedSubmission.status)}`}>
                                         <span className="w-1.5 h-1.5 rounded-full bg-current opacity-75"></span>
                                         {selectedSubmission.status}
@@ -454,6 +462,7 @@ export default function AdminSubmissionsPage() {
                                         {selectedSubmission.category}
                                     </span>
                                 </div>
+                                <h2 className="text-2xl font-bold text-white leading-tight">{selectedSubmission.title}</h2>
                             </div>
                             <button
                                 onClick={() => setSelectedSubmission(null)}

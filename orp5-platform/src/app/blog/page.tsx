@@ -24,7 +24,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         <div className="min-h-screen bg-mist-white">
             <Navbar variant="default" />
 
-            <main className="py-24 px-4 sm:px-6 lg:px-8">
+            <main className="pt-36 md:pt-40 pb-24 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <header className="text-center mb-16">
                         <span className="text-earth-green font-bold tracking-wider uppercase text-sm mb-3 block">

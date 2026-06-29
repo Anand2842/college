@@ -129,7 +129,7 @@ export default function PaymentInstructionClient() {
             <Navbar />
 
             {/* Hero */}
-            <section className="bg-gradient-to-br from-[#123125] to-[#1e4d3b] pt-28 pb-16 px-4">
+            <section className="bg-gradient-to-br from-[#123125] to-[#1e4d3b] pt-36 md:pt-40 pb-16 px-4">
                 <div className="container mx-auto max-w-4xl text-center">
                     <div className="inline-flex items-center gap-2 bg-green-400/20 text-green-300 text-sm font-bold px-4 py-2 rounded-full mb-6 border border-green-400/30">
                         <CheckCircle2 size={16} />
