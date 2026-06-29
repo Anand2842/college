@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Lazy initialization to prevent build-time crashes if env vars are missing
-let supabaseAdminInstance: ReturnType<typeof createClient> | null = null;
+const supabaseAdminInstance: ReturnType<typeof createClient> | null = null;
 
 export const getSupabaseAdmin = () => {
     // Always create a new instance to prevent schema caching issues in serverless/edge overrides

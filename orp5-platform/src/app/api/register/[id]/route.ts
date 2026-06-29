@@ -15,7 +15,7 @@ export async function GET(
         const supabase = getSupabaseAdmin();
 
         // Try to find by UUID first
-        let { data, error } = await supabase
+        const { data, error } = await supabase
             .from('registrations')
             .select('*')
             .eq('id', id)

@@ -30,6 +30,7 @@ export function WhatsAppWidget() {
             const timer = setTimeout(() => setIsVisible(true), 1000);
             return () => clearTimeout(timer);
         } else {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsVisible(false);
         }
     }, [pathname]);

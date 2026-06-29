@@ -66,7 +66,7 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
     // Auto-calculate fee whenever relevant fields change
     useEffect(() => {
         let fee = 0;
-        let currency = formData.nationality === "indian" ? "INR" : "USD";
+        const currency = formData.nationality === "indian" ? "INR" : "USD";
 
         const modeData = FEE_STRUCTURE[formData.mode];
         if (formData.nationality === "indian") {

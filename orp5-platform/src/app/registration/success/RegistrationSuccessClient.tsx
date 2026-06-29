@@ -381,7 +381,7 @@ export default function RegistrationSuccessClient() {
                                     <strong>Date:</strong> {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                                 </div>
                                 <div style={{ fontSize: '13px', color: '#4b5563', marginTop: '4px' }}>
-                                    <strong>No:</strong> ORP5-{Math.floor(Math.random() * 10000)}
+                                <strong>No:</strong> ORP5-{displayUser.registrationId?.substring(0, 6) || 'XXXX'}
                                 </div>
                             </div>
                         </div>
