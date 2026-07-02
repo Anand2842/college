@@ -14,7 +14,7 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
     return (
-        <article className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 group">
+        <article className="relative flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 group">
             {post.cover_image && (
                 <div className="relative h-56 w-full overflow-hidden">
                     <img
@@ -66,7 +66,7 @@ export default function BlogCard({ post }: BlogCardProps) {
 
                     <Link
                         href={`/blog/${post.slug}`}
-                        className="inline-flex items-center text-sm font-bold text-earth-green hover:text-earth-green/80 transition-colors"
+                        className="inline-flex min-h-[44px] items-center text-sm font-bold text-earth-green hover:text-earth-green/80 transition-colors before:absolute before:inset-0"
                     >
                         Read Article &rarr;
                     </Link>

@@ -199,67 +199,189 @@ export default function HomepageEditor() {
                     </div>
                 )}
 
+
                 {/* Partners Tab */}
-                {activeTab === "Partners" && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Collaborating Partners</h2>
-                        <div className="grid gap-6 mb-8">
-                            <AdminInput
-                                label="Section Title"
-                                value={data.partnersSectionTitle || ""}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev: any) => ({ ...prev, partnersSectionTitle: e.target.value }))}
-                                placeholder="Organizers & Partners"
-                            />
-                            <AdminInput
-                                label="Section Subtitle"
-                                value={data.partnersSectionSubtitle || ""}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev: any) => ({ ...prev, partnersSectionSubtitle: e.target.value }))}
-                                placeholder="Collaboratively driving the future of organic rice production."
-                            />
-                        </div>
-                        <ListEditor
-                            title="Partners"
-                            items={data.partners || []}
-                            onUpdate={(items) => handleListUpdate("partners", items)}
-                            itemTemplate={{ id: "", name: "New Partner", logoUrl: "" }}
-                            renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
-                                <div className="col-span-1 md:col-span-2 grid gap-4">
-                                    <AdminInput label="Partner Name" value={item.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("name", e.target.value)} />
-                                    <AdminInput label="Category" value={item.category || ""} placeholder="e.g., Organizers, Academic Partners, Sponsors" onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("category", e.target.value)} />
-                                    <ImageUploader label="Logo URL" value={item.logoUrl} onChange={(url) => update("logoUrl", url)} />
-                                    <AdminInput label="Website URL" value={item.website || ""} placeholder="https://..." onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("website", e.target.value)} />
-                                </div>
-                            )}
-                        />
-                        <div className="mt-12 pt-8 border-t border-gray-200">
-                            <h3 className="text-lg font-bold mb-4 text-earth-green">Category Layout Settings</h3>
-                            <p className="text-sm text-gray-500 mb-6">Define how specific partner categories should be displayed. By default, categories display as a Grid. For 10+ partners, use the "Marquee" mode for an infinite horizontal auto-scroll.</p>
-                            <ListEditor
-                                title="Category Settings"
-                                items={data.partnerCategorySettings || []}
-                                onUpdate={(items) => handleListUpdate("partnerCategorySettings", items)}
-                                itemTemplate={{ name: "", mode: "grid", order: 99 }}
-                                renderItemFields={(item: any, i: number, update: (f: string, v: any) => void) => (
-                                    <>
-                                        <AdminInput label="Exact Category Name" value={item.name} placeholder="e.g., In Collaboration With" onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("name", e.target.value)} />
-                                        <div className="mb-4">
-                                            <label className="block text-sm font-bold text-earth-green mb-2">Display Mode</label>
-                                            <select
-                                                value={item.mode || "grid"}
-                                                onChange={(e) => update("mode", e.target.value)}
-                                                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-earth-green focus:border-transparent transition-all text-gray-700"
+                {activeTab === "Partners" && (() => {
+                    const TIERS = [
+                        { key: "Jointly organised by", label: "Jointly organised by", description: "Primary organising institutions (shown largest, at the top)", color: "bg-green-50 border-green-200", badge: "bg-green-100 text-green-800" },
+                        { key: "Supported by", label: "Supported by", description: "Government bodies & major supporters (shown in the middle)", color: "bg-blue-50 border-blue-200", badge: "bg-blue-100 text-blue-800" },
+                        { key: "In collaboration with", label: "In collaboration with", description: "Academic institutions, publishers & industry partners (shown at the bottom)", color: "bg-amber-50 border-amber-200", badge: "bg-amber-100 text-amber-800" },
+                    ];
+
+                    const partnersByTier = TIERS.reduce((acc: Record<string, any[]>, tier) => {
+                        acc[tier.key] = (data.partners || []).filter((p: any) => p.category === tier.key);
+                        return acc;
+                    }, {});
+
+                    const updateTierPartners = (tierKey: string, newItems: any[]) => {
+                        // Stamp the correct category on each item
+                        const stamped = newItems.map(p => ({ ...p, category: tierKey }));
+                        // Merge with partners from other tiers
+                        const otherPartners = (data.partners || []).filter((p: any) => p.category !== tierKey);
+                        handleListUpdate("partners", [...otherPartners, ...stamped]);
+                    };
+
+                    const addPartner = (tierKey: string) => {
+                        const newPartner = { id: crypto.randomUUID(), name: "New Organisation", logoUrl: "", website: "", category: tierKey };
+                        const updated = [...(data.partners || []), newPartner];
+                        handleListUpdate("partners", updated);
+                    };
+
+                    const removePartner = (id: string) => {
+                        handleListUpdate("partners", (data.partners || []).filter((p: any) => p.id !== id));
+                    };
+
+                    const updatePartner = (id: string, field: string, value: string) => {
+                        handleListUpdate("partners", (data.partners || []).map((p: any) =>
+                            p.id === id ? { ...p, [field]: value } : p
+                        ));
+                    };
+
+                    const movePartner = (id: string, direction: "up" | "down") => {
+                        const currentPartners = [...(data.partners || [])];
+                        const index = currentPartners.findIndex(p => p.id === id);
+                        if (index === -1) return;
+                        
+                        const category = currentPartners[index].category;
+                        let swapIndex = -1;
+                        
+                        if (direction === "up") {
+                            for (let i = index - 1; i >= 0; i--) {
+                                if (currentPartners[i].category === category) {
+                                    swapIndex = i;
+                                    break;
+                                }
+                            }
+                        } else {
+                            for (let i = index + 1; i < currentPartners.length; i++) {
+                                if (currentPartners[i].category === category) {
+                                    swapIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (swapIndex !== -1) {
+                            const temp = currentPartners[index];
+                            currentPartners[index] = currentPartners[swapIndex];
+                            currentPartners[swapIndex] = temp;
+                            handleListUpdate("partners", currentPartners);
+                        }
+                    };
+
+                    return (
+                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                <h2 className="text-xl font-bold text-earth-green">Organisers & Partners</h2>
+                                <p className="text-sm text-gray-500 mt-1">Manage logos for each tier of the hierarchy shown at the top of the homepage.</p>
+                            </div>
+
+                            {TIERS.map((tier) => {
+                                const partners = partnersByTier[tier.key];
+                                return (
+                                    <div key={tier.key} className={`rounded-xl border-2 ${tier.color} overflow-hidden`}>
+                                        {/* Tier Header */}
+                                        <div className="px-6 py-4 flex items-center justify-between">
+                                            <div>
+                                                <div className="flex items-center gap-3">
+                                                    <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${tier.badge}`}>{partners.length} {partners.length === 1 ? 'org' : 'orgs'}</span>
+                                                    <h3 className="font-bold text-charcoal text-lg">{tier.label}</h3>
+                                                </div>
+                                                <p className="text-xs text-gray-500 mt-0.5 ml-14">{tier.description}</p>
+                                            </div>
+                                            <button
+                                                onClick={() => addPartner(tier.key)}
+                                                className="flex items-center gap-2 bg-white border border-gray-300 hover:border-earth-green hover:text-earth-green text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition-colors shrink-0"
                                             >
-                                                <option value="grid">Grid (Centered Wrap)</option>
-                                                <option value="marquee">Marquee (Infinite Horizontal Scroll)</option>
-                                            </select>
+                                                + Add
+                                            </button>
                                         </div>
-                                        <AdminInput label="Display Order" value={item.order?.toString() || ""} placeholder="e.g., 1 (Lower appears first)" type="number" onChange={(e: React.ChangeEvent<HTMLInputElement>) => update("order", parseInt(e.target.value) || 99)} />
-                                    </>
-                                )}
-                            />
+
+                                        {/* Partner Cards */}
+                                        {partners.length === 0 ? (
+                                            <div className="bg-white/60 mx-4 mb-4 rounded-lg border border-dashed border-gray-300 py-8 text-center text-sm text-gray-400">
+                                                No organisations added yet. Click "+ Add" to add one.
+                                            </div>
+                                        ) : (
+                                            <div className="px-4 pb-4 grid grid-cols-1 gap-3">
+                                                {partners.map((partner: any, idx: number) => (
+                                                    <div key={partner.id} className="bg-white rounded-lg border border-gray-200 p-4 flex flex-col md:flex-row gap-4 items-start">
+                                                        {/* Logo Preview */}
+                                                        <div className="w-20 h-16 shrink-0 rounded border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden">
+                                                            {partner.logoUrl
+                                                                ? <img src={partner.logoUrl} alt={partner.name} className="max-w-full max-h-full object-contain" />
+                                                                : <span className="text-[10px] text-gray-400 text-center px-1">No Logo</span>
+                                                            }
+                                                        </div>
+
+                                                        {/* Fields */}
+                                                        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                            <div>
+                                                                <label className="block text-xs font-bold text-earth-green mb-1">Organisation Name</label>
+                                                                <input
+                                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-earth-green"
+                                                                    value={partner.name}
+                                                                    onChange={(e) => updatePartner(partner.id, "name", e.target.value)}
+                                                                    placeholder="e.g., Ministry of Agriculture"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <label className="block text-xs font-bold text-earth-green mb-1">Website URL</label>
+                                                                <input
+                                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-earth-green"
+                                                                    value={partner.website || ""}
+                                                                    onChange={(e) => updatePartner(partner.id, "website", e.target.value)}
+                                                                    placeholder="https://..."
+                                                                />
+                                                            </div>
+                                                            <div className="md:col-span-2">
+                                                                <ImageUploader
+                                                                    label="Logo"
+                                                                    value={partner.logoUrl}
+                                                                    onChange={(url) => updatePartner(partner.id, "logoUrl", url)}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Actions */}
+                                                        <div className="flex flex-col gap-2 shrink-0">
+                                                            <div className="flex items-center gap-1">
+                                                                <button
+                                                                    onClick={() => movePartner(partner.id, "up")}
+                                                                    disabled={idx === 0}
+                                                                    className="p-1 text-gray-400 hover:text-earth-green hover:bg-gray-100 rounded disabled:opacity-30 disabled:hover:bg-transparent"
+                                                                    title="Move Up"
+                                                                >
+                                                                    ↑
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => movePartner(partner.id, "down")}
+                                                                    disabled={idx === partners.length - 1}
+                                                                    className="p-1 text-gray-400 hover:text-earth-green hover:bg-gray-100 rounded disabled:opacity-30 disabled:hover:bg-transparent"
+                                                                    title="Move Down"
+                                                                >
+                                                                    ↓
+                                                                </button>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => removePartner(partner.id)}
+                                                                className="text-red-400 hover:text-red-600 text-xs font-semibold mt-1 transition-colors text-right"
+                                                            >
+                                                                Remove
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
-                    </div>
-                )}
+                    );
+                })()}
+
+
 
                 {/* Themes Tab */}
                 {activeTab === "Themes" && (

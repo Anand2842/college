@@ -11,6 +11,7 @@ import { PartnerCard } from "@/components/molecules/PartnerCard";
 import { InfiniteMarquee } from "@/components/molecules/InfiniteMarquee";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { StatsStrip } from "@/components/organisms/StatsStrip";
+import { OrganizersHierarchy } from "@/components/organisms/OrganizersHierarchy";
 import { AboutPreview } from "@/components/organisms/AboutPreview";
 import { CallForPapers } from "@/components/organisms/CallForPapers";
 import { AwardsPreview } from "@/components/organisms/AwardsPreview";
@@ -66,8 +67,8 @@ export default async function Home() {
     dates: [
       { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "30 June 2026", label: "Abstract Submission Deadline", status: "urgent" },
-      { date: "15 July 2026", label: "Notification of Abstract Status", status: "upcoming" },
+      { date: "31 July 2026", label: "Abstract Submission Deadline", status: "urgent" },
+      { date: "05 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
       { date: "01 August 2026", label: "Registration Deadline", status: "upcoming" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
     ],
@@ -99,6 +100,11 @@ export default async function Home() {
         registrationBannerText={data.hero.registrationBannerText}
         whyJoin={data.whyJoin || []}
       />
+
+      {/* 1.5 Organizers Hierarchy — compact IEEE-style strip */}
+      {data.partnersByCategory && (
+        <OrganizersHierarchy partnersByCategory={data.partnersByCategory} />
+      )}
 
       {/* 2. Stats Strip */}
       <StatsStrip />
@@ -201,15 +207,16 @@ export default async function Home() {
       <PublicationInfo />
 
       {/* 10. Partners & Institutions */}
-      {data.partnersByCategory && Object.keys(data.partnersByCategory).length > 0 && (
+      {data.partnersByCategory && Object.keys(data.partnersByCategory).filter(cat => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat)).length > 0 && (
         <section id="partners" className="py-20 bg-white border-y border-gray-100">
           <div className="container mx-auto px-6 text-center">
             <SectionTitle
-              title={data.partnersSectionTitle || "Organizers & Partners"}
+              title={data.partnersSectionTitle || "Other Partners & Institutions"}
               subtitle={data.partnersSectionSubtitle || "Collaboratively driving the future of organic rice production."}
               centered
             />
             {Object.entries(data.partnersByCategory)
+              .filter(([cat]) => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat))
               .sort(([catA], [catB]) => {
                 const orderA = data.partnerCategorySettings?.find((s: any) => s.name === catA)?.order ?? 99;
                 const orderB = data.partnerCategorySettings?.find((s: any) => s.name === catB)?.order ?? 99;

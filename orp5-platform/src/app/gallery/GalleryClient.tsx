@@ -95,8 +95,8 @@ export default function GalleryClient() {
             </div>
 
             {/* Filters */}
-            <div className="container mx-auto px-6 mb-12 overflow-x-auto">
-                <div className="flex flex-wrap justify-center gap-2 md:gap-4 min-w-max px-2">
+            <div className="container mx-auto px-6 mb-12">
+                <div className="flex flex-wrap justify-center gap-2 md:gap-4 px-2">
                     {data.filters.map((filter: string) => (
                         <button
                             key={filter}

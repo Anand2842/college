@@ -51,7 +51,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
           inter.variable,
           merriweather.variable
         )}

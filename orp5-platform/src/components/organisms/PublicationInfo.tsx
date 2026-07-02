@@ -36,8 +36,8 @@ export function PublicationInfo() {
 
           {/* Right Column */}
           <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-6 opacity-5">
-              <BookOpen size={120} />
+            <div className="absolute -top-8 -right-8 opacity-5">
+              <BookOpen size={160} />
             </div>
             
             <div className="relative z-10">
@@ -48,18 +48,18 @@ export function PublicationInfo() {
               <h3 className="text-sm uppercase tracking-widest text-gray-400 font-bold mb-2">Target Journal</h3>
               <p className="text-2xl font-serif font-bold text-charcoal mb-8">Plant Science Today</p>
               
-              <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-gray-50">
-                  <span className="text-gray-500">Publisher</span>
-                  <span className="font-medium text-charcoal text-right">Horizon e-Publishing Group</span>
+              <div className="space-y-2">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 border-b border-gray-50 gap-1 sm:gap-4">
+                  <span className="text-gray-500 text-sm sm:text-base">Publisher</span>
+                  <span className="font-medium text-charcoal sm:text-right">Horizon e-Publishing Group</span>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-gray-50">
-                  <span className="text-gray-500">Indexing</span>
-                  <span className="font-medium text-charcoal text-right">Scopus, Web of Science, UGC-CARE</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 border-b border-gray-50 gap-1 sm:gap-4">
+                  <span className="text-gray-500 text-sm sm:text-base">Indexing</span>
+                  <span className="font-medium text-charcoal sm:text-right">Scopus, Web of Science, UGC-CARE</span>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-gray-50">
-                  <span className="text-gray-500">Article Processing Charge</span>
-                  <span className="font-medium text-charcoal text-right">₹16,000 / paper</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 border-b border-gray-50 gap-1 sm:gap-4">
+                  <span className="text-gray-500 text-sm sm:text-base whitespace-nowrap">Article Processing Charge</span>
+                  <span className="font-medium text-charcoal sm:text-right">₹16,000 / paper</span>
                 </div>
               </div>
             </div>

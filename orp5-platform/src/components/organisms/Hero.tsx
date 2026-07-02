@@ -85,11 +85,11 @@ export function Hero({
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-5 justify-center w-full mb-10">
-                        <Link href="/submission">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center w-full max-w-sm sm:max-w-none mx-auto mb-10">
+                        <Link href="/submission" className="w-full sm:w-auto">
                             <Button
                                 size="lg"
-                                className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105"
+                                className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-base sm:text-lg px-6 py-4 sm:px-10 sm:py-6 w-full sm:min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105"
                             >
                                 Submit Abstract
                             </Button>
@@ -97,16 +97,16 @@ export function Hero({
                         <Button
                             variant="outline"
                             size="lg"
-                            className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
+                            className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-earth-green font-bold text-base sm:text-lg px-6 py-4 sm:px-10 sm:py-6 w-full sm:min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
                             onClick={openModal}
                         >
                             Register Now
                         </Button>
-                        <Link href="/ticket-status">
+                        <Link href="/ticket-status" className="w-full sm:w-auto">
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-earth-green font-bold text-lg px-10 py-6 min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
+                                className="bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-earth-green font-bold text-base sm:text-lg px-6 py-4 sm:px-10 sm:py-6 w-full sm:min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
                             >
                                 Track Status
                             </Button>
@@ -115,37 +115,6 @@ export function Hero({
 
 
 
-                    {/* Collaborating Partners Wrapper */}
-                    {partners && partners.length > 0 && (
-                        <div className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-                            <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-6 drop-shadow-md">Jointly organized by</p>
-                            <div className="flex flex-wrap justify-center items-start gap-8 md:gap-12">
-                                {partners.slice(0, 6).map((partner: any, index: number) => {
-                                    const Icon = index % 3 === 0 ? Globe : (index % 3 === 1 ? Sprout : Leaf);
-                                    return (
-                                        <div key={partner.id || index} className="group flex flex-col items-center gap-3 w-28 md:w-32">
-                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-110 transition-all duration-300 relative">
-                                                {partner.logoUrl ? (
-                                                    <Image
-                                                        src={partner.logoUrl}
-                                                        alt={partner.name}
-                                                        fill
-                                                        sizes="(max-width: 768px) 64px, 80px"
-                                                        className="object-contain p-3"
-                                                    />
-                                                ) : (
-                                                    <Icon className="text-earth-green w-8 h-8" strokeWidth={1.5} />
-                                                )}
-                                            </div>
-                                            <span className="text-[10px] md:text-xs text-white text-center font-bold uppercase tracking-wide leading-tight drop-shadow-md">
-                                                {partner.name}
-                                            </span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
                 </motion.div>
             </div>
         </section>

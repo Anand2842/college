@@ -134,12 +134,12 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                         isScrolled ? "h-0 opacity-0" : "h-10 opacity-100"
                     )}
                 >
-                    <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest">
+                    <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest">
                         <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                         <span className="text-white/70">Abstract Submission Deadline:</span>
-                        <span className="text-rice-gold">30 June 2026</span>
+                        <span className="text-rice-gold">31 July 2026</span>
                     </div>
-                    <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-white/70">
+                    <div className="flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-white/70">
                         <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
                         <Link href="/ticket-status" className="text-[#a3d9b1] hover:text-white transition-colors">Track Status</Link>
                         <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
@@ -151,7 +151,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                     <ArrowRight size={12} />
                                 </Link>
                                 <form action="/auth/signout" method="post" className="m-0 p-0 flex">
-                                    <button type="submit" className="text-white/70 hover:text-white transition-colors font-bold uppercase tracking-widest text-[11px]">
+                                    <button type="submit" className="text-white/70 hover:text-white transition-colors font-bold uppercase tracking-widest text-xs">
                                         Sign Out
                                     </button>
                                 </form>
@@ -257,7 +257,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             </Button>
                         )}
                         <button
-                            className={cn("p-2 transition-colors rounded-md", isTransparentAtTop ? "text-white hover:bg-white/10" : "text-black bg-gray-50 hover:bg-gray-100")}
+                            className={cn("p-2 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors rounded-md", isTransparentAtTop ? "text-white hover:bg-white/10" : "text-black bg-gray-50 hover:bg-gray-100")}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         >
                             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -275,7 +275,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse mt-1 shrink-0"></span>
                             <div>
                                 <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-1">Important Deadline</p>
-                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 30 June 2026</p>
+                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 31 July 2026</p>
                             </div>
                         </div>
 

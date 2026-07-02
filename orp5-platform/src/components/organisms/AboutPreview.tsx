@@ -22,7 +22,7 @@ export function AboutPreview() {
               </p>
             </div>
             <Link href="/about">
-              <Button variant="outline" className="group">
+              <Button variant="outline" className="group min-h-[44px] flex items-center justify-center">
                 Learn More About ORP-5
                 <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>

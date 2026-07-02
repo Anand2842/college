@@ -9,7 +9,7 @@ export function CallForPapers() {
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
 
   useEffect(() => {
-    const deadline = new Date("2026-06-30T23:59:59").getTime();
+    const deadline = new Date("2026-07-31T23:59:59").getTime();
     
     const calculateTimeLeft = () => {
       const now = new Date().getTime();
@@ -46,7 +46,7 @@ export function CallForPapers() {
             <div className="lg:col-span-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-sm font-bold mb-6 border border-red-100">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                DEADLINE: 30 JUNE 2026
+                DEADLINE: 31 JULY 2026
               </div>
               
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">

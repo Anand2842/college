@@ -271,11 +271,11 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                     {/* STEP 1: Personal Info */}
                     {step === 1 && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                            <div className="space-y-2 col-span-2 md:col-span-1">
+                            <div className="space-y-2">
                                 <label className="text-sm font-bold text-gray-700">Full Name</label>
                                 <input name="fullName" value={formData.fullName} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="Dr. John Doe" />
                             </div>
-                            <div className="space-y-2 col-span-2 md:col-span-1">
+                            <div className="space-y-2">
                                 <label className="text-sm font-bold text-gray-700">Email Address</label>
                                 <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="john@university.edu" />
                             </div>
@@ -287,11 +287,11 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                                 <label className="text-sm font-bold text-gray-700">Country</label>
                                 <input name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" />
                             </div>
-                            <div className="space-y-2 col-span-2">
+                            <div className="space-y-2 md:col-span-2">
                                 <label className="text-sm font-bold text-gray-700">Institution / Organization</label>
                                 <input name="institution" value={formData.institution} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="University of Agriculture, New Delhi" />
                             </div>
-                            <div className="space-y-2 col-span-2">
+                            <div className="space-y-2 md:col-span-2">
                                 <label className="text-sm font-bold text-gray-700">Designation</label>
                                 <input name="designation" value={formData.designation} onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 outline-none" placeholder="Professor / Student / Scientist" />
                             </div>
@@ -389,7 +389,7 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                     )}
 
                     {/* Navigation Buttons */}
-                    <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-6 border-t border-gray-50">
+                    <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-6 pb-16 sm:pb-0 border-t border-gray-50">
                         {step > 0 && (
                             <Button type="button" variant="outline" onClick={() => setStep(step - 1)} className="w-full sm:w-auto">Back</Button>
                         )}

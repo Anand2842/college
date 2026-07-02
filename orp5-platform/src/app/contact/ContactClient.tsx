@@ -108,7 +108,7 @@ export default function ContactClient() {
                             <p className="text-sm text-gray-500 mb-6 leading-relaxed min-h-[40px]">{dept.description}</p>
                             <div className="space-y-2">
                                 {dept.emails.map((email: string, idx: number) => (
-                                    <a key={idx} href={`mailto:${email}`} className="flex items-center gap-2 text-[#10B981] font-medium text-sm hover:underline">
+                                    <a key={idx} href={`mailto:${email}`} className="inline-flex min-h-[44px] items-center gap-2 text-[#10B981] font-medium text-sm hover:underline">
                                         <Mail size={14} /> {email}
                                     </a>
                                 ))}
@@ -128,7 +128,7 @@ export default function ContactClient() {
                                 {getIcon(contact.icon)}
                                 <h4 className="font-bold text-charcoal text-sm">{contact.title}</h4>
                             </div>
-                            <a href={`mailto:${contact.email}`} className="text-sm text-[#10B981] hover:underline pl-8 block">
+                            <a href={`mailto:${contact.email}`} className="inline-flex min-h-[44px] items-center text-sm text-[#10B981] hover:underline pl-8">
                                 {contact.email}
                             </a>
                         </div>
@@ -145,7 +145,7 @@ export default function ContactClient() {
                             <div key={member.id}>
                                 <h3 className="font-bold text-lg">{member.name}</h3>
                                 <p className="text-emerald-400/80 text-xs uppercase tracking-wider mb-2">{member.role}</p>
-                                <a href={`mailto:${member.email}`} className="text-emerald-300 hover:text-white text-sm transition-colors">
+                                <a href={`mailto:${member.email}`} className="inline-flex min-h-[44px] items-center text-emerald-300 hover:text-white text-sm transition-colors">
                                     {member.email}
                                 </a>
                             </div>

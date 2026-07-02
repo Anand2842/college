@@ -22,7 +22,7 @@ export function Footer() {
     return (
         <footer className="bg-earth-green text-white pt-20 pb-24 sm:pb-10">
             <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
                     {/* Column 1: Brand */}
                     <div>
                         <div className="mb-6 bg-white p-2 rounded-xl inline-block">
@@ -40,34 +40,34 @@ export function Footer() {
                         <div className="flex gap-4">
                             {/* Social Links */}
                             {social.facebook && (
-                                <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                     <Facebook size={16} />
                                 </a>
                             )}
                             {social.twitter && (
-                                <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                     <Twitter size={16} />
                                 </a>
                             )}
                             {social.linkedin && (
-                                <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                     <Linkedin size={16} />
                                 </a>
                             )}
                             {social.instagram && (
-                                <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                     <Instagram size={16} />
                                 </a>
                             )}
                             {(!social.facebook && !social.twitter && !social.linkedin && !social.instagram) && (
                                 <>
-                                    <a href="#" aria-label="Facebook" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <a href="#" aria-label="Facebook" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                         <Facebook size={16} />
                                     </a>
-                                    <a href="#" aria-label="Twitter" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <a href="#" aria-label="Twitter" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                         <Twitter size={16} />
                                     </a>
-                                    <a href="#" aria-label="LinkedIn" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
+                                    <a href="#" aria-label="LinkedIn" className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-white/20 hover:bg-sapling-green transition-colors cursor-pointer">
                                         <Linkedin size={16} />
                                     </a>
                                 </>
@@ -77,15 +77,15 @@ export function Footer() {
 
                     {/* Column 2: Quick Links */}
                     <div>
-                        <h4 className="font-bold text-lg mb-6">Quick Links</h4>
-                        <ul className="space-y-3 text-sm text-white/80">
-                            <li><Link href="/about" className="hover:text-rice-gold transition-colors">Organizers</Link></li>
-                            <li><Link href="/registration" className="hover:text-rice-gold transition-colors">Registration</Link></li>
-                            <li><Link href="/programme" className="hover:text-rice-gold transition-colors">Programme</Link></li>
-                            <li><Link href="/venue" className="hover:text-rice-gold transition-colors">Venue & Travel</Link></li>
-                            <li><Link href="/blog" className="hover:text-rice-gold transition-colors">Blog & News</Link></li>
-                            <li><Link href="/submission" className="hover:text-rice-gold transition-colors">Abstract Submission</Link></li>
-                            <li><Link href="/ticket-status" className="hover:text-rice-gold transition-colors">Track Status</Link></li>
+                        <h4 className="font-bold text-lg mb-4 md:mb-6">Quick Links</h4>
+                        <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-0 md:gap-y-1 text-sm text-white/80">
+                            <li><Link href="/about" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Organizers</Link></li>
+                            <li><Link href="/registration" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Registration</Link></li>
+                            <li><Link href="/programme" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Programme</Link></li>
+                            <li><Link href="/venue" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Venue & Travel</Link></li>
+                            <li><Link href="/blog" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Blog & News</Link></li>
+                            <li><Link href="/submission" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Abstract Submission</Link></li>
+                            <li><Link href="/ticket-status" className="hover:text-rice-gold transition-colors inline-block py-2 min-h-[44px]">Track Status</Link></li>
                         </ul>
                     </div>
 
@@ -117,12 +117,12 @@ export function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/60">
-                    <p>&copy; 2024-2026 ORP-5 Conference. All rights reserved.</p>
-                    <div className="flex gap-6 mt-4 md:mt-0">
-                        <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-                        <Link href="/terms" className="hover:text-white">Terms of Service</Link>
-                        <a href="/sitemap.xml" className="hover:text-white">Sitemap</a>
+                <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-[13px] text-white/60 text-center md:text-left gap-4">
+                    <p className="min-h-[44px] flex items-center">&copy; 2024-2026 ORP-5 Conference. All rights reserved.</p>
+                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 md:mt-0">
+                        <Link href="/privacy" className="hover:text-white flex items-center min-h-[44px]">Privacy Policy</Link>
+                        <Link href="/terms" className="hover:text-white flex items-center min-h-[44px]">Terms of Service</Link>
+                        <a href="/sitemap.xml" className="hover:text-white flex items-center min-h-[44px]">Sitemap</a>
                     </div>
                 </div>
             </div>
