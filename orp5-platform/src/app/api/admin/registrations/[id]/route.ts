@@ -15,7 +15,7 @@ export async function PATCH(
     try {
         const { id } = await params;
         const body = await request.json();
-        const { payment_status, payment_date, payment_mode, notes } = body;
+        const { payment_status, payment_date, payment_mode, notes, admin_verification_note, verified_utr, mis_confirmed } = body;
 
         if (!id) {
             return NextResponse.json({ error: 'Registration ID is required' }, { status: 400 });
@@ -39,8 +39,15 @@ export async function PATCH(
             ...currentData,
             payment_status: payment_status || currentData.payment_status,
             payment_date: payment_date || new Date().toISOString(),
-            payment_mode: payment_mode || 'Manual Admin Update',
-            admin_notes: notes || null
+            payment_mode: payment_mode || (mis_confirmed ? 'SBI MIS Import' : 'Manual Admin Confirmation'),
+            admin_notes: notes || admin_verification_note || null,
+            // Audit trail — always stored when admin takes action
+            ...(payment_status === 'paid' ? {
+                admin_confirmed_at: new Date().toISOString(),
+                admin_confirmed_via: mis_confirmed ? 'SBI MIS Import' : 'Manual Override',
+                ...(verified_utr ? { admin_verified_utr: verified_utr.trim().toUpperCase() } : {}),
+                ...(admin_verification_note ? { admin_verification_note: admin_verification_note.trim() } : {}),
+            } : {}),
         };
 
         // Also update the top-level status if payment is confirmed
@@ -82,16 +89,29 @@ export async function PATCH(
             return NextResponse.json({ error: 'Failed to update registration' }, { status: 500 });
         }
 
-        // Send Email Notification if marked as PAID
-        if (payment_status === 'paid' && updatedData.email) {
-            const { sendRegistrationStatusEmail } = await import('@/lib/email');
+        // Send Email Notification if marked as PAID or REJECTED
+        if (updatedData.email) {
+            const finalTicketId = updatedData.ticket_number && updatedData.ticket_number !== 'undefined' 
+                ? (updatedData.ticket_number as string) 
+                : id;
 
-            sendRegistrationStatusEmail(
-                updatedData.email as string,
-                (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
-                updatedData.ticket_number as string,
-                'paid'
-            ).catch(err => console.error('Failed to send registration email:', err));
+            if (payment_status === 'paid') {
+                const { sendRegistrationStatusEmail } = await import('@/lib/email');
+                sendRegistrationStatusEmail(
+                    updatedData.email as string,
+                    (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
+                    finalTicketId,
+                    'paid'
+                ).catch(err => console.error('Failed to send registration email:', err));
+            } else if (payment_status === 'payment_rejected') {
+                const { sendPaymentRejectedEmail } = await import('@/lib/email');
+                sendPaymentRejectedEmail(
+                    updatedData.email as string,
+                    (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
+                    finalTicketId,
+                    admin_verification_note
+                ).catch(err => console.error('Failed to send rejection email:', err));
+            }
         }
 
         return NextResponse.json({

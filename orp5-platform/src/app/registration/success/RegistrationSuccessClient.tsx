@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
-import { Loader2, CheckCircle, Download, CreditCard, Mail, Phone, ChevronRight, FileText } from "lucide-react";
+import { Loader2, CheckCircle, Download, CreditCard, Mail, Phone, ChevronRight, FileText, AlertCircle } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import QRCode from "react-qr-code";
@@ -86,6 +86,33 @@ export default function RegistrationSuccessClient() {
 
     if (loading || !data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
 
+    if (error && registrationId) {
+        return (
+            <div className="min-h-screen bg-[#FFFDF7] flex flex-col items-center justify-center p-4">
+                <AlertCircle className="text-red-500 w-16 h-16 mb-4" />
+                <h1 className="text-2xl font-bold text-charcoal mb-2">Registration Not Found</h1>
+                <p className="text-gray-600 text-center max-w-md">
+                    We couldn't find a registration with this ID ({registrationId}). It may have been removed or the link might be invalid.
+                </p>
+                <Link href="/" className="mt-8 px-6 py-2 bg-earth-green text-white rounded-lg hover:bg-earth-green/90 transition-colors font-bold">
+                    Return to Homepage
+                </Link>
+            </div>
+        );
+    }
+
+    const getPaymentStatusDisplay = (status: string) => {
+        switch (status) {
+            case 'paid': return { text: 'Confirmed', color: 'text-green-700', bg: 'bg-green-100' };
+            case 'payment_claimed': return { text: 'Pending Verification', color: 'text-orange-700', bg: 'bg-orange-100' };
+            case 'payment_rejected': return { text: 'Rejected', color: 'text-red-700', bg: 'bg-red-100' };
+            case 'amount_mismatch': return { text: 'Amount Mismatch', color: 'text-red-700', bg: 'bg-red-100' };
+            case 'awaiting_payment': return { text: 'Awaiting Payment', color: 'text-blue-700', bg: 'bg-blue-100' };
+            case 'claim_expired': return { text: 'Claim Expired', color: 'text-gray-700', bg: 'bg-gray-100' };
+            default: return { text: 'Pending', color: 'text-yellow-700', bg: 'bg-yellow-100' };
+        }
+    };
+
     // Use real registration data if available, otherwise show placeholder
     const displayUser = registration ? {
         name: registration.fullName || registration.full_name || 'N/A',
@@ -99,10 +126,24 @@ export default function RegistrationSuccessClient() {
         submittedOn: registration.submittedAt ? new Date(registration.submittedAt).toLocaleDateString() : 'N/A',
         fees: {
             registration: `${registration.currency === 'USD' ? '$' : '₹'}${registration.fee_amount || registration.feeAmount || 0}`,
-            total: `${registration.currency === 'USD' ? '$' : '₹'}${registration.fee_amount || registration.feeAmount || 0}`
+            total: registration.payment_status === 'paid' ? `${registration.currency === 'USD' ? '$' : '₹'}${registration.fee_amount || registration.feeAmount || 0}` : `${registration.currency === 'USD' ? '$' : '₹'}0`,
+            payable: `${registration.currency === 'USD' ? '$' : '₹'}${registration.fee_amount || registration.feeAmount || 0}`
         },
-        payment: { mode: registration.payment_status === 'paid' ? 'Confirmed' : 'Bank Transfer (Pending Verification)' }
-    } : data.mockUser;
+        payment: { 
+            mode: registration.payment_mode || 'Bank Transfer',
+            status: getPaymentStatusDisplay(registration.payment_status)
+        }
+    } : {
+        ...data.mockUser,
+        fees: {
+            ...data.mockUser.fees,
+            payable: data.mockUser.fees?.total || '₹0'
+        },
+        payment: { 
+            mode: data.mockUser.payment?.mode || 'Bank Transfer',
+            status: { text: 'Confirmed', color: 'text-green-700', bg: 'bg-green-100' }
+        }
+    };
 
     return (
         <main className="min-h-screen bg-[#F9F9F7] font-sans text-charcoal flex flex-col print:bg-white">
@@ -204,6 +245,12 @@ export default function RegistrationSuccessClient() {
                                             <span className="text-gray-500">Payment Mode</span>
                                             <span className="font-bold text-gray-900">{displayUser.payment.mode}</span>
                                         </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-500">Payment Status</span>
+                                            <span className={`font-bold px-2 py-1 rounded text-xs ${displayUser.payment.status.bg} ${displayUser.payment.status.color}`}>
+                                                {displayUser.payment.status.text}
+                                            </span>
+                                        </div>
                                     </div>
                                     <div className="flex justify-between items-end">
                                         <span className="font-bold text-gray-900 text-lg">Total Paid</span>
@@ -246,19 +293,7 @@ export default function RegistrationSuccessClient() {
                                     </div>
                                     <Download size={16} />
                                 </button>
-                                <button
-                                    onClick={() => handlePrint('invoice')}
-                                    className="w-full flex items-center justify-between bg-[#E8E8E8] hover:bg-gray-200 text-charcoal p-4 rounded-lg transition-colors font-bold text-sm"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <FileText size={20} className="text-gray-600" />
-                                        <div className="text-left">
-                                            <div className="leading-none">Download Invoice</div>
-                                            <div className="text-[10px] text-gray-500 mt-1">(PDF)</div>
-                                        </div>
-                                    </div>
-                                    <Download size={16} className="text-gray-500" />
-                                </button>
+
                             </div>
                         </div>
 
@@ -434,7 +469,8 @@ export default function RegistrationSuccessClient() {
                                             ['Category', displayUser.category],
                                             ['Mode', displayUser.mode],
                                             ['Submitted On', displayUser.submittedOn],
-                                            ['Payment Status', displayUser.payment.mode],
+                                            ['Payment Mode', displayUser.payment.mode],
+                                            ['Payment Status', displayUser.payment.status.text],
                                         ].map(([label, value]) => (
                                             <tr key={label}>
                                                 <td style={{ padding: '12px 0', color: '#6b7280', width: '40%', verticalAlign: 'top', borderBottom: '1px solid #f9fafb' }}>{label}</td>
@@ -476,7 +512,7 @@ export default function RegistrationSuccessClient() {
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px solid #EAD6C0', paddingTop: '16px' }}>
                                         <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#204E40' }}>Total {printMode === 'invoice' ? 'Payable' : 'Paid'}</span>
-                                        <span style={{ fontSize: '24px', fontWeight: '900', color: '#C1A87D' }}>{displayUser.fees.total}</span>
+                                        <span style={{ fontSize: '24px', fontWeight: '900', color: '#C1A87D' }}>{printMode === 'invoice' ? displayUser.fees.payable : displayUser.fees.total}</span>
                                     </div>
                                 </div>
                             </div>
@@ -492,13 +528,17 @@ export default function RegistrationSuccessClient() {
                                 </div>
                             </div>
                             <div style={{ textAlign: 'center' }}>
-                                {printMode === 'receipt' && displayUser.payment.mode.includes('Confirmed') ? (
+                                {displayUser.payment.status.text === 'Confirmed' ? (
                                     <div style={{ border: '3px solid #059669', color: '#059669', padding: '8px 24px', borderRadius: '4px', fontWeight: '900', fontSize: '20px', letterSpacing: '4px', transform: 'rotate(-5deg)', opacity: 0.8 }}>
                                         PAID IN FULL
                                     </div>
+                                ) : printMode === 'receipt' ? (
+                                    <div style={{ border: '3px solid #DC2626', color: '#DC2626', padding: '8px 24px', borderRadius: '4px', fontWeight: '900', fontSize: '18px', letterSpacing: '2px', opacity: 0.8, textTransform: 'uppercase' }}>
+                                        {displayUser.payment.status.text === 'Pending Verification' ? 'UNVERIFIED' : displayUser.payment.status.text}
+                                    </div>
                                 ) : (
-                                    <div style={{ border: '3px solid #C1A87D', color: '#C1A87D', padding: '8px 24px', borderRadius: '4px', fontWeight: '900', fontSize: '18px', letterSpacing: '2px', opacity: 0.8 }}>
-                                        AUTHORIZED
+                                    <div style={{ padding: '8px 24px', fontSize: '18px', color: '#6b7280' }}>
+                                        {/* No stamp for unpaid invoice */}
                                     </div>
                                 )}
                             </div>

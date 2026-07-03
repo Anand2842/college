@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import { Search, Download, Filter, Eye, X, Trash2, Upload, CheckCircle2, AlertTriangle, FileUp, ExternalLink } from 'lucide-react';
+import { Search, Download, Filter, Eye, X, Trash2, Upload, CheckCircle2, AlertTriangle, FileUp, ExternalLink, Hash, Clock, ShieldAlert } from 'lucide-react';
 import { RegistrationDetailModal } from '@/components/admin/RegistrationDetailModal';
 
 interface Registration {
@@ -33,7 +33,7 @@ interface Registration {
     payment_reference?: string;
 }
 
-type StatusFilter = 'all' | 'awaiting_payment' | 'pending' | 'payment_claimed' | 'amount_mismatch' | 'paid';
+type StatusFilter = 'all' | 'awaiting_payment' | 'pending' | 'payment_claimed' | 'amount_mismatch' | 'paid' | 'claim_expired' | 'payment_rejected';
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {
     paid: { label: '✓ Paid', bg: 'bg-green-900', text: 'text-green-300', border: 'border-green-700' },
@@ -41,6 +41,8 @@ const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; b
     amount_mismatch: { label: '⚠ Mismatch', bg: 'bg-red-900', text: 'text-red-300', border: 'border-red-700' },
     awaiting_payment: { label: '🔵 Awaiting', bg: 'bg-blue-900', text: 'text-blue-300', border: 'border-blue-700' },
     pending: { label: '⏳ Pending', bg: 'bg-yellow-900', text: 'text-yellow-300', border: 'border-yellow-700' },
+    claim_expired: { label: '💀 Expired', bg: 'bg-gray-800', text: 'text-gray-400', border: 'border-gray-600' },
+    payment_rejected: { label: '❌ Rejected', bg: 'bg-red-950', text: 'text-red-400', border: 'border-red-800' },
 };
 
 export default function AdminRegistrationsPage() {
@@ -56,6 +58,12 @@ export default function AdminRegistrationsPage() {
 
     // Detail Modal
     const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null);
+
+    // Manual Override Modal — shown when marking claimed entry paid without MIS
+    const [overrideTarget, setOverrideTarget] = useState<Registration | null>(null);
+    const [overrideNote, setOverrideNote] = useState('');
+    const [overrideUtr, setOverrideUtr] = useState('');
+    const [overrideLoading, setOverrideLoading] = useState(false);
 
     // MIS Import
     const [misLoading, setMisLoading] = useState(false);
@@ -78,7 +86,36 @@ export default function AdminRegistrationsPage() {
         }
     };
 
-    const updatePaymentStatus = async (id: string, status: 'paid' | 'pending') => {
+    // Called when admin clicks ✓ Paid
+    // If the registration was payment_claimed and NOT from MIS, show override modal first
+    const handleMarkPaid = (reg: Registration) => {
+        if (reg.payment_status === 'payment_claimed' || reg.payment_status === 'claim_expired') {
+            // Require admin note for non-MIS approvals, pre-fill to reduce friction
+            setOverrideTarget(reg);
+            setOverrideNote('Matched user UTR and screenshot');
+            setOverrideUtr((reg as any).utr_number || '');
+        } else {
+            // Awaiting payment / pending — no special friction needed
+            updatePaymentStatus(reg.id, 'paid', false, '');
+        }
+    };
+
+    const submitOverride = async () => {
+        if (!overrideTarget) return;
+        if (!overrideNote.trim()) { alert('Please provide a verification note (e.g. verified via SBI MIS, or cheque received).'); return; }
+        setOverrideLoading(true);
+        await updatePaymentStatus(overrideTarget.id, 'paid', false, overrideNote, overrideUtr);
+        setOverrideLoading(false);
+        setOverrideTarget(null);
+    };
+
+    const handleRejectClaim = async (reg: Registration) => {
+        const reason = window.prompt('Provide a reason for rejecting this payment claim (will be emailed to the user):', 'The transaction reference or screenshot provided did not match our bank records.');
+        if (reason === null) return; // User cancelled
+        await updatePaymentStatus(reg.id, 'payment_rejected', false, reason);
+    };
+
+    const updatePaymentStatus = async (id: string, status: 'paid' | 'pending', misConfirmed = false, note = '', verifiedUtr = '') => {
         setUpdating(id);
         try {
             const res = await fetch(`/api/admin/registrations/${id}`, {
@@ -86,7 +123,10 @@ export default function AdminRegistrationsPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     payment_status: status,
-                    payment_mode: status === 'paid' ? 'Manual Admin Confirmation' : undefined
+                    payment_mode: misConfirmed ? 'SBI MIS Import' : (status === 'paid' ? 'Manual Admin Confirmation' : undefined),
+                    mis_confirmed: misConfirmed,
+                    admin_verification_note: note || undefined,
+                    verified_utr: verifiedUtr || undefined,
                 })
             });
 
@@ -414,8 +454,17 @@ export default function AdminRegistrationsPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredRegistrations.map(reg => (
-                                    <tr key={reg.id} className={`border-t border-gray-700 hover:bg-gray-750 transition-colors ${reg.amount_mismatch ? 'bg-red-900/10' : reg.payment_status === 'payment_claimed' ? 'bg-orange-900/10' : ''}`}>
+                                {filteredRegistrations.map(reg => {
+                                    const claimedAt = (reg as any).payment_claimed_at ? new Date((reg as any).payment_claimed_at) : null;
+                                    const claimAgeDays = claimedAt ? Math.floor((Date.now() - claimedAt.getTime()) / (1000 * 60 * 60 * 24)) : null;
+                                    const utrNumber = (reg as any).utr_number || '';
+                                    const isUrgent = claimAgeDays !== null && claimAgeDays >= 4;
+                                    return (
+                                    <tr key={reg.id} className={`border-t border-gray-700 hover:bg-gray-750 transition-colors ${
+                                        reg.amount_mismatch ? 'bg-red-900/10' : 
+                                        reg.payment_status === 'claim_expired' ? 'bg-red-900/20 border-l-2 border-l-red-500' :
+                                        reg.payment_status === 'payment_claimed' ? 'bg-orange-900/10' : ''
+                                    }`}>
                                         <td className="p-4">
                                             <div className="flex items-center gap-2">
                                                 <code className="bg-gray-900 px-2 py-1 rounded text-xs font-mono">{reg.ticket_number}</code>
@@ -426,6 +475,19 @@ export default function AdminRegistrationsPage() {
                                                     <span title="Amount mismatch" className="text-red-400">⚠</span>
                                                 )}
                                             </div>
+                                            {/* Show UTR for claimed/expired rows */}
+                                            {utrNumber && (
+                                                <div className="flex items-center gap-1 mt-1" title="User-submitted UTR">
+                                                    <Hash size={10} className="text-orange-400" />
+                                                    <span className="text-[10px] font-mono text-orange-300 truncate max-w-[120px]">{utrNumber}</span>
+                                                </div>
+                                            )}
+                                            {claimAgeDays !== null && (
+                                                <div className={`flex items-center gap-1 mt-0.5 ${isUrgent ? 'text-red-400' : 'text-gray-500'}`}>
+                                                    <Clock size={10} />
+                                                    <span className="text-[10px]">{claimAgeDays}d ago{isUrgent ? ' ⚠️' : ''}</span>
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="p-4 font-medium text-sm">{reg.full_name || reg.fullName || '-'}</td>
                                         <td className="p-4 text-gray-400 text-sm max-w-[180px] truncate">{reg.email || '-'}</td>
@@ -450,13 +512,26 @@ export default function AdminRegistrationsPage() {
                                                     <Eye size={14} />
                                                 </button>
                                                 {reg.payment_status !== 'paid' ? (
-                                                    <button
-                                                        onClick={() => updatePaymentStatus(reg.id, 'paid')}
-                                                        disabled={updating === reg.id}
-                                                        className="px-2 py-1 bg-green-600 hover:bg-green-500 disabled:bg-gray-600 rounded-lg text-xs font-medium transition"
-                                                    >
-                                                        {updating === reg.id ? '...' : '✓ Paid'}
-                                                    </button>
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleMarkPaid(reg)}
+                                                            disabled={updating === reg.id}
+                                                            className="px-2 py-1 bg-green-600 hover:bg-green-500 disabled:bg-gray-600 rounded-lg text-xs font-medium transition"
+                                                            title={reg.payment_status === 'payment_claimed' ? 'Requires verification note' : 'Mark as Paid'}
+                                                        >
+                                                            {updating === reg.id ? '...' : '✓ Paid'}
+                                                        </button>
+                                                        {(reg.payment_status === 'payment_claimed' || reg.payment_status === 'amount_mismatch') && (
+                                                            <button
+                                                                onClick={() => handleRejectClaim(reg)}
+                                                                disabled={updating === reg.id}
+                                                                className="px-2 py-1 bg-red-700 hover:bg-red-600 disabled:bg-gray-600 rounded-lg text-xs font-medium transition text-white"
+                                                                title="Reject Claim"
+                                                            >
+                                                                {updating === reg.id ? '...' : 'Reject'}
+                                                            </button>
+                                                        )}
+                                                    </>
                                                 ) : (
                                                     <button
                                                         onClick={() => updatePaymentStatus(reg.id, 'pending')}
@@ -476,7 +551,8 @@ export default function AdminRegistrationsPage() {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -492,9 +568,79 @@ export default function AdminRegistrationsPage() {
                 <RegistrationDetailModal
                     registration={selectedRegistration}
                     onClose={() => setSelectedRegistration(null)}
-                    onUpdateStatus={updatePaymentStatus}
+                    onUpdateStatus={(id: string, status: 'paid' | 'pending') => updatePaymentStatus(id, status)}
                     updating={updating === selectedRegistration.id}
                 />
+            )}
+
+            {/* ── Manual Override Modal ── */}
+            {overrideTarget && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-gray-800 rounded-2xl border border-orange-500/40 shadow-2xl max-w-md w-full p-6">
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="w-10 h-10 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
+                                <ShieldAlert size={20} className="text-orange-400" />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-white text-lg">Manual Override Required</h3>
+                                <p className="text-xs text-gray-400">This claim was NOT verified via SBI MIS import</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-900 rounded-xl p-4 mb-4 text-sm">
+                            <p className="text-gray-400 mb-1">Registrant</p>
+                            <p className="font-bold text-white">{(overrideTarget as any).full_name || (overrideTarget as any).fullName}</p>
+                            <p className="text-gray-400 text-xs mt-0.5">{(overrideTarget as any).email}</p>
+                            <div className="mt-3 pt-3 border-t border-gray-700">
+                                <p className="text-gray-400 mb-0.5">User-submitted UTR</p>
+                                <p className="font-mono text-orange-300 text-xs">{(overrideTarget as any).utr_number || 'Not provided'}</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-sm font-bold text-gray-300 block mb-1.5">Verification Note</label>
+                                <textarea
+                                    value={overrideNote}
+                                    onChange={e => setOverrideNote(e.target.value)}
+                                    placeholder="e.g. Verified via SBI MIS import on July 4th · Transaction matches ·  Cheque received · Phone call verified"
+                                    rows={3}
+                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 text-sm resize-none"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">This note is permanently stored as an audit trail for this approval.</p>
+                            </div>
+                            <div>
+                                <label className="text-sm font-bold text-gray-300 block mb-1.5">Verified UTR (if you cross-checked)</label>
+                                <input
+                                    type="text"
+                                    value={overrideUtr}
+                                    onChange={e => setOverrideUtr(e.target.value)}
+                                    placeholder="SBI transaction reference you verified"
+                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 font-mono text-sm uppercase"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 mt-5">
+                            <button
+                                onClick={() => setOverrideTarget(null)}
+                                className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={submitOverride}
+                                disabled={overrideLoading || !overrideNote.trim()}
+                                className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-500 disabled:bg-gray-600 disabled:text-gray-400 rounded-xl font-bold transition"
+                            >
+                                {overrideLoading ? 'Saving...' : 'Confirm Paid ✓'}
+                            </button>
+                        </div>
+                        <p className="text-xs text-gray-500 text-center mt-3">
+                            Admin still has full authority to approve. This note creates an accountability record.
+                        </p>
+                    </div>
+                </div>
             )}
         </div>
     );

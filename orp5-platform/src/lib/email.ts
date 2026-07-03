@@ -258,69 +258,6 @@ export async function sendRegistrationAcknowledgementEmail(
     }
 }
 
-export async function sendAdminPaymentClaimEmail(
-    adminEmail: string,
-    ticketId: string,
-    name: string,
-    mobile: string,
-    amountExpected: number,
-    amountPaid: number,
-    currency: string,
-    hasProof: boolean
-) {
-    const currencySymbol = currency === 'USD' ? '$' : '₹';
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
-    const adminUrl = `${siteUrl}/admin/registrations`;
-    const isMismatch = amountExpected > 0 && amountPaid !== amountExpected;
-
-    const statusColor = isMismatch ? '#dc2626' : '#166534';
-    const statusBg = isMismatch ? '#fef2f2' : '#f0fdf4';
-    const statusBorder = isMismatch ? '#fecaca' : '#bbf7d0';
-    const statusLabel = isMismatch
-        ? `⚠️ AMOUNT MISMATCH: User entered ${currencySymbol}${amountPaid}, expected ${currencySymbol}${amountExpected}`
-        : `✅ Amount matches (${currencySymbol}${amountPaid})`;
-
-    const html = `
-    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-        <div style="background: #1e293b; color: white; padding: 20px 28px; border-radius: 8px 8px 0 0;">
-            <h2 style="margin: 0; font-size: 18px;">💰 Payment Claimed — Action Required</h2>
-            <p style="margin: 4px 0 0; font-size: 12px; color: #94a3b8;">ORP-5 Admin Notification</p>
-        </div>
-        <div style="background: white; padding: 28px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
-            <div style="background: ${statusBg}; border: 1px solid ${statusBorder}; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-weight: bold; color: ${statusColor}; font-size: 13px;">
-                ${statusLabel}
-            </div>
-            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Ticket ID</td><td style="padding: 8px 0; font-weight: bold; font-family: monospace;">${ticketId}</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Name</td><td style="padding: 8px 0; font-weight: bold;">${name}</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Mobile</td><td style="padding: 8px 0; font-weight: bold;">${mobile}</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Amount (User Entered)</td><td style="padding: 8px 0; font-weight: bold; font-size: 18px;">${currencySymbol}${amountPaid}</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; color: #666;">Amount (Expected)</td><td style="padding: 8px 0; font-weight: bold;">${currencySymbol}${amountExpected}</td></tr>
-                <tr><td style="padding: 8px 0; color: #666;">Payment Proof</td><td style="padding: 8px 0; font-weight: bold;">${hasProof ? '📎 Uploaded (view in admin)' : 'Not uploaded'}</td></tr>
-            </table>
-            <div style="text-align: center; margin-top: 24px;">
-                <a href="${adminUrl}" style="background: #1e293b; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">View in Admin Dashboard →</a>
-            </div>
-        </div>
-    </div>
-    `;
-
-    if (resend) {
-        try {
-            await resend.emails.send({
-                from: FROM_EMAIL,
-                to: adminEmail,
-                subject: `[ORP-5] Payment Claimed: ${ticketId}${isMismatch ? ' ⚠️ MISMATCH' : ''}`,
-                html
-            });
-            console.log(`[Email] Admin payment claim notification sent for ${ticketId}`);
-        } catch (error) {
-            console.error('[Email] Failed to send admin notification:', error);
-        }
-    } else {
-        console.log(`[Dev Email] Admin notification | Ticket: ${ticketId} | Amount: ${currencySymbol}${amountPaid} | Mismatch: ${isMismatch}`);
-    }
-}
 
 export async function sendCommentNotificationEmail(
     toEmail: string,
@@ -421,6 +358,10 @@ export async function sendRegistrationStatusEmail(
                 <p style="margin: 8px 0 0; font-size: 13px; color: #166534;">Please save this Ticket ID for your records and check-in at the venue.</p>
             </div>
 
+            <div style="text-align: center; margin: 32px 0 24px;">
+                <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/registration/success?id=${ticketId}" style="background: #123125; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 15px; display: inline-block;">Download Receipt →</a>
+            </div>
+
             <p style="color: #555; font-size: 14px; text-align: center; margin-bottom: 0;">We look forward to welcoming you to the conference!</p>
         </div>
         <p style="text-align: center; font-size: 11px; color: #999; margin: 16px 0 0;">ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a></p>
@@ -437,5 +378,226 @@ export async function sendRegistrationStatusEmail(
         console.log(`[Email] Registration confirmation sent to ${email}`);
     } catch (error) {
         console.error('[Email] Failed to send registration confirmation:', error);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Admin Notification: User submitted a payment claim
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendAdminPaymentClaimEmail(
+    adminEmail: string,
+    ticketId: string,
+    name: string,
+    phone: string,
+    expectedAmount: number,
+    paidAmount: number,
+    currency: string,
+    hasProof: boolean
+) {
+    const currencySymbol = currency === 'USD' ? '$' : '₹';
+    const isMismatch = expectedAmount > 0 && paidAmount !== expectedAmount;
+
+    const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 24px; border-radius: 12px;">
+        <div style="background: #123125; color: white; padding: 20px 24px; border-radius: 8px; margin-bottom: 20px;">
+            <h2 style="margin: 0;">⚠️ New Payment Claim — Action Required</h2>
+            <p style="margin: 8px 0 0; opacity: 0.8; font-size: 14px;">ORP-5 Registration System</p>
+        </div>
+        <div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 16px; border: 1px solid #eee;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 8px 0; color: #666; font-size: 14px; width: 140px;">Ticket ID</td><td style="padding: 8px 0; font-weight: bold; font-family: monospace;">${ticketId}</td></tr>
+                <tr><td style="padding: 8px 0; color: #666; font-size: 14px;">Name</td><td style="padding: 8px 0; font-weight: bold;">${name}</td></tr>
+                <tr><td style="padding: 8px 0; color: #666; font-size: 14px;">Phone</td><td style="padding: 8px 0;">${phone}</td></tr>
+                <tr><td style="padding: 8px 0; color: #666; font-size: 14px;">Expected</td><td style="padding: 8px 0; font-weight: bold;">${currencySymbol}${expectedAmount.toLocaleString()}</td></tr>
+                <tr><td style="padding: 8px 0; color: #666; font-size: 14px;">User Claimed</td><td style="padding: 8px 0; font-weight: bold; color: ${isMismatch ? '#dc2626' : '#16a34a'}">${currencySymbol}${paidAmount.toLocaleString()}${isMismatch ? ' ⚠️ MISMATCH' : ''}</td></tr>
+                <tr><td style="padding: 8px 0; color: #666; font-size: 14px;">Proof</td><td style="padding: 8px 0;">${hasProof ? '✅ Screenshot uploaded' : '❌ No screenshot'}</td></tr>
+            </table>
+        </div>
+        <p style="font-size: 14px; color: #444;">Please verify this payment against SBI MIS records before approving. Run the <strong>SBI MIS Import</strong> in the admin panel to auto-match.</p>
+        <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/admin/registrations" style="display: inline-block; background: #123125; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 8px;">
+            Open Admin Panel →
+        </a>
+    </div>
+    `;
+
+    if (resend) {
+        try {
+            await resend.emails.send({ from: FROM_EMAIL, to: adminEmail, subject: `[ACTION NEEDED] Payment Claim: ${ticketId} — ${name}`, html });
+            console.log(`[Email] Admin claim notification sent for ${ticketId}`);
+        } catch (e) { console.error('[Email] Admin claim notification failed:', e); }
+    } else {
+        console.log(`[Dev Email] Admin payment claim for ticket: ${ticketId}, name: ${name}`);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Admin Notification: Urgent — claim 4+ days old, expiring tomorrow
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendAdminClaimUrgentEmail(
+    adminEmail: string,
+    ticketId: string,
+    name: string,
+    email: string,
+    amount: number,
+    currency: string,
+    ageDays: number
+) {
+    const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #fff3cd; padding: 24px; border-radius: 12px; border: 2px solid #ffc107;">
+        <h2 style="color: #856404; margin-top: 0;">🚨 URGENT: Unverified Claim Expiring Tomorrow</h2>
+        <p style="color: #444;">The following payment claim is <strong>${ageDays} days old</strong> and will be auto-expired tomorrow if not verified.</p>
+        <div style="background: white; border-radius: 8px; padding: 16px; margin: 16px 0;">
+            <strong>Ticket:</strong> ${ticketId}<br>
+            <strong>Name:</strong> ${name}<br>
+            <strong>Email:</strong> ${email}<br>
+            <strong>Amount:</strong> ${currency === 'USD' ? '$' : '₹'}${amount.toLocaleString()}<br>
+            <strong>Claim Age:</strong> ${ageDays} days
+        </div>
+        <p style="color: #444;">Please run the SBI MIS import or manually verify this claim in the admin panel.</p>
+        <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/admin/registrations" style="display: inline-block; background: #856404; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
+            Verify Now →
+        </a>
+    </div>
+    `;
+    if (resend) {
+        try {
+            await resend.emails.send({ from: FROM_EMAIL, to: adminEmail, subject: `🚨 URGENT: Claim expiring tomorrow — ${ticketId}`, html });
+        } catch (e) { console.error('[Email] Urgent claim alert failed:', e); }
+    } else {
+        console.log(`[Dev Email] Urgent claim alert for ${ticketId}`);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Admin Notification: Claim auto-expired (5+ days old, no verification)
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendAdminClaimExpiryEmail(
+    adminEmail: string,
+    ticketId: string,
+    name: string,
+    email: string,
+    amount: number,
+    currency: string,
+    ageDays: number
+) {
+    const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #fee2e2; padding: 24px; border-radius: 12px; border: 2px solid #dc2626;">
+        <h2 style="color: #991b1b; margin-top: 0;">💀 Claim Auto-Expired: ${ticketId}</h2>
+        <p style="color: #444;">This payment claim was <strong>${ageDays} days old</strong> without SBI verification and has been auto-marked as <strong>claim_expired</strong>.</p>
+        <div style="background: white; border-radius: 8px; padding: 16px; margin: 16px 0;">
+            <strong>Ticket:</strong> ${ticketId}<br>
+            <strong>Name:</strong> ${name}<br>
+            <strong>Email:</strong> ${email}<br>
+            <strong>Amount:</strong> ${currency === 'USD' ? '$' : '₹'}${amount.toLocaleString()}<br>
+            <strong>Expired After:</strong> ${ageDays} days
+        </div>
+        <p style="color: #444;"><strong>Note:</strong> You can still manually approve this registration in the admin panel if the payment is later verified. The registration data has NOT been deleted.</p>
+        <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/admin/registrations" style="display: inline-block; background: #991b1b; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
+            Review in Admin Panel →
+        </a>
+    </div>
+    `;
+    if (resend) {
+        try {
+            await resend.emails.send({ from: FROM_EMAIL, to: adminEmail, subject: `💀 Claim Expired: ${ticketId} — ${name}`, html });
+        } catch (e) { console.error('[Email] Expiry notification failed:', e); }
+    } else {
+        console.log(`[Dev Email] Claim expiry for ${ticketId}`);
+    }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+// User Notification: Claim Verification OTP
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendClaimOtpEmail(email: string, otp: string, ticketId: string) {
+    const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 24px; border-radius: 12px;">
+        <div style="background: #123125; color: white; padding: 20px 24px; border-radius: 8px; margin-bottom: 20px;">
+            <h2 style="margin: 0;">Payment Verification Code</h2>
+            <p style="margin: 8px 0 0; opacity: 0.8; font-size: 14px;">ORP-5 Registration System</p>
+        </div>
+        <div style="background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; border: 1px solid #eee; text-align: center;">
+            <p style="color: #666; font-size: 14px; margin-bottom: 16px;">Use the verification code below to confirm your payment claim for Ticket ID <strong>${ticketId}</strong>.</p>
+            <div style="background: #f0fdf4; border: 1px dashed #22c55e; border-radius: 8px; padding: 16px; font-size: 32px; font-weight: bold; letter-spacing: 4px; color: #15803d; font-family: monospace;">
+                ${otp}
+            </div>
+            <p style="color: #999; font-size: 12px; margin-top: 16px;">This code is valid for 15 minutes.</p>
+        </div>
+        <p style="font-size: 12px; color: #666; text-align: center;">If you didn't request this, you can safely ignore this email.</p>
+    </div>
+    `;
+
+    if (resend) {
+        try {
+            await resend.emails.send({
+                from: FROM_EMAIL,
+                to: email,
+                subject: `${otp} is your verification code for ORP-5`,
+                html: html
+            });
+            console.log(`[Email] OTP sent to ${email} for ticket ${ticketId}`);
+        } catch (error) {
+            console.error('[Email] Failed to send OTP:', error);
+        }
+    } else {
+        console.log(`[Dev Email] OTP ${otp} for ticket ${ticketId} to ${email}`);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// User Notification: Payment Claim Rejected
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendPaymentRejectedEmail(
+    email: string,
+    name: string,
+    ticketId: string,
+    reason?: string
+) {
+    if (!resend) {
+        console.log(`[Dev Email] Payment Rejected | To: ${email} | Ticket: ${ticketId}`);
+        return;
+    }
+
+    const html = `
+    <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #333; background: #f9f9f7; padding: 20px; border-radius: 8px;">
+        <div style="background: #7f1d1d; color: white; padding: 24px 32px; border-radius: 8px 8px 0 0; text-align: center;">
+            <h1 style="margin: 0; font-size: 20px; font-weight: bold; letter-spacing: 1px;">ORP-5 CONFERENCE</h1>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #fca5a5; text-transform: uppercase; letter-spacing: 2px;">Payment Verification Failed</p>
+        </div>
+        
+        <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
+            <p style="color: #555; margin: 0 0 20px;">Dear <strong>${name}</strong>,</p>
+            <p style="color: #555; margin: 0 0 24px; line-height: 1.6;">We could not verify your recent payment claim for Ticket ID <strong>${ticketId}</strong>.</p>
+            
+            <div style="background-color: #fef2f2; padding: 20px; border-radius: 8px; margin: 0 0 24px; border: 1px dashed #ef4444;">
+                <p style="margin: 0 0 8px; font-weight: bold; color: #991b1b;">Reason for Rejection:</p>
+                <p style="margin: 0; color: #7f1d1d; font-size: 14px;">${reason || 'The transaction reference (UTR) or screenshot provided did not match our bank records, or the amount was incorrect.'}</p>
+            </div>
+
+            <p style="color: #555; font-size: 14px; margin-bottom: 20px;">
+                Your registration is still active, but payment is pending. Please log back into the portal and submit a valid payment proof, or contact the organizers if you believe this is an error.
+            </p>
+
+            <div style="text-align: center; margin: 0 0 24px;">
+                <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'}/registration/pay?ticket=${ticketId}" style="background: #123125; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">
+                    Submit Payment Again →
+                </a>
+            </div>
+            
+            <p style="color: #555; font-size: 14px; text-align: center; margin-bottom: 0;">If you need assistance, please reply to this email.</p>
+        </div>
+        <p style="text-align: center; font-size: 11px; color: #999; margin: 16px 0 0;">ORP-5 International Conference &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #999;">info@orp5ic.com</a></p>
+    </div>
+    `;
+
+    try {
+        await resend.emails.send({
+            from: FROM_EMAIL,
+            to: email,
+            subject: `Action Required: Payment Verification Failed - ${ticketId} | ORP-5`,
+            html: html
+        });
+        console.log(`[Email] Payment rejection sent to ${email}`);
+    } catch (error) {
+        console.error('[Email] Failed to send payment rejection:', error);
     }
 }

@@ -39,7 +39,25 @@ export async function POST(request: Request) {
             submittedAt: new Date().toISOString()
         };
 
-        // 4. Save to Supabase
+        // 4. Duplicate guard — same email OR phone cannot have more than one active registration
+        const { data: existingRegs } = await supabase
+            .from('registrations')
+            .select('id, data')
+            .or(`data->>email.eq.${body.email},data->>phone.eq.${body.phone}`);
+
+        if (existingRegs && existingRegs.length > 0) {
+            const active = existingRegs.filter((r: any) => {
+                const status = r.data?.payment_status;
+                return status !== 'claim_expired' && status !== 'rejected';
+            });
+            if (active.length > 0) {
+                return NextResponse.json({
+                    error: 'A registration with this email or phone number already exists. If you need help, contact info@orp5ic.com with your Ticket ID.'
+                }, { status: 409 });
+            }
+        }
+
+        // 5. Save to Supabase
         const { data, error } = await supabase
             .from('registrations')
             .insert({
