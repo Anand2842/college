@@ -115,7 +115,7 @@ export default function AdminRegistrationsPage() {
         await updatePaymentStatus(reg.id, 'payment_rejected', false, reason);
     };
 
-    const updatePaymentStatus = async (id: string, status: 'paid' | 'pending', misConfirmed = false, note = '', verifiedUtr = '') => {
+    const updatePaymentStatus = async (id: string, status: 'paid' | 'pending' | 'payment_rejected', misConfirmed = false, note = '', verifiedUtr = '') => {
         setUpdating(id);
         try {
             const res = await fetch(`/api/admin/registrations/${id}`, {
