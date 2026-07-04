@@ -20,7 +20,12 @@ import Link from "next/link";
 export default async function ThemesPage() {
     const data = await getThemesPageData();
 
-    if (!data) return <div>Loading...</div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     // Helper to resolve icon string to Component
     const getIcon = (name: string) => {
@@ -41,7 +46,7 @@ export default async function ThemesPage() {
             />
 
             {/* Core Themes Grid */}
-            <section className="py-24 container mx-auto px-6">
+            <section className="py-20 container mx-auto px-6">
                 <div className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">
                         {data.intro.title?.replace('Confrence', 'Conference')}
@@ -74,7 +79,7 @@ export default async function ThemesPage() {
             </section>
 
             {/* Pillars Section */}
-            <section className="py-24 bg-white relative overflow-hidden">
+            <section className="py-20 bg-white relative overflow-hidden">
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <h2 className="text-4xl font-serif font-bold text-charcoal mb-6">{data.pillars.title}</h2>

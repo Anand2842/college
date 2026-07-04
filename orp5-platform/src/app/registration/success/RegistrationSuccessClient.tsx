@@ -165,7 +165,7 @@ export default function RegistrationSuccessClient() {
             <div className="flex-1 container mx-auto px-6 max-w-5xl -mt-6 relative z-20 pb-20">
 
                 {/* Success Banner */}
-                <div className="bg-[#FFF8F0] border border-[#EAD6C0] rounded-xl p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start mb-8 shadow-sm">
+                <div className="bg-[#FFF8E1] border border-[#EAD6C0] rounded-xl p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start mb-8 shadow-sm">
                     <div className="bg-[#C1A87D] text-white p-2 rounded-full shrink-0 mt-1">
                         <CheckCircle size={24} className="text-white" />
                     </div>
@@ -326,7 +326,7 @@ export default function RegistrationSuccessClient() {
                         </div>
 
                         {/* Need Help */}
-                        <div className="bg-[#FFF8F0] rounded-xl border border-[#EAD6C0] p-6">
+                        <div className="bg-[#FFF8E1] rounded-xl border border-[#EAD6C0] p-6">
                             <h3 className="font-bold text-gray-900 mb-2">{data.helpInfo.title}</h3>
                             <p className="text-xs text-gray-500 mb-4">{data.helpInfo.description}</p>
                             <div className="space-y-2 text-sm">

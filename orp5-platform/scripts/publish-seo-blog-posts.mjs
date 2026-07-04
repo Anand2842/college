@@ -522,8 +522,8 @@ content: `<h2>The Speaker Lineup That Defines the Industry</h2>
 <ol>
 <li>Review the <a href="https://orp5ic.com/themes">thematic tracks</a> and identify the track most relevant to your work</li>
 <li>Prepare an abstract of 300–500 words summarizing your research, methodology, and key findings</li>
-<li>Submit through the online portal before the deadline of <strong>March 15, 2026</strong></li>
-<li>Abstracts are reviewed by the scientific committee; notification of acceptance by April 15, 2026</li>
+<li>Submit through the online portal before the deadline of <strong>31 July 2026</strong></li>
+<li>Abstracts are reviewed by the scientific committee; notification of acceptance by 05 August 2026</li>
 <li>Accepted presenters receive reduced registration rates and presentation preparation support</li>
 </ol>
 
@@ -2470,9 +2470,9 @@ content: `<h2>Call for Abstracts: Share Your Research at ORP-5</h2>
 <h2>Key Deadlines</h2>
 <ul>
 <li><strong>Abstract Submission Opens</strong>: January 15, 2026</li>
-<li><strong>Abstract Submission Deadline</strong>: March 15, 2026</li>
-<li><strong>Peer Review Period</strong>: March 16 – April 15, 2026</li>
-<li><strong>Acceptance Notification</strong>: April 20, 2026</li>
+<li><strong>Abstract Submission Deadline</strong>: 31 July 2026</li>
+<li><strong>Peer Review Period</strong>: 01 – 05 August 2026</li>
+<li><strong>Acceptance Notification</strong>: 05 August 2026</li>
 <li><strong>Presenter Registration Deadline</strong>: May 15, 2026 (required for abstract to be included in proceedings)</li>
 <li><strong>Full Paper Submission</strong> (optional): June 1, 2026</li>
 </ul>
@@ -2508,7 +2508,7 @@ content: `<h2>Call for Abstracts: Share Your Research at ORP-5</h2>
 </ul>
 
 <h2>Submit Your Research</h2>
-<p>The call for abstracts for ORP-5 is open now. This is your opportunity to contribute to the most important knowledge exchange event in organic rice. Visit <a href="https://orp5ic.com/themes">orp5ic.com/themes</a> to review the full thematic track descriptions and submit your abstract before the March 15, 2026 deadline.</p>`
+<p>The call for abstracts for ORP-5 is open now. This is your opportunity to contribute to the most important knowledge exchange event in organic rice. Visit <a href="https://orp5ic.com/themes">orp5ic.com/themes</a> to review the full thematic track descriptions and submit your abstract before the 31 July 2026 deadline.</p>`
 },
 ];
 

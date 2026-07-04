@@ -6,7 +6,12 @@ import { Navbar } from '@/components/organisms/Navbar';
 
 export const metadata: Metadata = {
     title: 'Blog - ORP-5 Conference',
-    description: 'Latest news, updates, and articles from the 5th International Conference on Ovine and Caprine Retrovirology.',
+    description: 'Latest news, updates, and research articles from ORP-5 — the 5th International Conference on Organic and Natural Rice Production Systems, 21-25 September 2026, New Delhi.',
+    openGraph: {
+        title: 'Blog - ORP-5 Conference',
+        description: 'Latest news, updates, and research articles from ORP-5 — the 5th International Conference on Organic and Natural Rice Production Systems, 21-25 September 2026, New Delhi.',
+        type: 'website',
+    },
 };
 
 // Always fetch fresh data from Supabase

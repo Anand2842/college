@@ -85,7 +85,7 @@ export default async function Home() {
   const data = cmsData || defaultData;
 
   return (
-    <main className="min-h-screen relative bg-[#FDFCF8] font-sans">
+    <main className="min-h-screen relative bg-[#FFFDF7] font-sans">
       <Navbar />
 
       {/* 1. Hero */}
@@ -113,7 +113,7 @@ export default async function Home() {
       <AboutPreview />
 
       {/* 4. Important Dates */}
-      <section id="dates" className="py-24 bg-white border-y border-gray-100">
+      <section id="dates" className="py-20 bg-white border-y border-gray-100">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle
             title="Important Dates"
@@ -135,7 +135,7 @@ export default async function Home() {
 
           <div className="mt-16">
             <Link href="/important-dates">
-              <button className="bg-[#DFC074] hover:bg-[#B89C50] text-[#123125] font-bold py-3 px-8 rounded-full transition-colors shadow-sm text-sm uppercase tracking-wide">
+              <button className="bg-[#DFC074] hover:bg-[#B89C50] text-[#123125] font-bold py-3 px-8 rounded-lg transition-colors shadow-sm text-sm uppercase tracking-wide">
                 Download Key Dates
               </button>
             </Link>
@@ -144,7 +144,7 @@ export default async function Home() {
       </section>
 
       {/* 5. Conference Themes */}
-      <section id="themes" className="py-20 bg-[#FDFCF8]">
+      <section id="themes" className="py-20 bg-[#FFFDF7]">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle
             title="Conference Themes"
@@ -254,7 +254,7 @@ export default async function Home() {
       <VenuePreview venue={data.venue} />
 
       {/* 12. Gallery Section */}
-      <section className="py-24 bg-[#FDFCF8] border-y border-gray-100">
+      <section className="py-20 bg-[#FFFDF7] border-y border-gray-100">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle title="Gallery Preview" subtitle="Moments from past successful symposia." centered />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
@@ -270,8 +270,8 @@ export default async function Home() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
-                    <span className="text-xs">No Image</span>
+                  <div className="w-full h-full bg-earth-green/5 flex items-center justify-center">
+                    <span className="text-earth-green/40 text-sm font-medium">Photo Coming Soon</span>
                   </div>
                 )}
               </div>
@@ -286,7 +286,7 @@ export default async function Home() {
       </section>
 
       {/* 13. Programme Snapshot */}
-      <section id="programme" className="py-24 bg-white border-b border-gray-100">
+      <section id="programme" className="py-20 bg-white border-b border-gray-100">
         <div className="container mx-auto px-6">
           <SectionTitle
             title="Programme Snapshot"
@@ -299,7 +299,7 @@ export default async function Home() {
               <ProgrammeCard
                 key={dayKey}
                 day={`Day ${index + 1}`}
-                date={data.programme?.[dayKey]?.date || "TBD"}
+                date={data.programme?.[dayKey]?.date || "To be announced"}
                 activities={data.programme?.[dayKey]?.activities || []}
                 delay={0.1 * (index + 1)}
               />
@@ -314,41 +314,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 14. Registration Banner */}
-      <section className="py-20 bg-[#123125] relative overflow-hidden text-center text-white">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
-        <div className="container relative z-10 px-6">
-          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 tracking-tight">Call for Papers & Registration Now Open</h2>
-          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto font-light">
-            Secure your participation in the world's leading conference on organic rice farming. Early bird rates available.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <Link href="/submission">
-              <button className="bg-earth-green border border-earth-green text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-earth-green/90 transition-colors">
-                Submit Abstract
-              </button>
-            </Link>
-            <Link href="/registration">
-              <button className="bg-white text-[#123125] font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-[#DFC074] transition-colors">
-                Register Now
-              </button>
-            </Link>
-            <Link href="/submission-guidelines">
-              <button className="bg-transparent border border-white/30 text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-white/10 transition-colors">
-                Download Brochure
-              </button>
-            </Link>
-            <Link href="/ticket-status">
-              <button className="bg-transparent border border-white/30 text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded hover:bg-white/10 transition-colors">
-                Track Status
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 15. FAQ */}
-      <section id="faq" className="py-20 bg-[#FDFCF8]">
+      {/* 14. FAQ */}
+      <section id="faq" className="py-20 bg-[#FFFDF7]">
         <div className="container mx-auto px-6">
           <SectionTitle
             title="Have Questions?"
@@ -374,17 +341,17 @@ export default async function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/submission">
-              <button className="bg-earth-green hover:bg-earth-green/90 text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors shadow-lg">
+              <button className="bg-earth-green hover:bg-earth-green/90 text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-colors shadow-lg">
                 Submit Abstract
               </button>
             </Link>
             <Link href="/registration">
-              <button className="bg-white border-2 border-earth-green text-earth-green hover:bg-earth-green hover:text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors">
+              <button className="bg-white border-2 border-earth-green text-earth-green hover:bg-earth-green hover:text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-colors">
                 Register for ORP-5
               </button>
             </Link>
             <Link href="/ticket-status">
-              <button className="bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-earth-green font-bold text-sm uppercase tracking-widest px-10 py-4 rounded transition-colors">
+              <button className="bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-earth-green font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-colors">
                 Track Status
               </button>
             </Link>

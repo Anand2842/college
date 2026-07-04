@@ -17,7 +17,12 @@ export default function ImportantDatesClient() {
             .then((jsonData) => setData(jsonData));
     }, []);
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     // Helper to bold text wrapped in **
     const renderText = (text: string) => {
@@ -25,7 +30,7 @@ export default function ImportantDatesClient() {
     };
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal">
             <Navbar />
 
             <PageHero
@@ -37,7 +42,7 @@ export default function ImportantDatesClient() {
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 max-w-5xl mb-16 relative -mt-12 z-20">
-                <div className="bg-[#FFF8F0] border-l-4 border-[#C1A87D] shadow-sm rounded-r-xl p-8 mb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="bg-[#FFF8E1] border-l-4 border-[#C1A87D] shadow-sm rounded-r-xl p-8 mb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <h2 className="text-xl font-bold text-charcoal mb-3 font-serif">{data.intro.title}</h2>
                     <p className="text-gray-600 leading-relaxed text-sm md:text-base">{data.intro.description}</p>
                 </div>
@@ -144,7 +149,7 @@ export default function ImportantDatesClient() {
                             Don’t miss key deadlines — register early and submit your abstract on time.
                         </h2>
                         <Link href="/registration">
-                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full text-lg shadow-lg shadow-green-900/20">
+                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg text-lg shadow-lg shadow-green-900/20">
                                 Register for ORP-5
                             </Button>
                         </Link>

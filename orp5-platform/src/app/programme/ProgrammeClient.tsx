@@ -155,7 +155,7 @@ export default function ProgrammeClient() {
                 <div className="bg-[#121E14] rounded-xl p-12 text-center">
                     <h2 className="text-2xl font-bold text-white mb-6">Ready to participate? Complete your registration now.</h2>
                     <Link href="/registration">
-                        <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-md">Register Now</Button>
+                        <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg">Register Now</Button>
                     </Link>
                 </div>
             </section>

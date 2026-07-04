@@ -40,7 +40,12 @@ export default function AccommodationClient() {
         return <Star size={32} />;
     };
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
@@ -165,7 +170,7 @@ export default function AccommodationClient() {
                                     ) : (
                                         <>
                                             <Link href={hotel.bookingLink || '#'} className="block w-full">
-                                                <Button className="w-full bg-[#1C5C43] hover:bg-[#154434] text-white font-semibold py-2 rounded-xl mb-2">
+                                                <Button className="w-full bg-[#1C5C43] hover:bg-[#154434] text-white font-semibold py-2 rounded-lg mb-2">
                                                     Check Availability
                                                 </Button>
                                             </Link>
@@ -241,7 +246,7 @@ export default function AccommodationClient() {
                     <h2 className="text-3xl font-serif font-bold mb-4">{data.footerCta.headline}</h2>
                     <p className="text-emerald-100/70 mb-10 max-w-xl mx-auto">{data.footerCta.subheadline}</p>
                     <Link href={data.footerCta.buttonLink}>
-                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full">
+                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg">
                             {data.footerCta.buttonLabel}
                         </Button>
                     </Link>

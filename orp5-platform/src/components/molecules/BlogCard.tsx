@@ -23,14 +23,14 @@ export default function BlogCard({ post }: BlogCardProps) {
                         className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    {post.category && (
-                        <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-charcoal text-[10px] uppercase font-bold px-2 py-1 rounded-sm shadow-sm tracking-wider">
-                            {post.category}
-                        </span>
-                    )}
                 </div>
             )}
             <div className="flex flex-col flex-1 p-6">
+                {post.category && (
+                    <span className="self-start bg-[#E8F5E9] text-[#1B5E20] text-[10px] uppercase font-bold px-2.5 py-1 rounded-full tracking-wider mb-3">
+                        {post.category}
+                    </span>
+                )}
                 <div className="flex items-center gap-4 text-xs font-medium text-gray-500 mb-3 uppercase tracking-wide">
                     <div className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-rice-gold" />

@@ -67,7 +67,7 @@ export default function RegistrationTicketClient() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
+        <div className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal">
             <Navbar />
 
             {/* Dark Hero Section */}
@@ -146,7 +146,7 @@ export default function RegistrationTicketClient() {
                 </div>
 
                 {/* Download Actions */}
-                <div className="bg-[#FAF9F5] rounded-xl p-8 text-center mb-16 border border-[#EBE5D5]">
+                <div className="bg-[#FFFDF7] rounded-xl p-8 text-center mb-16 border border-[#EBE5D5]">
                     <h3 className="font-serif font-bold text-lg text-charcoal mb-6">Download & Print Options</h3>
                     <div className="flex flex-wrap justify-center gap-4">
                         {actions.map((action: any, i: number) => (

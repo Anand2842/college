@@ -31,6 +31,9 @@
   --color-input: #E2E2E0;
   --color-ring: var(--earth-green);
 
+  /* Page Background */
+  --color-page: #FFFDF7;
+
   /* Border Radius */
   --radius-lg: 0.5rem;
   --radius-md: calc(0.5rem - 2px);

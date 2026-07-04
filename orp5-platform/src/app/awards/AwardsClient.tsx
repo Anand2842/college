@@ -39,7 +39,7 @@ export default function AwardsClient() {
             />
 
             {/* Intro */}
-            <section className="py-20 bg-[#FDFBF2] container mx-auto px-6 max-w-5xl">
+            <section className="py-20 bg-[#FFFDF7] container mx-auto px-6 max-w-5xl">
                 <div className="border-l-4 border-rice-gold pl-8 py-2">
                     <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">{data.intro.title}</h2>
                     <p className="text-gray-600 leading-relaxed text-lg">
@@ -66,7 +66,7 @@ export default function AwardsClient() {
                             {cat.badges && cat.badges.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-6">
                                     {cat.badges.map((badge: string, i: number) => (
-                                        <span key={i} className="px-3 py-1 bg-[#FDFBF2] text-earth-green text-xs font-bold rounded-full border border-[#E6E1D0]">
+                                        <span key={i} className="px-3 py-1 bg-[#FFFDF7] text-earth-green text-xs font-bold rounded-full border border-[#E6E1D0]">
                                             {badge}
                                         </span>
                                     ))}

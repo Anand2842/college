@@ -30,8 +30,8 @@ export function SpeakerCard({ name, role, institution, imageUrl, delay = 0 }: Sp
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 ) : (
-                    <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-400">
-                        No Image
+                    <div className="h-full w-full bg-earth-green/10 flex items-center justify-center text-earth-green font-bold text-2xl">
+                        {name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()}
                     </div>
                 )}
             </div>

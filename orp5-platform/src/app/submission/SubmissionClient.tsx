@@ -159,7 +159,7 @@ export default function SubmissionClient() {
     };
 
     if (error) return (
-        <div className="min-h-screen bg-[#FDFCF8] flex items-center justify-center">
+        <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center">
             <div className="text-center max-w-md">
                 <p className="text-red-600 mb-4">{error}</p>
                 <button onClick={() => window.location.reload()} className="text-earth-green hover:underline">
@@ -169,7 +169,7 @@ export default function SubmissionClient() {
         </div>
     );
 
-    if (!data) return <div className="min-h-screen bg-[#FDFCF8] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
 
     if (submitted) {
         const absId = submissionResult?.id
@@ -190,7 +190,7 @@ export default function SubmissionClient() {
         ];
 
         return (
-            <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
+            <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal">
                 <Navbar />
 
                 {/* Print-only styles */}
@@ -339,13 +339,13 @@ export default function SubmissionClient() {
                     {/* ── CTA Hierarchy ─────────────────────────────── */}
                     <div className="flex flex-col sm:flex-row justify-center gap-3 no-print">
                         <Link href={`/ticket-status?tab=abstract&email=${encodeURIComponent(formState.email)}`}>
-                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full flex items-center gap-2 w-full sm:w-auto justify-center">
+                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg flex items-center gap-2 w-full sm:w-auto justify-center">
                                 <LayoutDashboard size={16} /> Track My Submission
                             </Button>
                         </Link>
                         <button
                             onClick={() => setSubmitted(false)}
-                            className="border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-full hover:bg-gray-100 transition-colors text-sm"
+                            className="border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-lg hover:bg-gray-100 transition-colors text-sm"
                         >
                             Submit Another
                         </button>
@@ -360,7 +360,7 @@ export default function SubmissionClient() {
     }
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal">
             <Navbar />
 
             <PageHero
@@ -384,7 +384,7 @@ export default function SubmissionClient() {
                         <div className="hidden md:block absolute top-[11px] left-0 right-0 h-0.5 bg-gray-200 -z-10"></div>
 
                         {data.timeline.map((item: any, i: number) => (
-                            <div key={i} className="flex flex-col items-center bg-[#FDFCF8] px-4 z-10">
+                            <div key={i} className="flex flex-col items-center bg-[#FFFDF7] px-4 z-10">
                                 <div className="w-6 h-6 rounded-full bg-[#24C535] border-4 border-[#FDFCF8] shadow-sm mb-4"></div>
                                 <h4 className="font-bold text-sm text-gray-900 mb-1">{item.label}</h4>
                                 <p className="text-xs text-gray-500">{item.date}</p>
@@ -407,7 +407,7 @@ export default function SubmissionClient() {
                 </div>
 
                 {/* Thematic Areas */}
-                <div className="mb-24 bg-[#F8FAF9] rounded-2xl p-10">
+                <div className="mb-24 bg-[#FFFDF7] rounded-2xl p-10">
                     <h2 className="text-2xl font-bold text-center mb-12">Thematic Areas</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 max-w-3xl mx-auto">
                         {data.thematicAreas.map((area: string, i: number) => (
@@ -499,7 +499,7 @@ export default function SubmissionClient() {
 
                         <div className="flex items-center justify-end gap-4 pt-6">
                             <Button type="button" variant="outline" className="px-8 font-bold">Save Draft</Button>
-                            <Button type="submit" className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full min-w-[160px]" disabled={submitting}>
+                            <Button type="submit" className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg min-w-[160px]" disabled={submitting}>
                                 {submitting ? <><Loader2 className="animate-spin mr-2" /> Submitting...</> : "Submit Abstract"}
                             </Button>
                         </div>

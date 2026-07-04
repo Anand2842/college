@@ -76,7 +76,7 @@ export function AdminToolbar() {
                 <div className="h-4 w-px bg-white/20 mx-1" />
 
                 <Link href="/admin/dashboard">
-                    <Button variant="ghost" className="h-8 px-3 text-xs text-white hover:bg-white/10 hover:text-white rounded-full flex items-center gap-1.5">
+                    <Button variant="ghost" className="h-8 px-3 text-xs text-white hover:bg-white/10 hover:text-white rounded-lg flex items-center gap-1.5">
                         <LayoutDashboard size={14} />
                         Dashboard
                     </Button>
@@ -84,7 +84,7 @@ export function AdminToolbar() {
 
                 {editUrl && (
                     <Link href={editUrl}>
-                        <Button className="h-8 px-4 text-xs bg-[#DFC074] text-[#123125] hover:bg-[#B89C50] rounded-full flex items-center gap-1.5 font-bold shadow-sm">
+                        <Button className="h-8 px-4 text-xs bg-[#DFC074] text-[#123125] hover:bg-[#B89C50] rounded-lg flex items-center gap-1.5 font-bold shadow-sm">
                             <Edit size={14} />
                             Edit This Page
                         </Button>

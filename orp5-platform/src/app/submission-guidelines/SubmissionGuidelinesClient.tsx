@@ -18,7 +18,12 @@ export default function SubmissionGuidelinesClient() {
             .then((jsonData) => setData(jsonData));
     }, []);
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     const toggleAccordion = (id: string) => {
         setOpenItem(openItem === id ? null : id);
@@ -35,7 +40,7 @@ export default function SubmissionGuidelinesClient() {
     };
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal">
             <Navbar />
 
             <PageHero

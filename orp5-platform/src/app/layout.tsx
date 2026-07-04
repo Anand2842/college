@@ -74,30 +74,41 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "Event",
             "name": "5th International Conference on Organic and Natural Rice Production Systems",
-            "startDate": "2026-08-01T09:00",
-            "endDate": "2026-08-03T17:00",
+            "startDate": "2026-09-21T09:00",
+            "endDate": "2026-09-25T17:00",
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
             "location": {
               "@type": "Place",
-              "name": "ORP-5 Venue",
+              "name": "NASC Complex",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "To be announced",
-                "addressLocality": "City",
-                "addressRegion": "State",
-                "postalCode": "00000",
-                "addressCountry": "Country"
+                "streetAddress": "NASC Complex, DPS Marg",
+                "addressLocality": "New Delhi",
+                "addressRegion": "Delhi",
+                "postalCode": "110012",
+                "addressCountry": "IN"
               }
             },
             "description": "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.",
             "organizer": {
               "@type": "Organization",
-              "name": "ORP-5 Organizer",
+              "name": "ORP-5 Conference",
               "url": "https://www.orp5ic.com"
             }
           })}
         </Script>
+        <noscript>
+          <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor:'#FFFDF7',color:'#2C3333',fontFamily:'Inter, sans-serif',textAlign:'center',padding:'2rem'}}>
+            <h1 style={{fontSize:'1.5rem',fontWeight:'bold',marginBottom:'1rem'}}>JavaScript Required</h1>
+            <p style={{maxWidth:'28rem',lineHeight:'1.6',color:'#666'}}>
+              This website requires JavaScript to function properly. Please enable JavaScript in your browser settings or try a different browser.
+            </p>
+            <p style={{marginTop:'1.5rem'}}>
+              <a href="https://www.orp5ic.com" style={{color:'#1A4D2E',textDecoration:'underline'}}>Return to Homepage</a>
+            </p>
+          </div>
+        </noscript>
         <ErrorBoundary>
           <ClientProviders>
             {children}

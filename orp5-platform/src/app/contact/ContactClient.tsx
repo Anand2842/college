@@ -78,10 +78,15 @@ export default function ContactClient() {
         }
     };
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
             <Navbar variant="dark" />
 
             <PageHero
@@ -93,7 +98,7 @@ export default function ContactClient() {
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 mb-16 max-w-4xl">
-                <div className="bg-[#FFF8F0] rounded-xl p-8 border-l-4 border-[#D9A648]">
+                <div className="bg-[#FFF8E1] rounded-xl p-8 border-l-4 border-[#D9A648]">
                     <h2 className="text-2xl font-serif font-bold text-charcoal mb-3">{data.intro.title}</h2>
                     <p className="text-gray-600 leading-relaxed">{data.intro.description}</p>
                 </div>
@@ -138,19 +143,25 @@ export default function ContactClient() {
 
             {/* Organizing Committee */}
             <div className="container mx-auto px-6 mb-24 max-w-5xl">
-                <div className="bg-[#0D241B] rounded-2xl p-10 text-white">
-                    <h2 className="text-2xl font-serif font-bold mb-8 border-b border-emerald-800 pb-4">Organizing Committee</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {data.committee.map((member: any) => (
-                            <div key={member.id}>
-                                <h3 className="font-bold text-lg">{member.name}</h3>
-                                <p className="text-emerald-400/80 text-xs uppercase tracking-wider mb-2">{member.role}</p>
-                                <a href={`mailto:${member.email}`} className="inline-flex min-h-[44px] items-center text-emerald-300 hover:text-white text-sm transition-colors">
-                                    {member.email}
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-3">Organizing Committee</h2>
+                    <p className="text-gray-500">The team behind ORP-5.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {data.committee.map((member: any) => (
+                        <div key={member.id} className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow flex items-start gap-4">
+                            <div className="w-12 h-12 bg-[#1A4D2E] rounded-full flex items-center justify-center text-[#DFC074] font-bold text-sm shrink-0">
+                                {member.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-charcoal">{member.name}</h3>
+                                <p className="text-xs text-[#D9A648] uppercase tracking-wider font-semibold mb-2">{member.role}</p>
+                                <a href={`mailto:${member.email}`} className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#10B981] transition-colors">
+                                    <Mail size={14} /> {member.email}
                                 </a>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 
@@ -209,7 +220,7 @@ export default function ContactClient() {
                     <div className="flex justify-end">
                         <Button 
                             disabled={isSubmitting}
-                            className="bg-[#10B981] disabled:opacity-70 disabled:cursor-not-allowed hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full min-w-[200px]"
+                            className="bg-[#10B981] disabled:opacity-70 disabled:cursor-not-allowed hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg min-w-[200px]"
                         >
                             {isSubmitting ? (
                                 <span className="flex items-center gap-2 justify-center">
@@ -259,7 +270,7 @@ export default function ContactClient() {
             </div>
 
             {/* Footer CTA */}
-            <div className="bg-[#0D241B] py-20 text-center text-white relative overflow-hidden">
+            <div className="bg-[#123125] py-20 text-center text-white relative overflow-hidden">
                 <div className="container mx-auto px-6 max-w-4xl relative z-10">
                     <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8">{data.footerCta.headline}</h2>
                     <div className="flex flex-wrap justify-center gap-4">
@@ -268,7 +279,7 @@ export default function ContactClient() {
                             return (
                                 <Link key={i} href={btn.link}>
                                     <Button className={cn(
-                                        "px-8 py-3 rounded-full font-bold transition-colors",
+                                        "px-8 py-3 rounded-lg font-bold transition-colors",
                                         isPrimary ? "bg-[#10B981] hover:bg-[#059669] text-white" : "bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
                                     )}>
                                         {btn.label}

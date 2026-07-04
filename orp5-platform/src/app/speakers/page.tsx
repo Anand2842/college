@@ -19,7 +19,12 @@ import Link from "next/link";
 export default async function SpeakersPage() {
     const data = await getSpeakersPageData();
 
-    if (!data) return <div className="p-10 text-center">Loading Speakers...</div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     return (
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal selection:bg-rice-gold/30">
@@ -52,18 +57,32 @@ export default async function SpeakersPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {data.keynotes.map((speaker: any) => (
-                        <div key={speaker.id} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center hover:shadow-lg transition-shadow">
+                        <div key={speaker.id} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center hover:shadow-lg transition-all hover:-translate-y-1 group">
                             <div className="relative inline-block mb-6">
-                                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-rice-gold mx-auto bg-gray-200">
+                                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#DFC074] mx-auto bg-gray-200 group-hover:border-[#1A4D2E] transition-colors">
                                     {speaker.imageUrl ? <img src={speaker.imageUrl} alt={speaker.name} className="w-full h-full object-cover" /> : null}
                                 </div>
+                                {(speaker.country || speaker.countryCode) && (
+                                    <div className="absolute -bottom-1 -right-1 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-xl border border-gray-100">
+                                        {getFlagEmoji(speaker.country || speaker.countryCode)}
+                                    </div>
+                                )}
                             </div>
                             <h3 className="text-xl font-bold font-serif text-charcoal mb-1">{speaker.name}</h3>
-                            <p className="text-sm font-bold text-gray-500 mb-4">{speaker.role}</p>
-                            <p className="text-xs text-gray-400 mb-4 px-4">{speaker.institution}</p>
-                            <span className="inline-block bg-rice-gold/10 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">
-                                {speaker.focusArea}
-                            </span>
+                            <p className="text-sm font-bold text-[#1A4D2E] mb-3">{speaker.role}</p>
+                            {speaker.institution && (
+                                <div className="inline-flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full mb-4 border border-gray-100">
+                                    <span className="text-[10px] font-bold text-[#D9A648] bg-[#1A4D2E] w-5 h-5 rounded-full flex items-center justify-center">
+                                        {speaker.institution.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
+                                    </span>
+                                    <span className="text-xs text-gray-600">{speaker.institution}</span>
+                                </div>
+                            )}
+                            {speaker.focusArea && (
+                                <span className="inline-block bg-[#FFF8E1] text-[#B8860B] text-xs font-semibold px-3 py-1 rounded-full border border-[#DFC074]/20">
+                                    {speaker.focusArea}
+                                </span>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -71,7 +90,7 @@ export default async function SpeakersPage() {
 
             {/* Invited Speakers */}
             {data.invited && data.invited.length > 0 && (
-                <section className="py-20 bg-[#FDFBF2]">
+                <section className="py-20 bg-[#FFFDF7]">
                     <div className="container mx-auto px-6">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Distinguished Invited Speakers</h2>
@@ -79,14 +98,21 @@ export default async function SpeakersPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                             {data.invited.map((speaker: any) => (
-                                <div key={speaker.id} className="bg-white rounded-xl p-6 text-center border border-gray-100 hover:border-earth-green/30 transition-colors">
-                                    <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 bg-gray-200">
-                                        {speaker.imageUrl ? <img src={speaker.imageUrl} alt={speaker.name} className="w-full h-full object-cover" /> : null}
+                                <div key={speaker.id} className="bg-white rounded-xl p-6 text-center border border-gray-100 hover:border-[#D9A648]/30 hover:shadow-md transition-all group">
+                                    <div className="relative inline-block mb-4">
+                                        <div className="w-20 h-20 rounded-full overflow-hidden mx-auto bg-gray-200 border-2 border-gray-100 group-hover:border-[#DFC074] transition-colors">
+                                            {speaker.imageUrl ? <img src={speaker.imageUrl} alt={speaker.name} className="w-full h-full object-cover" /> : null}
+                                        </div>
+                                        {(speaker.country || speaker.countryCode) && (
+                                            <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-white rounded-full shadow-sm flex items-center justify-center text-sm border border-gray-100">
+                                                {getFlagEmoji(speaker.country || speaker.countryCode)}
+                                            </div>
+                                        )}
                                     </div>
-                                    <h3 className="font-bold text-charcoal mb-1">{speaker.name} {getFlagEmoji(speaker.country || speaker.countryCode)}</h3>
+                                    <h3 className="font-bold text-charcoal mb-1">{speaker.name}</h3>
                                     <p className="text-xs text-gray-500 mb-2">{speaker.role}</p>
                                     {speaker.tags?.map((tag: string) => (
-                                        <span key={tag} className="inline-block bg-sapling-green/10 text-earth-green text-[10px] font-semibold px-2 py-1 rounded-md">
+                                        <span key={tag} className="inline-block bg-[#F0FDF4] text-[#1A4D2E] text-[10px] font-semibold px-2 py-1 rounded-md border border-[#1A4D2E]/10">
                                             {tag}
                                         </span>
                                     ))}
@@ -123,7 +149,7 @@ export default async function SpeakersPage() {
                         <p className="text-gray-500 text-sm mt-1">Submit your proposal for consideration in future events. Limited slots available.</p>
                     </div>
                     <Link href="/submission">
-                        <button className="bg-rice-gold hover:bg-yellow-500 text-charcoal font-bold py-3 px-6 rounded-md shadow-md flex items-center gap-2 transition-transform hover:-translate-y-1">
+                        <button className="bg-rice-gold hover:bg-yellow-500 text-charcoal font-bold py-3 px-6 rounded-lg shadow-md flex items-center gap-2 transition-transform hover:-translate-y-1">
                             Submit Proposal <ArrowRight size={18} />
                         </button>
                     </Link>

@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         const postUrl = `${baseUrl}/blog/${slug}`;
 
         return (
-            <div className="min-h-screen bg-[#FDFCF8]">
+            <div className="min-h-screen bg-[#FFFDF7]">
                 <Navbar variant="default" />
 
                 <main className="pt-36 md:pt-40 pb-16 px-4 sm:px-6 lg:px-8">
@@ -164,7 +164,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                         {/* PDF Download Card (if available) */}
                         {post.pdf_url && (
-                            <div className="mb-10 bg-[#FBF9F4] border border-[#EBE5D5] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
+                            <div className="mb-10 bg-[#FFFDF7] border border-[#EBE5D5] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
                                 <div className="flex items-start gap-4">
                                     <div className="p-3 bg-white rounded-lg border border-gray-100 shadow-sm text-red-500">
                                         <FileText size={24} />
@@ -178,7 +178,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                     href={post.pdf_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-2 px-5 py-2.5 bg-[#123125] text-white rounded-lg hover:bg-[#0A1F16] transition-colors font-medium text-sm whitespace-nowrap w-full sm:w-auto justify-center"
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-[#123125] text-white rounded-lg hover:bg-[#0e2a20] transition-colors font-medium text-sm whitespace-nowrap w-full sm:w-auto justify-center"
                                 >
                                     <Download size={16} /> Download
                                 </a>

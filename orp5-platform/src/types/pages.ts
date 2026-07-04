@@ -93,6 +93,7 @@ export interface AboutPageData {
     objectives: string[];
     organizers: Organizer[];
     partners: Partner[];
+    supportedBy?: Partner[];
 }
 
 // ============================================

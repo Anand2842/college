@@ -44,10 +44,15 @@ export default function HowToReachClient() {
         setOpen(current === id ? null : id);
     };
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
             <PageHero
@@ -111,7 +116,7 @@ export default function HowToReachClient() {
                             <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">{data.maps.title}</h2>
                             <p className="text-gray-500 leading-relaxed mb-8">{data.maps.description}</p>
                             <Link href={data.maps.directionsLink} target="_blank">
-                                <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-6 py-3 rounded-full">
+                                <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-6 py-3 rounded-lg">
                                     Get Directions
                                 </Button>
                             </Link>
@@ -166,7 +171,7 @@ export default function HowToReachClient() {
                 <div className="relative z-10">
                     <h2 className="text-2xl font-bold mb-8">{data.footerCta.text}</h2>
                     <Link href={data.footerCta.buttonLink}>
-                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full">
+                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg">
                             {data.footerCta.buttonLabel}
                         </Button>
                     </Link>

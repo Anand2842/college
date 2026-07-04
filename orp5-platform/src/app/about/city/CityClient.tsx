@@ -29,7 +29,12 @@ export default function CityClient() {
         }
     };
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
@@ -42,12 +47,12 @@ export default function CityClient() {
     };
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
             {/* Hero Section */}
-            <div className="bg-[#0A1F18] min-h-[60vh] flex items-center justify-center text-center text-white relative overflow-hidden pt-36 md:pt-40">
-                <div className="absolute inset-0 z-0 bg-[#0A1F18]">
+            <div className="bg-[#123125] min-h-[60vh] flex items-center justify-center text-center text-white relative overflow-hidden pt-36 md:pt-40">
+                <div className="absolute inset-0 z-0 bg-[#123125]">
                     {data.hero.backgroundImage && <img src={data.hero.backgroundImage} alt="New Delhi" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F18] via-transparent to-transparent"></div>
                 </div>
@@ -84,7 +89,7 @@ export default function CityClient() {
             </div>
 
             {/* Highlights */}
-            <div className="bg-[#FBF9F4] py-24">
+            <div className="bg-[#FFFDF7] py-24">
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-serif font-bold text-charcoal">City Highlights</h2>
@@ -213,7 +218,7 @@ export default function CityClient() {
             </div>
 
             {/* Footer CTA */}
-            <div className="bg-[#0A1F18] py-20 text-center text-white relative overflow-hidden border-t-4 border-[#DFC074]">
+            <div className="bg-[#123125] py-20 text-center text-white relative overflow-hidden border-t-4 border-[#DFC074]">
                 <div className="container mx-auto px-6 max-w-4xl relative z-10">
                     <h2 className="text-3xl font-bold mb-4 leading-snug">{data.footerCta.headline}</h2>
                     <p className="text-emerald-200 mb-12">{data.footerCta.subheadline}</p>

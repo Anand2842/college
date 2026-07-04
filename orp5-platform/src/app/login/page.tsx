@@ -133,7 +133,7 @@ function LoginForm() {
             <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden bg-earth-green">
                 {/* CSS Pattern Background instead of external image */}
                 <div className="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
-                <div className="absolute inset-0 bg-gradient-to-br from-[#123125] via-earth-green to-[#0a1a14] z-0 opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#123125] via-earth-green to-[#0e2a20] z-0 opacity-90" />
                 
                 <div className="relative z-20 flex flex-col justify-between p-12 lg:p-20 h-full w-full">
                     <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity w-fit bg-white p-4 rounded-2xl shadow-xl">
@@ -266,7 +266,12 @@ function LoginForm() {
 
 export default function LoginPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <Suspense fallback={
+            <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+                <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+                <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+            </div>
+        }>
             <LoginForm />
         </Suspense>
     )

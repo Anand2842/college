@@ -435,7 +435,7 @@ export default function CommitteesClient() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative bg-gradient-to-br from-earth-green to-[#0D3020] rounded-3xl p-10 md:p-14 text-center overflow-hidden"
+          className="relative bg-gradient-to-br from-earth-green to-[#123125] rounded-3xl p-10 md:p-14 text-center overflow-hidden"
         >
           {/* Decorative */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-sapling-green/10 rounded-full blur-3xl" />
@@ -459,7 +459,7 @@ export default function CommitteesClient() {
       </section>
 
       {/* ── CTA FOOTER ──────────────────────────────────────── */}
-      <section className="bg-gradient-to-r from-earth-green via-[#1e5c38] to-earth-green py-20 text-center relative overflow-hidden">
+      <section className="bg-gradient-to-r from-earth-green via-[#1a4d2e] to-earth-green py-20 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-5"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")`,
@@ -472,17 +472,17 @@ export default function CommitteesClient() {
           </h2>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/themes">
-              <Button className="bg-rice-gold text-charcoal font-bold hover:bg-yellow-500 px-8 py-3 rounded-full shadow-lg">
+              <Button className="bg-rice-gold text-charcoal font-bold hover:bg-yellow-500 px-8 py-3 rounded-lg shadow-lg">
                 View Themes
               </Button>
             </Link>
             <Link href="/programme">
-              <Button className="bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 font-bold px-8 py-3 rounded-full transition-all">
+              <Button className="bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 font-bold px-8 py-3 rounded-lg transition-all">
                 See Programme
               </Button>
             </Link>
             <Link href="/registration">
-              <Button className="bg-white text-earth-green font-bold hover:bg-gray-100 px-8 py-3 rounded-full shadow-lg">
+              <Button className="bg-white text-earth-green font-bold hover:bg-gray-100 px-8 py-3 rounded-lg shadow-lg">
                 Register Now
               </Button>
             </Link>

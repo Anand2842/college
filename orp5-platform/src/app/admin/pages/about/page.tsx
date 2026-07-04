@@ -209,6 +209,25 @@ export default function AboutPageEditor() {
                             )}
                         />
 
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Supported By</h2>
+                        <ListEditor
+                            title="Supported By List"
+                            items={data.supportedBy || []}
+                            onUpdate={(items) => handleListUpdate("supportedBy", items)}
+                            itemTemplate={{ name: "New Supporter", imageUrl: "", website: "" }}
+                            renderItemFields={(item, i, update) => (
+                                <>
+                                    <AdminInput label="Supporter Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <ImageUploader
+                                        label="Supporter Logo"
+                                        value={item.imageUrl || ""}
+                                        onChange={(url) => update("imageUrl", url)}
+                                    />
+                                    <AdminInput label="Website URL" value={item.website || ""} onChange={(e) => update("website", e.target.value)} />
+                                </>
+                            )}
+                        />
+
                         <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Collaborating Partners</h2>
                         <ListEditor
                             title="Partners List"

@@ -201,7 +201,7 @@ export default function TicketStatusPage() {
             : 'bg-yellow-400';
 
     return (
-        <main className="min-h-screen bg-[#F7F9F7] font-sans">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans">
             <Navbar />
 
             {/* Hero */}
@@ -306,7 +306,7 @@ export default function TicketStatusPage() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex items-center justify-center gap-2 bg-[#123125] hover:bg-[#0f2a1f] text-white font-bold py-3.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+                            className="w-full flex items-center justify-center gap-2 bg-[#123125] hover:bg-[#0e2a20] text-white font-bold py-3.5 px-6 rounded-xl transition-colors disabled:opacity-60"
                         >
                             {isLoading
                                 ? <><Loader2 size={18} className="animate-spin" /> Checking...</>
@@ -372,7 +372,7 @@ export default function TicketStatusPage() {
                                             {r.payment_status === 'awaiting_payment' && (
                                                 <Link
                                                     href={`/registration/pay?id=${r.ticket_number}`}
-                                                    className="flex items-center justify-center gap-2 text-sm font-bold bg-[#123125] text-white px-4 py-2.5 rounded-xl hover:bg-[#0f2a1f] transition-colors"
+                                                    className="flex items-center justify-center gap-2 text-sm font-bold bg-[#123125] text-white px-4 py-2.5 rounded-xl hover:bg-[#0e2a20] transition-colors"
                                                 >
                                                     Complete Payment →
                                                 </Link>

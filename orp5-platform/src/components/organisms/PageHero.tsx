@@ -32,7 +32,7 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
     return (
         <section className="relative min-h-[300px] md:min-h-[400px] h-auto pt-32 pb-16 md:pt-48 md:pb-20 flex items-center justify-center overflow-hidden">
             {/* Background Layer */}
-            <div className="absolute inset-0 z-0 bg-[#0D241B]">
+            <div className="absolute inset-0 z-0 bg-[#123125]">
                 {backgroundImage && (
                     <img
                         src={backgroundImage}
@@ -96,8 +96,8 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
                                 <Button
                                     className={
                                         btn.variant === "primary"
-                                            ? "bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                                            : "bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 font-bold px-8 py-3 rounded-full transition-all"
+                                            ? "bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all"
+                                            : "bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 font-bold px-8 py-3 rounded-lg transition-all"
                                     }
                                 >
                                     {btn.label}

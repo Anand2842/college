@@ -60,7 +60,12 @@ export default function GalleryClient() {
         }
     };
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     const filteredGallery = activeFilter === "All Photos"
         ? data.mainGallery
@@ -75,7 +80,7 @@ export default function GalleryClient() {
     const showFeatured = activeFilter === "All Photos";
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
             <Navbar variant="dark" />
 
             <PageHero
@@ -193,7 +198,7 @@ export default function GalleryClient() {
             </div>
 
             {/* Downloadable Media Kits */}
-            <div className="bg-[#FAF9F5] py-24">
+            <div className="bg-[#FFFDF7] py-20">
                 <div className="container mx-auto px-6 max-w-5xl">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Downloadable Media Kits</h2>
@@ -226,7 +231,7 @@ export default function GalleryClient() {
             </div>
 
             {/* Footer CTA */}
-            <div className="bg-[#0D241B] py-24 text-center text-white relative overflow-hidden">
+            <div className="bg-[#123125] py-20 text-center text-white relative overflow-hidden">
                 <div className="container mx-auto px-6 max-w-4xl relative z-10">
                     <div className="w-16 h-1 bg-[#DFC074] mx-auto mb-8 rounded-full"></div>
                     <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">{data.footerCta.headline}</h2>
@@ -235,7 +240,7 @@ export default function GalleryClient() {
                     <div className="flex flex-wrap justify-center gap-4">
                         {data.footerCta.buttons.map((btn: any, i: number) => (
                             <Link key={i} href={btn.link}>
-                                <Button variant="outline" className="border-emerald-700 text-emerald-100 hover:bg-emerald-900/50 hover:text-white hover:border-emerald-500 px-8 py-3 rounded-full transition-all">
+                                <Button variant="outline" className="border-emerald-700 text-emerald-100 hover:bg-emerald-900/50 hover:text-white hover:border-emerald-500 px-8 py-3 rounded-lg transition-all">
                                     {btn.label}
                                 </Button>
                             </Link>

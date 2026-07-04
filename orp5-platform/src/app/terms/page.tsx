@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function TermsPage() {
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans">
             <Navbar />
 
             {/* Header */}

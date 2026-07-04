@@ -67,7 +67,7 @@ export default async function DashboardPage() {
     const authorName = profile?.display_name || user.email || 'Author';
 
     return (
-        <main className="min-h-screen bg-[#F7F9F7] font-sans">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans">
             <Navbar />
 
             {/* Header band */}

@@ -110,7 +110,7 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal pb-32">
+        <div className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal pb-32">
 
             {/* Dark Hero Section */}
             <div className="bg-[#123125] p-10 md:p-16 rounded-b-[3rem] text-white relative overflow-hidden mb-12">
@@ -127,13 +127,13 @@ export default function Dashboard() {
                 {/* Info Card Row */}
                 <div className="flex flex-col md:flex-row gap-6 mb-12">
                     {/* Left: Verification Text */}
-                    <div className="bg-[#FBF9F4] rounded-2xl p-8 border-l-4 border-[#DFC074] shadow-sm flex-1">
+                    <div className="bg-[#FFFDF7] rounded-2xl p-8 border-l-4 border-[#DFC074] shadow-sm flex-1">
                         <h2 className="font-serif font-bold text-xl text-charcoal mb-4">{verification.center}</h2>
                         <p className="text-gray-600 text-sm leading-relaxed">{verification.description}</p>
                     </div>
 
                     {/* Right: Verification Details Table */}
-                    <div className="bg-[#FBF9F4] rounded-2xl p-8 border border-[#EBE5D5] shadow-sm md:w-1/3">
+                    <div className="bg-[#FFFDF7] rounded-2xl p-8 border border-[#EBE5D5] shadow-sm md:w-1/3">
                         <h3 className="font-serif font-bold text-charcoal mb-4 border-b border-gray-200 pb-2">Admin Login Verification</h3>
                         <div className="grid grid-cols-2 gap-y-4 text-xs">
                             <div>
@@ -207,17 +207,17 @@ export default function Dashboard() {
                     </div>
 
                     {/* Communication Log */}
-                    <div className="bg-[#FBF9F4] rounded-xl p-8 border border-[#EBE5D5]">
+                    <div className="bg-[#FFFDF7] rounded-xl p-8 border border-[#EBE5D5]">
                         <h3 className="font-serif font-bold text-lg text-charcoal mb-2">{communication.title}</h3>
                         <p className="text-gray-500 text-sm mb-6">{communication.description}</p>
-                        <Button className="w-full bg-[#123125] text-white hover:bg-[#0A1F16]">{communication.buttonLabel}</Button>
+                        <Button className="w-full bg-[#123125] text-white hover:bg-[#0e2a20]">{communication.buttonLabel}</Button>
                     </div>
                 </div>
 
                 {/* Bottom Row: File Upload & Security */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                     {/* File Upload Section */}
-                    <div className="bg-[#FBF9F4] rounded-xl p-8 border border-[#EBE5D5]">
+                    <div className="bg-[#FFFDF7] rounded-xl p-8 border border-[#EBE5D5]">
                         <h3 className="font-serif font-bold text-lg text-charcoal mb-6">File Upload Section</h3>
                         <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-white hover:bg-gray-50 cursor-pointer transition-colors relative">
                             <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" aria-label="Upload file" />
@@ -228,7 +228,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Security Settings */}
-                    <div className="bg-[#FBF9F4] rounded-xl p-8 border border-[#EBE5D5]">
+                    <div className="bg-[#FFFDF7] rounded-xl p-8 border border-[#EBE5D5]">
                         <div className="flex items-center gap-3 mb-6">
                             <ShieldCheck size={20} className="text-[#D9A648]" />
                             <h3 className="font-serif font-bold text-lg text-charcoal">{security.title}</h3>

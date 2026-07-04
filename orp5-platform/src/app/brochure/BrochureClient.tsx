@@ -35,10 +35,15 @@ export default function BrochureClient() {
         }
     };
 
-    if (!data) return <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     return (
-        <main className="min-h-screen bg-[#FDFCF8] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
             <Navbar />
 
             <PageHero
@@ -50,7 +55,7 @@ export default function BrochureClient() {
 
             {/* Intro Card */}
             <div className="container mx-auto px-6 mb-16 max-w-5xl">
-                <div className="bg-[#FFF8F0] rounded-xl p-10 md:p-14 border-l-4 border-[#D9A648] relative overflow-hidden">
+                <div className="bg-[#FFF8E1] rounded-xl p-10 md:p-14 border-l-4 border-[#D9A648] relative overflow-hidden">
                     <div className="relative z-10">
                         <h2 className="text-3xl font-serif font-bold text-charcoal mb-6">{data.intro.title}</h2>
                         <p className="text-gray-600 leading-relaxed text-lg">{data.intro.description}</p>
@@ -73,7 +78,7 @@ export default function BrochureClient() {
 
             {/* Download Section */}
             <div className="container mx-auto px-6 mb-24 max-w-5xl">
-                <div className="bg-[#FAF9F5] rounded-3xl p-12 md:p-16 text-center border border-[#EFECE5] shadow-lg shadow-[#EFECE5]/50">
+                <div className="bg-[#FFFDF7] rounded-3xl p-12 md:p-16 text-center border border-[#EFECE5] shadow-lg shadow-[#EFECE5]/50">
                     <h2 className="text-3xl font-serif font-bold text-charcoal mb-6">{data.downloadSection.title}</h2>
                     <p className="text-gray-500 mb-10 max-w-2xl mx-auto">{data.downloadSection.description}</p>
 
@@ -83,7 +88,7 @@ export default function BrochureClient() {
                             return (
                                 <Link key={i} href={btn.link}>
                                     <Button className={cn(
-                                        "px-8 py-4 rounded-full font-bold transition-all flex items-center gap-2",
+                                        "px-8 py-4 rounded-lg font-bold transition-all flex items-center gap-2",
                                         isPrimary
                                             ? "bg-[#10B981] hover:bg-[#059669] text-white shadow-lg shadow-emerald-500/20"
                                             : "bg-white border text-[#10B981] border-[#10B981] hover:bg-emerald-50"
@@ -105,7 +110,7 @@ export default function BrochureClient() {
                 <div className="space-y-4">
                     {data.chapters.map((chapter: any) => (
                         <div key={chapter.id} className="flex items-center gap-6 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors rounded-lg group">
-                            <div className="text-[#D9A648] group-hover:text-[#B88A38] transition-colors bg-[#FFF8F0] p-2 rounded-lg">
+                            <div className="text-[#D9A648] group-hover:text-[#B88A38] transition-colors bg-[#FFF8E1] p-2 rounded-lg">
                                 {getIcon(chapter.icon)}
                             </div>
                             <span className="text-gray-600 font-medium group-hover:text-charcoal transition-colors">{chapter.title}</span>
@@ -115,7 +120,7 @@ export default function BrochureClient() {
             </div>
 
             {/* Footer CTA */}
-            <div className="bg-[#0D241B] py-24 text-center text-white relative overflow-hidden">
+            <div className="bg-[#123125] py-24 text-center text-white relative overflow-hidden">
                 <div className="container mx-auto px-6 max-w-4xl relative z-10">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">{data.footerCta.headline}</h2>
                     <p className="text-emerald-100/70 mb-12 max-w-2xl mx-auto text-lg">{data.footerCta.subheadline}</p>
@@ -125,7 +130,7 @@ export default function BrochureClient() {
                             if (btn.variant === "primary") {
                                 return (
                                     <Link key={i} href={btn.link}>
-                                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-emerald-900/50">
+                                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-emerald-900/50">
                                             {btn.label}
                                         </Button>
                                     </Link>
@@ -134,7 +139,7 @@ export default function BrochureClient() {
                             if (btn.variant === "secondary") {
                                 return (
                                     <Link key={i} href={btn.link}>
-                                        <Button className="bg-[#D9A648] hover:bg-[#B88A38] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-yellow-900/20">
+                                        <Button className="bg-[#D9A648] hover:bg-[#B88A38] text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-yellow-900/20">
                                             {btn.label}
                                         </Button>
                                     </Link>
@@ -142,7 +147,7 @@ export default function BrochureClient() {
                             }
                             return (
                                 <Link key={i} href={btn.link}>
-                                    <Button variant="outline" className="border-emerald-700 text-emerald-100 hover:bg-emerald-900/50 hover:text-white px-8 py-3 rounded-full font-bold">
+                                    <Button variant="outline" className="border-emerald-700 text-emerald-100 hover:bg-emerald-900/50 hover:text-white px-8 py-3 rounded-lg font-bold">
                                         {btn.label}
                                     </Button>
                                 </Link>

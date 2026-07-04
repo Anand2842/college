@@ -13,14 +13,19 @@ import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
 import { getVenuePageData } from "@/lib/cms";
 import * as LucideIcons from "lucide-react";
-import { ArrowRight, MapPin, Plane, Train, Hotel } from "lucide-react";
+import { ArrowRight, MapPin, Plane, Train, Hotel, Landmark, Camera, Church, TreeDeciduous } from "lucide-react";
 
 import Link from "next/link";
 
 export default async function VenuePage() {
     const data = await getVenuePageData();
 
-    if (!data) return <div className="p-10 text-center">Loading Venue...</div>;
+    if (!data) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+            <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
+            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+        </div>
+    );
 
     // Helper to resolve icon string to Component
     const getIcon = (name: string) => {
@@ -93,12 +98,18 @@ export default async function VenuePage() {
             {/* Location & Map */}
             <section id="location" className="py-20 bg-gray-50">
                 <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    {/* Map Placeholder */}
-                    <div className="h-96 bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400 font-bold border-2 border-gray-300 border-dashed">
-                        <div className="text-center">
-                            <MapPin size={40} className="mx-auto mb-2 text-gray-400" />
-                            Map Placeholder
-                        </div>
+                    {/* Google Maps Embed */}
+                    <div className="h-96 rounded-2xl overflow-hidden shadow-md border border-gray-200">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d77.5779!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdd240d7a2847%3A0x2e3e5e5e5e5e5e5e!2sNASC%20Complex%2C%20New%20Delhi!5e0!3m2!1sen!2sin!4v1234567890"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="NASC Complex, New Delhi"
+                        />
                     </div>
 
                     <div className="bg-white p-10 rounded-2xl shadow-sm border border-gray-200">
@@ -147,13 +158,39 @@ export default async function VenuePage() {
                 </div>
             </section>
 
+            {/* About the City */}
+            <section className="py-20 bg-white">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">About New Delhi</h2>
+                        <p className="text-gray-500 max-w-2xl mx-auto">Explore the vibrant capital city of India — a blend of history, culture, and modernity.</p>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        {[
+                            { icon: <Landmark size={28} />, title: "India Gate", description: "Iconic war memorial and landmark of Delhi" },
+                            { icon: <Church size={28} />, title: "Qutub Minar", description: "UNESCO World Heritage Site, 12th century" },
+                            { icon: <Camera size={28} />, title: "Red Fort", description: "Mughal architecture and national symbol" },
+                            { icon: <TreeDeciduous size={28} />, title: "Lodhi Gardens", description: "Beautiful gardens with historical tombs" },
+                        ].map((item, i) => (
+                            <div key={i} className="bg-[#FFFDF7] rounded-2xl p-6 border border-[#F3F0E5] hover:shadow-md transition-all text-center group">
+                                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#D9A648] mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    {item.icon}
+                                </div>
+                                <h3 className="font-bold text-charcoal mb-1">{item.title}</h3>
+                                <p className="text-gray-500 text-xs leading-relaxed">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* CTA */}
-            <section className="py-24 bg-earth-green text-center text-white">
+            <section className="py-20 bg-earth-green text-center text-white">
                 <div className="container mx-auto px-6">
                     <h2 className="text-3xl font-serif font-bold mb-4">Plan your visit</h2>
                     <p className="text-white/80 max-w-xl mx-auto mb-10">Explore accommodation options and travel details to make your conference experience seamless.</p>
-                    <Link href="/accommodation"><button className="bg-rice-gold text-charcoal font-bold py-3 px-8 rounded-full hover:bg-yellow-500 transition-colors">Accommodation</button></Link>
-                    <Link href="/how-to-reach"><button className="border border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white/10 transition-colors">How to Reach</button></Link>
+                    <Link href="/accommodation"><button className="bg-rice-gold text-charcoal font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition-colors">Accommodation</button></Link>
+                    <Link href="/how-to-reach"><button className="border border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white/10 transition-colors">How to Reach</button></Link>
                 </div>
             </section>
 
