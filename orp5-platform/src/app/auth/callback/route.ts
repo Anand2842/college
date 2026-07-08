@@ -15,6 +15,8 @@ export async function GET(request: Request) {
         }
     }
 
-    // return the user to an error page with instructions
-    return NextResponse.redirect(`${origin}/login?message=Could not login with provider`)
+    // If code is missing, it's likely an implicit flow (e.g. invite link) where the token is in the hash.
+    // Redirect to login page where the client-side Supabase SDK will automatically process the hash.
+    // We append ?implicit=1 so the login page knows to check for invite/recovery flows and route accordingly.
+    return NextResponse.redirect(`${origin}/login?implicit=1`)
 }

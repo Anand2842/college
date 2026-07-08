@@ -23,6 +23,27 @@ function LoginForm() {
 
     const supabase = createClient()
     const message = searchParams?.get('message')
+    const isImplicit = searchParams?.get('implicit') === '1'
+
+    // Listen for auth state changes (e.g. from implicit flow tokens in the URL hash)
+    useEffect(() => {
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                if (session) {
+                    if (isImplicit || event === 'PASSWORD_RECOVERY') {
+                        router.push('/update-password')
+                    } else {
+                        router.push('/dashboard')
+                    }
+                    router.refresh()
+                }
+            }
+        )
+
+        return () => {
+            authListener.subscription.unsubscribe()
+        }
+    }, [supabase, router, isImplicit])
 
     // Load rate limit state from storage
     useEffect(() => {
@@ -226,7 +247,14 @@ function LoginForm() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
+                                <div className="flex justify-between items-center mb-1.5">
+                                    <label className="block text-sm font-bold text-gray-700">Password</label>
+                                    {!isSignUp && (
+                                        <Link href="/forgot-password" className="text-xs font-bold text-earth-green hover:underline">
+                                            Forgot password?
+                                        </Link>
+                                    )}
+                                </div>
                                 <input
                                     type="password"
                                     required
