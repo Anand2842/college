@@ -153,6 +153,22 @@ export default function PaymentInstructionClient() {
     const currencySymbol = currency === "USD" ? "$" : "₹";
     const name = registration?.full_name || registration?.fullName || "";
 
+    // Guard: no ticketId in URL — must be after all hooks
+    if (!ticketId) {
+        return (
+            <div className="min-h-screen bg-[#FFFDF7] flex flex-col items-center justify-center p-4 text-center">
+                <AlertCircle className="text-amber-500 w-16 h-16 mb-4" />
+                <h1 className="text-2xl font-bold text-charcoal mb-2">No Ticket ID Found</h1>
+                <p className="text-gray-600 max-w-md mb-8">
+                    This page requires a valid Ticket ID. Please go back to the registration page and complete your registration first.
+                </p>
+                <Link href="/registration" className="px-6 py-2 bg-earth-green text-white rounded-lg hover:bg-earth-green/90 transition-colors font-bold">
+                    Go to Registration
+                </Link>
+            </div>
+        );
+    }
+
     if (loading) {
         return (
             <div className="min-h-screen bg-[#FFFDF7] flex items-center justify-center">

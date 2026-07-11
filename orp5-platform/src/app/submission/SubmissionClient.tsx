@@ -78,7 +78,7 @@ export default function SubmissionClient() {
                 });
 
                 if (uploadReq.status === 413) {
-                    throw new Error("File is too large. Please upload a file smaller than 4MB.");
+                    throw new Error("File is too large. Please upload a file smaller than 10MB.");
                 }
 
                 if (!uploadReq.ok) {
@@ -498,7 +498,6 @@ export default function SubmissionClient() {
                         </div>
 
                         <div className="flex items-center justify-end gap-4 pt-6">
-                            <Button type="button" variant="outline" className="px-8 font-bold">Save Draft</Button>
                             <Button type="submit" className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg min-w-[160px]" disabled={submitting}>
                                 {submitting ? <><Loader2 className="animate-spin mr-2" /> Submitting...</> : "Submit Abstract"}
                             </Button>

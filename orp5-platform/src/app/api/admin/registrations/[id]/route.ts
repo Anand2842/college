@@ -50,6 +50,14 @@ export async function PATCH(
             } : {}),
         };
 
+        // If ticket_number is missing (e.g. older test registrations), generate it here
+        // so we don't end up sending raw UUIDs as Ticket IDs in emails.
+        if (!updatedData.ticket_number || updatedData.ticket_number === 'undefined') {
+            const randomNum = Math.floor(10000 + Math.random() * 90000);
+            const isIndian = updatedData.nationality?.toLowerCase() === 'indian' || updatedData.country?.toLowerCase() === 'india';
+            updatedData.ticket_number = `ORP5IC-${isIndian ? 'IND' : 'INT'}-${randomNum}`;
+        }
+
         // Also update the top-level status if payment is confirmed
         const updatePayload: Record<string, unknown> = { data: updatedData };
         if (payment_status === 'paid') {
@@ -91,9 +99,7 @@ export async function PATCH(
 
         // Send Email Notification if marked as PAID or REJECTED
         if (updatedData.email) {
-            const finalTicketId = updatedData.ticket_number && updatedData.ticket_number !== 'undefined' 
-                ? (updatedData.ticket_number as string) 
-                : id;
+            const finalTicketId = updatedData.ticket_number as string;
 
             if (payment_status === 'paid') {
                 const { sendRegistrationStatusEmail } = await import('@/lib/email');

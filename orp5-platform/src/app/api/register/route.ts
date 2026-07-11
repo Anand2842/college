@@ -7,6 +7,54 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
+        // ── Server-side Validation ──────────────────────────────────────
+        const requiredFields: { key: string; label: string }[] = [
+            { key: 'fullName',    label: 'Full Name' },
+            { key: 'email',       label: 'Email Address' },
+            { key: 'phone',       label: 'Phone Number' },
+            { key: 'institution', label: 'Institution / Affiliation' },
+            { key: 'category',    label: 'Participant Category' },
+            { key: 'mode',        label: 'Participation Mode' },
+            { key: 'country',     label: 'Country' },
+            { key: 'nationality', label: 'Nationality' },
+        ];
+
+        for (const field of requiredFields) {
+            if (!body[field.key] || String(body[field.key]).trim() === '') {
+                return NextResponse.json(
+                    { error: `${field.label} is required.` },
+                    { status: 400 }
+                );
+            }
+        }
+
+        // Email format check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(String(body.email).trim())) {
+            return NextResponse.json(
+                { error: 'Please provide a valid email address.' },
+                { status: 400 }
+            );
+        }
+
+        // Phone: at least 7 digits
+        const digitsOnly = String(body.phone).replace(/\D/g, '');
+        if (digitsOnly.length < 7) {
+            return NextResponse.json(
+                { error: 'Please provide a valid phone number (at least 7 digits).' },
+                { status: 400 }
+            );
+        }
+
+        // Fee amount must be a positive number
+        if (!body.feeAmount || isNaN(Number(body.feeAmount)) || Number(body.feeAmount) <= 0) {
+            return NextResponse.json(
+                { error: 'Invalid fee amount. Please complete the registration form properly.' },
+                { status: 400 }
+            );
+        }
+        // ───────────────────────────────────────────────────────────────
+
         // 1. Generate Ticket ID
         const randomNum = Math.floor(10000 + Math.random() * 90000);
         const ticketId = `ORP5IC-${body.nationality === 'indian' ? 'IND' : 'INT'}-${randomNum}`;

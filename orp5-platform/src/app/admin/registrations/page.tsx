@@ -482,7 +482,7 @@ export default function AdminRegistrationsPage() {
                                                     <span className="text-[10px] font-mono text-orange-300 truncate max-w-[120px]">{utrNumber}</span>
                                                 </div>
                                             )}
-                                            {claimAgeDays !== null && (
+                                            {claimAgeDays !== null && reg.payment_status !== 'paid' && (
                                                 <div className={`flex items-center gap-1 mt-0.5 ${isUrgent ? 'text-red-400' : 'text-gray-500'}`}>
                                                     <Clock size={10} />
                                                     <span className="text-[10px]">{claimAgeDays}d ago{isUrgent ? ' ⚠️' : ''}</span>

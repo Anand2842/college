@@ -191,6 +191,14 @@ function LoginForm() {
                         <p className="mt-2 text-sm text-gray-500 font-medium">
                             {isSignUp ? 'Sign up to submit your abstract and register' : 'Sign in to access your delegate dashboard'}
                         </p>
+                        {isSignUp && (
+                            <p className="mt-1 text-xs text-gray-400">
+                                Already have an account?{' '}
+                                <button type="button" onClick={() => setIsSignUp(false)} className="text-earth-green font-bold hover:underline">
+                                    Sign In
+                                </button>
+                            </p>
+                        )}
                     </div>
 
                     {message && (
@@ -285,7 +293,7 @@ function LoginForm() {
                 
                 {/* Footer Copyright */}
                 <div className="absolute bottom-6 text-xs text-gray-400 font-medium text-center">
-                    &copy; 2026 ORP-5 Conference. All rights reserved.
+                    &copy; {new Date().getFullYear()} ORP-5 Conference. All rights reserved.
                 </div>
             </div>
         </div>
