@@ -34,7 +34,7 @@ const TIMELINE_STEPS = [
     {
         step: "01",
         title: "Submit Abstract",
-        description: "Submit via the online portal before 31 July 2026.",
+        description: "Submit via the online portal before 15 August 2026.",
     },
     {
         step: "02",
@@ -44,7 +44,7 @@ const TIMELINE_STEPS = [
     {
         step: "03",
         title: "Acceptance",
-        description: "Notification of abstract status by 05 August 2026.",
+        description: "Notification of abstract status by 20 August 2026.",
     },
     {
         step: "04",

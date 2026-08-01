@@ -34,8 +34,8 @@ async function fixAll() {
 
     // Fix wrong abstract deadline
     if (content.includes('March 15') && content.includes('abstract')) {
-      content = content.replace(/March 15, 2026/g, '31 July 2026');
-      content = content.replace(/March 15/g, '31 July');
+      content = content.replace(/March 15, 2026/g, '15 August 2026');
+      content = content.replace(/March 15/g, '15 August');
       changed = true;
     }
 

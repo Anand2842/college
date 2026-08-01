@@ -47,7 +47,7 @@ const correctFeesHTML = `
 </ul>
 
 <blockquote>
-<p><strong>Note:</strong> Late fee of INR 1,000 or $20 will be charged per person after the registration deadline of 01 August 2026. The registration fee does not include accommodation charges.</p>
+<p><strong>Note:</strong> Late fee of INR 1,000 or $20 will be charged per person after the registration deadline of 31 August 2026. The registration fee does not include accommodation charges.</p>
 </blockquote>
 
 <h3>Registration Includes</h3>

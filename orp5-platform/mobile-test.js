@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { chromium, devices } = require('playwright');
 
 const iPhone = devices['iPhone 12 Pro'];

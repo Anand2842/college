@@ -69,9 +69,9 @@ const blog1 = {
 </thead>
 <tbody>
 <tr><td>20 January 2026</td><td>Call for Abstracts opens / Registration opens</td></tr>
-<tr><td>31 July 2026</td><td>Abstract submission deadline</td></tr>
-<tr><td>05 August 2026</td><td>Notification of abstract status</td></tr>
-<tr><td>01 August 2026</td><td>Registration deadline</td></tr>
+<tr><td>15 August 2026</td><td>Abstract submission deadline</td></tr>
+<tr><td>20 August 2026</td><td>Notification of abstract status</td></tr>
+<tr><td>31 August 2026</td><td>Registration deadline</td></tr>
 <tr><td>21 September 2026</td><td>Inauguration, plenary sessions, oral &amp; poster presentations</td></tr>
 <tr><td>22-23 September 2026</td><td>Technical sessions, oral/poster/video presentations</td></tr>
 <tr><td>24 September 2026</td><td>Field visits to IIFSR and farmers' fields</td></tr>
@@ -129,10 +129,10 @@ const blog1 = {
 <p>Yes. ORP-5 offers both physical and virtual participation. Virtual participants can register under the online category and attend sessions via video conferencing.</p>
 
 <h3>What is the abstract submission deadline?</h3>
-<p>The deadline for abstract submission is 31 July 2026. Abstracts should not exceed 500 words and must be uploaded at the link on www.orp5ic.com.</p>
+<p>The deadline for abstract submission is 15 August 2026. Abstracts should not exceed 500 words and must be uploaded at the link on www.orp5ic.com.</p>
 
 <h3>Is there a late registration fee?</h3>
-<p>Yes. A late fee of Rs. 1,000 (or 20 USD) per person applies after the registration deadline of 1 August 2026.</p>
+<p>Yes. A late fee of Rs. 1,000 (or 20 USD) per person applies after the registration deadline of 31 August 2026.</p>
 
 <h3>What journals will publish ORP-5 papers?</h3>
 <p>Selected full-length papers will be published in the Special Issue of <em>Plant Science Today</em> (Article Processing Charges: Rs. 16,000).</p>
@@ -149,7 +149,7 @@ const blog2 = {
   tags: ['abstract submission', 'ORP-5 2026', 'call for papers', 'organic rice research', 'conference abstract'],
   content: `
 <h2>Abstract Submission Is Open for ORP-5</h2>
-<p>The <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong> is calling for abstracts from academicians, researchers, and practitioners across all sectors of organic and natural rice production. The deadline for abstract submission is <strong>31 July 2026</strong>.</p>
+<p>The <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong> is calling for abstracts from academicians, researchers, and practitioners across all sectors of organic and natural rice production. The deadline for abstract submission is <strong>15 August 2026</strong>.</p>
 
 <p>If you have original research, innovative practices, or case studies related to organic and natural rice production systems, ORP-5 is your platform to share it with a global audience. Here is everything you need to know to write and submit a winning abstract.</p>
 
@@ -244,14 +244,14 @@ const blog2 = {
 <tr><th>Date</th><th>Event</th></tr>
 </thead>
 <tbody>
-<tr><td>31 July 2026</td><td>Abstract submission deadline</td></tr>
-<tr><td>05 August 2026</td><td>Notification of abstract acceptance and presentation type</td></tr>
+<tr><td>15 August 2026</td><td>Abstract submission deadline</td></tr>
+<tr><td>20 August 2026</td><td>Notification of abstract acceptance and presentation type</td></tr>
 <tr><td>21-25 September 2026</td><td>Conference and presentations</td></tr>
 </tbody>
 </table>
 
 <h2>What Happens After Submission?</h2>
-<p>After the 31 July deadline, the scientific committee will review all abstracts through a blind peer review process. You will receive notification of acceptance and presentation type by <strong>5 August 2026</strong>. Accepted abstracts will be published in the Souvenir &amp; Abstract Book distributed at the conference.</p>
+<p>After the 15 August deadline, the scientific committee will review all abstracts through a blind peer review process. You will receive notification of acceptance and presentation type by <strong>20 August 2026</strong>. Accepted abstracts will be published in the Souvenir &amp; Abstract Book distributed at the conference.</p>
 
 <p>Full-length papers based on accepted abstracts may be submitted for publication in the <strong>Special Issue of Plant Science Today</strong> (Article Processing Charges: Rs. 16,000).</p>
 
@@ -382,7 +382,7 @@ const blog3 = {
 </ol>
 
 <h2>Ready to Submit?</h2>
-<p>The abstract submission deadline is <strong>31 July 2026</strong>. Read our <a href="/blog/abstract-submission-guide-orp5-2026">complete abstract submission guide</a> for format requirements and expert tips.</p>
+<p>The abstract submission deadline is <strong>15 August 2026</strong>. Read our <a href="/blog/abstract-submission-guide-orp5-2026">complete abstract submission guide</a> for format requirements and expert tips.</p>
 <p>For questions, contact: <strong>organizingsecretary@orp5ic.com</strong></p>
 `,
   published_at: '2026-07-04T12:00:00Z',
@@ -397,7 +397,7 @@ const blog4 = {
   tags: ['ORP-5 registration', 'conference fees', 'registration deadline', 'organic rice conference', 'New Delhi conference'],
   content: `
 <h2>Registration Is Now Open for ORP-5</h2>
-<p>Registration for the <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong> opened on 20 January 2026 and will close on <strong>1 August 2026</strong>. The conference will be held from 21-25 September 2026 in New Delhi, India.</p>
+<p>Registration for the <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong> opened on 20 January 2026 and will close on <strong>31 August 2026</strong>. The conference will be held from 21-25 September 2026 in New Delhi, India.</p>
 
 <p>ORP-5 offers both <strong>physical (in-person)</strong> and <strong>virtual (online)</strong> participation options. This guide covers everything you need to know about fees, deadlines, and the registration process.</p>
 
@@ -467,8 +467,8 @@ const blog4 = {
 </thead>
 <tbody>
 <tr><td>20 January 2026</td><td>Registration opens</td></tr>
-<tr><td>1 August 2026</td><td>Registration deadline</td></tr>
-<tr><td>After 1 August 2026</td><td>Late fee of Rs. 1,000 / 20 USD applies</td></tr>
+<tr><td>31 August 2026</td><td>Registration deadline</td></tr>
+<tr><td>After 31 August 2026</td><td>Late fee of Rs. 1,000 / 20 USD applies</td></tr>
 </tbody>
 </table>
 
@@ -477,7 +477,7 @@ const blog4 = {
 <p>For registration and accommodation queries, contact: <strong>info@orp5ic.com</strong></p>
 
 <h2>Late Registration Fee</h2>
-<p>A late fee of <strong>Rs. 1,000</strong> (for Indian delegates) or <strong>20 USD</strong> (for foreign delegates) per person applies after the registration deadline, regardless of category. Register before 1 August 2026 to avoid the late fee.</p>
+<p>A late fee of <strong>Rs. 1,000</strong> (for Indian delegates) or <strong>20 USD</strong> (for foreign delegates) per person applies after the registration deadline, regardless of category. Register before 31 August 2026 to avoid the late fee.</p>
 
 <h2>Accommodation Options Near the Venue</h2>
 <p>Since accommodation is not included in the registration fee, here are your options near the NASC Complex in New Delhi:</p>
@@ -487,7 +487,7 @@ const blog4 = {
 <li><strong>NASC Guest House:</strong> Rs. 1,500-5,000 per person per day (AC room)</li>
 <li><strong>ICAR-IARI/IASRI Guest House:</strong> Rs. 500-1,500 per person per day</li>
 </ul>
-<p>Indian delegates interested in guest house accommodation should inform the organisers by 31 July 2026 to make bookings.</p>
+<p>Indian delegates interested in guest house accommodation should inform the organisers by 15 August 2026 to make bookings.</p>
 
 <h3>Hotels Near the Venue</h3>
 <table>
@@ -628,7 +628,7 @@ const blog5 = {
 <li><strong>NASC Guest House:</strong> Rs. 1,500-5,000 per person per day (AC room). Limited availability — request early.</li>
 <li><strong>ICAR-IARI/IASRI Guest House:</strong> Rs. 500-1,500 per person per day. Most affordable option.</li>
 </ul>
-<p><strong>Tip:</strong> Indian delegates interested in guest house accommodation should inform the organisers by <strong>31 July 2026</strong> to secure bookings.</p>
+<p><strong>Tip:</strong> Indian delegates interested in guest house accommodation should inform the organisers by <strong>15 August 2026</strong> to secure bookings.</p>
 
 <h2>Things to Do in New Delhi</h2>
 <p>Extend your trip and explore India's capital city:</p>

@@ -1,0 +1,404 @@
+[
+  {
+    "id": "dca1d621-bc56-481a-9cb7-98d76aece21a",
+    "slug": "submission",
+    "content": {
+      "cta": {
+        "buttons": [
+          {
+            "link": "#form",
+            "label": "Submit Now",
+            "variant": "primary"
+          },
+          {
+            "link": "/downloads/abstract-template.docx",
+            "label": "Download Format",
+            "variant": "outline"
+          }
+        ],
+        "headline": "Submit Your Abstract",
+        "subheadline": "Authors are invited to submit abstracts for oral, poster, or video presentations at the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems."
+      },
+      "hero": {
+        "headline": "Abstract Submission ",
+        "description": "ORP-5 invites abstracts from academicians, researchers, students, and other stakeholders associated with organic and natural rice production systems. All submissions will undergo a blind peer-review process and be considered for oral, poster, or video presentation, as per the conference guidelines.",
+        "subheadline": "The 5ᵗʰ International Conference on Organic and Natural Rice Production Systems invites abstracts for oral, poster, and video presentations."
+      },
+      "timeline": [
+        {
+          "date": "20 January 2026",
+          "label": "Call for Abstracts Opens"
+        },
+        {
+          "date": "15 August 2026",
+          "label": "Abstract Submission Deadline"
+        },
+        {
+          "date": "20 August 2026",
+          "label": "Notification of Abstract Status"
+        },
+        {
+          "date": "21-25 September 2026",
+          "label": "Conference Dates"
+        }
+      ],
+      "infoCards": {
+        "review": {
+          "title": "Review & Acceptance",
+          "description": "All submitted abstracts will be reviewed by the conference committee through a blind peer-review process. Based on their overall quality, impact, and relevance to the conference themes, abstracts will be accepted for oral, poster, or video presentation. The decision of the conference committee will be final."
+        },
+        "support": {
+          "title": "Help & Support",
+          "description": "For queries related to abstract submission, authors may contact the conference secretariat at editor@orp5ic.com ."
+        }
+      },
+      "categories": [
+        {
+          "title": "Oral Presentations",
+          "description": "Abstracts accepted for oral presentation will be presented during the technical sessions of ORP-5, as decided by the conference committee."
+        },
+        {
+          "title": "Poster Presentations",
+          "description": "Abstracts accepted for poster presentation will be displayed during the designated poster sessions of the conference."
+        },
+        {
+          "title": "Video Presentations",
+          "description": "Abstracts accepted for video presentation will be presented in video format during the technical sessions, as per conference guidelines."
+        }
+      ],
+      "thematicAreas": [
+        "Organic and Natural Rice Production Systems – Current Status",
+        "Innovations and Emerging Technologies in Organic Rice Production Systems",
+        "Natural Farming Models for Sustainable Rice Production",
+        "Climate Change Adaptation and Carbon-Neutral Rice Production Systems",
+        "Soil, Water and Plant Health Management ",
+        "Food Quality, Nutrition and Human Health ",
+        "AI-Driven Mechanization and Digital Intelligence for Organic Rice Production Systems",
+        "Scaling, Value Chains, and Market Opportunities",
+        "Policy, Institutions, and Capacity Building-Youth & Farmers Perspectives"
+      ]
+    }
+  },
+  {
+    "id": "e34c4de2-940f-4293-a983-7efa8094ee56",
+    "slug": "important-dates",
+    "content": {
+      "hero": {
+        "headline": "Important Dates",
+        "subheadline": "Key dates related to abstracts, registration, notifications, and conference events."
+      },
+      "intro": {
+        "title": "Plan Your Participation",
+        "description": "Participants are advised to note the important dates related to abstract submission, registration, notification, and conference schedule for the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems (ORP-5), as outlined in the official brochure."
+      },
+      "timeline": [
+        {
+          "date": "January 20, 2026",
+          "title": "Call for Abstracts & Registration Opens",
+          "number": "1"
+        },
+        {
+          "date": "August 15, 2026",
+          "title": "Deadline for Abstract Submission",
+          "number": "2"
+        },
+        {
+          "date": "August 20, 2026",
+          "title": "Notification of Abstract Status",
+          "number": "3"
+        },
+        {
+          "date": "August 31, 2026",
+          "title": "Deadline of Registration",
+          "number": "4"
+        },
+        {
+          "id": "1765876197771",
+          "date": "September 21-25, 2026",
+          "title": "ORP-5 International Conference",
+          "number": "5"
+        }
+      ],
+      "downloads": [
+        {
+          "id": "d1",
+          "file": "",
+          "icon": "FileText",
+          "label": "Important Dates Sheet",
+          "sublabel": "Download (PDF)"
+        },
+        {
+          "id": "d2",
+          "file": "",
+          "icon": "Clock",
+          "label": "Conference Schedule",
+          "sublabel": "To be uploaded later"
+        },
+        {
+          "id": "d3",
+          "file": "",
+          "icon": "List",
+          "label": "Abstract Guidelines",
+          "sublabel": "Coming soon"
+        }
+      ],
+      "dailyBreakdown": [
+        {
+          "day": "Day 1: Sept 21, 2026",
+          "title": "Inauguration & Scientific Sessions",
+          "description": "Inauguration, plenary sessions, and technical sessions, including oral and poster presentations."
+        },
+        {
+          "day": "Day 2: Sept 22, 2026",
+          "title": "Scientific Sessions",
+          "description": "Plenary sessions and technical sessions, including oral and poster presentations."
+        },
+        {
+          "day": "Day 3: Sept 23, 2026",
+          "title": "Scientific Sessions & Presentations",
+          "description": "Plenary sessions, technical sessions, and oral, poster, and video presentations."
+        },
+        {
+          "day": "Day 4: Sept 24, 2026",
+          "title": "Field Visits & Interactions",
+          "description": "Interactions with scientists and farmers, and field visits at IIFSR and farmers’ fields."
+        },
+        {
+          "day": "Day 5: Sept 25, 2026",
+          "title": "Trip & Closing",
+          "description": "Field trip followed by the closing of the conference."
+        }
+      ],
+      "exhibitorDeadlines": {
+        "intro": "Key dates for our valued partners, exhibitors, and sponsors.",
+        "items": [
+          {
+            "id": "e1",
+            "text": "**Exhibition Registration Opens**: February 1, 2026"
+          },
+          {
+            "id": "e2",
+            "text": "**Sponsorship Proposals Due**: April 30, 2026"
+          },
+          {
+            "id": "e3",
+            "text": "**Booth Allocation Finalized**: August 15, 2026"
+          }
+        ],
+        "title": "Exhibitors & Sponsors"
+      },
+      "presenterDeadlines": {
+        "intro": "Important information for authors and presenters submitting abstracts to the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems (ORP-5).",
+        "items": [
+          {
+            "id": "p1",
+            "text": "**Abstract Format**: Follow the official template provided on the submission page."
+          },
+          {
+            "id": "p2",
+            "text": "**Submission Deadline**: All abstracts must be submitted by August 15, 2026. No extensions will be granted."
+          },
+          {
+            "id": "p3",
+            "text": "**Notification of Acceptance**: Authors will be notified of their abstract status by August 20, 2026."
+          }
+        ],
+        "title": "Presenter Deadlines"
+      }
+    }
+  },
+  {
+    "id": "34b6645d-fe39-424d-be8f-31a40dd6d16d",
+    "slug": "awards",
+    "content": {
+      "cta": {
+        "title": "Apply for National Awards",
+        "formLink": "https://forms.gle/KarTK6PCFWTmWTyY9",
+        "description": "Be recognized for your outstanding contributions. Submit your nominations before the deadline of 15th August 2026.",
+        "abstractLink": "/submission"
+      },
+      "hero": {
+        "headline": "AIASA National Awards 2026",
+        "subheadline": "5th International Conference on Organic & Natural Rice Production Systems (ORP-5)",
+        "backgroundImage": "/images/heroes/awards.jpg"
+      },
+      "intro": {
+        "title": "Awards & Prizes",
+        "description": "The Governing Board of AIASA annually confers National Awards to persons/institutions for their outstanding contribution on empowerment of youth in Agriculture. Adopting rigorous screening at state/zonal and central levels, all awards carry a Citation and a Memento. The nominee can receive awards up to 2 times within 5 years."
+      },
+      "judging": {
+        "title": "Selection Process",
+        "description": "The awards will be conferred by adopting rigorous screening at each stage in States/zones and at the Central level on an all-India nomination basis."
+      },
+      "criteria": [
+        {
+          "id": "crit-1",
+          "title": "Application Rules",
+          "description": "Individual/institution needs to submit only one application for any award irrespective of year. Multiple applications shall be outrightly rejected."
+        },
+        {
+          "id": "crit-2",
+          "title": "Frequency Limits",
+          "description": "Among AIASA members, nominees can receive awards up to 2 times within 5 years. Eligible again only after a 5-year gap."
+        },
+        {
+          "id": "crit-3",
+          "title": "Format & Deadline",
+          "description": "Recommendations/nominations must be sent in the prescribed format latest by 15th August 2026."
+        }
+      ],
+      "logistics": {
+        "date": "21-25 September 2026",
+        "event": "ORP-5 Conference",
+        "venue": "New Delhi"
+      },
+      "categories": [
+        {
+          "id": "cat-1",
+          "title": "Outstanding Leadership in Agriculture",
+          "badges": [
+            "2 Awards",
+            "Rs 50k Prize",
+            "10-15 Yrs Exp"
+          ],
+          "iconName": "Star",
+          "description": "For individuals who made a positive impact on the well-being of stakeholders in agriculture and given a definite direction for the betterment of the sector."
+        },
+        {
+          "id": "cat-2",
+          "title": "Lifetime Achievement Award",
+          "badges": [
+            "2 Awards"
+          ],
+          "iconName": "Award",
+          "description": "For unique and special contributions over a prolonged period to the farming community and advancement of agriculture through production, innovation, leadership, or advocacy."
+        },
+        {
+          "id": "cat-3",
+          "title": "Best Vice-Chancellor Award",
+          "badges": [
+            "2 Awards"
+          ],
+          "iconName": "GraduationCap",
+          "description": "Conferred to energetic Honorable Vice Chancellors for outstanding contributions at colleges and research stations, creating exceptional academic pedagogy."
+        },
+        {
+          "id": "cat-4",
+          "title": "Dr. M.S. Swaminathan Award (Master Research)",
+          "badges": [
+            "8 Awards",
+            "Min OGPA 7.5/10"
+          ],
+          "iconName": "Trophy",
+          "description": "Outstanding Master Research in Agricultural & Allied Sciences including Crop/Horticulture, NRM, Animal/Fisheries, and Social Sciences."
+        },
+        {
+          "id": "cat-5",
+          "title": "Dr. M.S. Swaminathan Award (Doctoral Research)",
+          "badges": [
+            "8 Awards",
+            "Min OGPA 7.5/10"
+          ],
+          "iconName": "Trophy",
+          "description": "Outstanding Doctoral Research in Agricultural & Allied Sciences including Crop/Horticulture, NRM, Animal/Fisheries, and Social Sciences."
+        },
+        {
+          "id": "cat-6",
+          "title": "Harit Ratna Awards",
+          "badges": [
+            "8 Awards",
+            "10-15 Yrs Exp"
+          ],
+          "iconName": "Trees",
+          "description": "For outstanding empowerment of youth in agriculture at the level of Dean, Director, Vice-Chancellor, or CEO."
+        },
+        {
+          "id": "cat-7",
+          "title": "Krishi Jeevan Jyoti Award",
+          "badges": [
+            "2 Awards",
+            "AIASA Members Only"
+          ],
+          "iconName": "Flame",
+          "description": "Exclusively for AIASA members for their outstanding contribution towards the empowerment of youth and social mobilization."
+        },
+        {
+          "id": "cat-8",
+          "title": "Pragati Puraskar (Best Farmer Award)",
+          "badges": [
+            "2 Awards"
+          ],
+          "iconName": "Sprout",
+          "description": "For the best progressive farmers adapting and disseminating improved technology and practices for increased income and sustainability."
+        },
+        {
+          "id": "cat-9",
+          "title": "Student of the Year Award",
+          "badges": [
+            "14 Awards",
+            "Zone Wise"
+          ],
+          "iconName": "BookOpen",
+          "description": "For outstanding contributions toward the empowerment of youth and social activities for the betterment of the agricultural fraternity."
+        },
+        {
+          "id": "cat-10",
+          "title": "AIASA Gold Medal",
+          "badges": [
+            "14 Awards",
+            "Zone Wise"
+          ],
+          "iconName": "Medal",
+          "description": "Conferred to AIASA members, Associate members, officers, and individuals working in Govt, NGOs, or Private sectors."
+        },
+        {
+          "id": "cat-11",
+          "title": "Best Teacher Award",
+          "badges": [
+            "2 Awards",
+            "8-10 Yrs Exp"
+          ],
+          "iconName": "Library",
+          "description": "For a student-friendly faculty member with substantial experience in teaching and research in agriculture and allied sectors."
+        },
+        {
+          "id": "cat-12",
+          "title": "Young Scientist Award",
+          "badges": [
+            "8 Awards",
+            "Under 38 Years"
+          ],
+          "iconName": "Microscope",
+          "description": "For outstanding research work and publications in National/International journals in the field of agriculture and allied sectors."
+        },
+        {
+          "id": "cat-13",
+          "title": "Harit Kranti Award",
+          "badges": [
+            "4 Awards"
+          ],
+          "iconName": "Leaf",
+          "description": "For agriculture activists from private or public sectors mobilizing progressive farmers and raising the voice of farmers."
+        },
+        {
+          "id": "cat-14",
+          "title": "Harit Puraskar Award",
+          "badges": [
+            "10 Awards"
+          ],
+          "iconName": "Award",
+          "description": "For a renowned agriculturist for outstanding contribution to best agricultural practices in govt departments, universities, public sectors, and NGOs."
+        },
+        {
+          "id": "cat-15",
+          "title": "Institution of Excellence Award",
+          "badges": [
+            "5 Awards"
+          ],
+          "iconName": "Building",
+          "description": "Recognizes outstanding performance in developing infrastructure, research output, and extension services in agriculture."
+        }
+      ]
+    }
+  }
+]

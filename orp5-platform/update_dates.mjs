@@ -5,13 +5,75 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function checkDates() {
-    console.log("Fetching ImportantDates from Supabase...");
+async function updateDates() {
+    console.log("Updating ImportantDates...");
 
-    const { data, error } = await supabase.from('ImportantDate').select('*');
+    // Abstract Submission
+    await supabase.from('ImportantDate')
+        .update({ date: '15 August 2026' })
+        .eq('id', '1765310813300');
+        
+    // Notification of Abstract Status
+    await supabase.from('ImportantDate')
+        .update({ date: '20 August 2026' })
+        .eq('id', '1765310834583');
+        
+    // Check if Registration Deadline exists in ImportantDate, if so update it
+    const { data: idata } = await supabase.from('ImportantDate').select('*');
+    for (const item of idata) {
+        if (item.label.toLowerCase().includes('registration') && item.label.toLowerCase().includes('deadline')) {
+            await supabase.from('ImportantDate').update({ date: '31 August 2026' }).eq('id', item.id);
+        }
+    }
 
-    if (error) console.error("Error:", error);
-    else console.log(data);
+    console.log("Updating Pages...");
+    const { data: pages } = await supabase.from('Page').select('*');
+    if (pages) {
+        for (const page of pages) {
+            let updated = false;
+            let contentStr = JSON.stringify(page.content);
+            
+            // Abstract Submission Deadline
+            if (contentStr.includes('31 July 2026')) {
+                contentStr = contentStr.replace(/31 July 2026/g, '15 August 2026');
+                updated = true;
+            }
+            if (contentStr.includes('2026-07-31')) {
+                contentStr = contentStr.replace(/2026-07-31/g, '2026-08-15');
+                updated = true;
+            }
+            
+            // Notification of Abstract Status
+            if (contentStr.includes('05 August 2026')) {
+                contentStr = contentStr.replace(/05 August 2026/g, '20 August 2026');
+                updated = true;
+            }
+            
+            // Registration Deadline
+            if (contentStr.includes('01 August 2026')) {
+                contentStr = contentStr.replace(/01 August 2026/g, '31 August 2026');
+                updated = true;
+            }
+            if (contentStr.includes('31 July 2026') && contentStr.includes('Registration Deadline')) {
+                contentStr = contentStr.replace(/31 July 2026/g, '31 August 2026');
+                updated = true;
+            }
+            if (contentStr.includes('Mar 15, 2026')) {
+                contentStr = contentStr.replace(/Mar 15, 2026/g, 'Aug 15, 2026');
+                updated = true;
+            }
+            
+            if (updated) {
+                await supabase.from('Page').update({ content: JSON.parse(contentStr) }).eq('id', page.id);
+                console.log(`Updated Page: ${page.slug}`);
+            }
+        }
+    }
+    
+    // Verify ImportantDates
+    const { data: finalDates } = await supabase.from('ImportantDate').select('*');
+    console.log("Important Dates:", finalDates);
+    console.log("Done!");
 }
 
-checkDates();
+updateDates();

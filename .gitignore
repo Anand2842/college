@@ -5,3 +5,6 @@ node_modules
 .env.local
 .git_backup
 audit-deliverables/evidence/
+
+screenshots/
+audit-output/

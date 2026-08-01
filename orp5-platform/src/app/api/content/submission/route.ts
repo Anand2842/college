@@ -21,8 +21,8 @@ export async function GET() {
         },
         timeline: [
             { label: "Call for Abstracts", date: "01 Jan 2026" },
-            { label: "Submission Deadline", date: "31 Jul 2026" },
-            { label: "Acceptance Notification", date: "05 Aug 2026" }
+            { label: "Submission Deadline", date: "15 Aug 2026" },
+            { label: "Acceptance Notification", date: "20 Aug 2026" }
         ],
         categories: [
             { title: "Oral Presentation", description: "15-minute presentation in technical sessions." },

@@ -67,9 +67,9 @@ export default async function Home() {
     dates: [
       { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "31 July 2026", label: "Abstract Submission Deadline", status: "urgent" },
-      { date: "05 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
-      { date: "01 August 2026", label: "Registration Deadline", status: "upcoming" },
+      { date: "15 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
+      { date: "20 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
+      { date: "31 August 2026", label: "Registration Deadline", status: "upcoming" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
     ],
     whyJoin: [],

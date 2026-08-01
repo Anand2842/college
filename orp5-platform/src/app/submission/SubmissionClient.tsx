@@ -325,7 +325,7 @@ export default function SubmissionClient() {
                         <ul className="space-y-3">
                             {[
                                 'Your abstract will undergo blind peer review by subject-matter experts.',
-                                'Decision emails will be sent to all authors before August 05, 2026.',
+                                'Decision emails will be sent to all authors before August 20, 2026.',
                                 'Track your submission status anytime at orp5ic.com/ticket-status — no account needed.',
                             ].map((point, i) => (
                                 <li key={i} className="flex items-start gap-3 text-sm text-gray-700">

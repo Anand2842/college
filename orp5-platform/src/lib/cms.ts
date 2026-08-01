@@ -117,7 +117,7 @@ export async function getImportantDatesPageData() {
         },
         timeline: [
             { number: "01", date: "Jan 1, 2026", title: "Registration Opens" },
-            { number: "02", date: "Mar 15, 2026", title: "Abstract Submission Deadline" },
+            { number: "02", date: "Aug 15, 2026", title: "Abstract Submission Deadline" },
             { number: "03", date: "Jun 30, 2026", title: "Early Bird Registration Ends" },
             { number: "04", date: "Sep 7, 2026", title: "Conference Opening" }
         ],
@@ -130,8 +130,8 @@ export async function getImportantDatesPageData() {
             title: "For Presenters",
             intro: "Key dates for researchers and speakers.",
             items: [
-                { id: "p1", text: "**31 July 2026**: Abstract Submission Deadline" },
-                { id: "p2", text: "**05 August 2026**: Notification of Acceptance" },
+                { id: "p1", text: "**15 August 2026**: Abstract Submission Deadline" },
+                { id: "p2", text: "**20 August 2026**: Notification of Acceptance" },
                 { id: "p3", text: "**15 May 2026**: Full Paper Submission" }
             ]
         },
@@ -455,7 +455,7 @@ export async function getHomepageData() {
             { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
             { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
             { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 31 July 2026. The call for abstracts opens on 01 January 2026." },
+            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 15 August 2026. The call for abstracts opens on 01 January 2026." },
             { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
             { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
             { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
@@ -739,7 +739,7 @@ export async function getGlobalSettings() {
             conferenceStart: "2026-09-21",
             conferenceEnd: "2026-09-25",
             registrationOpen: "2026-01-01",
-            abstractDeadline: "2026-07-31",
+            abstractDeadline: "2026-08-15",
             earlyBirdDeadline: "2026-03-31"
         },
         whatsappGroupLink: "https://chat.whatsapp.com/Lk5D6IQH8HK28sic9v3kk8",
