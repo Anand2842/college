@@ -9,7 +9,7 @@ export function CallForPapers() {
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
 
   useEffect(() => {
-    const deadline = new Date("2026-07-31T23:59:59").getTime();
+    const deadline = new Date("2026-08-15T23:59:59").getTime();
     
     const calculateTimeLeft = () => {
       const now = new Date().getTime();
