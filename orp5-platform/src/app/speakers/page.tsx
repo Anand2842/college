@@ -15,6 +15,7 @@ import { PageHero } from "@/components/organisms/PageHero";
 import { getSpeakersPageData } from "@/lib/cms";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Script from "next/script";
 
 export default async function SpeakersPage() {
     const data = await getSpeakersPageData();
@@ -36,6 +37,41 @@ export default async function SpeakersPage() {
                 backgroundImage={data.hero.backgroundImage}
                 breadcrumb="Home / Speakers"
             />
+            
+            <Script id="speakers-schema" type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "ItemList",
+                    "itemListElement": [
+                        ...(data.keynotes || []).map((speaker: any, index: number) => ({
+                            "@type": "ListItem",
+                            "position": index + 1,
+                            "item": {
+                                "@type": "Person",
+                                "name": speaker.name,
+                                "jobTitle": speaker.role,
+                                "affiliation": {
+                                    "@type": "Organization",
+                                    "name": speaker.institution
+                                }
+                            }
+                        })),
+                        ...(data.invited || []).map((speaker: any, index: number) => ({
+                            "@type": "ListItem",
+                            "position": (data.keynotes?.length || 0) + index + 1,
+                            "item": {
+                                "@type": "Person",
+                                "name": speaker.name,
+                                "jobTitle": speaker.role,
+                                "affiliation": {
+                                    "@type": "Organization",
+                                    "name": speaker.institution || ""
+                                }
+                            }
+                        }))
+                    ]
+                })}
+            </Script>
 
             {/* Intro Section - Beige with Gold Accent */}
             <section className="py-20 container mx-auto px-6 max-w-5xl">
@@ -141,20 +177,6 @@ export default async function SpeakersPage() {
                 </section>
             )}
 
-            {/* Call for Speakers CTA */}
-            <section className="py-12 container mx-auto px-6 max-w-5xl">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div>
-                        <h3 className="text-xl font-bold font-serif text-charcoal">Interested in Speaking?</h3>
-                        <p className="text-gray-500 text-sm mt-1">Submit your proposal for consideration in future events. Limited slots available.</p>
-                    </div>
-                    <Link href="/submission">
-                        <button className="bg-rice-gold hover:bg-yellow-500 text-charcoal font-bold py-3 px-6 rounded-lg shadow-md flex items-center gap-2 transition-transform hover:-translate-y-1">
-                            Submit Proposal <ArrowRight size={18} />
-                        </button>
-                    </Link>
-                </div>
-            </section>
 
             <Footer />
         </main>

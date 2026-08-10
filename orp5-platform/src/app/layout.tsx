@@ -24,10 +24,33 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'),
   title: {
-    template: '%s',
+    template: '%s | ORP-5',
     default: '5th International Conference on Organic and Natural Rice Production Systems'
   },
-  description: "5th International Conference on Organic and Natural Rice Production Systems",
+  description: "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production. Global advancements in organic farming, pest-resilient varieties, and soil health management.",
+  keywords: ["Organic Rice", "Natural Farming", "Agriculture Conference", "ORP-5", "Sustainable Agriculture", "Rice Production Systems"],
+  openGraph: {
+    title: '5th International Conference on Organic and Natural Rice Production Systems',
+    description: 'Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.',
+    url: 'https://orp5ic.com',
+    siteName: 'ORP-5',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ORP-5 Conference Banner',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '5th International Conference on Organic and Natural Rice Production Systems',
+    description: 'Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.',
+    images: ['/og-image.jpg'],
+  },
   verification: {
     google: 'zRwQmTsh44vfMqOPfNQTG9qQ_TUUg9KfSGA3LbXK41A',
     other: {
@@ -101,6 +124,7 @@ export default function RootLayout({
             "endDate": "2026-09-25T17:00",
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
+            "image": "https://www.orp5ic.com/og-image.jpg",
             "location": {
               "@type": "Place",
               "name": "NASC Complex",
@@ -113,11 +137,18 @@ export default function RootLayout({
                 "addressCountry": "IN"
               }
             },
-            "description": "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.",
+            "description": "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production. Features global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management.",
+            "offers": {
+              "@type": "Offer",
+              "url": "https://www.orp5ic.com/registration",
+              "availability": "https://schema.org/InStock",
+              "validFrom": "2026-01-20T00:00:00Z"
+            },
             "organizer": {
               "@type": "Organization",
-              "name": "ORP-5 Conference",
-              "url": "https://www.orp5ic.com"
+              "name": "ORP-5 Organizing Committee",
+              "url": "https://www.orp5ic.com",
+              "email": "info@orp5ic.com"
             }
           })}
         </Script>

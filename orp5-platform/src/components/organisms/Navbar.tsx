@@ -4,6 +4,7 @@ import React from "react"
 import Link from "next/link"
 import { useScrollPosition } from "@/hooks/useScrollPosition"
 import { Button } from "@/components/atoms/Button"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 import { ChevronDown, Menu, X, ArrowRight } from "lucide-react";
@@ -137,7 +138,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest">
                         <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                         <span className="text-white/70">Abstract Submission Deadline:</span>
-                        <span className="text-rice-gold">15 August 2026</span>
+                        <span className="text-rice-gold">20 August 2026</span>
                     </div>
                     <div className="flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-white/70">
                         <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
@@ -167,10 +168,13 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     
                     {/* Logo (Left) */}
                     <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-8 min-w-fit">
-                        <img
+                        <Image
                             src="/orp5-logo.png"
                             alt="ORP-5 Logo"
-                            className={cn(logoClass, isScrolled ? "h-10" : "h-12")}
+                            width={120}
+                            height={48}
+                            className={cn(logoClass, isScrolled ? "h-10 w-auto" : "h-12 w-auto")}
+                            priority
                         />
                     </Link>
 
@@ -275,7 +279,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse mt-1 shrink-0"></span>
                             <div>
                                 <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-1">Important Deadline</p>
-                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 15 August 2026</p>
+                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 20 August 2026</p>
                             </div>
                         </div>
 

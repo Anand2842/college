@@ -34,7 +34,7 @@ const TIMELINE_STEPS = [
     {
         step: "01",
         title: "Submit Abstract",
-        description: "Submit via the online portal before 15 August 2026.",
+        description: "Submit via the online portal before 20 August 2026.",
     },
     {
         step: "02",
@@ -44,7 +44,7 @@ const TIMELINE_STEPS = [
     {
         step: "03",
         title: "Acceptance",
-        description: "Notification of abstract status by 20 August 2026.",
+        description: "Notification of abstract status by 25 August 2026.",
     },
     {
         step: "04",
@@ -131,10 +131,20 @@ export default function PublicationsClient() {
                             <h2 className="text-2xl md:text-3xl font-serif font-bold text-charcoal mb-4">
                                 Published in <span className="text-[#1A4D2E]">Plant Science Today</span>
                             </h2>
-                            <p className="text-gray-500 leading-relaxed mb-6">
+                            <p className="text-gray-500 leading-relaxed mb-4">
                                 Full-length papers from ORP-5 will be published in a dedicated Special Issue.
                                 Plant Science Today is a peer-reviewed, open-access journal covering plant science research.
                             </p>
+                            <ul className="space-y-2 mb-6">
+                                <li className="flex items-center gap-2 text-sm text-gray-700 font-medium">
+                                    <CheckCircle size={16} className="text-[#D9A648]" />
+                                    Scopus, Web of Science, and UGC-CARE Indexed
+                                </li>
+                                <li className="flex items-center gap-2 text-sm text-gray-700 font-medium">
+                                    <CheckCircle size={16} className="text-[#D9A648]" />
+                                    DOI Assigned for all published papers
+                                </li>
+                            </ul>
                             <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
                                 <div className="bg-[#FFF8E1] px-5 py-3 rounded-xl border border-[#D9A648]/20">
                                     <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Article Processing Charges</p>
@@ -315,7 +325,7 @@ export default function PublicationsClient() {
                                 icon: <BookOpen size={22} />,
                                 title: "Conference Brochure",
                                 description: "Download the full conference brochure with all details.",
-                                link: "/downloads/prospectus.pdf",
+                                link: "#",
                                 linkLabel: "Download Brochure",
                             },
                             {

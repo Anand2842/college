@@ -7,7 +7,7 @@ import { PageHero } from "@/components/organisms/PageHero";
 import { Loader2, Mail, MapPin, Clock, Store, MonitorPlay, Handshake } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
-// import { motion } from "framer-motion"; // Optional animations
+import Script from 'next/script';
 import { cn } from "@/lib/utils";
 
 export default function ContactClient() {
@@ -87,6 +87,20 @@ export default function ContactClient() {
 
     return (
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
+            <Script id="contact-schema" type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "ORP-5 Conference",
+                    "url": "https://www.orp5ic.com",
+                    "logo": "https://www.orp5ic.com/icon.png",
+                    "contactPoint": {
+                        "@type": "ContactPoint",
+                        "email": data.generalInquiries.email,
+                        "contactType": "customer service"
+                    }
+                })}
+            </Script>
             <Navbar variant="dark" />
 
             <PageHero

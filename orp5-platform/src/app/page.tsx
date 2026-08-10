@@ -54,7 +54,9 @@ export default async function Home() {
     hero: {
       headline: "5ᵗʰ International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
       subheadline: "Cultivating a Sustainable Future",
-      backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop"
+      backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop",
+      registrationStart: "2026-09-21T00:00:00Z",
+      registrationStatusText: "Countdown to Conference"
     },
     partners: [
       { id: "p1", name: "Organizer 1", logoUrl: "" },
@@ -67,8 +69,8 @@ export default async function Home() {
     dates: [
       { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "15 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
-      { date: "20 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
+      { date: "20 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
+      { date: "25 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
       { date: "31 August 2026", label: "Registration Deadline", status: "upcoming" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
     ],
@@ -83,6 +85,8 @@ export default async function Home() {
   };
 
   const data = cmsData || defaultData;
+  const registrationStart = data.hero?.registrationStart || "2026-09-21T00:00:00Z";
+  const registrationStatusText = data.hero?.registrationStatusText || "Countdown to Conference";
 
   return (
     <main className="min-h-screen relative bg-[#FFFDF7] font-sans">
@@ -95,24 +99,13 @@ export default async function Home() {
         dateVenueLine={data.hero.dateVenueLine}
         backgroundImage={data.hero.backgroundImage}
         partners={data.partners || []}
-        registrationStart={data.hero.registrationStart}
-        registrationStatusText={data.hero.registrationStatusText}
+        registrationStart={registrationStart}
+        registrationStatusText={registrationStatusText}
         registrationBannerText={data.hero.registrationBannerText}
         whyJoin={data.whyJoin || []}
       />
 
-      {/* 1.5 Organizers Hierarchy — compact IEEE-style strip */}
-      {data.partnersByCategory && (
-        <OrganizersHierarchy partnersByCategory={data.partnersByCategory} />
-      )}
-
-      {/* 2. Stats Strip */}
-      <StatsStrip />
-
-      {/* 3. About Preview */}
-      <AboutPreview />
-
-      {/* 4. Important Dates */}
+      {/* 2. Important Dates */}
       <section id="dates" className="py-20 bg-white border-y border-gray-100">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle
@@ -143,7 +136,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 5. Conference Themes */}
+      {/* 3. Conference Themes */}
       <section id="themes" className="py-20 bg-[#FFFDF7]">
         <div className="container mx-auto px-6 text-center">
           <SectionTitle
@@ -172,189 +165,62 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 6. Call For Papers */}
-      <CallForPapers />
-
-      {/* 7. Speakers */}
-      {data.speakers && data.speakers.length > 0 && (
-        <section id="speakers" className="py-20 bg-white">
-          <div className="container mx-auto px-6 text-center">
-            <SectionTitle
-              title="Speakers"
-              subtitle="Hear from leading experts and advisors in the field of organic agriculture."
-              centered
-            />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-12">
-              {data.speakers.map((speaker: any, index: number) => (
-                <SpeakerCard
-                  key={speaker.id}
-                  name={speaker.name}
-                  role={speaker.role}
-                  institution={speaker.institution}
-                  imageUrl={speaker.imageUrl}
-                  delay={0.1 * (index + 1)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 8. Awards Preview */}
-      <AwardsPreview />
-
-      {/* 9. Publication Info */}
-      <PublicationInfo />
-
-      {/* 10. Partners & Institutions */}
-      {data.partnersByCategory && Object.keys(data.partnersByCategory).filter(cat => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat)).length > 0 && (
-        <section id="partners" className="py-20 bg-white border-y border-gray-100">
-          <div className="container mx-auto px-6 text-center">
-            <SectionTitle
-              title={data.partnersSectionTitle || "Other Partners & Institutions"}
-              subtitle={data.partnersSectionSubtitle || "Collaboratively driving the future of organic rice production."}
-              centered
-            />
-            {Object.entries(data.partnersByCategory)
-              .filter(([cat]) => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat))
-              .sort(([catA], [catB]) => {
-                const orderA = data.partnerCategorySettings?.find((s: any) => s.name === catA)?.order ?? 99;
-                const orderB = data.partnerCategorySettings?.find((s: any) => s.name === catB)?.order ?? 99;
-                return orderA - orderB;
-              })
-              .map(([category, catPartners]: [string, any]) => {
-                const setting = data.partnerCategorySettings?.find((s: any) => s.name === category);
-                const mode = setting?.mode || "grid";
-                return (
-                  <div key={category} className="mt-10">
-                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/50 mb-6">{category}</h3>
-                    {mode === "marquee" ? (
-                      <InfiniteMarquee partners={catPartners} />
-                    ) : (
-                      <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-                        {catPartners.map((partner: any, index: number) => (
-                          <PartnerCard
-                            key={partner.id || index}
-                            name={partner.name}
-                            logoUrl={partner.logoUrl}
-                            website={partner.website}
-                            delay={0.05 * (index + 1)}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-          </div>
-        </section>
-      )}
-
-      {/* 11. Venue Preview */}
+      {/* 4. Venue Preview */}
       <VenuePreview venue={data.venue} />
 
-      {/* 12. Gallery Section */}
-      <section className="py-20 bg-[#FFFDF7] border-y border-gray-100">
+      {/* 5. Partners (Combined Organizers and Other Partners) */}
+      <section id="partners" className="py-20 bg-white border-t border-gray-100">
         <div className="container mx-auto px-6 text-center">
-          <SectionTitle title="Gallery Preview" subtitle="Moments from past successful symposia." centered />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-            {data.gallery?.map((img: any, i: number) => (
-              <div key={i} className="overflow-hidden rounded-2xl h-64 shadow-md group relative">
-                {img.url ? (
-                  <Image
-                    src={img.url}
-                    alt="Gallery"
-                    fill
-                    loading="lazy"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-earth-green/5 flex items-center justify-center">
-                    <span className="text-earth-green/40 text-sm font-medium">Photo Coming Soon</span>
-                  </div>
-                )}
+          <SectionTitle
+            title="Our Partners"
+            subtitle="Collaboratively driving the future of organic rice production."
+            centered
+          />
+          
+          <div className="mt-12">
+            {/* Organizers Hierarchy */}
+            {data.partnersByCategory && (
+              <div className="mb-12">
+                <OrganizersHierarchy partnersByCategory={data.partnersByCategory} />
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link href="/gallery" className="text-earth-green font-serif italic text-sm hover:underline">
-              View Full Gallery &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 13. Programme Snapshot */}
-      <section id="programme" className="py-20 bg-white border-b border-gray-100">
-        <div className="container mx-auto px-6">
-          <SectionTitle
-            title="Programme Snapshot"
-            subtitle="A glimpse into curated sessions of insightful talks, workshops, and networking events."
-            centered
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-16 max-w-7xl mx-auto">
-            {['day1', 'day2', 'day3', 'day4', 'day5'].map((dayKey, index) => (
-              <ProgrammeCard
-                key={dayKey}
-                day={`Day ${index + 1}`}
-                date={data.programme?.[dayKey]?.date || "To be announced"}
-                activities={data.programme?.[dayKey]?.activities || []}
-                delay={0.1 * (index + 1)}
-              />
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/programme" className="text-earth-green font-serif italic text-lg hover:underline transition-all">
-              View Full Agenda &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 14. FAQ */}
-      <section id="faq" className="py-20 bg-[#FFFDF7]">
-        <div className="container mx-auto px-6">
-          <SectionTitle
-            title="Have Questions?"
-            subtitle="Find answers to common queries about ORP-5."
-            centered
-          />
-          <div className="max-w-3xl mx-auto mt-12">
-            {data.faq?.map((item: any, i: number) => (
-              <FAQItem key={i} question={item.question} answer={item.answer} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 16. Closing CTA */}
-      <section className="py-20 bg-white text-center border-t border-gray-100">
-        <div className="container mx-auto px-6">
-          <h2 className="font-serif font-bold text-3xl md:text-4xl text-charcoal mb-4">
-            Be Part of the Organic Revolution
-          </h2>
-          <p className="text-gray-500 mb-8 max-w-xl mx-auto">
-            Submit your research, showcase your innovations, and connect with global leaders.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/submission">
-              <button className="bg-earth-green hover:bg-earth-green/90 text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-colors shadow-lg">
-                Submit Abstract
-              </button>
-            </Link>
-            <Link href="/registration">
-              <button className="bg-white border-2 border-earth-green text-earth-green hover:bg-earth-green hover:text-white font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-colors">
-                Register for ORP-5
-              </button>
-            </Link>
-            <Link href="/ticket-status">
-              <button className="bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-earth-green font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-colors">
-                Track Status
-              </button>
-            </Link>
+            )}
+            
+            {/* Other Partners */}
+            {data.partnersByCategory && Object.keys(data.partnersByCategory).filter(cat => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat)).length > 0 && (
+              <div className="mt-10">
+                {Object.entries(data.partnersByCategory)
+                  .filter(([cat]) => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat))
+                  .sort(([catA], [catB]) => {
+                    const orderA = data.partnerCategorySettings?.find((s: any) => s.name === catA)?.order ?? 99;
+                    const orderB = data.partnerCategorySettings?.find((s: any) => s.name === catB)?.order ?? 99;
+                    return orderA - orderB;
+                  })
+                  .map(([category, catPartners]: [string, any]) => {
+                    const setting = data.partnerCategorySettings?.find((s: any) => s.name === category);
+                    const mode = setting?.mode || "grid";
+                    return (
+                      <div key={category} className="mt-10">
+                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/50 mb-6">{category}</h3>
+                        {mode === "marquee" ? (
+                          <InfiniteMarquee partners={catPartners} />
+                        ) : (
+                          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+                            {catPartners.map((partner: any, index: number) => (
+                              <PartnerCard
+                                key={partner.id || index}
+                                name={partner.name}
+                                logoUrl={partner.logoUrl}
+                                website={partner.website}
+                                delay={0.05 * (index + 1)}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
           </div>
         </div>
       </section>

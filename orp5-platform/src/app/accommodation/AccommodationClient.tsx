@@ -169,11 +169,13 @@ export default function AccommodationClient() {
                                         </div>
                                     ) : (
                                         <>
-                                            <Link href={hotel.bookingLink || '#'} className="block w-full">
-                                                <Button className="w-full bg-[#1C5C43] hover:bg-[#154434] text-white font-semibold py-2 rounded-lg mb-2">
-                                                    Check Availability
-                                                </Button>
-                                            </Link>
+                                            {hotel.bookingLink && !hotel.bookingLink.startsWith('#') && (
+                                                <Link href={hotel.bookingLink} className="block w-full">
+                                                    <Button className="w-full bg-[#1C5C43] hover:bg-[#154434] text-white font-semibold py-2 rounded-lg mb-2">
+                                                        Check Availability
+                                                    </Button>
+                                                </Link>
+                                            )}
                                             {hotel.promoCode && <p className="text-center text-[10px] text-gray-400">Code: <span className="font-mono font-semibold text-gray-600 bg-gray-100 px-1 rounded">{hotel.promoCode}</span></p>}
                                         </>
                                     )}

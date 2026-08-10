@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import { Calendar, User, ArrowLeft, FileText, Download } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 import { Navbar } from '@/components/organisms/Navbar';
 import { SocialShare } from '@/components/molecules/SocialShare';
 import BlogCard from '@/components/molecules/BlogCard';
@@ -82,8 +83,32 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
         const postUrl = `${baseUrl}/blog/${slug}`;
 
+        const profile = Array.isArray(post.profiles) ? post.profiles[0] : post.profiles;
+        const authorName = profile?.display_name || 'ORP-5 Team';
+        
         return (
             <div className="min-h-screen bg-[#FFFDF7]">
+                <Script id="article-schema" type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Article",
+                        "headline": post.title,
+                        "image": post.cover_image ? [post.cover_image] : [],
+                        "datePublished": post.published_at || post.created_at,
+                        "author": [{
+                            "@type": "Person",
+                            "name": authorName
+                        }],
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "ORP-5 Conference",
+                            "logo": {
+                                "@type": "ImageObject",
+                                "url": `${baseUrl}/icon.png`
+                            }
+                        }
+                    })}
+                </Script>
                 <Navbar variant="default" />
 
                 <main className="pt-36 md:pt-40 pb-16 px-4 sm:px-6 lg:px-8">

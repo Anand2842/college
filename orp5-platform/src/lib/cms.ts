@@ -130,8 +130,8 @@ export async function getImportantDatesPageData() {
             title: "For Presenters",
             intro: "Key dates for researchers and speakers.",
             items: [
-                { id: "p1", text: "**15 August 2026**: Abstract Submission Deadline" },
-                { id: "p2", text: "**20 August 2026**: Notification of Acceptance" },
+                { id: "p1", text: "**20 August 2026**: Abstract Submission Deadline" },
+                { id: "p2", text: "**25 August 2026**: Notification of Acceptance" },
                 { id: "p3", text: "**15 May 2026**: Full Paper Submission" }
             ]
         },
@@ -455,7 +455,7 @@ export async function getHomepageData() {
             { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
             { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
             { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 15 August 2026. The call for abstracts opens on 01 January 2026." },
+            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 20 August 2026. The call for abstracts opens on 01 January 2026." },
             { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
             { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
             { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
@@ -592,6 +592,7 @@ export async function getSponsorshipPageData() {
             ...defaultData.contact,
             ...(content.contact || {})
         },
+        whySponsor: defaultData.whySponsor,
         footerCta: {
             ...defaultData.footerCta,
             ...(content.footerCta || {}),

@@ -6,6 +6,7 @@ import { Footer } from "@/components/organisms/Footer";
 import { Loader2, Globe, MapPin, Mail } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from "next/link";
+import Script from "next/script";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 
 import { getCode } from 'country-list';
@@ -197,8 +198,27 @@ export default function CommitteesClient() {
   const countries = new Set(allMembers.map((m: any) => m.country).filter(Boolean));
   const institutions = allMembers.length;
 
-  return (
+    return (
     <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal">
+      <Script id="committees-schema" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "itemListElement": allMembers.map((member: any, index: number) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Person",
+              "name": member.name,
+              "jobTitle": member.role,
+              "affiliation": {
+                "@type": "Organization",
+                "name": member.affiliation || ""
+              }
+            }
+          }))
+        })}
+      </Script>
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────── */}

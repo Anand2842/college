@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { Link2, Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
     const [social, setSocial] = useState<{ facebook?: string; twitter?: string; linkedin?: string; instagram?: string }>({});
@@ -26,9 +27,11 @@ export function Footer() {
                     {/* Column 1: Brand */}
                     <div>
                         <div className="mb-6 bg-white p-2 rounded-xl inline-block">
-                            <img
+                            <Image
                                 src="/orp5-logo.png"
                                 alt="ORP-5 Logo"
+                                width={96}
+                                height={96}
                                 className="h-24 w-auto object-contain"
                             />
                         </div>
@@ -103,7 +106,7 @@ export function Footer() {
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone size={18} className="text-sapling-green" />
-                                <a href="tel:+919876543210" className="hover:text-rice-gold">+91 98765 43210</a>
+                                <a href="tel:+919868416215" className="hover:text-rice-gold">+91 98684 16215</a>
                             </li>
                         </ul>
                     </div>

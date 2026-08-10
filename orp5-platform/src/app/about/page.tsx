@@ -15,6 +15,7 @@ import { getAboutPageData } from "@/lib/cms";
 import * as LucideIcons from "lucide-react";
 import { CheckCircle2, Wheat, Thermometer, Leaf, Users, GraduationCap, UserCheck, Sprout, BookOpen, Landmark } from "lucide-react";
 import Link from "next/link";
+import Script from "next/script";
 import { Button } from "@/components/atoms/Button";
 
 export default async function AboutPage() {
@@ -36,6 +37,16 @@ export default async function AboutPage() {
 
     return (
         <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal selection:bg-rice-gold/30">
+            <Script id="about-schema" type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "ORP-5 Conference",
+                    "url": "https://www.orp5ic.com",
+                    "logo": "https://www.orp5ic.com/icon.png",
+                    "description": data.intro.description.substring(0, 160)
+                })}
+            </Script>
             <Navbar />
 
             <PageHero
