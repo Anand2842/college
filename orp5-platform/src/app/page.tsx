@@ -89,7 +89,7 @@ export default async function Home() {
   const registrationStatusText = data.hero?.registrationStatusText || "Countdown to Conference";
 
   return (
-    <main className="min-h-screen relative bg-[#FFFDF7] font-sans">
+    <main className="min-h-screen relative bg-[#FAF9F5] font-sans">
       <Navbar />
 
       {/* 1. Hero */}
@@ -105,16 +105,23 @@ export default async function Home() {
         whyJoin={data.whyJoin || []}
       />
 
-      {/* 2. Important Dates */}
-      <section id="dates" className="py-20 bg-white border-y border-gray-100">
-        <div className="container mx-auto px-6 text-center">
+      {/* 2. Key Metric Figures Strip */}
+      <StatsStrip />
+
+      {/* 3. Global Legacy & About Preview */}
+      <AboutPreview />
+
+      {/* 4. Important Deadlines & Dates */}
+      <section id="dates" className="py-16 bg-[#FAF9F5] border-y border-gray-200/60">
+        <div className="container mx-auto px-6 text-center max-w-7xl">
           <SectionTitle
-            title="Important Dates"
-            subtitle="Keep on track with these key deadlines for abstracts, registration, and the conference itself."
+            badge="Milestones"
+            title="Important Dates & Deadlines"
+            subtitle="Keep on track with key submission, review, registration, and conference milestones."
             centered
           />
 
-          <div className="flex flex-col md:flex-row justify-center gap-6 mt-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6 mt-16 text-left">
             {data.dates.map((item: any, index: number) => (
               <DateStep
                 key={index}
@@ -126,68 +133,78 @@ export default async function Home() {
             ))}
           </div>
 
-          <div className="mt-16">
+          <div className="mt-10">
             <Link href="/important-dates">
-              <button className="bg-[#DFC074] hover:bg-[#B89C50] text-[#123125] font-bold py-3 px-8 rounded-lg transition-colors shadow-sm text-sm uppercase tracking-wide">
-                Download Key Dates
+              <button className="gold-shimmer-btn font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
+                View Full Timeline
               </button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 3. Conference Themes */}
-      <section id="themes" className="py-20 bg-[#FFFDF7]">
-        <div className="container mx-auto px-6 text-center">
+      {/* 5. Conference Thematic Tracks */}
+      <section id="themes" className="py-16 bg-white relative">
+        <div className="container mx-auto px-6 text-center max-w-7xl">
           <SectionTitle
-            title="Conference Themes"
-            subtitle="Explore the 9 core thematic areas shaping the future of organic agriculture."
+            badge="Scientific Agenda"
+            title="Conference Thematic Areas"
+            subtitle="Explore the 9 core thematic areas shaping the future of organic and natural rice systems globally."
             centered
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-10 text-left">
             {data.themes.map((theme: any, index: number) => {
               const Icon = iconMap[theme.iconName] || Sprout;
               return (
                 <ThemeCard
-                  key={theme.id}
-                  icon={<Icon size={36} strokeWidth={1.5} />}
+                  key={theme.id || index}
+                  icon={<Icon size={30} strokeWidth={1.5} />}
                   title={theme.title}
                   description={theme.description}
                   href="/themes"
                   submissionHref="/submission"
                   colorTheme={theme.colorTheme}
-                  delay={0.1 * (index + 1)}
+                  delay={0.06 * (index + 1)}
                   subtitle={`Theme ${index + 1}`}
                 />
               );
             })}
           </div>
+
+          <div className="mt-10">
+            <Link href="/themes">
+              <button className="bg-earth-green hover:bg-earth-green-dark text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
+                Explore All 9 Tracks In Detail
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* 4. Venue Preview */}
+      {/* 6. Venue & Accommodation Preview */}
       <VenuePreview venue={data.venue} />
 
-      {/* 5. Partners (Combined Organizers and Other Partners) */}
-      <section id="partners" className="py-20 bg-white border-t border-gray-100">
-        <div className="container mx-auto px-6 text-center">
+      {/* 7. Organizers & Global Partners */}
+      <section id="partners" className="py-16 bg-white border-t border-gray-200/60">
+        <div className="container mx-auto px-6 text-center max-w-7xl">
           <SectionTitle
-            title="Our Partners"
-            subtitle="Collaboratively driving the future of organic rice production."
+            badge="Collaborative Leadership"
+            title="Organizers & Global Partners"
+            subtitle="Distinguished academic, scientific, and institutional bodies driving ORP-5."
             centered
           />
           
-          <div className="mt-12">
+          <div className="mt-10">
             {/* Organizers Hierarchy */}
             {data.partnersByCategory && (
-              <div className="mb-12">
+              <div className="mb-14">
                 <OrganizersHierarchy partnersByCategory={data.partnersByCategory} />
               </div>
             )}
             
             {/* Other Partners */}
             {data.partnersByCategory && Object.keys(data.partnersByCategory).filter(cat => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat)).length > 0 && (
-              <div className="mt-10">
+              <div className="mt-12">
                 {Object.entries(data.partnersByCategory)
                   .filter(([cat]) => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat))
                   .sort(([catA], [catB]) => {
@@ -200,7 +217,7 @@ export default async function Home() {
                     const mode = setting?.mode || "grid";
                     return (
                       <div key={category} className="mt-10">
-                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/50 mb-6">{category}</h3>
+                        <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-earth-green/60 mb-6">{category}</h3>
                         {mode === "marquee" ? (
                           <InfiniteMarquee partners={catPartners} />
                         ) : (

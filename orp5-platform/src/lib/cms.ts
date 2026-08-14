@@ -286,16 +286,21 @@ export async function getSpeakersPageData() {
 
     if (!content && !speakers) return null;
 
-    // Reconstruct the structure: keynotes, invited, panel
-    const keynotes = speakers?.filter((s: any) => s.category === 'keynote') || [];
-    const invited = speakers?.filter((s: any) => s.category === 'invited') || [];
-    const panel = speakers?.filter((s: any) => s.category === 'panel') || [];
+    // Separate DB speakers by category
+    const dbKeynotes = speakers?.filter((s: any) => s.category === 'keynote') || [];
+    const dbInvited = speakers?.filter((s: any) => s.category === 'invited') || [];
+    const dbPanel = speakers?.filter((s: any) => s.category === 'panel') || [];
+
+    // Fallback to JSON content if DB table is empty
+    const finalKeynotes = dbKeynotes.length > 0 ? dbKeynotes : (content?.keynotes || []);
+    const finalInvited = dbInvited.length > 0 ? dbInvited : (content?.invited || []);
+    const finalPanel = dbPanel.length > 0 ? dbPanel : (content?.panel || []);
 
     return {
         ...content,
-        keynotes,
-        invited,
-        panel
+        keynotes: finalKeynotes,
+        invited: finalInvited,
+        panel: finalPanel
     };
 }
 

@@ -3,10 +3,11 @@
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
+import { SectionTitle } from "@/components/atoms/SectionTitle";
 import {
     BookOpen, FileText, Newspaper,
     CheckCircle, PenLine, ExternalLink,
-    Type, AlignLeft, FileCode, Globe, Presentation, ClipboardCheck, Hash
+    Type, AlignLeft, FileCode, Globe, Presentation, ClipboardCheck, Hash, Sparkles, ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from "next/link";
@@ -14,19 +15,19 @@ import { motion } from "framer-motion";
 
 const PUBLICATION_OUTPUTS = [
     {
-        icon: <BookOpen size={28} />,
+        icon: <BookOpen size={26} />,
         title: "Souvenir & Abstract Book",
-        description: "All selected abstracts will be published in the official conference Souvenir with ISBN, distributed to all physical participants.",
+        description: "All peer-reviewed abstracts will be published with an international standard ISBN, indexed and distributed to all registered delegates.",
     },
     {
-        icon: <FileText size={28} />,
+        icon: <FileText size={26} />,
         title: "Special Issue Journal",
-        description: "Full-length papers will be published in the Special Issue of Plant Science Today, a peer-reviewed, open-access journal.",
+        description: "Selected full-length manuscripts will be published in a peer-reviewed, open-access Scopus & Web of Science indexed journal (Plant Science Today).",
     },
     {
-        icon: <Newspaper size={28} />,
-        title: "Conference Proceedings",
-        description: "Digital proceedings featuring all accepted oral, poster, and video presentations will be made available post-conference.",
+        icon: <Newspaper size={26} />,
+        title: "Digital Conference Proceedings",
+        description: "Comprehensive digital conference repository featuring oral presentations, poster showcases, and panel consensus resolutions.",
     },
 ];
 
@@ -34,356 +35,225 @@ const TIMELINE_STEPS = [
     {
         step: "01",
         title: "Submit Abstract",
-        description: "Submit via the online portal before 20 August 2026.",
+        description: "Submit online before 20 August 2026.",
     },
     {
         step: "02",
-        title: "Peer Review",
-        description: "Blind peer review by the Scientific Committee.",
+        title: "Blind Peer Review",
+        description: "Evaluated by domain editorial referees.",
     },
     {
         step: "03",
-        title: "Acceptance",
-        description: "Notification of abstract status by 25 August 2026.",
+        title: "Decision & Status",
+        description: "Notification issued by 25 August 2026.",
     },
     {
         step: "04",
-        title: "Publication",
-        description: "Published in Souvenir & Journal after the conference.",
+        title: "Journal Publication",
+        description: "Full papers published in indexed special issue.",
     },
 ];
 
 const AUTHOR_GUIDELINES = [
-    { icon: <AlignLeft size={20} />, label: "Abstract Word Limit", value: "Maximum 500 words" },
-    { icon: <Type size={20} />, label: "Font", value: "Times New Roman, 12pt" },
-    { icon: <AlignLeft size={20} />, label: "Spacing", value: "Single-spaced" },
-    { icon: <FileCode size={20} />, label: "File Format", value: "MS Word (.doc / .docx)" },
-    { icon: <Globe size={20} />, label: "Language", value: "English" },
-    { icon: <Presentation size={20} />, label: "Presentation Types", value: "Oral, Poster, or Video" },
-    { icon: <ClipboardCheck size={20} />, label: "Review Process", value: "Blind peer review" },
-    { icon: <Hash size={20} />, label: "Keywords", value: "3–5 keywords in alphabetical order" },
+    { icon: <AlignLeft size={18} />, label: "Abstract Word Limit", value: "Maximum 300 words" },
+    { icon: <Type size={18} />, label: "Typography", value: "Times New Roman / Calibri, 12pt" },
+    { icon: <AlignLeft size={18} />, label: "Line Spacing", value: "1.15 single spaced" },
+    { icon: <FileCode size={18} />, label: "File Format", value: "MS Word (.doc / .docx)" },
+    { icon: <Globe size={18} />, label: "Language", value: "English (UK / US consistent)" },
+    { icon: <Presentation size={18} />, label: "Presentation Modes", value: "Oral, Poster, or Virtual" },
+    { icon: <ClipboardCheck size={18} />, label: "Review Method", value: "Double-blind peer review" },
+    { icon: <Hash size={18} />, label: "Keywords", value: "3–5 keywords separated by semicolons" },
 ];
 
 export default function PublicationsClient() {
-
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 24 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-    };
-
-    const stagger = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
-    };
-
     return (
-        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
             <Navbar />
 
             <PageHero
                 headline="Publications & Proceedings"
-                subheadline="ORP-5 research outputs — from abstracts to peer-reviewed journal publications."
+                subheadline="ORP-5 research outputs — from peer-reviewed abstracts to Scopus-indexed journal special issues."
                 breadcrumb="Home / Publications"
             />
 
-            {/* Intro Card */}
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                variants={fadeInUp}
-                className="container mx-auto px-6 pt-16 mb-16 max-w-5xl"
-            >
-                <div className="bg-[#FFF8E1] rounded-xl p-10 md:p-14 border-l-4 border-[#D9A648] relative overflow-hidden">
-                    <div className="relative z-10">
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-6">Sharing Knowledge, Advancing Science</h2>
-                        <p className="text-gray-600 leading-relaxed text-lg">
-                            Selected abstracts will be published in the <strong>Souvenir &amp; Abstract Book</strong>.
-                            Full-length papers will be published in the <strong>Special Issue of Plant Science Today</strong>,
-                            a peer-reviewed, open-access journal. At least one author must register before the deadline
-                            for the abstract to be considered.
-                        </p>
-                    </div>
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-[#D9A648]/10 rounded-full blur-3xl -mr-10 -mt-10" />
-                </div>
-            </motion.div>
 
-            {/* Journal Partnership Card */}
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                variants={fadeInUp}
-                className="container mx-auto px-6 mb-20 max-w-5xl"
-            >
-                <div className="bg-white rounded-3xl p-10 md:p-14 border border-gray-100 shadow-xl relative overflow-hidden">
-                    <div className="flex flex-col md:flex-row items-center gap-10">
-                        {/* Left: Journal Icon */}
-                        <div className="shrink-0">
-                            <div className="w-28 h-28 bg-gradient-to-br from-[#1A4D2E] to-[#2d7a4a] rounded-2xl flex items-center justify-center shadow-lg">
-                                <FileText size={48} className="text-[#DFC074]" />
-                            </div>
-                        </div>
 
-                        {/* Right: Details */}
-                        <div className="flex-1 text-center md:text-left">
-                            <p className="text-xs font-bold uppercase tracking-widest text-[#D9A648] mb-2">Journal Partnership</p>
-                            <h2 className="text-2xl md:text-3xl font-serif font-bold text-charcoal mb-4">
-                                Published in <span className="text-[#1A4D2E]">Plant Science Today</span>
-                            </h2>
-                            <p className="text-gray-500 leading-relaxed mb-4">
-                                Full-length papers from ORP-5 will be published in a dedicated Special Issue.
-                                Plant Science Today is a peer-reviewed, open-access journal covering plant science research.
-                            </p>
-                            <ul className="space-y-2 mb-6">
-                                <li className="flex items-center gap-2 text-sm text-gray-700 font-medium">
-                                    <CheckCircle size={16} className="text-[#D9A648]" />
-                                    Scopus, Web of Science, and UGC-CARE Indexed
-                                </li>
-                                <li className="flex items-center gap-2 text-sm text-gray-700 font-medium">
-                                    <CheckCircle size={16} className="text-[#D9A648]" />
-                                    DOI Assigned for all published papers
-                                </li>
-                            </ul>
-                            <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
-                                <div className="bg-[#FFF8E1] px-5 py-3 rounded-xl border border-[#D9A648]/20">
-                                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Article Processing Charges</p>
-                                    <p className="text-xl font-bold text-charcoal">₹16,000</p>
-                                </div>
-                                <div className="bg-[#F0FDF4] px-5 py-3 rounded-xl border border-emerald-200">
-                                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Review Type</p>
-                                    <p className="text-xl font-bold text-charcoal">Blind Peer Review</p>
+            {/* Journal Partnership Highlight Showcase */}
+            <section className="py-16 bg-[#FAF9F5] relative overflow-hidden">
+                <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                    <div className="bg-earth-green-deep rounded-[3rem] p-10 sm:p-14 lg:p-20 text-white relative overflow-hidden shadow-2xl border border-earth-green/20">
+                        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-rice-gold/5 blur-[150px] rounded-full pointer-events-none" />
+                        
+                        <div className="flex flex-col lg:flex-row items-center gap-16 relative z-10">
+                            <div className="shrink-0 relative">
+                                <div className="absolute inset-0 bg-rice-gold/20 blur-3xl rounded-full" />
+                                <div className="w-40 h-52 bg-[#FAF9F5] text-earth-green-deep rounded-2xl flex flex-col items-center justify-center shadow-2xl relative z-10 border-4 border-white/10 rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
+                                    <FileText size={48} className="mb-2" />
+                                    <span className="font-serif font-black text-center leading-tight">PLANT<br/>SCIENCE<br/>TODAY</span>
                                 </div>
                             </div>
-                            <Link href="/submission">
-                                <Button className="bg-[#1A4D2E] hover:bg-[#143d24] text-white font-bold px-8 py-3 rounded-lg shadow-lg shadow-emerald-900/20 transition-all flex items-center gap-2">
-                                    <PenLine size={18} />
-                                    Submit Full Paper
-                                </Button>
-                            </Link>
+
+                            <div className="flex-1 text-center lg:text-left">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-3 block">
+                                    Official Journal Partnership
+                                </span>
+                                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white mb-6 leading-tight">
+                                    Special Issue in <br/><span className="text-rice-gold">Plant Science Today</span>
+                                </h3>
+                                <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-8 font-light max-w-2xl">
+                                    Selected full-length original research and review articles will undergo fast-track blind peer review for publication in a dedicated Special Issue.
+                                </p>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 max-w-2xl">
+                                    <div className="flex items-center gap-3 text-sm font-semibold text-white/90 bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+                                        <CheckCircle size={18} className="text-rice-gold shrink-0" />
+                                        <span>Scopus, Web of Science & UGC-CARE Indexed</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm font-semibold text-white/90 bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+                                        <CheckCircle size={18} className="text-rice-gold shrink-0" />
+                                        <span>Crossref DOI Assigned to all papers</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                                    <Link href="/submission">
+                                        <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                            Submit Paper for Review <ArrowRight size={15} className="ml-2" />
+                                        </Button>
+                                    </Link>
+                                    <Link href="/submission-guidelines">
+                                        <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                            Author Guidelines
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    {/* Decorative corner */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#D9A648]/5 rounded-full blur-2xl -mr-10 -mt-10" />
                 </div>
-            </motion.div>
+            </section>
 
-            {/* Publication Outputs */}
-            <div className="py-16">
-                <div className="container mx-auto px-6 max-w-6xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-80px" }}
-                        variants={stagger}
-                        className="text-center mb-12"
-                    >
-                        <motion.h2 variants={fadeInUp} className="text-3xl font-serif font-bold text-charcoal mb-3">
-                            What Gets Published
-                        </motion.h2>
-                        <motion.p variants={fadeInUp} className="text-gray-500 max-w-2xl mx-auto">
-                            ORP-5 offers multiple publication opportunities for presenters and authors.
-                        </motion.p>
-                    </motion.div>
+            {/* Publication Outputs Grid */}
+            <section className="py-16 bg-[#FAF9F5] relative z-10">
+                <div className="container mx-auto px-6 max-w-7xl">
+                    <SectionTitle
+                        badge="Deliverables"
+                        title="Publication Channels"
+                        subtitle="Multiple recognized avenues to publish and archive your research contributions."
+                        centered
+                    />
 
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-50px" }}
-                        variants={stagger}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                         {PUBLICATION_OUTPUTS.map((item, i) => (
-                            <motion.div
-                                key={i}
-                                variants={fadeInUp}
-                                whileHover={{ y: -8 }}
-                                className="bg-white p-8 rounded-2xl border-t-4 border-[#D9A648] shadow-sm hover:shadow-md transition-all"
-                            >
-                                <div className="w-14 h-14 bg-[#FFF8E1] rounded-xl flex items-center justify-center text-[#D9A648] mb-6">
-                                    {item.icon}
+                            <div key={i} className="group bg-white p-10 rounded-3xl border border-earth-green/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 luxury-card flex flex-col justify-between">
+                                <div>
+                                    <div className="w-16 h-16 bg-earth-green/5 group-hover:bg-earth-green text-earth-green group-hover:text-rice-gold-light transition-colors rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                                        {item.icon}
+                                    </div>
+                                    <h3 className="font-serif font-bold text-2xl text-charcoal mb-4 group-hover:text-earth-green transition-colors">{item.title}</h3>
+                                    <p className="text-charcoal/70 text-base leading-relaxed font-light">{item.description}</p>
                                 </div>
-                                <h3 className="font-bold text-lg text-charcoal mb-3">{item.title}</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed">{item.description}</p>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            {/* Publication Process Timeline */}
-            <div className="py-16">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeInUp}
-                        className="text-center mb-12"
-                    >
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-3">Publication Process</h2>
-                        <p className="text-gray-500">From submission to publication — a clear four-step journey.</p>
-                    </motion.div>
+            {/* Author Specifications Matrix */}
+            <section className="py-24 bg-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-earth-green/[0.02] to-transparent pointer-events-none" />
+                <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                    <SectionTitle
+                        badge="Author Kit"
+                        title="Formatting Specifications"
+                        subtitle="Adhere to the following manuscript criteria before uploading your document."
+                        centered
+                    />
 
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={stagger}
-                        className="grid grid-cols-1 md:grid-cols-4 gap-6 relative"
-                    >
-                        {/* Connecting Line */}
-                        <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-[2px] bg-gradient-to-r from-[#D9A648]/30 via-[#D9A648]/60 to-[#D9A648]/30 -z-0" />
-
-                        {TIMELINE_STEPS.map((step, i) => (
-                            <motion.div key={i} variants={fadeInUp} className="flex flex-col items-center text-center">
-                                <motion.div
-                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                    className="w-16 h-16 bg-[#D9A648] text-white rounded-full flex items-center justify-center font-bold text-xl mb-5 shadow-md border-4 border-[#FDFCF8] relative z-10"
-                                >
-                                    {step.step}
-                                </motion.div>
-                                <h3 className="font-bold text-gray-900 mb-2">{step.title}</h3>
-                                <p className="text-xs text-gray-500 max-w-[200px] leading-relaxed">{step.description}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </div>
-
-            {/* Author Guidelines */}
-            <div className="py-16">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeInUp}
-                        className="text-center mb-10"
-                    >
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-3">Author Guidelines</h2>
-                        <p className="text-gray-500">Key requirements for abstract and paper submissions.</p>
-                    </motion.div>
-
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={stagger}
-                        className="grid md:grid-cols-2 gap-4"
-                    >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-12 border border-earth-green/10 rounded-3xl overflow-hidden shadow-sm">
                         {AUTHOR_GUIDELINES.map((item, i) => (
-                            <motion.div
-                                key={i}
-                                variants={fadeInUp}
-                                whileHover={{ y: -4 }}
-                                className="bg-white rounded-xl border border-gray-100 p-5 flex items-center gap-4 hover:border-[#D9A648]/30 hover:shadow-md transition-all"
-                            >
-                                <div className="w-10 h-10 bg-[#FFF8E1] rounded-lg flex items-center justify-center text-[#D9A648] shrink-0">
+                            <div key={i} className={`p-8 bg-white border-earth-green/10 flex flex-col justify-between
+                                ${i % 4 !== 3 ? 'lg:border-r' : ''} 
+                                ${i < 4 ? 'lg:border-b' : ''}
+                                ${i % 2 === 0 && i % 4 === 0 ? 'sm:border-r' : ''}
+                                ${i % 2 !== 0 && i % 4 !== 3 ? 'sm:border-r' : ''}
+                                ${i < 6 ? 'sm:border-b' : ''}
+                                hover:bg-earth-green/[0.02] transition-colors
+                            `}>
+                                <div className="w-12 h-12 rounded-xl bg-earth-green/5 text-earth-green flex items-center justify-center mb-6">
                                     {item.icon}
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-400">{item.label}</p>
-                                    <p className="font-semibold text-charcoal">{item.value}</p>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-earth-green/60 block mb-2">
+                                        {item.label}
+                                    </span>
+                                    <p className="font-serif font-bold text-charcoal text-base">
+                                        {item.value}
+                                    </p>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            {/* Downloads */}
-            <div className="py-16">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeInUp}
-                        className="text-center mb-10"
-                    >
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-3">Resources & Downloads</h2>
-                        <p className="text-gray-500">Everything you need to prepare your submission.</p>
-                    </motion.div>
+            {/* Publication Process Timeline */}
+            <section className="py-24 bg-[#FAF9F5] border-t border-earth-green/10 relative">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <SectionTitle
+                        badge="Editorial Cycle"
+                        title="Publication Process Timeline"
+                        subtitle="From initial submission to peer review, revision, acceptance, and final publication."
+                        centered
+                    />
 
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={stagger}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
-                    >
-                        {[
-                            {
-                                icon: <FileText size={22} />,
-                                title: "Submission Guidelines",
-                                description: "Detailed instructions for abstract formatting and submission.",
-                                link: "/submission-guidelines",
-                                linkLabel: "View Guidelines",
-                            },
-                            {
-                                icon: <BookOpen size={22} />,
-                                title: "Conference Brochure",
-                                description: "Download the full conference brochure with all details.",
-                                link: "#",
-                                linkLabel: "Download Brochure",
-                            },
-                            {
-                                icon: <ExternalLink size={22} />,
-                                title: "Submit Abstract",
-                                description: "Ready to submit? Access the online submission portal.",
-                                link: "/submission",
-                                linkLabel: "Go to Portal",
-                            },
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                variants={fadeInUp}
-                                whileHover={{ y: -6 }}
-                                className="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col"
-                            >
-                                <div className="w-12 h-12 bg-[#FFF8E1] rounded-xl flex items-center justify-center text-[#D9A648] mb-5">
-                                    {item.icon}
+                    <div className="mt-20 relative">
+                        {/* Connecting Line */}
+                        <div className="hidden lg:block absolute top-8 left-0 w-full h-0.5 bg-earth-green/10" />
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-6 relative z-10">
+                            {TIMELINE_STEPS.map((step, i) => (
+                                <div key={i} className="relative text-center flex flex-col items-center group">
+                                    <div className="w-16 h-16 rounded-full bg-white border-4 border-[#FAF9F5] text-earth-green font-serif font-black text-xl flex items-center justify-center mb-6 shadow-xl group-hover:bg-earth-green group-hover:text-rice-gold-light transition-colors relative z-10 ring-1 ring-earth-green/10">
+                                        {step.step}
+                                    </div>
+                                    <div className="bg-white p-6 rounded-2xl border border-earth-green/10 shadow-sm w-full group-hover:border-earth-green/30 transition-colors">
+                                        <h3 className="font-serif font-bold text-lg text-charcoal mb-3">{step.title}</h3>
+                                        <p className="text-charcoal/70 text-sm leading-relaxed font-light">{step.description}</p>
+                                    </div>
                                 </div>
-                                <h3 className="font-bold text-lg text-charcoal mb-2">{item.title}</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed mb-5 flex-1">{item.description}</p>
-                                <Link href={item.link}>
-                                    <Button variant="outline" className="w-full justify-center border-[#D9A648] text-[#D9A648] hover:bg-[#FFF8E1] font-bold text-sm">
-                                        {item.linkLabel}
-                                    </Button>
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            {/* Footer CTA */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="bg-[#123125] py-20 text-center text-white border-t border-white/10"
-            >
-                <div className="container mx-auto px-6 max-w-3xl">
-                    <h2 className="text-3xl font-serif font-bold mb-4 text-[#DFC074]">Ready to Share Your Research?</h2>
-                    <p className="text-white/60 mb-10 leading-relaxed font-light">
-                        Submit your abstract and contribute to the global body of knowledge in organic and natural rice production systems.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+            {/* CTA */}
+            <section className="py-14 container mx-auto px-6 max-w-6xl">
+                <div className="bg-earth-green-deep text-white rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left border border-white/10 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-rice-gold/10 blur-[100px] rounded-full pointer-events-none" />
+                    
+                    <div className="relative z-10 max-w-xl">
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
+                            Join Scientific Proceedings
+                        </span>
+                        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
+                            Submit Your Abstract for Peer Review
+                        </h3>
+                        <p className="text-white/70 text-sm">
+                            Early submission ensures timely reviewer allocation and expedited review decisions.
+                        </p>
+                    </div>
+
+                    <div className="relative z-10 shrink-0">
                         <Link href="/submission">
-                            <Button className="bg-[#DFC074] hover:bg-[#d6b567] text-[#123125] font-bold px-8 py-3 rounded-lg shadow-lg shadow-[#DFC074]/20">
-                                Submit Abstract
-                            </Button>
-                        </Link>
-                        <Link href="/submission-guidelines">
-                            <Button className="bg-transparent text-white border border-white hover:bg-white/10 font-bold px-8 py-3 rounded-lg">
-                                View Guidelines
+                            <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                Submit Abstract <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>
                 </div>
-            </motion.div>
+            </section>
 
             <Footer />
         </main>

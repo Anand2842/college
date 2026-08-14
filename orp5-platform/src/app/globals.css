@@ -3,67 +3,99 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Color Palette */
-  --color-earth-green: #1A4D2E;
-  --color-sapling-green: #4F9D69;
-  --color-rice-gold: #D4C5A0;
-  --color-rice-gold-light: #E8DCC0;
-  --color-mist-white: #F9F9F7;
-  --color-charcoal: #2C3333;
+  /* Color Palette - Forest Emerald & Obsidian */
+  --color-earth-green: #113622;
+  --color-earth-green-dark: #0A2215;
+  --color-earth-green-deep: #06170E;
+  --color-sapling-green: #3D8B57;
+  --color-emerald-light: #52B774;
+
+  /* Champagne & Metallic Gold */
+  --color-rice-gold: #C9A84C;
+  --color-rice-gold-light: #E8D595;
+  --color-rice-gold-dark: #A08230;
+  --color-champagne: #F5ECCE;
+  --color-amber-glow: #F2BD40;
+
+  /* Neutrals & Atmosphere */
+  --color-mist-white: #FBFBFA;
+  --color-page: #FAF9F5;
+  --color-charcoal: #1E2424;
+  --color-charcoal-deep: #121616;
+  --color-obsidian: #090C0B;
 
   /* Semantic Colors */
   --color-background: var(--mist-white);
   --color-foreground: var(--charcoal);
 
-  --color-primary: var(--earth-green);
+  --color-primary: var(--color-earth-green);
   --color-primary-foreground: #FFFFFF;
 
-  --color-secondary: var(--rice-gold);
-  --color-secondary-foreground: var(--charcoal);
+  --color-secondary: var(--color-rice-gold);
+  --color-secondary-foreground: #121616;
 
-  --color-accent: var(--sapling-green);
+  --color-accent: var(--color-sapling-green);
   --color-accent-foreground: #FFFFFF;
 
-  --color-muted: #E2E2E0;
-  --color-muted-foreground: #666666;
+  --color-muted: #ECECE9;
+  --color-muted-foreground: #6B7270;
 
-  --color-border: #E2E2E0;
-  --color-input: #E2E2E0;
-  --color-ring: var(--earth-green);
-
-  /* Page Background */
-  --color-page: #FFFDF7;
+  --color-border: #E5E5DF;
+  --color-input: #E5E5DF;
+  --color-ring: var(--color-earth-green);
 
   /* Border Radius */
-  --radius-lg: 0.75rem;
+  --radius-xl: 1.25rem;
+  --radius-lg: 0.875rem;
   --radius-md: 0.5rem;
-  --radius-sm: 0.25rem;
+  --radius-sm: 0.375rem;
 
-  /* Fonts */
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-merriweather);
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
 
-  /* Animations */
-  --animate-marquee: marquee 25s linear infinite;
+  /* Custom Animations */
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shimmer: shimmer 2.5s infinite linear;
+  --animate-float: float 6s ease-in-out infinite;
 
   @keyframes marquee {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-100%); }
   }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
 }
 
 @layer base {
   :root {
-    --mist-white: #F9F9F7;
-    --charcoal: #2C3333;
-    --earth-green: #1A4D2E;
-    --sapling-green: #4F9D69;
-    --rice-gold: #D4C5A0;
+    --mist-white: #FBFBFA;
+    --charcoal: #1E2424;
+    --earth-green: #113622;
+    --sapling-green: #3D8B57;
+    --rice-gold: #C9A84C;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-earth-green/20 selection:text-earth-green;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground antialiased selection:bg-earth-green/15 selection:text-earth-green;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
   }
 
   /* Reset for responsive images/videos */
@@ -74,60 +106,124 @@
   }
 }
 
-/* Custom UI/UX Utility Classes */
+/* Glassmorphism & Atmospheric Utilities */
 .glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(26, 77, 46, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px -10px rgba(17, 54, 34, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.04);
 }
 
 .glass-card-dark {
-  background: rgba(44, 51, 51, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 197, 160, 0.2);
+  background: rgba(10, 28, 18, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
 }
 
+.glass-panel-luxury {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.65) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+/* Gradient Text Utilities */
 .gradient-text-earth {
-  background: linear-gradient(135deg, #1A4D2E 0%, #4F9D69 100%);
+  background: linear-gradient(135deg, #113622 0%, #3D8B57 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-text-gold {
-  background: linear-gradient(135deg, #1A4D2E 0%, #B89635 100%);
+  background: linear-gradient(135deg, #ECC86A 0%, #C9A84C 50%, #E8D595 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.premium-shadow {
-  box-shadow: 0 10px 30px -10px rgba(26, 77, 46, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+.gradient-text-gold-dark {
+  background: linear-gradient(135deg, #8A6E24 0%, #C9A84C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.premium-shadow-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Premium Shadows & Elevations */
+.luxury-card {
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
 }
-.premium-shadow-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px -10px rgba(26, 77, 46, 0.14), 0 6px 16px -2px rgba(0, 0, 0, 0.05);
+
+.luxury-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 35px -8px rgba(17, 54, 34, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+}
+
+.luxury-card-dark {
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+}
+
+.luxury-card-dark:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.6), 0 0 25px 0 rgba(201, 168, 76, 0.15);
+}
+
+/* Ambient Radial Glows */
+.glow-emerald {
+  background: radial-gradient(circle at center, rgba(61, 139, 87, 0.18) 0%, transparent 70%);
+}
+
+.glow-gold {
+  background: radial-gradient(circle at center, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+}
+
+.gold-shimmer-btn {
+  background: linear-gradient(135deg, #ECC86A 0%, #C9A84C 50%, #B89635 100%);
+  color: #0A2215;
+  box-shadow: 0 4px 18px -2px rgba(201, 168, 76, 0.4), 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.gold-shimmer-btn:hover {
+  background: linear-gradient(135deg, #F5DC8C 0%, #D4B458 50%, #C9A84C 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -2px rgba(201, 168, 76, 0.55), 0 4px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Subtle Hairline Gradient Border */
+.hairline-border-gold {
+  position: relative;
+}
+.hairline-border-gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(201, 168, 76, 0.4), rgba(201, 168, 76, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F9F9F7;
+  background: #FAF9F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C4C4C0;
+  background: #D1D1CB;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4F9D69;
+  background: #3D8B57;
 }

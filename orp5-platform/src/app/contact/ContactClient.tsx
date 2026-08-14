@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
-import { Loader2, Mail, MapPin, Clock, Store, MonitorPlay, Handshake } from "lucide-react";
+import { SectionTitle } from "@/components/atoms/SectionTitle";
+import { Loader2, Mail, MapPin, Clock, Store, MonitorPlay, Handshake, Sparkles, Send, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import Script from 'next/script';
-import { cn } from "@/lib/utils";
 
 export default function ContactClient() {
     const [data, setData] = useState<any>(null);
@@ -55,7 +55,7 @@ export default function ContactClient() {
             setCategory("General Inquiry");
             setMessage("");
             
-            setTimeout(() => setIsSuccess(false), 5000);
+            setTimeout(() => setIsSuccess(false), 6000);
         } catch (err: any) {
             setFormError(err.message || "An unexpected error occurred");
         } finally {
@@ -79,14 +79,14 @@ export default function ContactClient() {
     };
 
     if (!data) return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
             <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
             <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
         </div>
     );
 
     return (
-        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
             <Script id="contact-schema" type="application/ld+json">
                 {JSON.stringify({
                     "@context": "https://schema.org",
@@ -96,214 +96,144 @@ export default function ContactClient() {
                     "logo": "https://www.orp5ic.com/icon.png",
                     "contactPoint": {
                         "@type": "ContactPoint",
-                        "email": data.generalInquiries.email,
+                        "email": data.generalInquiries?.email,
                         "contactType": "customer service"
                     }
                 })}
             </Script>
-            <Navbar variant="dark" />
+            <Navbar variant="default" />
 
             <PageHero
-                headline={data.hero.headline}
-                subheadline={data.hero.subheadline}
-                backgroundImage={data.hero.backgroundImage}
+                headline={data.hero?.headline || "Get in Touch with Secretariat"}
+                subheadline={data.hero?.subheadline || "Reach out to the ORP-5 organizing team for registration support, abstract queries, or partnership proposals."}
+                backgroundImage={data.hero?.backgroundImage}
                 breadcrumb="Home / Contact Us"
             />
 
             {/* Intro Card */}
-            <div className="container mx-auto px-6 mb-16 max-w-4xl">
-                <div className="bg-[#FFF8E1] rounded-xl p-8 border-l-4 border-[#D9A648]">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-3">{data.intro.title}</h2>
-                    <p className="text-gray-600 leading-relaxed">{data.intro.description}</p>
+            <div className="container mx-auto px-6 max-w-5xl relative z-20 mt-10 md:mt-12 pb-16">
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-earth-green/15 shadow-xl luxury-card text-center">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
+                        <Sparkles size={13} className="text-rice-gold" />
+                        Dedicated Support Desks
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal mb-4">{data.intro?.title}</h2>
+                    <p className="text-charcoal/75 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-light">{data.intro?.description}</p>
                 </div>
             </div>
 
-            {/* Departments Grid */}
-            <div className="container mx-auto px-6 mb-16 max-w-6xl">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {data.departments.map((dept: any, i: number) => (
-                        <div key={dept.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-xl mb-3 text-charcoal">{dept.title}</h3>
-                            <p className="text-sm text-gray-500 mb-6 leading-relaxed min-h-[40px]">{dept.description}</p>
-                            <div className="space-y-2">
-                                {dept.emails.map((email: string, idx: number) => (
-                                    <a key={idx} href={`mailto:${email}`} className="inline-flex min-h-[44px] items-center gap-2 text-[#10B981] font-medium text-sm hover:underline">
-                                        <Mail size={14} /> {email}
+            {/* Specialized Departments Grid */}
+            <section className="container mx-auto px-6 py-12 max-w-7xl">
+                <SectionTitle
+                    badge="Direct Channels"
+                    title="Departmental Contact Desks"
+                    subtitle="Connect directly with specialized coordinators for expedited resolution."
+                    centered
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                    {data.departments?.map((dept: any) => (
+                        <div key={dept.id} className="bg-white p-8 rounded-3xl border border-earth-green/10 shadow-sm hover:shadow-xl transition-all luxury-card flex flex-col justify-between">
+                            <div>
+                                <h3 className="font-serif font-bold text-xl mb-3 text-charcoal">{dept.title}</h3>
+                                <p className="text-xs sm:text-sm text-charcoal/70 mb-6 leading-relaxed font-light">{dept.description}</p>
+                            </div>
+                            
+                            <div className="space-y-2 pt-4 border-t border-gray-100 mt-auto">
+                                {dept.emails?.map((email: string, idx: number) => (
+                                    <a key={idx} href={`mailto:${email}`} className="inline-flex items-center gap-2 text-earth-green font-semibold text-xs sm:text-sm hover:underline break-all">
+                                        <Mail size={14} className="shrink-0" /> {email}
                                     </a>
                                 ))}
-                            </div>
-                            {dept.note && <p className="mt-4 text-[10px] text-gray-400 uppercase tracking-wider font-bold">{dept.note}</p>}
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Additional Contacts Row */}
-            <div className="container mx-auto px-6 mb-24 max-w-6xl">
-                <div className="bg-[#FFFDF7] border border-[#F3F0E5] rounded-2xl p-8 flex flex-wrap justify-between gap-8">
-                    {data.additionalContacts.map((contact: any) => (
-                        <div key={contact.id} className="flex-1 min-w-[200px]">
-                            <div className="flex items-center gap-3 mb-2 text-[#D9A648]">
-                                {getIcon(contact.icon)}
-                                <h4 className="font-bold text-charcoal text-sm">{contact.title}</h4>
-                            </div>
-                            <a href={`mailto:${contact.email}`} className="inline-flex min-h-[44px] items-center text-sm text-[#10B981] hover:underline pl-8">
-                                {contact.email}
-                            </a>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Organizing Committee */}
-            <div className="container mx-auto px-6 mb-24 max-w-5xl">
-                <div className="text-center mb-10">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-3">Organizing Committee</h2>
-                    <p className="text-gray-500">The team behind ORP-5.</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {data.committee.map((member: any) => (
-                        <div key={member.id} className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow flex items-start gap-4">
-                            <div className="w-12 h-12 bg-[#1A4D2E] rounded-full flex items-center justify-center text-[#DFC074] font-bold text-sm shrink-0">
-                                {member.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-charcoal">{member.name}</h3>
-                                <p className="text-xs text-[#D9A648] uppercase tracking-wider font-semibold mb-2">{member.role}</p>
-                                <a href={`mailto:${member.email}`} className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#10B981] transition-colors">
-                                    <Mail size={14} /> {member.email}
-                                </a>
+                                {dept.note && <p className="mt-3 text-[10px] text-rice-gold-dark uppercase tracking-wider font-bold">{dept.note}</p>}
                             </div>
                         </div>
                     ))}
                 </div>
-            </div>
+            </section>
 
-            {/* Contact Form Section */}
-            <div className="container mx-auto px-6 mb-24 max-w-3xl text-center">
-                <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Send us a Message</h2>
-                <p className="text-gray-500 mb-10">We will get back to you as soon as possible.</p>
+            {/* Interactive Contact Form */}
+            <section className="py-16 bg-white border-y border-gray-200/60 my-16">
+                <div className="container mx-auto px-6 max-w-4xl">
+                    <SectionTitle
+                        badge="Message Us"
+                        title="Send an Official Inquiry"
+                        subtitle="Fill out the form below. A member of the secretariat will reply within 24–48 hours."
+                        centered
+                    />
 
-                {formError && (
-                    <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6 text-sm font-medium border border-red-100">
-                        {formError}
-                    </div>
-                )}
-
-                <form className="space-y-6 text-left" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Full Name</label>
-                            <input required value={fullName} onChange={e => setFullName(e.target.value)} type="text" placeholder="John Doe" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Email Address</label>
-                            <input required value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="john.doe@example.com" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Institution / Organization</label>
-                            <input value={institution} onChange={e => setInstitution(e.target.value)} type="text" placeholder="University of Agriculture" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Country</label>
-                            <input value={country} onChange={e => setCountry(e.target.value)} type="text" placeholder="e.g. India" className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]" />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Query Category</label>
-                        <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981] appearance-none">
-                            <option>General Inquiry</option>
-                            <option>Registration Issue</option>
-                            <option>Abstract Submission</option>
-                            <option>Sponsorship</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Message</label>
-                        <textarea required value={message} onChange={e => setMessage(e.target.value)} rows={5} placeholder="Please type your question here..." className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-charcoal focus:outline-none focus:border-[#10B981]"></textarea>
-                    </div>
-
-                    {isSuccess && (
-                        <div className="bg-emerald-50 text-emerald-700 p-4 rounded-lg text-sm font-medium border border-emerald-100 flex items-center justify-center text-center">
-                            Thank you! Your message has been sent successfully. We will be in touch soon.
+                    {formError && (
+                        <div className="bg-red-50 text-red-700 p-4 rounded-2xl mb-6 text-sm font-medium border border-red-200 text-center">
+                            {formError}
                         </div>
                     )}
 
-                    <div className="flex justify-end">
-                        <Button 
-                            disabled={isSubmitting}
-                            className="bg-[#10B981] disabled:opacity-70 disabled:cursor-not-allowed hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg min-w-[200px]"
-                        >
-                            {isSubmitting ? (
-                                <span className="flex items-center gap-2 justify-center">
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                    Sending...
-                                </span>
-                            ) : "Send Message"}
-                        </Button>
-                    </div>
-                </form>
-            </div>
-
-            {/* Logistics */}
-            <div className="container mx-auto px-6 mb-24 max-w-5xl">
-                <div className="bg-[#FFFDF7] rounded-3xl p-10 border border-[#F3F0E5] grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div>
-                        <div className="flex items-center gap-3 mb-4 text-[#D9A648]">
-                            <MapPin size={24} />
-                            <h3 className="font-bold text-charcoal text-lg">{data.venueInfo.title}</h3>
+                    <form className="space-y-6 mt-12" onSubmit={handleSubmit}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-xs font-bold text-charcoal/70 uppercase tracking-wider mb-2">Full Name *</label>
+                                <input required value={fullName} onChange={e => setFullName(e.target.value)} type="text" placeholder="Dr. Sarah Jenkins" className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-charcoal focus:outline-none focus:border-earth-green transition-colors text-sm" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-charcoal/70 uppercase tracking-wider mb-2">Email Address *</label>
+                                <input required value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="sarah.jenkins@university.org" className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-charcoal focus:outline-none focus:border-earth-green transition-colors text-sm" />
+                            </div>
                         </div>
-                        <div className="pl-9 text-gray-600 space-y-1 mb-4">
-                            {data.venueInfo.address.map((line: string, i: number) => <p key={i}>{line}</p>)}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-xs font-bold text-charcoal/70 uppercase tracking-wider mb-2">Institution / Organization</label>
+                                <input value={institution} onChange={e => setInstitution(e.target.value)} type="text" placeholder="National Agriscience Institute" className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-charcoal focus:outline-none focus:border-earth-green transition-colors text-sm" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-charcoal/70 uppercase tracking-wider mb-2">Country</label>
+                                <input value={country} onChange={e => setCountry(e.target.value)} type="text" placeholder="e.g. India, Japan, France" className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-charcoal focus:outline-none focus:border-earth-green transition-colors text-sm" />
+                            </div>
                         </div>
-                        <p className="pl-9 text-xs text-gray-400 max-w-xs">{data.venueInfo.note}</p>
-                    </div>
-
-                    <div className="md:border-l md:border-[#F3F0E5] md:pl-12">
-                        <div className="flex items-center gap-3 mb-4 text-[#D9A648]">
-                            <Clock size={24} />
-                            <h3 className="font-bold text-charcoal text-lg">{data.operatingHours.title}</h3>
+                        <div>
+                            <label className="block text-xs font-bold text-charcoal/70 uppercase tracking-wider mb-2">Query Category</label>
+                            <select value={category} onChange={e => setCategory(e.target.value)} className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-charcoal focus:outline-none focus:border-earth-green transition-colors text-sm appearance-none cursor-pointer">
+                                <option>General Inquiry</option>
+                                <option>Registration & Payment</option>
+                                <option>Abstract & Paper Submission</option>
+                                <option>Sponsorship & Exhibition</option>
+                                <option>Visa Support & Accommodation</option>
+                            </select>
                         </div>
-                        <p className="pl-9 text-gray-600 mb-4">{data.operatingHours.hours}</p>
-                        <p className="pl-9 text-xs text-gray-400 max-w-xs">{data.operatingHours.note}</p>
-                    </div>
-                </div>
-            </div>
+                        <div>
+                            <label className="block text-xs font-bold text-charcoal/70 uppercase tracking-wider mb-2">Message *</label>
+                            <textarea required value={message} onChange={e => setMessage(e.target.value)} rows={5} placeholder="Please provide details of your inquiry..." className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-charcoal focus:outline-none focus:border-earth-green transition-colors text-sm"></textarea>
+                        </div>
 
-            {/* Helpful Links */}
-            <div className="container mx-auto px-6 mb-24 text-center">
-                <h3 className="text-lg font-serif font-bold text-charcoal mb-6">Helpful Links</h3>
-                <div className="flex flex-wrap justify-center gap-4">
-                    <Link href="/registration"><span className="px-6 py-2 bg-[#E0F2F1] text-[#00695C] rounded-full text-sm font-bold hover:bg-[#B2DFDB] transition-colors">Registration</span></Link>
-                    <Link href="/accommodation"><span className="px-6 py-2 bg-[#E8F5E9] text-[#2E7D32] rounded-full text-sm font-bold hover:bg-[#C8E6C9] transition-colors">Accommodation</span></Link>
-                    <Link href="/programme"><span className="px-6 py-2 bg-[#E0F7FA] text-[#006064] rounded-full text-sm font-bold hover:bg-[#B2EBF2] transition-colors">Programme</span></Link>
-                    <Link href="/submission"><span className="px-6 py-2 bg-[#E3F2FD] text-[#1565C0] rounded-full text-sm font-bold hover:bg-[#BBDEFB] transition-colors">Abstract Submission</span></Link>
-                </div>
-            </div>
+                        {isSuccess && (
+                            <div className="bg-emerald-50 text-emerald-800 p-4 rounded-2xl text-sm font-medium border border-emerald-200 flex items-center justify-center gap-2 text-center">
+                                <CheckCircle2 size={18} className="text-earth-green" />
+                                Thank you! Your message has been sent successfully. We will be in touch shortly.
+                            </div>
+                        )}
 
-            {/* Footer CTA */}
-            <div className="bg-[#123125] py-20 text-center text-white relative overflow-hidden">
-                <div className="container mx-auto px-6 max-w-4xl relative z-10">
-                    <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8">{data.footerCta.headline}</h2>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        {data.footerCta.buttons.map((btn: any, i: number) => {
-                            const isPrimary = btn.variant === "primary";
-                            return (
-                                <Link key={i} href={btn.link}>
-                                    <Button className={cn(
-                                        "px-8 py-3 rounded-lg font-bold transition-colors",
-                                        isPrimary ? "bg-[#10B981] hover:bg-[#059669] text-white" : "bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
-                                    )}>
-                                        {btn.label}
-                                    </Button>
-                                </Link>
-                            );
-                        })}
-                    </div>
+                        <div className="flex justify-end">
+                            <Button 
+                                type="submit"
+                                variant="premium"
+                                size="lg"
+                                disabled={isSubmitting}
+                                className="w-full sm:w-auto text-xs uppercase tracking-wider font-bold min-w-[220px]"
+                            >
+                                {isSubmitting ? (
+                                    <span className="flex items-center gap-2 justify-center">
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Submitting...
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-2 justify-center">
+                                        Send Message <Send size={14} />
+                                    </span>
+                                )}
+                            </Button>
+                        </div>
+                    </form>
                 </div>
-            </div>
+            </section>
 
             <Footer />
         </main>

@@ -33,7 +33,7 @@ export function CallForPapers() {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-rice-gold/10 via-[#FFF8E1] to-white relative overflow-hidden">
+    <section className="py-14 bg-gradient-to-br from-rice-gold/10 via-[#FFF8E1] to-white relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-rice-gold/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-earth-green/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>

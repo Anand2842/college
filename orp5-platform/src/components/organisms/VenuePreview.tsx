@@ -1,95 +1,106 @@
 import Link from 'next/link';
 import { Button } from '@/components/atoms/Button';
-import { MapPin, Plane, Train, Car, ArrowRight } from 'lucide-react';
+import { SectionTitle } from '@/components/atoms/SectionTitle';
+import { MapPin, Plane, Train, Navigation, ArrowRight } from 'lucide-react';
+import { ScrollReveal } from '@/components/atoms/ScrollReveal';
 
 export function VenuePreview({ venue }: { venue?: any }) {
-  const title = venue?.title || "Conference Venue";
-  const description = venue?.description || "Join us in the heart of India's capital at the premier National Agricultural Science Complex.";
+  const title = venue?.title || "World-Class Conference Venue";
+  const description = venue?.description || "Convening at the premier National Agricultural Science Complex (NASC), New Delhi — India's apex hub for agricultural leadership and international dialogue.";
   const image = venue?.image1 || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1920";
 
   return (
-    <section className="py-20 bg-[#FDFCF8] border-y border-gray-100">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">{title}</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            {description}
-          </p>
-        </div>
+    <section className="py-16 bg-[#FAF9F5] border-y border-gray-200/60 relative overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+        <ScrollReveal variant="fadeUp">
+          <SectionTitle
+            badge="Host Facility"
+            title={title}
+            subtitle={description}
+            centered
+          />
+        </ScrollReveal>
 
-        <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 flex flex-col lg:flex-row">
+        <ScrollReveal variant="fadeUp" delay={0.1}>
+          <div className="bg-white rounded-3xl overflow-hidden shadow-xl border border-earth-green/10 flex flex-col lg:flex-row luxury-card mt-12">
           
           {/* Left Column - Image */}
-          <div className="lg:w-1/2 h-64 lg:h-auto relative">
+          <div className="lg:w-1/2 min-h-[320px] lg:min-h-[440px] relative overflow-hidden group">
             <img 
               src={image} 
               alt={title} 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent flex items-end p-8">
+            <div className="absolute inset-0 bg-gradient-to-t from-earth-green-deep/90 via-earth-green-dark/40 to-transparent flex items-end p-8 sm:p-10">
               <div className="text-white">
-                <div className="flex items-center gap-2 mb-2">
-                  <MapPin size={18} className="text-rice-gold" />
-                  <span className="font-medium">New Delhi, India</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold text-rice-gold-light mb-3">
+                  <MapPin size={14} className="text-rice-gold" />
+                  <span>New Delhi, India</span>
                 </div>
-                <h3 className="text-2xl font-bold">A.P. Shinde Symposium Hall</h3>
-                <p className="text-gray-200 text-sm mt-1">NASC Complex</p>
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-1">
+                  A.P. Shinde Symposium Hall
+                </h3>
+                <p className="text-white/80 text-sm font-light">NASC Complex, Dev Prakash Shastri Marg</p>
               </div>
             </div>
           </div>
 
           {/* Right Column - Details */}
-          <div className="lg:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-            <h4 className="text-xl font-bold text-charcoal mb-6">Easy Accessibility</h4>
+          <div className="lg:w-1/2 p-8 sm:p-12 flex flex-col justify-center">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-dark mb-2 block">
+              Connectivity & Travel
+            </span>
+            <h4 className="text-2xl font-serif font-bold text-charcoal mb-6">Effortless Global Accessibility</h4>
             
-            <ul className="space-y-6 mb-10">
+            <ul className="space-y-5 mb-10">
               <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                  <Plane size={20} className="text-blue-600" />
+                <div className="w-11 h-11 rounded-2xl bg-earth-green/10 text-earth-green flex items-center justify-center shrink-0">
+                  <Plane size={20} />
                 </div>
                 <div>
-                  <p className="font-bold text-charcoal">IGI Airport (DEL)</p>
-                  <p className="text-sm text-gray-500">15–18 km from city centre. Connected via Metro & Cab services.</p>
+                  <p className="font-bold text-charcoal text-sm">Indira Gandhi International Airport (DEL)</p>
+                  <p className="text-xs text-charcoal/70 mt-0.5">Approx. 16 km. Connected via Express Metro & App-based Cabs (25–35 min).</p>
                 </div>
               </li>
               
               <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center shrink-0">
-                  <Train size={20} className="text-orange-600" />
+                <div className="w-11 h-11 rounded-2xl bg-earth-green/10 text-earth-green flex items-center justify-center shrink-0">
+                  <Train size={20} />
                 </div>
                 <div>
-                  <p className="font-bold text-charcoal">Major Railway Stations</p>
-                  <p className="text-sm text-gray-500">Connected to NDLS, Hazrat Nizamuddin, and Old Delhi Junction.</p>
+                  <p className="font-bold text-charcoal text-sm">Major Railway Terminals</p>
+                  <p className="text-xs text-charcoal/70 mt-0.5">Direct arterial access to New Delhi (NDLS), Hazrat Nizamuddin & Old Delhi.</p>
                 </div>
               </li>
               
               <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center shrink-0">
-                  <Car size={20} className="text-green-600" />
+                <div className="w-11 h-11 rounded-2xl bg-earth-green/10 text-earth-green flex items-center justify-center shrink-0">
+                  <Navigation size={20} />
                 </div>
                 <div>
-                  <p className="font-bold text-charcoal">Local Transport</p>
-                  <p className="text-sm text-gray-500">Easily accessible via Delhi Metro, App-based cabs, and buses.</p>
+                  <p className="font-bold text-charcoal text-sm">City Metro Network</p>
+                  <p className="text-xs text-charcoal/70 mt-0.5">Rapid connectivity via Blue & Pink Metro lines with direct station shuttles.</p>
                 </div>
               </li>
             </ul>
 
             <div className="flex flex-wrap gap-4">
               <Link href="/venue">
-                <Button className="bg-earth-green hover:bg-green-800 text-white">
-                  Venue Details
+                <Button variant="default" className="font-bold text-xs uppercase tracking-wider">
+                  Explore Venue
                 </Button>
               </Link>
               <Link href="/accommodation">
-                <Button variant="outline">
-                  Accommodation
-                  <ArrowRight size={16} className="ml-2" />
+                <Button variant="outline" className="font-bold text-xs uppercase tracking-wider">
+                  Hotel & Accommodation
+                  <ArrowRight size={15} className="ml-2" />
                 </Button>
               </Link>
             </div>
           </div>
           
         </div>
+        </ScrollReveal>
       </div>
     </section>
   );

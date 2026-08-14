@@ -128,22 +128,25 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             : "bg-white border-b border-gray-100"
                 )}
             >
-                {/* 1. Top Utility Bar (IEEE Style) */}
+                {/* 1. Top Utility Bar (International Summit Style) */}
                 <div 
                     className={cn(
-                        "hidden lg:flex w-full bg-[#123125] text-white px-4 lg:px-8 items-center justify-between transition-all duration-500 overflow-hidden",
-                        isScrolled ? "h-0 opacity-0" : "h-10 opacity-100"
+                        "hidden lg:flex w-full bg-earth-green-deep text-white px-4 lg:px-8 items-center justify-between transition-all duration-500 overflow-hidden border-b border-white/10",
+                        isScrolled ? "h-0 opacity-0" : "h-9 opacity-100"
                     )}
                 >
-                    <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest">
-                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                        <span className="text-white/70">Abstract Submission Deadline:</span>
-                        <span className="text-rice-gold">20 August 2026</span>
+                    <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.15em]">
+                        <span className="w-2 h-2 rounded-full bg-amber-glow animate-pulse"></span>
+                        <span className="text-white/60">Abstract Deadline:</span>
+                        <span className="text-rice-gold-light font-semibold">20 August 2026</span>
                     </div>
-                    <div className="flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-white/70">
-                        <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-                        <Link href="/ticket-status" className="text-[#a3d9b1] hover:text-white transition-colors">Track Status</Link>
-                        <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
+                    <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white/70">
+                        <Link href="/blog" className="hover:text-rice-gold transition-colors">Blog</Link>
+                        <Link href="/ticket-status" className="text-emerald-light hover:text-white transition-colors flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-light"></span>
+                            Track Status
+                        </Link>
+                        <Link href="/contact" className="hover:text-rice-gold transition-colors">Contact</Link>
                         
                         {isLoggedIn ? (
                             <div className="flex items-center gap-6">
@@ -152,34 +155,37 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                     <ArrowRight size={12} />
                                 </Link>
                                 <form action="/auth/signout" method="post" className="m-0 p-0 flex">
-                                    <button type="submit" className="text-white/70 hover:text-white transition-colors font-bold uppercase tracking-widest text-xs">
+                                    <button type="submit" className="text-white/70 hover:text-white transition-colors font-bold uppercase tracking-widest text-[11px] cursor-pointer">
                                         Sign Out
                                     </button>
                                 </form>
                             </div>
                         ) : (
-                            <Link href="/login" className="hover:text-white transition-colors">Login</Link>
+                            <Link href="/login" className="hover:text-rice-gold transition-colors">Login</Link>
                         )}
                     </div>
                 </div>
 
                 {/* 2. Main Navigation Bar */}
-                <div className={cn("container mx-auto px-4 lg:px-8 flex items-center justify-between relative z-50 transition-all duration-300", isScrolled ? "py-3" : "py-4")}>
+                <div className={cn(
+                    "container mx-auto px-4 lg:px-8 flex items-center justify-between relative z-50 transition-all duration-300",
+                    isScrolled ? "py-2.5" : "py-3.5"
+                )}>
                     
                     {/* Logo (Left) */}
-                    <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity mr-8 min-w-fit">
+                    <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity mr-8 min-w-fit group">
                         <Image
                             src="/orp5-logo.png"
                             alt="ORP-5 Logo"
                             width={120}
                             height={48}
-                            className={cn(logoClass, isScrolled ? "h-10 w-auto" : "h-12 w-auto")}
+                            className={cn(logoClass, isScrolled ? "h-10 w-auto" : "h-12 w-auto", "group-hover:scale-105 transition-transform duration-300")}
                             priority
                         />
                     </Link>
 
                     {/* Main Links (Center) */}
-                    <div className="hidden xl:flex items-center space-x-8">
+                    <div className="hidden xl:flex items-center space-x-7">
                         {navItems.map((item) => {
                             const isAwards = item.label === "Awards";
                             const awardsColor = isTransparentAtTop ? "text-rice-gold hover:text-white drop-shadow-md" : "text-earth-green hover:text-earth-green/80 font-bold";
@@ -189,21 +195,21 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                     <Link
                                         href={item.href}
                                         className={cn(
-                                            "flex items-center gap-1 text-sm font-semibold transition-colors focus:outline-none whitespace-nowrap",
+                                            "flex items-center gap-1 text-[13.5px] font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap tracking-wide",
                                             isAwards ? awardsColor : textColorClass
                                         )}
                                     >
                                         {item.label}
-                                        <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300 opacity-70" />
+                                        <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-300 opacity-60" />
                                     </Link>
-                                    {/* Glassmorphism Dropdown Menu */}
-                                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-3">
-                                        <div className="bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border border-gray-100 overflow-hidden py-3">
+                                    {/* Luxury Glassmorphism Dropdown Menu */}
+                                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto">
+                                        <div className="bg-white/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-earth-green/10 overflow-hidden p-2">
                                             {item.children.map((child) => (
                                                 <Link
                                                     key={child.label}
                                                     href={child.href}
-                                                    className="flex items-center px-5 py-2.5 text-sm font-medium text-charcoal hover:bg-earth-green/5 hover:text-earth-green transition-colors"
+                                                    className="flex items-center px-4 py-2.5 text-[13px] font-medium text-charcoal rounded-xl hover:bg-earth-green/8 hover:text-earth-green transition-all"
                                                 >
                                                     {child.label}
                                                 </Link>
@@ -216,7 +222,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                     key={item.label}
                                     href={item.href}
                                     className={cn(
-                                        "text-sm font-semibold transition-colors whitespace-nowrap",
+                                        "text-[13.5px] font-semibold transition-colors whitespace-nowrap tracking-wide",
                                         isAwards ? awardsColor : textColorClass
                                     )}
                                 >
@@ -227,23 +233,25 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     </div>
 
                     {/* Desktop CTAs (Right) */}
-                    <div className="hidden xl:flex items-center gap-4">
+                    <div className="hidden xl:flex items-center gap-3">
                         <Link href="/submission">
                             <Button
                                 variant="outline"
+                                size="sm"
                                 className={cn(
-                                    "font-bold text-xs uppercase tracking-wider px-6 transition-colors border-2",
+                                    "font-bold text-xs uppercase tracking-wider px-5 transition-all",
                                     isTransparentAtTop
                                         ? "border-white/50 text-white hover:bg-white hover:text-earth-green"
-                                        : "border-earth-green text-earth-green hover:bg-earth-green hover:text-white"
+                                        : "border-earth-green/30 text-earth-green hover:bg-earth-green hover:text-white"
                                 )}
                             >
                                 Submit Abstract
                             </Button>
                         </Link>
                         <Button
-                            variant="default"
-                            className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-xs uppercase tracking-wider px-6 border-none shadow-md"
+                            variant="premium"
+                            size="sm"
+                            className="px-6 py-2 rounded-lg"
                             onClick={openModal}
                         >
                             Register Now

@@ -79,7 +79,7 @@ export default function RegistrationTicketClient() {
                 </div>
             </section>
 
-            <div className="container mx-auto px-6 max-w-5xl -mt-8 relative z-20 pb-32">
+            <div className="container mx-auto px-6 max-w-5xl relative z-20 mt-10 md:mt-12 pb-32">
                 {/* Breadcrumb */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-8 pl-2">
                     Home / Registration / <span className="text-earth-green">QR Ticket</span>

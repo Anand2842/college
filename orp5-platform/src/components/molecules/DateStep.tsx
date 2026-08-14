@@ -1,47 +1,64 @@
 "use client"
 
 import { motion } from "framer-motion";
-import { CheckCircle2, Clock } from "lucide-react";
+import { CheckCircle2, Clock, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DateStepProps {
     date: string;
     label: string;
-    status: "completed" | "active" | "upcoming";
+    status: "completed" | "active" | "urgent" | "upcoming" | string;
     isLast?: boolean;
 }
 
 export function DateStep({ date, label, status, isLast }: DateStepProps) {
     const isCompleted = status === "completed";
-    const isActive = status === "active";
+    const isUrgent = status === "urgent" || status === "active";
 
     return (
-        <div className="flex flex-col items-center text-center relative flex-1">
-            {/* Connector Line */}
-            {!isLast && (
-                <div
-                    className={cn(
-                        "hidden md:block absolute top-6 left-[50%] right-[-50%] h-0.5 z-0",
-                        isCompleted ? "bg-sapling-green" : "bg-gray-200"
-                    )}
-                />
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className={cn(
+                "relative flex-1 min-w-[200px] p-6 rounded-2xl border transition-all duration-300 luxury-card text-center flex flex-col items-center justify-between",
+                isUrgent
+                    ? "bg-gradient-to-b from-white to-amber-50/40 border-rice-gold shadow-lg ring-2 ring-rice-gold/20"
+                    : isCompleted
+                        ? "bg-white/90 border-earth-green/15"
+                        : "bg-white/60 border-border/80"
             )}
-
-            <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                className={cn(
-                    "relative z-10 w-12 h-12 rounded-full flex items-center justify-center mb-4 transition-colors",
-                    isCompleted ? "bg-sapling-green text-white" :
-                        isActive ? "bg-rice-gold text-charcoal shadow-lg ring-4 ring-rice-gold/20" : "bg-gray-100 text-gray-400"
+        >
+            {/* Status Pill Indicator */}
+            <div className="mb-4">
+                {isCompleted ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sapling-green/10 text-sapling-green text-[11px] font-bold uppercase tracking-wider">
+                        <CheckCircle2 size={13} /> Completed
+                    </span>
+                ) : isUrgent ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-700 text-[11px] font-bold uppercase tracking-wider animate-pulse">
+                        <AlertCircle size={13} /> Key Deadline
+                    </span>
+                ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-gray-500 text-[11px] font-bold uppercase tracking-wider">
+                        <Clock size={13} /> Upcoming
+                    </span>
                 )}
-            >
-                {isCompleted ? <CheckCircle2 size={24} /> : <Clock size={24} />}
-            </motion.div>
+            </div>
 
-            <h4 className={cn("text-lg font-bold font-serif mb-1", isActive ? "text-earth-green" : "text-charcoal")}>{date}</h4>
-            <p className="text-sm text-charcoal/70">{label}</p>
-        </div>
+            {/* Date Display */}
+            <h4 className={cn(
+                "text-lg md:text-xl font-serif font-bold mb-2",
+                isUrgent ? "text-earth-green" : "text-charcoal"
+            )}>
+                {date}
+            </h4>
+
+            {/* Label */}
+            <p className="text-xs sm:text-sm text-charcoal/75 leading-relaxed font-medium">
+                {label}
+            </p>
+        </motion.div>
     );
 }

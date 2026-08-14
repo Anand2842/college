@@ -62,12 +62,12 @@ export function CountdownTimer({ targetDate }: { targetDate: string }) {
 function TimeUnit({ value, label }: { value: number; label: string }) {
     return (
         <div className="flex flex-col items-center group">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-black/20 backdrop-blur-sm rounded-none border-[0.5px] border-rice-gold/40 flex items-center justify-center transition-all duration-500 group-hover:border-rice-gold/80 group-hover:bg-rice-gold/5">
-                <span className="text-xl sm:text-2xl md:text-3xl font-light text-rice-gold font-serif tracking-tighter">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex items-center justify-center transition-all duration-300 group-hover:border-rice-gold/80 group-hover:bg-white/15 shadow-xl">
+                <span className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold gradient-text-gold tracking-tight">
                     {value.toString().padStart(2, "0")}
                 </span>
             </div>
-            <span className="text-[9px] md:text-[10px] uppercase tracking-[0.25em] text-white/60 mt-3 font-medium group-hover:text-rice-gold/80 transition-colors">
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/70 mt-3 font-semibold group-hover:text-rice-gold transition-colors">
                 {label}
             </span>
         </div>

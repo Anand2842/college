@@ -4,6 +4,8 @@ import { Button } from "@/components/atoms/Button"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { CountdownTimer } from "@/components/atoms/CountdownTimer"
+import { Globe, MapPin, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 interface HeroProps {
     headline?: string;
@@ -16,10 +18,6 @@ interface HeroProps {
     registrationBannerText?: string;
     whyJoin?: any[];
 }
-
-import Image from "next/image";
-import { Globe, Sprout, Leaf } from "lucide-react";
-import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 export function Hero({
     headline = "",
@@ -35,85 +33,82 @@ export function Hero({
     const { openModal } = useRegistrationModal();
 
     return (
-        <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[60vh] md:min-h-[70vh]">
-            {/* Background Image */}
+        <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[85vh] lg:min-h-[92vh] bg-earth-green-deep">
+            {/* Background Image with Slow Ambient Motion */}
             <div
-                className="absolute inset-0 bg-cover bg-center z-0"
+                className="absolute inset-0 bg-cover bg-center z-0 scale-105 transition-transform duration-1000 opacity-80"
                 style={{ backgroundImage: `url('${backgroundImage}')` }}
             />
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-earth-green/50 to-black/80 z-10" />
+
+            {/* Multi-Layer Cinematic Gradient Mesh */}
+            <div className="absolute inset-0 bg-gradient-to-b from-earth-green-deep/80 via-earth-green-dark/60 to-earth-green-deep/90 z-10" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,168,76,0.2),_transparent_60%)] z-10 pointer-events-none" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-sapling-green/15 blur-[150px] rounded-full pointer-events-none z-10" />
 
             {/* Content Container */}
-            <div className="relative z-20 container mx-auto px-6 text-center text-white h-full flex flex-col justify-center items-center pt-32 pb-10 md:pt-48 md:pb-20">
+            <div className="relative z-20 container mx-auto px-6 text-center text-white h-full flex flex-col justify-center items-center pt-36 pb-16 md:pt-48 md:pb-24">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     className="flex flex-col items-center max-w-5xl mx-auto"
                 >
-                    {/* Conference Badge / Label */}
-                    <span className="inline-block py-1.5 px-6 border border-rice-gold/50 rounded-sm text-rice-gold text-lg md:text-xl font-bold tracking-[0.2em] uppercase mb-6 bg-black/20 backdrop-blur-sm">
-                        ORP-5
-                    </span>
+                    {/* Live Floating Status Island */}
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs sm:text-sm font-semibold text-rice-gold-light mb-8 shadow-lg">
+                        <span className="w-2 h-2 rounded-full bg-emerald-light animate-pulse" />
+                        <span>5th Global Symposium</span>
+                        <span className="w-1 h-1 rounded-full bg-white/40" />
+                        <span className="text-white/80">New Delhi, India</span>
+                    </div>
 
-                    {/* Main Headline — rendered from Supabase */}
-                    <h1 className="font-serif text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-none mb-6 text-white drop-shadow-2xl">
+                    {/* Main Headline */}
+                    <h1 className="font-serif text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.12] mb-6 text-white tracking-tight drop-shadow-2xl">
                         <SafeHtml html={headline} />
                     </h1>
 
-                    {/* Subtitle — from Supabase */}
+                    {/* Subtitle */}
                     {subheadline && (
-                        <div className="text-lg md:text-2xl text-white/90 mb-4 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
+                        <div className="text-base sm:text-lg md:text-2xl text-white/90 mb-6 font-light max-w-3xl mx-auto leading-relaxed tracking-wide">
                             <SafeHtml html={subheadline} />
                         </div>
                     )}
 
-                    {/* Date & Venue — from Supabase */}
+                    {/* Date & Venue Bar */}
                     {dateVenueLine && (
-                        <p className="font-semibold text-white text-xl md:text-3xl mb-10">
+                        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-xl bg-black/30 border border-rice-gold/20 backdrop-blur-md text-sm sm:text-base md:text-lg font-medium text-rice-gold-light mb-10 shadow-md">
+                            <Calendar size={18} className="text-rice-gold" />
                             <SafeHtml html={dateVenueLine} />
-                        </p>
+                        </div>
                     )}
 
-                    {/* Countdown — uses Supabase registrationStart date */}
-                    <div className="mb-12 flex flex-col items-center">
-                        <p className="text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-rice-gold/80 mb-4 bg-black/30 px-4 py-1 rounded-full backdrop-blur-sm">
+                    {/* Countdown Section */}
+                    <div className="mb-12 flex flex-col items-center w-full max-w-xl">
+                        <p className="text-xs sm:text-sm font-bold tracking-[0.25em] uppercase text-rice-gold-light/80 mb-2">
                             {registrationStatusText}
                         </p>
                         <CountdownTimer targetDate={registrationStart} />
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center w-full max-w-sm sm:max-w-none mx-auto mb-10">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md sm:max-w-none mx-auto">
                         <Link href="/submission" className="w-full sm:w-auto">
                             <Button
-                                size="lg"
-                                className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-base sm:text-lg px-6 py-4 sm:px-10 sm:py-6 w-full sm:min-w-[200px] shadow-xl uppercase tracking-wider transition-all transform hover:scale-105"
+                                size="xl"
+                                variant="premium"
+                                className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider py-4"
                             >
                                 Submit Abstract
                             </Button>
                         </Link>
                         <Button
-                            variant="outline"
-                            size="lg"
-                            className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-earth-green font-bold text-base sm:text-lg px-6 py-4 sm:px-10 sm:py-6 w-full sm:min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
+                            variant="glass"
+                            size="xl"
+                            className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider font-bold py-4 hover:border-rice-gold/60 transition-all"
                             onClick={openModal}
                         >
                             Register Now
                         </Button>
-                        <Link href="/ticket-status" className="w-full sm:w-auto">
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-earth-green font-bold text-base sm:text-lg px-6 py-4 sm:px-10 sm:py-6 w-full sm:min-w-[200px] uppercase tracking-wider backdrop-blur-sm transition-all"
-                            >
-                                Track Status
-                            </Button>
-                        </Link>
                     </div>
-
-
 
                 </motion.div>
             </div>

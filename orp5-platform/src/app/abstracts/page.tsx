@@ -24,7 +24,7 @@ export default function AbstractsPage() {
                 </div>
             </section>
 
-            <section className="py-20 container mx-auto px-6 text-center">
+            <section className="py-14 container mx-auto px-6 text-center">
                 <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-100 max-w-2xl mx-auto">
                     <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">Coming Soon</h2>
                     <p className="text-gray-600">

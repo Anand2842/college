@@ -7,7 +7,7 @@ import { Button } from "@/components/atoms/Button";
 interface HeroButton {
     label: string;
     link: string;
-    variant?: "primary" | "secondary";
+    variant?: "primary" | "secondary" | "gold";
 }
 
 interface PageHeroProps {
@@ -20,62 +20,58 @@ interface PageHeroProps {
 
 export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, buttons }: PageHeroProps) {
     const fadeInUp = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 15 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
     };
 
     const stagger = {
         hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
+        visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
     };
 
     return (
-        <section className="relative min-h-[300px] md:min-h-[400px] h-auto pt-32 pb-16 md:pt-48 md:pb-20 flex items-center justify-center overflow-hidden">
+        <section className="relative pt-28 pb-8 md:pt-32 md:pb-10 bg-earth-green-deep flex items-center justify-center overflow-hidden">
             {/* Background Layer */}
-            <div className="absolute inset-0 z-0 bg-[#123125]">
+            <div className="absolute inset-0 z-0">
                 {backgroundImage && (
                     <img
                         src={backgroundImage}
                         alt=""
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover opacity-15 blur-md mix-blend-luminosity transform scale-105"
                     />
                 )}
                 {/* Dark overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/70" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-earth-green-deep/90 to-earth-green-deep" />
             </div>
 
             {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl opacity-60 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 bg-[#DFC074]/10 rounded-full blur-3xl opacity-50 pointer-events-none" />
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl opacity-40 pointer-events-none" />
 
-            {/* Content */}
+            {/* Content Container */}
             <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={stagger}
-                className="container mx-auto px-6 text-center relative z-10 max-w-4xl"
+                className="container mx-auto px-6 text-center relative z-20 max-w-4xl"
             >
                 {breadcrumb && (
-                    <motion.p
-                        variants={fadeInUp}
-                        className="text-emerald-200/60 text-sm font-semibold mb-4 uppercase tracking-widest"
-                    >
+                    <motion.div variants={fadeInUp} className="flex justify-center items-center gap-1.5 text-[10px] sm:text-xs font-semibold text-white/50 uppercase tracking-[0.15em] mb-4">
                         {breadcrumb.split(" / ").map((part, i, arr) => (
-                            <span key={i}>
+                            <span key={i} className="flex items-center gap-1.5">
                                 {i < arr.length - 1 ? (
-                                    <Link href="/" className="hover:text-white transition-colors">{part}</Link>
+                                    <Link href="/" className="hover:text-rice-gold transition-colors">{part}</Link>
                                 ) : (
-                                    <span className="text-emerald-100/80">{part}</span>
+                                    <span className="text-white/90">{part}</span>
                                 )}
-                                {i < arr.length - 1 && " / "}
+                                {i < arr.length - 1 && <span className="text-white/30">/</span>}
                             </span>
                         ))}
-                    </motion.p>
+                    </motion.div>
                 )}
 
                 <motion.h1
                     variants={fadeInUp}
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 tracking-tight leading-tight"
+                    className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md"
                 >
                     {headline}
                 </motion.h1>
@@ -83,22 +79,20 @@ export function PageHero({ headline, subheadline, backgroundImage, breadcrumb, b
                 {subheadline && (
                     <motion.p
                         variants={fadeInUp}
-                        className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8"
+                        className="text-xs sm:text-sm md:text-base text-white/80 leading-relaxed mt-3 font-light max-w-3xl mx-auto"
                     >
                         {subheadline}
                     </motion.p>
                 )}
 
                 {buttons && buttons.length > 0 && (
-                    <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                    <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3 mt-6">
                         {buttons.map((btn, i) => (
                             <Link key={i} href={btn.link}>
                                 <Button
-                                    className={
-                                        btn.variant === "primary"
-                                            ? "bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all"
-                                            : "bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 font-bold px-8 py-3 rounded-lg transition-all"
-                                    }
+                                    size="default"
+                                    variant={btn.variant === "gold" || btn.variant === "primary" ? "default" : "outline"}
+                                    className="font-bold text-xs uppercase tracking-wider"
                                 >
                                     {btn.label}
                                 </Button>

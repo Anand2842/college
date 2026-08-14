@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
-import { Loader2, Download, Info, FlaskConical, CalendarDays, Users, MapPin, BedDouble, FileText, Image as ImageIcon, Store, Calendar, ArrowRight } from "lucide-react";
+import { SectionTitle } from "@/components/atoms/SectionTitle";
+import { Download, Info, FlaskConical, CalendarDays, Users, MapPin, BedDouble, FileText, Image as ImageIcon, Store, Calendar, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
-// import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 export default function BrochureClient() {
     const [data, setData] = useState<any>(null);
@@ -21,143 +20,124 @@ export default function BrochureClient() {
 
     const getIcon = (name: string) => {
         switch (name) {
-            case "Info": return <Info size={18} />;
-            case "FlaskConical": return <FlaskConical size={18} />;
-            case "CalendarDays": return <CalendarDays size={18} />;
-            case "Users": return <Users size={18} />;
-            case "MapPin": return <MapPin size={18} />;
-            case "BedDouble": return <BedDouble size={18} />;
-            case "FileText": return <FileText size={18} />;
-            case "Image": return <ImageIcon size={18} />;
-            case "Store": return <Store size={18} />;
-            case "Calendar": return <Calendar size={18} />;
-            default: return <Info size={18} />;
+            case "Info": return <Info size={20} className="text-earth-green" />;
+            case "FlaskConical": return <FlaskConical size={20} className="text-earth-green" />;
+            case "CalendarDays": return <CalendarDays size={20} className="text-earth-green" />;
+            case "Users": return <Users size={20} className="text-earth-green" />;
+            case "MapPin": return <MapPin size={20} className="text-earth-green" />;
+            case "BedDouble": return <BedDouble size={20} className="text-earth-green" />;
+            case "FileText": return <FileText size={20} className="text-earth-green" />;
+            case "Image": return <ImageIcon size={20} className="text-earth-green" />;
+            case "Store": return <Store size={20} className="text-earth-green" />;
+            case "Calendar": return <Calendar size={20} className="text-earth-green" />;
+            default: return <Info size={20} className="text-earth-green" />;
         }
     };
 
     if (!data) return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
             <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
             <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
         </div>
     );
 
     return (
-        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
             <Navbar />
 
             <PageHero
-                headline={data.hero.headline}
-                subheadline={data.hero.subheadline}
-                backgroundImage={data.hero.backgroundImage}
+                headline={data.hero?.headline || "Official Conference Brochure"}
+                subheadline={data.hero?.subheadline || "Download the comprehensive conference prospectus, call for papers, and sponsorship dossier."}
+                backgroundImage={data.hero?.backgroundImage}
                 breadcrumb="Home / Brochure"
             />
 
             {/* Intro Card */}
-            <div className="container mx-auto px-6 mb-16 max-w-5xl">
-                <div className="bg-[#FFF8E1] rounded-xl p-10 md:p-14 border-l-4 border-[#D9A648] relative overflow-hidden">
-                    <div className="relative z-10">
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-6">{data.intro.title}</h2>
-                        <p className="text-gray-600 leading-relaxed text-lg">{data.intro.description}</p>
+            <div className="container mx-auto px-6 max-w-5xl relative z-20 mt-10 md:mt-12 pb-16">
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-earth-green/15 shadow-xl luxury-card text-center">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
+                        <Sparkles size={13} className="text-rice-gold" />
+                        Comprehensive Prospectus
                     </div>
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-[#D9A648]/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal mb-4">{data.intro?.title}</h2>
+                    <p className="text-charcoal/75 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-light">{data.intro?.description}</p>
                 </div>
             </div>
 
             {/* Highlights Grid */}
-            <div className="container mx-auto px-6 mb-24 max-w-6xl">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {data.highlights.map((item: any, i: number) => (
-                        <div key={item.id} className="bg-[#FFFDF7] p-8 rounded-2xl border-t-4 border-[#D9A648] shadow-sm hover:shadow-md transition-shadow">
-                            <h3 className="font-bold text-lg mb-3 text-charcoal">{item.title}</h3>
-                            <p className="text-xs text-gray-500 leading-relaxed">{item.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <section className="container mx-auto px-6 py-12 max-w-7xl">
+                <SectionTitle
+                    badge="Brochure Contents"
+                    title="Key Information Included"
+                    subtitle="Everything delegates, presenters, and sponsors need in a consolidated document."
+                    centered
+                />
 
-            {/* Download Section */}
-            <div className="container mx-auto px-6 mb-24 max-w-5xl">
-                <div className="bg-[#FFFDF7] rounded-3xl p-12 md:p-16 text-center border border-[#EFECE5] shadow-lg shadow-[#EFECE5]/50">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-6">{data.downloadSection.title}</h2>
-                    <p className="text-gray-500 mb-10 max-w-2xl mx-auto">{data.downloadSection.description}</p>
-
-                    <div className="flex flex-wrap justify-center gap-4 mb-8">
-                        {data.downloadSection.buttons.map((btn: any, i: number) => {
-                            const isPrimary = btn.variant === "primary";
-                            return (
-                                <Link key={i} href={btn.link}>
-                                    <Button className={cn(
-                                        "px-8 py-4 rounded-lg font-bold transition-all flex items-center gap-2",
-                                        isPrimary
-                                            ? "bg-[#10B981] hover:bg-[#059669] text-white shadow-lg shadow-emerald-500/20"
-                                            : "bg-white border text-[#10B981] border-[#10B981] hover:bg-emerald-50"
-                                    )}>
-                                        <Download size={18} />
-                                        {btn.label}
-                                    </Button>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider">{data.downloadSection.footerText}</p>
-                </div>
-            </div>
-
-            {/* Inside the Brochure - Chapters */}
-            <div className="container mx-auto px-6 mb-24 max-w-3xl">
-                <h2 className="text-2xl font-serif font-bold text-center text-charcoal mb-12">Inside the Brochure</h2>
-                <div className="space-y-4">
-                    {data.chapters.map((chapter: any) => (
-                        <div key={chapter.id} className="flex items-center gap-6 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors rounded-lg group">
-                            <div className="text-[#D9A648] group-hover:text-[#B88A38] transition-colors bg-[#FFF8E1] p-2 rounded-lg">
-                                {getIcon(chapter.icon)}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+                    {data.highlights?.map((item: any) => (
+                        <div key={item.id} className="bg-white p-7 rounded-3xl border border-earth-green/10 shadow-sm hover:shadow-lg transition-all luxury-card flex flex-col justify-between">
+                            <div>
+                                <h3 className="font-serif font-bold text-lg mb-2 text-charcoal">{item.title}</h3>
+                                <p className="text-xs text-charcoal/70 leading-relaxed font-light">{item.description}</p>
                             </div>
-                            <span className="text-gray-600 font-medium group-hover:text-charcoal transition-colors">{chapter.title}</span>
                         </div>
                     ))}
                 </div>
-            </div>
+            </section>
 
-            {/* Footer CTA */}
-            <div className="bg-[#123125] py-24 text-center text-white relative overflow-hidden">
-                <div className="container mx-auto px-6 max-w-4xl relative z-10">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">{data.footerCta.headline}</h2>
-                    <p className="text-emerald-100/70 mb-12 max-w-2xl mx-auto text-lg">{data.footerCta.subheadline}</p>
+            {/* Download Action Section */}
+            <section className="py-16 bg-white border-y border-gray-200/60 my-12">
+                <div className="container mx-auto px-6 max-w-4xl text-center">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-dark mb-2 block">
+                        PDF Downloads
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-charcoal mb-4">{data.downloadSection?.title}</h2>
+                    <p className="text-charcoal/70 text-base mb-10 max-w-2xl mx-auto font-light">{data.downloadSection?.description}</p>
 
                     <div className="flex flex-wrap justify-center gap-4">
-                        {data.footerCta.buttons.map((btn: any, i: number) => {
-                            if (btn.variant === "primary") {
-                                return (
-                                    <Link key={i} href={btn.link}>
-                                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-emerald-900/50">
-                                            {btn.label}
-                                        </Button>
-                                    </Link>
-                                )
-                            }
-                            if (btn.variant === "secondary") {
-                                return (
-                                    <Link key={i} href={btn.link}>
-                                        <Button className="bg-[#D9A648] hover:bg-[#B88A38] text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-yellow-900/20">
-                                            {btn.label}
-                                        </Button>
-                                    </Link>
-                                )
-                            }
-                            return (
-                                <Link key={i} href={btn.link}>
-                                    <Button variant="outline" className="border-emerald-700 text-emerald-100 hover:bg-emerald-900/50 hover:text-white px-8 py-3 rounded-lg font-bold">
-                                        {btn.label}
-                                    </Button>
-                                </Link>
-                            );
-                        })}
+                        {data.downloadSection?.buttons?.map((btn: any, i: number) => (
+                            <Link key={i} href={btn.link} target="_blank">
+                                <Button 
+                                    variant={btn.variant === "primary" ? "premium" : "outline"} 
+                                    size="lg"
+                                    className="text-xs uppercase tracking-wider font-bold"
+                                >
+                                    <Download size={16} className="mr-2" />
+                                    {btn.label}
+                                </Button>
+                            </Link>
+                        ))}
                     </div>
                 </div>
-                {/* Footer bottom decorative bar */}
-                <div className="absolute bottom-0 left-0 w-full h-2 bg-[#D9A648]"></div>
-            </div>
+            </section>
+
+            {/* Quick Links */}
+            {data.quickLinks && (
+                <section className="container mx-auto px-6 py-14 max-w-5xl">
+                    <SectionTitle
+                        badge="Fast Navigation"
+                        title="Explore Conference Sections"
+                        subtitle="Jump directly to detailed pages across the ORP-5 platform."
+                        centered
+                    />
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-12">
+                        {data.quickLinks.map((link: any) => (
+                            <Link key={link.id} href={link.link}>
+                                <div className="p-5 rounded-2xl bg-white border border-earth-green/10 hover:border-earth-green/40 transition-all flex items-center justify-between group luxury-card">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-9 h-9 rounded-xl bg-earth-green/5 flex items-center justify-center">
+                                            {getIcon(link.icon)}
+                                        </div>
+                                        <span className="text-xs font-bold text-charcoal group-hover:text-earth-green transition-colors">{link.title}</span>
+                                    </div>
+                                    <ArrowRight size={14} className="text-charcoal/40 group-hover:text-earth-green group-hover:translate-x-1 transition-all" />
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </section>
+            )}
 
             <Footer />
         </main>

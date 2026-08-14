@@ -3,18 +3,20 @@ import BlogCard from '@/components/molecules/BlogCard';
 import { BlogSearch } from '@/components/molecules/BlogSearch';
 import { Metadata } from 'next';
 import { Navbar } from '@/components/organisms/Navbar';
+import { Footer } from '@/components/organisms/Footer';
+import { PageHero } from '@/components/organisms/PageHero';
+import { SectionTitle } from '@/components/atoms/SectionTitle';
 
 export const metadata: Metadata = {
-    title: 'Blog - ORP-5 Conference',
-    description: 'Latest news, updates, and research articles from ORP-5 — the 5th International Conference on Organic and Natural Rice Production Systems, 21-25 September 2026, New Delhi.',
+    title: 'News & Media Insights | ORP-5 Conference',
+    description: 'Official announcements, scientific insights, and research articles from the 5th International Conference on Organic & Natural Rice Farming.',
     openGraph: {
-        title: 'Blog - ORP-5 Conference',
-        description: 'Latest news, updates, and research articles from ORP-5 — the 5th International Conference on Organic and Natural Rice Production Systems, 21-25 September 2026, New Delhi.',
+        title: 'News & Media Insights | ORP-5 Conference',
+        description: 'Official announcements, scientific insights, and research articles from the 5th International Conference on Organic & Natural Rice Farming.',
         type: 'website',
     },
 };
 
-// Always fetch fresh data from Supabase
 export const revalidate = 0;
 
 interface BlogPageProps {
@@ -26,39 +28,36 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     const posts = await getPublishedPosts(q);
 
     return (
-        <div className="min-h-screen bg-mist-white">
+        <div className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
             <Navbar variant="default" />
 
-            <main className="pt-36 md:pt-40 pb-24 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    <header className="text-center mb-16">
-                        <span className="text-earth-green font-bold tracking-wider uppercase text-sm mb-3 block">
-                            News & Updates
-                        </span>
-                        <h1 className="text-4xl md:text-5xl font-serif font-bold text-charcoal mb-6">
-                            Latest from ORP-5
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto font-sans leading-relaxed mb-8">
-                            Stay informed with the latest insights, announcements, and research highlights from the conference.
-                        </p>
-                        <BlogSearch />
-                    </header>
+            <PageHero
+                headline="Conference Insights & Press"
+                subheadline="Official updates, keynote previews, agricultural field notes, and scientific announcements."
+                breadcrumb="Home / Blog & Media"
+            />
 
-                    {posts && posts.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {posts.map((post) => (
-                                <BlogCard key={post.id} post={post} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-20 bg-white rounded-xl border border-gray-200 shadow-sm">
-                            <p className="text-lg text-gray-500">
-                                No blog posts found yet. Check back soon for updates!
-                            </p>
-                        </div>
-                    )}
+            <main className="container mx-auto px-6 py-14 max-w-7xl">
+                <div className="max-w-2xl mx-auto mb-16">
+                    <BlogSearch />
                 </div>
+
+                {posts && posts.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {posts.map((post) => (
+                            <BlogCard key={post.id} post={post} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-14 bg-white rounded-3xl border border-earth-green/10 shadow-sm max-w-2xl mx-auto luxury-card">
+                        <p className="text-base text-charcoal/60 font-light">
+                            {q ? `No articles matching "${q}". Try another search term.` : 'No articles published yet. Check back soon for conference updates!'}
+                        </p>
+                    </div>
+                )}
             </main>
+
+            <Footer />
         </div>
     );
 }

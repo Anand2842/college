@@ -54,7 +54,7 @@ export default async function ModeratorDashboard() {
     return (
         <main className="min-h-screen bg-gray-50">
             <Navbar />
-            <div className="container mx-auto px-4 sm:px-6 py-12 md:py-20 mt-16">
+            <div className="container mx-auto px-4 sm:px-6 py-12 md:py-14 mt-16">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
                     <div className="p-3 bg-blue-600 rounded-xl text-white shadow-lg shadow-blue-200 self-start sm:self-auto flex-shrink-0">

@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { Navbar } from '@/components/organisms/Navbar';
 import { Footer } from '@/components/organisms/Footer';
+import { PageHero } from '@/components/organisms/PageHero';
 import {
     Loader2, Search, CheckCircle2, Clock, XCircle, AlertTriangle,
-    Ticket, FileText, MailCheck, Send
+    Ticket, FileText, MailCheck, Send, ArrowRight, Sparkles
 } from 'lucide-react';
+import { Button } from '@/components/atoms/Button';
 import Link from 'next/link';
 
 type TabType = 'registration' | 'abstract';
@@ -47,43 +49,43 @@ type LookupResult = RegistrationResult | AbstractResult;
 function RegistrationStatusBadge({ status, paymentStatus }: { status: string; paymentStatus: string }) {
     if (status === 'approved' || paymentStatus === 'paid') {
         return (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-800 rounded-full font-bold text-xs">
-                <CheckCircle2 size={13} /> Confirmed & Paid
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full font-bold text-xs">
+                <CheckCircle2 size={13} className="text-earth-green" /> Confirmed & Paid
             </span>
         );
     }
     if (status === 'rejected') {
         return (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-800 rounded-full font-bold text-xs">
-                <XCircle size={13} /> Not Approved
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-red-50 text-red-800 border border-red-200 rounded-full font-bold text-xs">
+                <XCircle size={13} className="text-red-600" /> Not Approved
             </span>
         );
     }
     if (paymentStatus === 'payment_claimed') {
         return (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-bold text-xs">
-                <Clock size={13} /> Payment Under Verification
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-blue-50 text-blue-800 border border-blue-200 rounded-full font-bold text-xs">
+                <Clock size={13} className="text-blue-600" /> Payment Under Verification
             </span>
         );
     }
     return (
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full font-bold text-xs">
-            <Clock size={13} /> Pending Review
+        <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full font-bold text-xs">
+            <Clock size={13} className="text-amber-600" /> Pending Review
         </span>
     );
 }
 
 function AbstractStatusBadge({ status }: { status: string }) {
     const map: Record<string, { label: string; cls: string; icon: React.ReactNode }> = {
-        accepted: { label: 'Accepted', cls: 'bg-green-100 text-green-800', icon: <CheckCircle2 size={13} /> },
-        rejected: { label: 'Not Accepted', cls: 'bg-red-100 text-red-800', icon: <XCircle size={13} /> },
-        revision: { label: 'Revision Requested', cls: 'bg-blue-100 text-blue-800', icon: <AlertTriangle size={13} /> },
-        under_review: { label: 'Under Review', cls: 'bg-purple-100 text-purple-800', icon: <Clock size={13} /> },
-        pending: { label: 'Pending Review', cls: 'bg-yellow-100 text-yellow-800', icon: <Clock size={13} /> },
+        accepted: { label: 'Accepted', cls: 'bg-emerald-50 text-emerald-800 border-emerald-200', icon: <CheckCircle2 size={13} className="text-earth-green" /> },
+        rejected: { label: 'Not Accepted', cls: 'bg-red-50 text-red-800 border-red-200', icon: <XCircle size={13} className="text-red-600" /> },
+        revision: { label: 'Revision Requested', cls: 'bg-blue-50 text-blue-800 border-blue-200', icon: <AlertTriangle size={13} className="text-blue-600" /> },
+        under_review: { label: 'Under Review', cls: 'bg-purple-50 text-purple-800 border-purple-200', icon: <Clock size={13} className="text-purple-600" /> },
+        pending: { label: 'Pending Review', cls: 'bg-amber-50 text-amber-800 border-amber-200', icon: <Clock size={13} className="text-amber-600" /> },
     };
     const s = map[status] || map.pending;
     return (
-        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold text-xs ${s.cls}`}>
+        <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full font-bold text-xs border ${s.cls}`}>
             {s.icon} {s.label}
         </span>
     );
@@ -117,30 +119,32 @@ function ResendButton({ ticketId, email }: { ticketId: string; email: string }) 
 
     if (state === 'sent') {
         return (
-            <div className="flex items-center gap-2 text-green-700 text-sm font-semibold bg-green-50 border border-green-200 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-2 text-emerald-800 text-xs font-semibold bg-emerald-50 border border-emerald-200 rounded-2xl px-4 py-3">
                 <MailCheck size={16} /> {msg}
             </div>
         );
     }
     if (state === 'error') {
         return (
-            <div className="flex items-center gap-2 text-red-700 text-sm bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-2 text-red-700 text-xs bg-red-50 border border-red-200 rounded-2xl px-4 py-3">
                 <AlertTriangle size={16} /> {msg}
             </div>
         );
     }
 
     return (
-        <button
+        <Button
             onClick={handleResend}
             disabled={state === 'loading'}
-            className="flex items-center gap-2 text-sm font-bold text-[#123125] border border-[#123125] px-4 py-2.5 rounded-xl hover:bg-[#123125] hover:text-white transition-all disabled:opacity-60"
+            variant="outline"
+            size="sm"
+            className="text-xs uppercase tracking-wider font-bold"
         >
             {state === 'loading'
-                ? <><Loader2 size={15} className="animate-spin" /> Sending...</>
-                : <><Send size={15} /> Resend Ticket Email</>
+                ? <><Loader2 size={13} className="animate-spin mr-1.5" /> Sending...</>
+                : <><Send size={13} className="mr-1.5" /> Resend Ticket Confirmation</>
             }
-        </button>
+        </Button>
     );
 }
 
@@ -194,250 +198,184 @@ export default function TicketStatusPage() {
         }
     };
 
-    const accentColor = (result as RegistrationResult)?.status === 'approved' || (result as RegistrationResult)?.payment_status === 'paid'
-        ? 'bg-green-500'
-        : (result as RegistrationResult)?.status === 'rejected'
-            ? 'bg-red-500'
-            : 'bg-yellow-400';
-
     return (
-        <main className="min-h-screen bg-[#FFFDF7] font-sans">
+        <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
             <Navbar />
 
-            {/* Hero */}
-            <div className="bg-gradient-to-br from-[#123125] to-[#1a5c26] pt-36 md:pt-40 pb-14 px-6">
-                <div className="container mx-auto max-w-2xl text-center">
-                    <div className="inline-flex items-center gap-2 bg-white/10 text-green-200 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4">
-                        <Search size={12} />
-                        ORP-5 Status Portal
-                    </div>
-                    <h1 className="text-3xl md:text-4xl font-serif font-bold text-white mb-3">
-                        Track Your Status
-                    </h1>
-                    <p className="text-green-200 text-sm md:text-base max-w-md mx-auto">
-                        Look up your conference registration or abstract submission status — no login required.
-                    </p>
-                </div>
-            </div>
+            <PageHero
+                headline="Check Registration & Abstract Status"
+                subheadline="Instant verification of your conference delegate pass or research abstract review status."
+                breadcrumb="Home / Ticket Status"
+            />
 
-            <div className="container mx-auto max-w-xl px-6 py-12">
+            <div className="container mx-auto max-w-2xl px-6 relative z-20 mt-10 md:mt-12 pb-16">
 
                 {/* Tab Switcher */}
-                <div className="flex p-1 bg-white rounded-xl border border-gray-200 shadow-sm mb-6">
+                <div className="flex p-1.5 bg-white rounded-2xl border border-earth-green/15 shadow-lg mb-8">
                     <button
                         onClick={() => handleTabChange('registration')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-lg transition-all ${activeTab === 'registration'
-                            ? 'bg-[#123125] text-white shadow-sm'
-                            : 'text-gray-500 hover:text-gray-800'
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs md:text-sm font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${activeTab === 'registration'
+                            ? 'bg-earth-green text-rice-gold shadow-md'
+                            : 'text-charcoal/60 hover:text-charcoal'
                             }`}
                     >
-                        <Ticket size={15} /> Registration
+                        <Ticket size={16} /> Registration Ticket
                     </button>
                     <button
                         onClick={() => handleTabChange('abstract')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-lg transition-all ${activeTab === 'abstract'
-                            ? 'bg-[#123125] text-white shadow-sm'
-                            : 'text-gray-500 hover:text-gray-800'
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs md:text-sm font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${activeTab === 'abstract'
+                            ? 'bg-earth-green text-rice-gold shadow-md'
+                            : 'text-charcoal/60 hover:text-charcoal'
                             }`}
                     >
-                        <FileText size={15} /> Abstract Submission
+                        <FileText size={16} /> Abstract Status
                     </button>
                 </div>
 
-                {/* Form Card */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-6">
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Search Form Card */}
+                <div className="bg-white rounded-3xl shadow-xl border border-earth-green/15 p-8 md:p-10 mb-8 luxury-card">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         {activeTab === 'registration' ? (
                             <>
                                 <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1.5">
-                                        Ticket ID
-                                        <span className="ml-1 text-xs font-normal text-gray-400">(e.g. ORP5IC-IND-75230)</span>
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/70 mb-2">
+                                        Ticket / Reference ID *
                                     </label>
                                     <input
                                         type="text"
                                         required
+                                        placeholder="e.g. ORP5-2026-XXXX"
                                         value={ticketId}
-                                        onChange={e => setTicketId(e.target.value.toUpperCase())}
-                                        placeholder="ORP5IC-IND-00000"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#123125] focus:border-[#123125] transition-all font-mono uppercase placeholder:normal-case placeholder:text-gray-300"
+                                        onChange={(e) => setTicketId(e.target.value)}
+                                        className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-sm text-charcoal focus:outline-none focus:border-earth-green transition-colors"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1.5">
-                                        Registered Email Address
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/70 mb-2">
+                                        Registered Email Address *
                                     </label>
                                     <input
                                         type="email"
                                         required
+                                        placeholder="john.doe@university.edu"
                                         value={regEmail}
-                                        onChange={e => setRegEmail(e.target.value)}
-                                        placeholder="you@example.com"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#123125] focus:border-[#123125] transition-all placeholder:text-gray-300"
+                                        onChange={(e) => setRegEmail(e.target.value)}
+                                        className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-sm text-charcoal focus:outline-none focus:border-earth-green transition-colors"
                                     />
                                 </div>
                             </>
                         ) : (
-                            <>
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1.5">
-                                        Email Used During Submission
-                                    </label>
-                                    <input
-                                        type="email"
-                                        required
-                                        value={absEmail}
-                                        onChange={e => setAbsEmail(e.target.value)}
-                                        placeholder="you@example.com"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-[#123125] focus:border-[#123125] transition-all placeholder:text-gray-300"
-                                    />
-                                    <p className="text-xs text-gray-400 mt-1.5">We'll show all abstracts submitted under this email.</p>
-                                </div>
-                            </>
+                            <div>
+                                <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/70 mb-2">
+                                    Author Email Address *
+                                </label>
+                                <input
+                                    type="email"
+                                    required
+                                    placeholder="author@institution.org"
+                                    value={absEmail}
+                                    onChange={(e) => setAbsEmail(e.target.value)}
+                                    className="w-full bg-[#FAF9F5] border border-gray-200 rounded-2xl px-5 py-3.5 text-sm text-charcoal focus:outline-none focus:border-earth-green transition-colors"
+                                />
+                            </div>
                         )}
 
                         {error && (
-                            <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl p-4">
-                                <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+                            <div className="flex items-center gap-2.5 p-4 bg-red-50 text-red-700 text-xs sm:text-sm font-medium rounded-2xl border border-red-200">
+                                <AlertTriangle size={16} className="shrink-0" />
                                 <span>{error}</span>
                             </div>
                         )}
 
-                        <button
+                        <Button
                             type="submit"
+                            variant="premium"
+                            size="lg"
                             disabled={isLoading}
-                            className="w-full flex items-center justify-center gap-2 bg-[#123125] hover:bg-[#0e2a20] text-white font-bold py-3.5 px-6 rounded-xl transition-colors disabled:opacity-60"
+                            className="w-full text-xs uppercase tracking-wider font-bold"
                         >
-                            {isLoading
-                                ? <><Loader2 size={18} className="animate-spin" /> Checking...</>
-                                : <><Search size={18} /> Check Status</>
-                            }
-                        </button>
+                            {isLoading ? (
+                                <span className="flex items-center gap-2 justify-center">
+                                    <Loader2 className="w-4 h-4 animate-spin" /> Verifying Records...
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-2 justify-center">
+                                    Look Up Status <ArrowRight size={15} />
+                                </span>
+                            )}
+                        </Button>
                     </form>
-
-                    <p className="text-center text-xs text-gray-400 mt-4">
-                        🔒 Both fields are required for your privacy and security.
-                    </p>
                 </div>
 
-                {/* Result Card */}
-                {result && (
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-                        <div className={`h-1.5 w-full ${accentColor}`} />
+                {/* Result Display */}
+                {result && result.type === 'registration' && (
+                    <div className="bg-white rounded-3xl shadow-xl border border-earth-green/15 p-8 md:p-10 luxury-card space-y-6 animate-in fade-in duration-300">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
+                            <div>
+                                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal/50 block mb-1">
+                                    Ticket Reference
+                                </span>
+                                <h3 className="font-mono font-bold text-xl text-earth-green">{result.ticket_number}</h3>
+                            </div>
+                            <RegistrationStatusBadge status={result.status} paymentStatus={result.payment_status} />
+                        </div>
 
-                        <div className="p-8">
-                            {result.type === 'registration' && (() => {
-                                const r = result as RegistrationResult;
-                                const sym = r.currency === 'USD' ? '$' : '₹';
-                                return (
-                                    <>
-                                        <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
-                                            <RegistrationStatusBadge status={r.status} paymentStatus={r.payment_status} />
-                                            <span className="font-mono text-sm font-bold bg-gray-50 border border-gray-200 px-3 py-1 rounded-lg text-[#123125]">
-                                                {r.ticket_number}
-                                            </span>
-                                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div>
+                                <span className="text-charcoal/50 block">Delegate Name</span>
+                                <p className="font-bold text-charcoal">{result.full_name}</p>
+                            </div>
+                            <div>
+                                <span className="text-charcoal/50 block">Masked Email</span>
+                                <p className="font-medium text-charcoal">{result.email_masked}</p>
+                            </div>
+                            <div>
+                                <span className="text-charcoal/50 block">Participation Category</span>
+                                <p className="font-bold text-charcoal">{result.category}</p>
+                            </div>
+                            <div>
+                                <span className="text-charcoal/50 block">Attendance Mode</span>
+                                <p className="font-bold text-charcoal uppercase">{result.mode}</p>
+                            </div>
+                            <div>
+                                <span className="text-charcoal/50 block">Institution</span>
+                                <p className="font-medium text-charcoal">{result.institution}</p>
+                            </div>
+                            <div>
+                                <span className="text-charcoal/50 block">Registration Fee</span>
+                                <p className="font-bold text-earth-green">{result.currency} {result.fee_amount}</p>
+                            </div>
+                        </div>
 
-                                        <div className="space-y-2.5 text-sm mb-6">
-                                            {[
-                                                { label: 'Name', value: r.full_name },
-                                                { label: 'Email', value: r.email_masked },
-                                                { label: 'Institution', value: r.institution },
-                                                { label: 'Category', value: r.category },
-                                                { label: 'Mode', value: r.mode === 'physical' ? 'Physical (In-Person)' : 'Virtual' },
-                                                { label: 'Fee', value: `${sym}${r.fee_amount?.toLocaleString()}` },
-                                                {
-                                                    label: 'Payment', value: ({
-                                                        paid: '✅ Paid',
-                                                        payment_claimed: '⏳ Under Verification',
-                                                        awaiting_payment: '⚠️ Payment Pending',
-                                                    } as Record<string, string>)[r.payment_status] || r.payment_status
-                                                },
-                                                {
-                                                    label: 'Registered', value: new Date(r.registered_at).toLocaleDateString('en-IN', {
-                                                        year: 'numeric', month: 'long', day: 'numeric'
-                                                    })
-                                                },
-                                            ].map(({ label, value }) => (
-                                                <div key={label} className="flex justify-between gap-4 pb-2.5 border-b border-gray-50 last:border-0">
-                                                    <span className="text-gray-500 shrink-0">{label}</span>
-                                                    <span className="text-gray-900 font-semibold text-right capitalize">{value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        {/* Actions */}
-                                        <div className="flex flex-col sm:flex-row gap-3">
-                                            <ResendButton ticketId={r.ticket_number} email={regEmail} />
-                                            {r.payment_status === 'awaiting_payment' && (
-                                                <Link
-                                                    href={`/registration/pay?id=${r.ticket_number}`}
-                                                    className="flex items-center justify-center gap-2 text-sm font-bold bg-[#123125] text-white px-4 py-2.5 rounded-xl hover:bg-[#0e2a20] transition-colors"
-                                                >
-                                                    Complete Payment →
-                                                </Link>
-                                            )}
-                                        </div>
-                                    </>
-                                );
-                            })()}
-
-                            {result.type === 'abstract' && (() => {
-                                const a = result as AbstractResult;
-                                return (
-                                    <>
-                                        <p className="text-xs text-gray-500 mb-4">
-                                            Showing <span className="font-bold text-gray-800">{a.submissions.length}</span> submission{a.submissions.length !== 1 ? 's' : ''} for <span className="font-mono">{a.email_masked}</span>
-                                        </p>
-
-                                        <div className="space-y-4">
-                                            {a.submissions.map((sub, i) => (
-                                                <div key={sub.id} className="border border-gray-100 rounded-xl p-4">
-                                                    <div className="flex items-start justify-between gap-3 mb-2 flex-wrap">
-                                                        <span className="text-xs font-semibold text-gray-400">#{i + 1}</span>
-                                                        <AbstractStatusBadge status={sub.status} />
-                                                    </div>
-                                                    <p className="font-bold text-gray-900 text-sm leading-snug mb-3">{sub.title}</p>
-                                                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-500">
-                                                        <span>Abstract ID: <span className="text-gray-700 font-bold font-mono">ORP5-ABS-2026-{sub.id.substring(0, 8).toUpperCase()}</span></span>
-                                                        <span>Category: <span className="text-gray-700 font-medium">{sub.category}</span></span>
-                                                        <span>Theme: <span className="text-gray-700 font-medium">{sub.topic}</span></span>
-                                                        <span>Author: <span className="text-gray-700 font-medium">{sub.author_name}</span></span>
-                                                        <span>Submitted: <span className="text-gray-700 font-medium">{new Date(sub.submitted_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span></span>
-                                                    </div>
-                                                    {sub.status === 'revision' && (
-                                                        <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800 space-y-1.5">
-                                                            <p className="font-bold">✏️ Revision Requested</p>
-                                                            <p>The review committee has sent comments to your registered email. To view them and resubmit, you need a portal account.</p>
-                                                            <div className="flex gap-3 mt-2 flex-wrap">
-                                                                <Link href={`/login?mode=signup&email=${encodeURIComponent(absEmail)}`} className="font-bold underline">Create free account</Link>
-                                                                <span className="text-blue-400">or</span>
-                                                                <Link href="/login" className="font-bold underline">Log in</Link>
-                                                            </div>
-                                                            <p className="text-blue-600">Use the <strong>same email</strong> you submitted with — your submission links automatically.</p>
-                                                        </div>
-                                                    )}
-                                                    {sub.status === 'accepted' && (
-                                                        <div className="mt-3 bg-green-50 border border-green-200 rounded-lg p-3 text-xs text-green-800">
-                                                            🎉 Accepted! Further details will be emailed to you.
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                );
-                            })()}
+                        <div className="pt-6 border-t border-gray-100 flex justify-end">
+                            <ResendButton ticketId={result.ticket_number} email={regEmail} />
                         </div>
                     </div>
                 )}
 
-                <p className="text-center text-sm text-gray-400 mt-6">
-                    Can't find your details?{' '}
-                    <a href="mailto:info@orp5ic.com" className="text-[#123125] font-semibold hover:underline">
-                        Contact us
-                    </a>
-                </p>
+                {result && result.type === 'abstract' && (
+                    <div className="bg-white rounded-3xl shadow-xl border border-earth-green/15 p-8 md:p-10 luxury-card space-y-6 animate-in fade-in duration-300">
+                        <div className="pb-4 border-b border-gray-100">
+                            <h3 className="font-serif font-bold text-xl text-charcoal mb-1">Submissions for {result.email_masked}</h3>
+                            <p className="text-xs text-charcoal/60">Found {result.submissions.length} submission record(s)</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            {result.submissions.map((sub) => (
+                                <div key={sub.id} className="p-6 rounded-2xl bg-[#FAF9F5] border border-gray-100 flex flex-col justify-between gap-3">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <h4 className="font-serif font-bold text-base text-charcoal">{sub.title}</h4>
+                                        <AbstractStatusBadge status={sub.status} />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2 text-xs text-charcoal/70">
+                                        <p><span className="text-charcoal/50">Author:</span> {sub.author_name}</p>
+                                        <p><span className="text-charcoal/50">Track:</span> {sub.topic || sub.category}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
 
             <Footer />

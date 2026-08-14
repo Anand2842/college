@@ -122,7 +122,7 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-6 max-w-7xl -mt-24 relative z-20">
+            <div className="container mx-auto px-6 max-w-7xl relative z-20 mt-10 md:mt-12">
 
                 {/* Info Card Row */}
                 <div className="flex flex-col md:flex-row gap-6 mb-12">

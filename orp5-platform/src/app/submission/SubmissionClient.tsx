@@ -203,7 +203,7 @@ export default function SubmissionClient() {
                     }
                 `}</style>
 
-                <div className="container mx-auto px-4 md:px-6 py-24 max-w-3xl">
+                <div className="container mx-auto px-4 md:px-6 py-16 max-w-3xl">
 
                     {/* ── Hero Strip ───────────────────────────────── */}
                     <div className="text-center mb-10 no-print">

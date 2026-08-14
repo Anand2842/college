@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Merriweather } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -12,13 +12,13 @@ import { PromoModal } from "@/components/organisms/PromoModal";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const merriweather = Merriweather({
-  variable: "--font-merriweather",
-  weight: ["300", "400", "700", "900"],
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  preload: false,
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -89,9 +89,9 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={cn(
-          "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
+          "min-h-screen bg-background font-sans antialiased overflow-x-hidden selection:bg-earth-green/15 selection:text-earth-green",
           inter.variable,
-          merriweather.variable
+          playfair.variable
         )}
       >
         <noscript>

@@ -212,7 +212,7 @@ export default function PaymentInstructionClient() {
                 </div>
             </section>
 
-            <div className="container mx-auto px-4 max-w-4xl -mt-6 pb-20 relative z-10">
+            <div className="container mx-auto px-4 max-w-4xl relative z-10 mt-10">
 
                 {/* ── Ticket ID Card ── */}
                 <div className="bg-white rounded-2xl shadow-lg border-2 border-earth-green/20 p-6 md:p-8 mb-6">

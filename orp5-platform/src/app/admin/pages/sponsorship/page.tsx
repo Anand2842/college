@@ -16,10 +16,18 @@ export default function SponsorshipPageEditor() {
     const [activeTab, setActiveTab] = useState("Hero & Intro");
 
     useEffect(() => {
-        fetch("/api/content/sponsorship")
-            .then((res) => res.json())
+        fetch("/api/content/partnerships")
+            .then((res) => {
+                if (!res.ok) throw new Error("Network response was not ok");
+                return res.json();
+            })
             .then((jsonData) => {
                 setData(jsonData);
+                setLoading(false);
+            })
+            .catch((e) => {
+                console.error("Fetch error:", e);
+                alert("Failed to load sponsorship data. If you have an adblocker enabled, please try disabling it.");
                 setLoading(false);
             });
     }, []);
@@ -54,7 +62,7 @@ export default function SponsorshipPageEditor() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const res = await fetch('/api/content/sponsorship', {
+            const res = await fetch('/api/content/partnerships', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }

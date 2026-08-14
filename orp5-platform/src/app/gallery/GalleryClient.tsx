@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
-import { Loader2, Download, Image as ImageIcon, Newspaper, FileImage, Share2 } from "lucide-react";
+import { SectionTitle } from "@/components/atoms/SectionTitle";
+import { Download, Image as ImageIcon, Newspaper, FileImage, Share2, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 export default function GalleryClient() {
     const [data, setData] = useState<any>(null);
@@ -19,24 +18,21 @@ export default function GalleryClient() {
             fetch("/api/content/gallery").then((res) => res.json()),
             fetch("/api/content/homepage").then((res) => res.json()).catch(() => null),
         ]).then(([galleryData, homeData]) => {
-            // Merge homepage gallery images into mainGallery if mainGallery is empty
             const homeGalleryImages = (homeData?.gallery || [])
                 .filter((img: any) => img.url)
                 .map((img: any, i: number) => ({
                     id: `home-${i}`,
                     image: img.url,
-                    title: img.caption || `Gallery Image ${i + 1}`,
+                    title: img.caption || `Symposium Moment ${i + 1}`,
                     category: "All Photos",
                 }));
 
             const existingMain = galleryData.mainGallery || [];
             const existingFeatured = galleryData.featuredGallery || [];
 
-            // Use homepage images if no gallery-specific images exist
             const mergedMain = existingMain.length > 0 ? existingMain : homeGalleryImages;
             const mergedFeatured = existingFeatured.length > 0 ? existingFeatured : homeGalleryImages.slice(0, 3);
 
-            // Filter out "Explore Exhibition" button from footerCta
             if (galleryData.footerCta?.buttons) {
                 galleryData.footerCta.buttons = galleryData.footerCta.buttons.filter(
                     (btn: any) => btn.label !== "Explore Exhibition"
@@ -53,17 +49,17 @@ export default function GalleryClient() {
 
     const getIcon = (name: string) => {
         switch (name) {
-            case "Newspaper": return <Newspaper size={20} />;
-            case "FileImage": return <FileImage size={20} />;
-            case "Share2": return <Share2 size={20} />;
-            default: return <ImageIcon size={20} />;
+            case "Newspaper": return <Newspaper size={20} className="text-earth-green" />;
+            case "FileImage": return <FileImage size={20} className="text-earth-green" />;
+            case "Share2": return <Share2 size={20} className="text-earth-green" />;
+            default: return <ImageIcon size={20} className="text-earth-green" />;
         }
     };
 
     if (!data) return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
             <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
-            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+            <p className="text-sm text-earth-green/60 font-medium">Loading gallery...</p>
         </div>
     );
 
@@ -71,183 +67,138 @@ export default function GalleryClient() {
         ? data.mainGallery
         : data.mainGallery.filter((item: any) => item.category === activeFilter);
 
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-    };
-
-    // Check if we should show featured gallery (only on 'All Photos' or if it matches category)
-    const showFeatured = activeFilter === "All Photos";
-
     return (
-        <main className="min-h-screen bg-[#FFFDF7] font-sans text-charcoal overflow-x-hidden">
-            <Navbar variant="dark" />
+        <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
+            <Navbar variant="default" />
 
             <PageHero
-                headline={data.hero.headline}
-                subheadline={data.hero.subheadline}
-                backgroundImage={data.hero.backgroundImage}
+                headline={data.hero?.headline || "Global Symposia Gallery"}
+                subheadline={data.hero?.subheadline || "A photographic archive of past editions across Montpellier, Rome, Porto Alegre, and Tokyo."}
+                backgroundImage={data.hero?.backgroundImage}
                 breadcrumb="Home / Photo Gallery"
             />
 
             {/* Intro Card */}
-            <div className="container mx-auto px-6 mb-16 max-w-5xl">
-                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border-l-4 border-[#DFC074] relative overflow-hidden">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4 relative z-10">{data.intro.title}</h2>
-                    <p className="text-gray-600 leading-relaxed text-lg relative z-10">{data.intro.description}</p>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#DFC074]/10 rounded-fullblur-2xl -mr-10 -mt-10"></div>
+            <div className="container mx-auto px-6 max-w-5xl relative z-20 mt-10 md:mt-12 pb-16">
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-earth-green/15 shadow-xl luxury-card text-center">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
+                        <Sparkles size={13} className="text-rice-gold" />
+                        Heritage Archive
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal mb-4">{data.intro?.title}</h2>
+                    <p className="text-charcoal/75 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-light">{data.intro?.description}</p>
                 </div>
             </div>
 
-            {/* Filters */}
-            <div className="container mx-auto px-6 mb-12">
-                <div className="flex flex-wrap justify-center gap-2 md:gap-4 px-2">
-                    {data.filters.map((filter: string) => (
-                        <button
-                            key={filter}
-                            onClick={() => setActiveFilter(filter)}
-                            className={cn(
-                                "px-6 py-2 rounded-full text-sm font-bold transition-all relative",
-                                activeFilter === filter
-                                    ? "bg-[#DFC074] text-charcoal shadow-md"
-                                    : "bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
-                            )}
+            {/* Category Filter Tabs */}
+            {data.categories && data.categories.length > 0 && (
+                <section className="container mx-auto px-6 max-w-5xl mb-12">
+                    <div className="flex flex-wrap items-center justify-center gap-2.5">
+                        {data.categories.map((cat: string) => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveFilter(cat)}
+                                className={`px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-2xl transition-all cursor-pointer ${
+                                    activeFilter === cat
+                                        ? "bg-earth-green text-rice-gold shadow-md ring-2 ring-earth-green/20"
+                                        : "bg-white text-charcoal/70 border border-gray-200 hover:border-earth-green/40 hover:text-earth-green"
+                                }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Photo Grid */}
+            <section className="container mx-auto px-6 py-8 max-w-7xl pb-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredGallery?.map((item: any) => (
+                        <div
+                            key={item.id}
+                            className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group border border-earth-green/10 flex flex-col luxury-card"
                         >
-                            {filter}
-                            {activeFilter === filter && (
-                                <motion.div
-                                    layoutId="activeFilter"
-                                    className="absolute inset-0 bg-[#DFC074] rounded-full -z-10"
-                                    initial={false}
-                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                />
-                            )}
-                        </button>
+                            <div className="h-64 overflow-hidden relative bg-gray-100">
+                                {item.image && (
+                                    <img
+                                        src={item.image}
+                                        alt={item.title || "Gallery photo"}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                    <span className="text-white text-xs font-medium">{item.category || "Symposium Highlights"}</span>
+                                </div>
+                            </div>
+                            <div className="p-6">
+                                <h3 className="font-serif font-bold text-base text-charcoal mb-1">{item.title}</h3>
+                                {item.caption && <p className="text-xs text-charcoal/60 leading-relaxed font-light">{item.caption}</p>}
+                            </div>
+                        </div>
                     ))}
                 </div>
-            </div>
+            </section>
 
-            {/* Gallery Content */}
-            <div className="container mx-auto px-6 mb-24 max-w-7xl">
+            {/* Press & Media Kit */}
+            {data.pressKit && (
+                <section className="py-16 bg-white border-t border-gray-200/60">
+                    <div className="container mx-auto px-6 max-w-6xl">
+                        <SectionTitle
+                            badge="Media Assets"
+                            title="Press Kit & Official Assets"
+                            subtitle="High-resolution logos, brand guidelines, and official symposium photo archives for media outlets."
+                            centered
+                        />
 
-                {/* Featured Gallery (Only shown when 'All Photos' is active) */}
-                <AnimatePresence mode="wait">
-                    {showFeatured && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-                        >
-                            {data.featuredGallery.map((item: any, i: number) => (
-                                <motion.div
-                                    key={item.id}
-                                    variants={fadeInUp}
-                                    initial="hidden"
-                                    animate="visible"
-                                    transition={{ delay: i * 0.1 }}
-                                    className="group relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-md cursor-pointer"
-                                >
-                                    {item.image ? <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" /> : <div className="w-full h-full bg-gray-200" />}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
-                                        <h3 className="text-white font-bold text-xl mb-1 translate-y-2 group-hover:translate-y-0 transition-transform">{item.title}</h3>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                {/* Main Grid */}
-                <div className="text-center mb-8">
-                    <h3 className="text-2xl font-serif font-bold text-charcoal">{activeFilter === "All Photos" ? "Inauguration & Keynotes" : activeFilter}</h3>
-                    <div className="h-1 w-24 bg-[#E5E7EB] mx-auto mt-4 rounded-full relative">
-                        <div className="absolute inset-0 bg-[#DFC074] w-1/3 rounded-full mx-auto"></div>
-                    </div>
-                </div>
-
-                <motion.div
-                    layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-                >
-                    <AnimatePresence>
-                        {filteredGallery.map((item: any) => (
-                            <motion.div
-                                key={item.id}
-                                layout
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.3 }}
-                                className="group relative h-64 rounded-xl overflow-hidden shadow-sm hover:shadow-lg cursor-pointer bg-gray-100"
-                            >
-                                {item.image ? <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /> : <div className="w-full h-full bg-gray-200" />}
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                                    <span className="text-white font-medium text-sm">{item.title}</span>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </motion.div>
-
-                {filteredGallery.length === 0 && (
-                    <div className="text-center py-20 text-gray-400">
-                        <p>No photos found in this category yet.</p>
-                    </div>
-                )}
-            </div>
-
-            {/* Downloadable Media Kits */}
-            <div className="bg-[#FFFDF7] py-20">
-                <div className="container mx-auto px-6 max-w-5xl">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">Downloadable Media Kits</h2>
-                        <p className="text-gray-500">Access official photos, logos, and social media assets from the ORP-5 conference.</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {data.mediaKits.map((kit: any, i: number) => (
-                            <motion.div
-                                key={kit.id}
-                                whileHover={{ y: -5 }}
-                                className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md flex items-center justify-between group cursor-pointer"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-[#DFC074]/10 text-[#B89C56] rounded-lg flex items-center justify-center group-hover:bg-[#DFC074] group-hover:text-white transition-colors">
-                                        {getIcon(kit.icon)}
-                                    </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                            {data.pressKit.items?.map((item: any, i: number) => (
+                                <div key={i} className="bg-[#FAF9F5] p-7 rounded-3xl border border-earth-green/10 luxury-card flex flex-col justify-between">
                                     <div>
-                                        <h3 className="font-bold text-charcoal text-sm md:text-base">{kit.title}</h3>
-                                        <p className="text-xs text-gray-500">{kit.description}</p>
+                                        <div className="w-12 h-12 rounded-2xl bg-earth-green/5 text-earth-green flex items-center justify-center mb-4">
+                                            {getIcon(item.icon)}
+                                        </div>
+                                        <h3 className="font-serif font-bold text-lg text-charcoal mb-2">{item.title}</h3>
+                                        <p className="text-xs text-charcoal/70 leading-relaxed font-light mb-6">{item.description}</p>
                                     </div>
+                                    <Link href={item.downloadLink || "#"} target="_blank">
+                                        <Button variant="outline" size="sm" className="w-full text-xs font-bold uppercase tracking-wider">
+                                            <Download size={13} className="mr-1.5" /> Download Asset
+                                        </Button>
+                                    </Link>
                                 </div>
-                                <div className="text-gray-300 group-hover:text-[#DFC074] transition-colors">
-                                    <Download size={20} />
-                                </div>
-                            </motion.div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            )}
 
             {/* Footer CTA */}
-            <div className="bg-[#123125] py-20 text-center text-white relative overflow-hidden">
-                <div className="container mx-auto px-6 max-w-4xl relative z-10">
-                    <div className="w-16 h-1 bg-[#DFC074] mx-auto mb-8 rounded-full"></div>
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">{data.footerCta.headline}</h2>
-                    <p className="text-emerald-100/70 mb-12 max-w-2xl mx-auto text-lg leading-relaxed">{data.footerCta.subheadline}</p>
+            <section className="py-14 container mx-auto px-6 max-w-6xl">
+                <div className="bg-earth-green-deep text-white rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left border border-white/10 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-rice-gold/10 blur-[100px] rounded-full pointer-events-none" />
+                    
+                    <div className="relative z-10 max-w-xl">
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
+                            Be Part of History
+                        </span>
+                        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
+                            Capture Your Moments at ORP-5
+                        </h3>
+                        <p className="text-white/70 text-sm font-light">
+                            Join over 500 delegates from 40+ countries in New Delhi this September 2026.
+                        </p>
+                    </div>
 
-                    <div className="flex flex-wrap justify-center gap-4">
-                        {data.footerCta.buttons.map((btn: any, i: number) => (
-                            <Link key={i} href={btn.link}>
-                                <Button variant="outline" className="border-emerald-700 text-emerald-100 hover:bg-emerald-900/50 hover:text-white hover:border-emerald-500 px-8 py-3 rounded-lg transition-all">
-                                    {btn.label}
-                                </Button>
-                            </Link>
-                        ))}
+                    <div className="relative z-10 shrink-0">
+                        <Link href="/registration">
+                            <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                Register Now <ArrowRight size={15} className="ml-2" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <Footer />
         </main>

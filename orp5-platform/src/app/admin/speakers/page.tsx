@@ -15,10 +15,18 @@ export default function SpeakersManager() {
     const [activeTab, setActiveTab] = useState("Keynotes");
 
     useEffect(() => {
-        fetch("/api/content/speakers")
-            .then((res) => res.json())
+        fetch("/api/content/presenters")
+            .then((res) => {
+                if (!res.ok) throw new Error("Network response was not ok");
+                return res.json();
+            })
             .then((jsonData) => {
                 setData(jsonData);
+                setLoading(false);
+            })
+            .catch((e) => {
+                console.error("Fetch error:", e);
+                alert("Failed to load speakers data. If you have an adblocker enabled, please try disabling it.");
                 setLoading(false);
             });
     }, []);
@@ -40,7 +48,7 @@ export default function SpeakersManager() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const res = await fetch('/api/content/speakers', {
+            const res = await fetch('/api/content/presenters', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }

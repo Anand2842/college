@@ -59,25 +59,39 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
         const fileContent = fs.readFileSync(fileObj.filepath);
         const filename = `${Date.now()}_${(fileObj.originalFilename || 'upload.bin').replace(/\s/g, '_')}`;
 
-        const { data, error } = await getSupabaseAdmin()
+        let bucketName = 'uploads';
+        let uploadResult = await getSupabaseAdmin()
             .storage
-            .from('uploads')
+            .from(bucketName)
             .upload(filename, fileContent, {
                 contentType: fileObj.mimetype || undefined,
                 cacheControl: '3600',
                 upsert: false
             });
 
-        if (error) {
-            console.error("Supabase Upload error:", error);
-            return res.status(500).json({ error: "Failed to upload file to storage." });
+        // Fallback to 'public' bucket if 'uploads' doesn't exist
+        if (uploadResult.error && (uploadResult.error.message.includes('not found') || uploadResult.error.message.includes('Bucket'))) {
+            bucketName = 'public';
+            uploadResult = await getSupabaseAdmin()
+                .storage
+                .from(bucketName)
+                .upload(`uploads/${filename}`, fileContent, {
+                    contentType: fileObj.mimetype || undefined,
+                    cacheControl: '3600',
+                    upsert: false
+                });
+        }
+
+        if (uploadResult.error) {
+            console.error("Supabase Upload error:", uploadResult.error);
+            return res.status(500).json({ error: `Failed to upload: ${uploadResult.error.message}. Please ensure the bucket '${bucketName}' exists and is public in Supabase.` });
         }
 
         // 4. Get Public URL
         const { data: publicUrlData } = getSupabaseAdmin()
             .storage
-            .from('uploads')
-            .getPublicUrl(filename);
+            .from(bucketName)
+            .getPublicUrl(bucketName === 'public' ? `uploads/${filename}` : filename);
 
         return res.status(200).json({
             success: true,

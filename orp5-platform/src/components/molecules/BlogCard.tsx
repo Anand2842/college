@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { BlogPost } from '@/lib/supabase-blog';
-// import { formatDate } from '@/lib/utils';
-import { Calendar, User } from 'lucide-react';
+import { Calendar, User, ArrowRight } from 'lucide-react';
 
 interface BlogCardProps {
     post: BlogPost & {
@@ -14,61 +13,65 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
     return (
-        <article className="relative flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 group">
+        <article className="relative flex flex-col bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 group border border-earth-green/10 overflow-hidden luxury-card">
             {post.cover_image && (
-                <div className="relative h-56 w-full overflow-hidden">
+                <div className="relative h-60 w-full overflow-hidden bg-gray-100">
                     <img
                         src={post.cover_image}
                         alt={post.title}
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
             )}
-            <div className="flex flex-col flex-1 p-6">
-                {post.category && (
-                    <span className="self-start bg-[#E8F5E9] text-[#1B5E20] text-[10px] uppercase font-bold px-2.5 py-1 rounded-full tracking-wider mb-3">
-                        {post.category}
-                    </span>
-                )}
-                <div className="flex items-center gap-4 text-xs font-medium text-gray-500 mb-3 uppercase tracking-wide">
-                    <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-rice-gold" />
-                        <time dateTime={post.published_at || post.created_at}>
-                            {new Date(post.published_at || post.created_at).toLocaleDateString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric'
-                            })}
-                        </time>
+            
+            <div className="flex flex-col flex-1 p-7 sm:p-8 justify-between">
+                <div>
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                        {post.category && (
+                            <span className="bg-earth-green/5 text-earth-green text-[11px] uppercase font-bold px-3 py-1 rounded-full tracking-wider border border-earth-green/15">
+                                {post.category}
+                            </span>
+                        )}
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-charcoal/50">
+                            <Calendar className="w-3.5 h-3.5 text-rice-gold-dark" />
+                            <time dateTime={post.published_at || post.created_at}>
+                                {new Date(post.published_at || post.created_at).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                })}
+                            </time>
+                        </div>
                     </div>
+
+                    <h3 className="text-xl font-serif font-bold text-charcoal mb-3 line-clamp-2 group-hover:text-earth-green transition-colors leading-snug">
+                        <Link href={`/blog/${post.slug}`}>
+                            {post.title}
+                        </Link>
+                    </h3>
+
+                    <p className="text-charcoal/70 line-clamp-3 mb-6 text-xs sm:text-sm leading-relaxed font-light">
+                        {post.excerpt || post.content.replace(/<[^>]+>/g, '').substring(0, 140) + '...'}
+                    </p>
                 </div>
 
-                <h3 className="text-xl font-serif font-bold text-charcoal mb-3 line-clamp-2 group-hover:text-earth-green transition-colors">
-                    <Link href={`/blog/${post.slug}`}>
-                        {post.title}
-                    </Link>
-                </h3>
-
-                <p className="text-gray-600 line-clamp-3 mb-6 flex-1 text-sm leading-relaxed">
-                    {post.excerpt || post.content.replace(/<[^>]+>/g, '').substring(0, 150) + '...'}
-                </p>
-
-                <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
                     {post.profiles?.display_name ? (
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                            <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
-                                <User className="w-3 h-3 text-gray-400" />
+                        <div className="flex items-center gap-2 text-xs text-charcoal/60">
+                            <div className="w-6 h-6 rounded-full bg-earth-green/10 text-earth-green flex items-center justify-center font-bold text-[10px]">
+                                {post.profiles.display_name.charAt(0)}
                             </div>
-                            <span>{post.profiles.display_name}</span>
+                            <span className="font-medium">{post.profiles.display_name}</span>
                         </div>
-                    ) : <div></div>}
+                    ) : <div />}
 
                     <Link
                         href={`/blog/${post.slug}`}
-                        className="inline-flex min-h-[44px] items-center text-sm font-bold text-earth-green hover:text-earth-green/80 transition-colors before:absolute before:inset-0"
+                        className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-earth-green group-hover:text-rice-gold-dark transition-colors gap-1"
                     >
-                        Read Article &rarr;
+                        <span>Read Article</span>
+                        <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
             </div>

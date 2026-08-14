@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
-import { Loader2, Star, Clock, Bus, Mail, Phone, Wifi, Utensils, Plane, Dumbbell, Waves, Briefcase, Bed, Building, ChevronDown } from "lucide-react";
+import { SectionTitle } from "@/components/atoms/SectionTitle";
+import { Star, Clock, Bus, Mail, Phone, Wifi, Utensils, Plane, Dumbbell, Waves, Briefcase, Bed, Building, ChevronDown, MapPin, ExternalLink, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,39 +22,34 @@ export default function AccommodationClient() {
 
     const getAmenityIcon = (name: string) => {
         switch (name) {
-            case "Wifi": return <Wifi size={16} />;
-            case "Utensils": return <Utensils size={16} />;
-            case "Plane": return <Plane size={16} />;
-            case "Bus": return <Bus size={16} />;
-            case "Dumbbell": return <Dumbbell size={16} />;
-            case "Waves": return <Waves size={16} />;
-            case "Briefcase": return <Briefcase size={16} />;
-            case "Bed": return <Bed size={16} />;
-            default: return <Building size={16} />;
+            case "Wifi": return <Wifi size={14} className="text-earth-green" />;
+            case "Utensils": return <Utensils size={14} className="text-earth-green" />;
+            case "Plane": return <Plane size={14} className="text-earth-green" />;
+            case "Bus": return <Bus size={14} className="text-earth-green" />;
+            case "Dumbbell": return <Dumbbell size={14} className="text-earth-green" />;
+            case "Waves": return <Waves size={14} className="text-earth-green" />;
+            case "Briefcase": return <Briefcase size={14} className="text-earth-green" />;
+            case "Bed": return <Bed size={14} className="text-earth-green" />;
+            default: return <Building size={14} className="text-earth-green" />;
         }
     };
 
     const getTypeIcon = (name: string) => {
-        if (name === "Briefcase") return <Briefcase size={32} />;
-        if (name === "Bed") return <Bed size={32} />;
-        if (name === "Building") return <Building size={32} />;
-        return <Star size={32} />;
+        if (name === "Briefcase") return <Briefcase size={28} />;
+        if (name === "Bed") return <Bed size={28} />;
+        if (name === "Building") return <Building size={28} />;
+        return <Star size={28} />;
     };
 
     if (!data) return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFDF7]">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
             <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
             <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
         </div>
     );
 
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-    };
-
     return (
-        <main className="min-h-screen bg-[#F9F7F0] font-sans text-charcoal overflow-x-hidden">
+        <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
             <Navbar />
 
             <PageHero
@@ -64,72 +60,73 @@ export default function AccommodationClient() {
                 buttons={data.hero.buttons}
             />
 
-            {/* Info Bar */}
-            <div className="bg-[#EFECE5] border-b border-gray-200 py-4 text-xs md:text-sm font-medium text-gray-700">
-                <div className="container mx-auto px-6 flex flex-wrap justify-center gap-6 md:gap-12 text-center">
-                    <span className="flex items-center gap-2"><Clock size={16} className="text-earth-green" /> {data.infoBar.checkInOut}</span>
-                    <span className="flex items-center gap-2"><Bus size={16} className="text-earth-green" /> {data.infoBar.shuttle}</span>
-                    <span className="flex items-center gap-2"><Mail size={16} className="text-earth-green" /> {data.infoBar.contact}</span>
-                </div>
-            </div>
-
             {/* Convenient Hotels */}
-            <div id="official-hotels" className="container mx-auto px-6 py-20">
-                <div className="text-left mb-12">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal">Convenient Hotels</h2>
-                </div>
+            <section id="official-hotels" className="container mx-auto px-6 py-16 max-w-7xl">
+                <SectionTitle
+                    badge="Preferred Lodging"
+                    title="Convenient Partner Hotels"
+                    subtitle="Curated hotels offering special delegate rates and dedicated conference shuttle transfers."
+                    centered
+                />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
                     {data.officialHotels.map((hotel: any, i: number) => (
-                        <motion.div
+                        <div
                             key={hotel.id}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeInUp}
-                            transition={{ delay: i * 0.1 }}
-                            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 flex flex-col"
+                            className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-earth-green/10 flex flex-col luxury-card"
                         >
-                            <div className="h-56 overflow-hidden relative bg-gray-200">
-                                {hotel.image && <img src={hotel.image} alt={hotel.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />}
+                            <div className="h-60 overflow-hidden relative bg-gray-200">
+                                {hotel.image && (
+                                    <img 
+                                        src={hotel.image} 
+                                        alt={hotel.name} 
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                    />
+                                )}
+                                <div className="absolute top-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-bold text-earth-green shadow-sm flex items-center gap-1">
+                                    <MapPin size={12} />
+                                    <span>{hotel.distance}</span>
+                                </div>
                             </div>
-                            <div className="p-6 flex-1 flex flex-col">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-bold text-xl text-charcoal">{hotel.name}</h3>
-                                    <div className="text-xs text-gray-500 text-right">
-                                        {hotel.distance}
-                                    </div>
-                                </div>
-                                <div className="flex items-center mb-4">
-                                    {[...Array(hotel.stars)].map((_, i) => <Star key={i} size={14} className="fill-[#D9A648] text-[#D9A648]" />)}
-                                </div>
-                                <div className="mb-4">
-                                    <span className="text-xl font-bold text-[#10B981]">{hotel.priceRange}</span>
-                                    <span className="text-xs text-gray-500"> {hotel.priceUnit}</span>
-                                </div>
-
-                                <div className="mb-6 space-y-2">
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Amenities:</p>
-                                    <div className="grid grid-cols-2 gap-y-2 gap-x-1">
-                                        {hotel.amenities.map((am: string, idx: number) => (
-                                            <div key={idx} className="flex items-center text-xs text-gray-600">
-                                                {getAmenityIcon(am)} {am}
-                                            </div>
+                            
+                            <div className="p-7 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-center gap-1 mb-2">
+                                        {[...Array(hotel.stars || 4)].map((_, idx) => (
+                                            <Star key={idx} size={14} className="fill-rice-gold text-rice-gold" />
                                         ))}
                                     </div>
+
+                                    <h3 className="font-serif font-bold text-xl text-charcoal mb-2">{hotel.name}</h3>
+                                    
+                                    <div className="mb-4">
+                                        <span className="text-2xl font-serif font-bold gradient-text-earth">{hotel.priceRange}</span>
+                                        <span className="text-xs text-charcoal/60 font-medium"> {hotel.priceUnit}</span>
+                                    </div>
+
+                                    <div className="mb-6 pt-4 border-t border-gray-100">
+                                        <p className="text-[11px] font-bold text-rice-gold-dark uppercase tracking-wider mb-2">Key Amenities</p>
+                                        <div className="grid grid-cols-2 gap-2 text-xs text-charcoal/70">
+                                            {hotel.amenities?.map((am: string, idx: number) => (
+                                                <div key={idx} className="flex items-center gap-1.5">
+                                                    {getAmenityIcon(am)}
+                                                    <span>{am}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="mt-auto pt-4 border-t border-gray-100">
+                                <div className="pt-4 border-t border-gray-100 mt-auto">
                                     {hotel.contactDetails ? (
-                                        /* ── Expandable Accordion ── */
                                         <div>
                                             <button
                                                 onClick={() => setOpenAccordion(openAccordion === hotel.id ? null : hotel.id)}
-                                                className="w-full flex items-center justify-between text-sm text-gray-500 hover:text-gray-800 transition-colors py-1"
+                                                className="w-full flex items-center justify-between text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold-dark transition-colors py-2 cursor-pointer"
                                             >
-                                                <span className="font-medium">Need accommodation help?</span>
+                                                <span>Contact Booking Desk</span>
                                                 <ChevronDown
-                                                    size={15}
+                                                    size={14}
                                                     className={`transition-transform duration-200 ${openAccordion === hotel.id ? 'rotate-180' : ''}`}
                                                 />
                                             </button>
@@ -142,24 +139,24 @@ export default function AccommodationClient() {
                                                         transition={{ duration: 0.2 }}
                                                         className="overflow-hidden"
                                                     >
-                                                        <div className="pt-2 pb-1 flex flex-col gap-1.5 text-[12px] text-gray-600">
+                                                        <div className="pt-3 pb-1 flex flex-col gap-2 text-xs text-charcoal/80 bg-[#FAF9F5] p-3 rounded-xl border border-gray-100 mt-2">
                                                             {hotel.contactDetails.name && (
-                                                                <p className="font-semibold text-gray-700">{hotel.contactDetails.name}</p>
+                                                                <p className="font-bold text-charcoal">{hotel.contactDetails.name}</p>
                                                             )}
                                                             {hotel.contactDetails.phone && (
                                                                 <a
                                                                     href={`tel:${hotel.contactDetails.phone.split('/')[0].trim()}`}
-                                                                    className="flex items-center gap-1.5 text-gray-500 hover:text-gray-800 transition-colors"
+                                                                    className="flex items-center gap-2 text-earth-green hover:underline"
                                                                 >
-                                                                    <Phone size={11} /> {hotel.contactDetails.phone}
+                                                                    <Phone size={12} /> {hotel.contactDetails.phone}
                                                                 </a>
                                                             )}
                                                             {hotel.contactDetails.email && (
                                                                 <a
                                                                     href={`mailto:${hotel.contactDetails.email}`}
-                                                                    className="flex items-center gap-1.5 text-gray-500 hover:text-gray-800 transition-colors break-all"
+                                                                    className="flex items-center gap-2 text-earth-green hover:underline break-all"
                                                                 >
-                                                                    <Mail size={11} /> {hotel.contactDetails.email}
+                                                                    <Mail size={12} /> {hotel.contactDetails.email}
                                                                 </a>
                                                             )}
                                                         </div>
@@ -171,89 +168,117 @@ export default function AccommodationClient() {
                                         <>
                                             {hotel.bookingLink && !hotel.bookingLink.startsWith('#') && (
                                                 <Link href={hotel.bookingLink} className="block w-full">
-                                                    <Button className="w-full bg-[#1C5C43] hover:bg-[#154434] text-white font-semibold py-2 rounded-lg mb-2">
-                                                        Check Availability
+                                                    <Button variant="default" className="w-full text-xs uppercase tracking-wider font-bold mb-2">
+                                                        Check Availability <ExternalLink size={13} className="ml-1.5" />
                                                     </Button>
                                                 </Link>
                                             )}
-                                            {hotel.promoCode && <p className="text-center text-[10px] text-gray-400">Code: <span className="font-mono font-semibold text-gray-600 bg-gray-100 px-1 rounded">{hotel.promoCode}</span></p>}
+                                            {hotel.promoCode && (
+                                                <p className="text-center text-[11px] text-charcoal/60 mt-1">
+                                                    Discount Code: <span className="font-mono font-bold text-earth-green bg-earth-green/5 px-2 py-0.5 rounded border border-earth-green/15">{hotel.promoCode}</span>
+                                                </p>
+                                            )}
                                         </>
                                     )}
                                 </div>
 
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
-            </div>
+            </section>
 
-            {/* Nearby Recommended Hotels & Map */}
-            <div className="bg-white py-20 border-t border-gray-100">
-                <div className="container mx-auto px-6">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-12">Nearby Recommended Hotels</h2>
+            {/* Nearby Recommended Hotels */}
+            {data.nearbyHotels && data.nearbyHotels.length > 0 && (
+                <section className="bg-white py-16 border-t border-gray-200/60">
+                    <div className="container mx-auto px-6 max-w-7xl">
+                        <SectionTitle
+                            badge="Additional Options"
+                            title="Nearby Recommended Hotels"
+                            subtitle="Alternate comfortable lodging options within 5–10 km radius of the NASC Complex."
+                            centered
+                        />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-black">
-                        {/* Nearby List */}
-                        {data.nearbyHotels.map((hotel: any, i: number) => (
-                            <motion.div
-                                key={hotel.id}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                className="bg-[#F8FAFC] border border-gray-100 p-6 rounded-xl flex flex-col justify-between"
-                            >
-                                <div>
-                                    <h3 className="font-bold text-lg mb-2">{hotel.name}</h3>
-                                    <p className="text-xs text-gray-500 mb-4">{hotel.distance}</p>
-                                    <p className="font-bold text-[#10B981] mb-4">{hotel.price}</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                            {data.nearbyHotels.map((hotel: any) => (
+                                <div
+                                    key={hotel.id}
+                                    className="bg-[#FAF9F5] border border-earth-green/10 p-7 rounded-3xl flex flex-col justify-between luxury-card"
+                                >
+                                    <div>
+                                        <h3 className="font-serif font-bold text-lg text-charcoal mb-1">{hotel.name}</h3>
+                                        <p className="text-xs text-charcoal/60 mb-3">{hotel.distance}</p>
+                                        <p className="text-xl font-serif font-bold gradient-text-earth mb-4">{hotel.price}</p>
+                                    </div>
+                                    <Button variant="outline" size="sm" className="w-full text-xs font-bold uppercase tracking-wider">
+                                        Check Rates
+                                    </Button>
                                 </div>
-                                <Button variant="outline" className="w-full text-xs font-bold border-gray-200 bg-emerald-50 hover:bg-emerald-100 text-[#065F46] border-0">
-                                    Check Availability
-                                </Button>
-                            </motion.div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            )}
 
             {/* Accommodation Types */}
-            <div className="bg-[#EFEEE9] py-20">
-                <div className="container mx-auto px-6 max-w-6xl">
-                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-12">Accommodation Types</h2>
+            {data.types && (
+                <section className="bg-[#FAF9F5] py-16 border-t border-gray-200/60">
+                    <div className="container mx-auto px-6 max-w-6xl">
+                        <SectionTitle
+                            badge="Categories"
+                            title="Accommodation Categories"
+                            subtitle="Options spanning luxury 5-star delegates hotels, standard business hotels, and academic guest houses."
+                            centered
+                        />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {data.types.map((type: any, i: number) => (
-                            <div key={type.id} className="p-4">
-                                <div className="bg-[#DFC074]/20 w-16 h-16 rounded-2xl flex items-center justify-center text-[#8C6B1F] mb-6">
-                                    {getTypeIcon(type.icon)}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                            {data.types.map((type: any) => (
+                                <div key={type.id} className="bg-white rounded-3xl p-8 border border-earth-green/10 luxury-card">
+                                    <div className="w-14 h-14 rounded-2xl bg-earth-green/10 text-earth-green flex items-center justify-center mb-6">
+                                        {getTypeIcon(type.icon)}
+                                    </div>
+                                    <h3 className="font-serif font-bold text-xl text-charcoal mb-4">{type.title}</h3>
+                                    <ul className="space-y-2.5">
+                                        {type.features.map((feature: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-2.5 text-xs text-charcoal/70">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-rice-gold shrink-0 mt-1.5" />
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <h3 className="font-bold text-xl text-charcoal mb-4">{type.title}</h3>
-                                <ul className="space-y-2">
-                                    {type.features.map((feature: string, idx: number) => (
-                                        <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
-                                            <span className="mt-1.5 w-1 h-1 rounded-full bg-charcoal/50 shrink-0" />
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            )}
 
             {/* Footer CTA */}
-            <div className="bg-[#0A221C] py-20 text-center text-white m-6 rounded-3xl mx-auto max-w-6xl relative overflow-hidden">
-                <div className="relative z-10 px-6">
-                    <h2 className="text-3xl font-serif font-bold mb-4">{data.footerCta.headline}</h2>
-                    <p className="text-emerald-100/70 mb-10 max-w-xl mx-auto">{data.footerCta.subheadline}</p>
-                    <Link href={data.footerCta.buttonLink}>
-                        <Button className="bg-[#10B981] hover:bg-[#059669] text-white font-bold px-8 py-3 rounded-lg">
-                            {data.footerCta.buttonLabel}
-                        </Button>
-                    </Link>
+            <section className="py-14 container mx-auto px-6 max-w-6xl">
+                <div className="bg-earth-green-deep text-white rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left border border-white/10 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-rice-gold/10 blur-[100px] rounded-full pointer-events-none" />
+                    
+                    <div className="relative z-10 max-w-xl">
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
+                            Need Assistance?
+                        </span>
+                        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
+                            {data.footerCta?.headline || "Hospitality & Accommodation Desk"}
+                        </h3>
+                        <p className="text-white/70 text-sm">
+                            {data.footerCta?.subheadline || "Contact our organizing hospitality team for group bookings, visa support, and student hostel allotments."}
+                        </p>
+                    </div>
+
+                    <div className="relative z-10 shrink-0">
+                        <Link href={data.footerCta?.buttonLink || "/contact"}>
+                            <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                {data.footerCta?.buttonLabel || "Contact Team"} <ArrowRight size={15} className="ml-2" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <Footer />
         </main>

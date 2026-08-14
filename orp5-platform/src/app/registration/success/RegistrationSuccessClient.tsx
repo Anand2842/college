@@ -162,7 +162,7 @@ export default function RegistrationSuccessClient() {
                 </div>
             </div>
 
-            <div className="flex-1 container mx-auto px-6 max-w-5xl -mt-6 relative z-20 pb-20">
+            <div className="flex-1 container mx-auto px-6 max-w-5xl relative z-20 mt-10 md:mt-12 pb-20">
 
                 {/* Success Banner */}
                 <div className="bg-[#FFF8E1] border border-[#EAD6C0] rounded-xl p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start mb-8 shadow-sm">
@@ -345,7 +345,7 @@ export default function RegistrationSuccessClient() {
             </div>
 
             {/* Footer CTA */}
-            <div className="bg-[#2D4A3E] py-20 text-center relative overflow-hidden">
+            <div className="bg-[#2D4A3E] py-14 text-center relative overflow-hidden">
                 <div className="container mx-auto px-6 relative z-10">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">{data.nextSteps.title}</h2>
                     <p className="text-gray-300 max-w-2xl mx-auto mb-10 text-lg">{data.nextSteps.description}</p>
