@@ -72,6 +72,25 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18391142256"
+          strategy="beforeInteractive"
+        />
+        <Script
+          id="google-tag-aw"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'AW-18391142256');
+            `,
+          }}
+        />
         <Script
           id="google-tag-manager"
           strategy="beforeInteractive"
