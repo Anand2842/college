@@ -2,36 +2,41 @@ export const dynamic = 'force-dynamic';
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Hero } from "@/components/organisms/Hero";
-import { ThemeCard } from "@/components/molecules/ThemeCard";
-import { SpeakerCard } from "@/components/molecules/SpeakerCard";
-import { ProgrammeCard } from "@/components/molecules/ProgrammeCard";
-import { FAQItem } from "@/components/molecules/FAQItem";
-import { DateStep } from "@/components/molecules/DateStep";
 import { PartnerCard } from "@/components/molecules/PartnerCard";
 import { InfiniteMarquee } from "@/components/molecules/InfiniteMarquee";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { StatsStrip } from "@/components/organisms/StatsStrip";
 import { OrganizersHierarchy } from "@/components/organisms/OrganizersHierarchy";
 import { AboutPreview } from "@/components/organisms/AboutPreview";
-import { CallForPapers } from "@/components/organisms/CallForPapers";
-import { AwardsPreview } from "@/components/organisms/AwardsPreview";
-import { PublicationInfo } from "@/components/organisms/PublicationInfo";
 import { VenuePreview } from "@/components/organisms/VenuePreview";
 import { Footer } from "@/components/organisms/Footer";
 import { createPageMetadata } from "@/lib/metadata";
 import {
-  Sprout, Mountain, Apple, Info, Leaf, Calendar, UserPlus,
-  LucideIcon, Globe, Lightbulb, Briefcase, Star
+  Sprout, Mountain, Apple, Leaf, Calendar, UserPlus,
+  LucideIcon, Globe, Lightbulb, Briefcase, Star,
+  Cpu, Droplets, Wheat, Sun, HeartPulse, TrendingUp, Landmark
 } from "lucide-react";
 import { getHomepageData } from "@/lib/cms";
 import Link from "next/link";
-import Image from "next/image";
 
-// Icon Mapping
+// Icon Mapping (for CMS iconName field)
 const iconMap: Record<string, LucideIcon> = {
-  Sprout, Mountain, Apple, Info, Leaf, Calendar, UserPlus,
-  Globe, Lightbulb, Briefcase, Star
+  Sprout, Mountain, Apple, Leaf, Calendar, UserPlus,
+  Globe, Lightbulb, Briefcase, Star, Cpu, Droplets, Wheat, Sun, HeartPulse, TrendingUp, Landmark
 };
+
+// Fallback icons per theme index (when CMS has no iconName set)
+const themeIconsByIndex: LucideIcon[] = [
+  Wheat,        // 1. Organic & Natural Rice Production
+  Lightbulb,    // 2. Innovations & Emerging Tech
+  Sprout,       // 3. Natural Farming Models
+  Sun,          // 4. Climate Change & Carbon-Neutral
+  Droplets,     // 5. Soil, Water & Plant Health
+  HeartPulse,   // 6. Food Quality, Nutrition & Health
+  Cpu,          // 7. AI-Driven Mechanization
+  TrendingUp,   // 8. Scaling, Value Chains & Markets
+  Landmark,     // 9. Policy, Institutions & Capacity
+];
 
 export const metadata = createPageMetadata({
   title: '5th International Conference on Organic and Natural Rice Production Systems',
@@ -111,31 +116,55 @@ export default async function Home() {
       {/* 3. Global Legacy & About Preview */}
       <AboutPreview />
 
-      {/* 4. Important Deadlines & Dates */}
-      <section id="dates" className="py-16 bg-[#FAF9F5] border-y border-gray-200/60">
-        <div className="container mx-auto px-6 text-center max-w-7xl">
+      {/* 4. Important Deadlines & Dates — Compact Timeline */}
+      <section id="dates" className="py-10 md:py-16 bg-[#FAF9F5] border-y border-gray-200/60">
+        <div className="container mx-auto px-6 text-center max-w-3xl">
           <SectionTitle
             badge="Milestones"
-            title="Important Dates & Deadlines"
-            subtitle="Keep on track with key submission, review, registration, and conference milestones."
+            title="Important Dates"
+            subtitle="Key deadlines at a glance."
             centered
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6 mt-16 text-left">
-            {data.dates.map((item: any, index: number) => (
-              <DateStep
-                key={index}
-                date={item.date}
-                label={item.label}
-                status={item.status}
-                isLast={index === data.dates.length - 1}
-              />
-            ))}
+          <div className="mt-8 md:mt-10 space-y-0 text-left">
+            {data.dates.map((item: any, index: number) => {
+              const isCompleted = item.status === "completed";
+              const isUrgent = item.status === "urgent" || item.status === "active";
+              return (
+                <div
+                  key={index}
+                  className={`flex items-center gap-4 py-3.5 ${index !== data.dates.length - 1 ? 'border-b border-gray-200/60' : ''}`}
+                >
+                  {/* Status dot */}
+                  <div className={`w-3 h-3 rounded-full shrink-0 ${
+                    isCompleted ? 'bg-sapling-green' : isUrgent ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'
+                  }`} />
+                  {/* Date */}
+                  <span className={`text-sm font-serif font-bold shrink-0 w-[130px] sm:w-[160px] ${
+                    isUrgent ? 'text-earth-green' : isCompleted ? 'text-charcoal/50' : 'text-charcoal'
+                  }`}>
+                    {item.date}
+                  </span>
+                  {/* Label */}
+                  <span className={`text-sm ${
+                    isCompleted ? 'text-charcoal/50 line-through' : isUrgent ? 'text-charcoal font-semibold' : 'text-charcoal/80'
+                  }`}>
+                    {item.label}
+                  </span>
+                  {/* Urgent badge */}
+                  {isUrgent && (
+                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full shrink-0 hidden sm:inline">
+                      Deadline
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          <div className="mt-10">
+          <div className="mt-8">
             <Link href="/important-dates">
-              <button className="gold-shimmer-btn font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
+              <button className="gold-shimmer-btn font-bold py-3 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
                 View Full Timeline
               </button>
             </Link>
@@ -143,37 +172,47 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 5. Conference Thematic Tracks */}
-      <section id="themes" className="py-16 bg-white relative">
-        <div className="container mx-auto px-6 text-center max-w-7xl">
+      {/* 5. Conference Thematic Tracks — Premium Mini Cards */}
+      <section id="themes" className="py-10 md:py-16 bg-white relative">
+        <div className="container mx-auto px-6 text-center max-w-4xl">
           <SectionTitle
             badge="Scientific Agenda"
             title="Conference Thematic Areas"
-            subtitle="Explore the 9 core thematic areas shaping the future of organic and natural rice systems globally."
+            subtitle="9 core tracks shaping the future of organic and natural rice systems."
             centered
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-10 text-left">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-10">
             {data.themes.map((theme: any, index: number) => {
-              const Icon = iconMap[theme.iconName] || Sprout;
+              const Icon = (theme.iconName && iconMap[theme.iconName]) || themeIconsByIndex[index] || Sprout;
+              const num = String(index + 1).padStart(2, "0");
               return (
-                <ThemeCard
+                <Link
                   key={theme.id || index}
-                  icon={<Icon size={30} strokeWidth={1.5} />}
-                  title={theme.title}
-                  description={theme.description}
                   href="/themes"
-                  submissionHref="/submission"
-                  colorTheme={theme.colorTheme}
-                  delay={0.06 * (index + 1)}
-                  subtitle={`Theme ${index + 1}`}
-                />
+                  className="group relative overflow-hidden rounded-2xl p-5 md:p-6 bg-gradient-to-br from-[#FAF9F5] to-white border border-earth-green/8 hover:border-rice-gold/40 hover:shadow-lg transition-all duration-300 text-left"
+                >
+                  {/* Watermark Number */}
+                  <span className="absolute -top-1 -right-1 text-5xl md:text-6xl font-serif font-black text-earth-green/[0.04] group-hover:text-rice-gold/[0.12] transition-colors duration-300 select-none pointer-events-none leading-none">
+                    {num}
+                  </span>
+                  
+                  {/* Icon */}
+                  <div className="w-10 h-10 rounded-xl bg-earth-green/8 text-earth-green flex items-center justify-center mb-3 group-hover:bg-earth-green group-hover:text-white transition-all duration-300">
+                    <Icon size={20} strokeWidth={1.5} />
+                  </div>
+                  
+                  {/* Title */}
+                  <h3 className="text-sm md:text-base font-bold text-charcoal leading-snug group-hover:text-earth-green transition-colors">
+                    {theme.title}
+                  </h3>
+                </Link>
               );
             })}
           </div>
 
-          <div className="mt-10">
+          <div className="mt-8">
             <Link href="/themes">
-              <button className="bg-earth-green hover:bg-earth-green-dark text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
+              <button className="bg-earth-green hover:bg-earth-green-dark text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
                 Explore All 9 Tracks In Detail
               </button>
             </Link>

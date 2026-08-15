@@ -60,12 +60,12 @@ export function StatsStrip() {
   ];
 
   return (
-    <section className="bg-earth-green-deep text-white py-16 relative overflow-hidden border-y border-white/10">
+    <section className="bg-earth-green-deep text-white py-8 md:py-16 relative overflow-hidden border-y border-white/10">
       {/* Ambient background glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-sapling-green/10 blur-[140px] rounded-full pointer-events-none" />
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 lg:gap-6 text-center">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 md:gap-4 lg:gap-6 text-center">
           {stats.map((stat, index) => (
             <motion.div 
               key={index}
@@ -73,12 +73,12 @@ export function StatsStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="flex flex-col items-center p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:border-rice-gold/40 transition-all duration-300 group"
+              className={`flex flex-col items-center p-3 md:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:border-rice-gold/40 transition-all duration-300 group ${index === stats.length - 1 ? 'col-span-2 md:col-span-1' : ''}`}
             >
-              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center mb-2 md:mb-3 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white mb-1 flex items-center justify-center tracking-tight">
+              <div className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-white mb-0.5 md:mb-1 flex items-center justify-center tracking-tight">
                 <span className="gradient-text-gold"><AnimatedCounter to={stat.value} /></span>
                 <span className="gradient-text-gold">{stat.suffix}</span>
               </div>

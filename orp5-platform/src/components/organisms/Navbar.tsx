@@ -44,6 +44,14 @@ const navItems: NavItem[] = [
         ]
     },
     {
+        label: "Registration",
+        href: "/registration",
+        children: [
+            { label: "Tariff & Guidelines", href: "/registration" },
+            { label: "Track Ticket Status", href: "/ticket-status" },
+        ]
+    },
+    {
         label: "Awards",
         href: "/awards",
     },
@@ -60,6 +68,10 @@ const navItems: NavItem[] = [
             { label: "How to Reach", href: "/how-to-reach" },
             { label: "About the City", href: "/about/city" },
         ]
+    },
+    {
+        label: "Contact",
+        href: "/contact",
     }
 ];
 
@@ -150,8 +162,8 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                         
                         {isLoggedIn ? (
                             <div className="flex items-center gap-6">
-                                <Link href={isModerator ? "/moderator/dashboard" : "/dashboard"} className="text-rice-gold hover:text-white transition-colors flex items-center gap-1">
-                                    {isModerator ? "Reviewer Portal" : "Dashboard"}
+                                <Link href={isModerator ? "/moderator/dashboard" : isAdmin ? "/admin/dashboard" : "/dashboard"} className="text-rice-gold hover:text-white transition-colors flex items-center gap-1">
+                                    {isModerator ? "Reviewer Portal" : isAdmin ? "Admin Portal" : "Dashboard"}
                                     <ArrowRight size={12} />
                                 </Link>
                                 <form action="/auth/signout" method="post" className="m-0 p-0 flex">
@@ -185,7 +197,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     </Link>
 
                     {/* Main Links (Center) */}
-                    <div className="hidden xl:flex items-center space-x-7">
+                    <div className="hidden xl:flex items-center space-x-4 2xl:space-x-6">
                         {navItems.map((item) => {
                             const isAwards = item.label === "Awards";
                             const awardsColor = isTransparentAtTop ? "text-rice-gold hover:text-white drop-shadow-md" : "text-earth-green hover:text-earth-green/80 font-bold";
@@ -195,7 +207,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                     <Link
                                         href={item.href}
                                         className={cn(
-                                            "flex items-center gap-1 text-[13.5px] font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap tracking-wide",
+                                            "flex items-center gap-1 text-[13px] 2xl:text-[13.5px] font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap tracking-wide",
                                             isAwards ? awardsColor : textColorClass
                                         )}
                                     >
@@ -222,7 +234,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                                     key={item.label}
                                     href={item.href}
                                     className={cn(
-                                        "text-[13.5px] font-semibold transition-colors whitespace-nowrap tracking-wide",
+                                        "text-[13px] 2xl:text-[13.5px] font-semibold transition-colors whitespace-nowrap tracking-wide",
                                         isAwards ? awardsColor : textColorClass
                                     )}
                                 >
@@ -338,8 +350,8 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             <Link href="/contact" className="font-bold text-gray-900 block text-lg mb-4" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
                             
                             {isLoggedIn ? (
-                                <Link href={isModerator ? "/moderator/dashboard" : "/dashboard"} className="font-bold text-gray-900 block text-lg" onClick={() => setIsMobileMenuOpen(false)}>
-                                    {isModerator ? "Reviewer Portal" : "Dashboard"}
+                                <Link href={isModerator ? "/moderator/dashboard" : isAdmin ? "/admin/dashboard" : "/dashboard"} className="font-bold text-gray-900 block text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                                    {isModerator ? "Reviewer Portal" : isAdmin ? "Admin Portal" : "Dashboard"}
                                 </Link>
                             ) : null}
                         </div>

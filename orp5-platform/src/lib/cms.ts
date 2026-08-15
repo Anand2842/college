@@ -776,3 +776,9 @@ export async function updateGlobalSettings(data: any) {
         throw e;
     }
 }
+
+export async function getContactPageData() {
+    const content = await getPageContent('contact');
+    return content || null;
+}
+

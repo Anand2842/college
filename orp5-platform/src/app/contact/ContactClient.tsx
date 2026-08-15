@@ -5,13 +5,17 @@ import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
-import { Loader2, Mail, MapPin, Clock, Store, MonitorPlay, Handshake, Sparkles, Send, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, Mail, Store, MonitorPlay, Handshake, Send, CheckCircle2, MapPin, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import Script from 'next/script';
 
-export default function ContactClient() {
-    const [data, setData] = useState<any>(null);
+interface ContactClientProps {
+    initialData?: any;
+}
+
+export default function ContactClient({ initialData }: ContactClientProps) {
+    const [data, setData] = useState<any>(initialData || null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [formError, setFormError] = useState("");
@@ -64,10 +68,13 @@ export default function ContactClient() {
     };
 
     useEffect(() => {
-        fetch("/api/content/contact")
-            .then((res) => res.json())
-            .then((jsonData) => setData(jsonData));
-    }, []);
+        if (!initialData) {
+            fetch("/api/content/contact")
+                .then((res) => res.json())
+                .then((jsonData) => setData(jsonData))
+                .catch((e) => console.error("Error fetching contact data:", e));
+        }
+    }, [initialData]);
 
     const getIcon = (name: string) => {
         switch (name) {
@@ -81,7 +88,7 @@ export default function ContactClient() {
     if (!data) return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
             <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
-            <p className="text-sm text-earth-green/60 font-medium">Loading...</p>
+            <p className="text-sm text-earth-green/60 font-medium">Loading contact information...</p>
         </div>
     );
 
@@ -96,7 +103,7 @@ export default function ContactClient() {
                     "logo": "https://www.orp5ic.com/icon.png",
                     "contactPoint": {
                         "@type": "ContactPoint",
-                        "email": data.generalInquiries?.email,
+                        "email": data.generalInquiries?.email || "info@orp5ic.com",
                         "contactType": "customer service"
                     }
                 })}
@@ -110,47 +117,58 @@ export default function ContactClient() {
                 breadcrumb="Home / Contact Us"
             />
 
-            {/* Intro Card */}
-            <div className="container mx-auto px-6 max-w-5xl relative z-20 mt-10 md:mt-12 pb-16">
-                <div className="bg-white rounded-3xl p-8 md:p-12 border border-earth-green/15 shadow-xl luxury-card text-center">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
-                        <Sparkles size={13} className="text-rice-gold" />
-                        Dedicated Support Desks
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal mb-4">{data.intro?.title}</h2>
-                    <p className="text-charcoal/75 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-light">{data.intro?.description}</p>
-                </div>
-            </div>
-
             {/* Specialized Departments Grid */}
-            <section className="container mx-auto px-6 py-12 max-w-7xl">
-                <SectionTitle
-                    badge="Direct Channels"
-                    title="Departmental Contact Desks"
-                    subtitle="Connect directly with specialized coordinators for expedited resolution."
-                    centered
-                />
+            {data.departments && data.departments.length > 0 && (
+                <section className="container mx-auto px-6 py-12 max-w-7xl">
+                    <SectionTitle
+                        badge="Direct Channels"
+                        title="Departmental Contact Desks"
+                        subtitle="Connect directly with specialized coordinators for expedited resolution."
+                        centered
+                    />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-                    {data.departments?.map((dept: any) => (
-                        <div key={dept.id} className="bg-white p-8 rounded-3xl border border-earth-green/10 shadow-sm hover:shadow-xl transition-all luxury-card flex flex-col justify-between">
-                            <div>
-                                <h3 className="font-serif font-bold text-xl mb-3 text-charcoal">{dept.title}</h3>
-                                <p className="text-xs sm:text-sm text-charcoal/70 mb-6 leading-relaxed font-light">{dept.description}</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                        {data.departments?.map((dept: any) => (
+                            <div key={dept.id} className="bg-white p-8 rounded-3xl border border-earth-green/10 shadow-sm hover:shadow-xl transition-all luxury-card flex flex-col justify-between">
+                                <div>
+                                    <h3 className="font-serif font-bold text-xl mb-3 text-charcoal">{dept.title}</h3>
+                                    <p className="text-xs sm:text-sm text-charcoal/70 mb-6 leading-relaxed font-light">{dept.description}</p>
+                                </div>
+                                
+                                <div className="space-y-2 pt-4 border-t border-gray-100 mt-auto">
+                                    {dept.emails?.map((deptEmail: string, idx: number) => (
+                                        <a key={idx} href={`mailto:${deptEmail}`} className="inline-flex items-center gap-2 text-earth-green font-semibold text-xs sm:text-sm hover:underline break-all">
+                                            <Mail size={14} className="shrink-0" /> {deptEmail}
+                                        </a>
+                                    ))}
+                                    {dept.note && <p className="mt-3 text-[10px] text-rice-gold-dark uppercase tracking-wider font-bold">{dept.note}</p>}
+                                </div>
                             </div>
-                            
-                            <div className="space-y-2 pt-4 border-t border-gray-100 mt-auto">
-                                {dept.emails?.map((email: string, idx: number) => (
-                                    <a key={idx} href={`mailto:${email}`} className="inline-flex items-center gap-2 text-earth-green font-semibold text-xs sm:text-sm hover:underline break-all">
-                                        <Mail size={14} className="shrink-0" /> {email}
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Additional Contacts if present */}
+            {data.additionalContacts && data.additionalContacts.length > 0 && (
+                <section className="container mx-auto px-6 py-8 max-w-5xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        {data.additionalContacts.map((contact: any) => (
+                            <div key={contact.id} className="bg-white p-6 rounded-2xl border border-earth-green/10 shadow-sm flex items-center gap-4 luxury-card">
+                                <div className="w-10 h-10 rounded-xl bg-earth-green/10 text-earth-green flex items-center justify-center shrink-0">
+                                    {getIcon(contact.icon)}
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-xs sm:text-sm text-charcoal">{contact.title}</h4>
+                                    <a href={`mailto:${contact.email}`} className="text-xs text-earth-green hover:underline">
+                                        {contact.email}
                                     </a>
-                                ))}
-                                {dept.note && <p className="mt-3 text-[10px] text-rice-gold-dark uppercase tracking-wider font-bold">{dept.note}</p>}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+                        ))}
+                    </div>
+                </section>
+            )}
 
             {/* Interactive Contact Form */}
             <section className="py-16 bg-white border-y border-gray-200/60 my-16">
@@ -232,6 +250,38 @@ export default function ContactClient() {
                             </Button>
                         </div>
                     </form>
+                </div>
+            </section>
+
+            {/* Venue & Operating Hours info if available */}
+            <section className="container mx-auto px-6 pb-20 max-w-6xl">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {data.venueInfo && (
+                        <div className="bg-white p-8 rounded-3xl border border-earth-green/10 luxury-card">
+                            <div className="w-10 h-10 rounded-xl bg-earth-green/10 text-earth-green flex items-center justify-center mb-4">
+                                <MapPin size={20} />
+                            </div>
+                            <h3 className="font-serif font-bold text-lg text-charcoal mb-2">{data.venueInfo.title || "Conference Venue"}</h3>
+                            <div className="text-sm text-charcoal/75 space-y-1 mb-4">
+                                {data.venueInfo.address?.map((line: string, i: number) => (
+                                    <p key={i}>{line}</p>
+                                ))}
+                            </div>
+                            <Link href="/how-to-reach" className="text-xs font-bold text-earth-green inline-flex items-center gap-1 hover:underline">
+                                View Directions & Campus Map <ArrowRight size={12} />
+                            </Link>
+                        </div>
+                    )}
+                    {data.operatingHours && (
+                        <div className="bg-white p-8 rounded-3xl border border-earth-green/10 luxury-card">
+                            <div className="w-10 h-10 rounded-xl bg-earth-green/10 text-earth-green flex items-center justify-center mb-4">
+                                <Clock size={20} />
+                            </div>
+                            <h3 className="font-serif font-bold text-lg text-charcoal mb-2">{data.operatingHours.title || "Operating Hours"}</h3>
+                            <p className="text-sm text-charcoal/80 font-medium mb-2">{data.operatingHours.hours}</p>
+                            <p className="text-xs text-charcoal/60 leading-relaxed">{data.operatingHours.note}</p>
+                        </div>
+                    )}
                 </div>
             </section>
 

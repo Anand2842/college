@@ -16,9 +16,9 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
 
   // Size config: Standard international conference sizing. Subtle differences between tiers.
   const sizeMap = {
-    lg: 'h-20 md:h-24 max-w-[140px] md:max-w-[180px]',
-    md: 'h-16 md:h-20 max-w-[120px] md:max-w-[160px]',
-    sm: 'h-14 md:h-16 max-w-[100px] md:max-w-[140px]',
+    lg: 'h-16 md:h-24 max-w-[110px] md:max-w-[180px]',
+    md: 'h-14 md:h-20 max-w-[100px] md:max-w-[160px]',
+    sm: 'h-12 md:h-16 max-w-[85px] md:max-w-[140px]',
   };
 
   return (

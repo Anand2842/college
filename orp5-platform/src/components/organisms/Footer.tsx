@@ -2,15 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
-import { Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram, ArrowRight, Globe } from "lucide-react";
+import { Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/atoms/Button";
-import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 export function Footer() {
     const [social, setSocial] = useState<{ facebook?: string; twitter?: string; linkedin?: string; instagram?: string }>({});
-    const { openModal } = useRegistrationModal();
 
     useEffect(() => {
         fetch("/api/settings")
@@ -103,6 +100,7 @@ export function Footer() {
                             <li><Link href="/awards" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Awards & Prizes</Link></li>
                             <li><Link href="/venue" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Venue & Travel</Link></li>
                             <li><Link href="/registration" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Registration</Link></li>
+                            <li><Link href="/contact" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Contact Us</Link></li>
                         </ul>
                     </div>
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/atoms/Button"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { CountdownTimer } from "@/components/atoms/CountdownTimer"
-import { Globe, MapPin, Calendar, ArrowRight, Sparkles } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 interface HeroProps {
@@ -46,7 +46,7 @@ export function Hero({
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-sapling-green/15 blur-[150px] rounded-full pointer-events-none z-10" />
 
             {/* Content Container */}
-            <div className="relative z-20 container mx-auto px-6 text-center text-white h-full flex flex-col justify-center items-center pt-36 pb-16 md:pt-48 md:pb-24">
+            <div className="relative z-20 container mx-auto px-6 text-center text-white h-full flex flex-col justify-center items-center pt-28 pb-16 md:pt-48 md:pb-24">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
