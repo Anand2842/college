@@ -16,26 +16,34 @@ export default function SponsorshipPageEditor() {
     const [activeTab, setActiveTab] = useState("Hero & Intro");
 
     useEffect(() => {
-        fetch("/api/content/partnerships")
+        fetch("/api/content/sponsorship")
             .then((res) => {
-                if (!res.ok) throw new Error("Network response was not ok");
+                if (!res.ok) throw new Error("Primary endpoint failed");
                 return res.json();
             })
             .then((jsonData) => {
                 setData(jsonData);
                 setLoading(false);
             })
-            .catch((e) => {
-                console.error("Fetch error:", e);
-                alert("Failed to load sponsorship data. If you have an adblocker enabled, please try disabling it.");
-                setLoading(false);
+            .catch(() => {
+                fetch("/api/content/partnerships")
+                    .then((res) => res.json())
+                    .then((jsonData) => {
+                        setData(jsonData);
+                        setLoading(false);
+                    })
+                    .catch((e) => {
+                        console.error("Fetch error:", e);
+                        alert("Failed to load sponsorship data. If you have an adblocker enabled, please try disabling it.");
+                        setLoading(false);
+                    });
             });
     }, []);
 
     const handleChange = (section: string, field: string, value: any) => {
         setData((prev: any) => ({
             ...prev,
-            [section]: { ...prev[section], [field]: value },
+            [section]: { ...(prev?.[section] || {}), [field]: value },
         }));
     };
 
@@ -62,13 +70,21 @@ export default function SponsorshipPageEditor() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const res = await fetch('/api/content/partnerships', {
+            const res = await fetch('/api/content/sponsorship', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' }
             });
             if (res.ok) alert("Page Saved!");
-            else alert("Failed to save.");
+            else {
+                const fallbackRes = await fetch('/api/content/partnerships', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (fallbackRes.ok) alert("Page Saved!");
+                else alert("Failed to save.");
+            }
         } catch (e) {
             console.error(e);
             alert("Error saving.");
@@ -80,7 +96,7 @@ export default function SponsorshipPageEditor() {
     if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
 
     // Helper to join array for textarea
-    const getFeaturesText = (features: string[]) => features.join('\n');
+    const getFeaturesText = (features: string[] = []) => Array.isArray(features) ? features.join('\n') : '';
 
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
@@ -113,17 +129,17 @@ export default function SponsorshipPageEditor() {
                     <div className="grid gap-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Hero Section</h2>
-                            <AdminInput label="Headline" value={data.hero.headline} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
-                            <AdminInput label="Subheadline" value={data.hero.subheadline} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
-                            <ImageUploader label="Background Image" value={data.hero.backgroundImage} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
+                            <AdminInput label="Headline" value={data?.hero?.headline || ""} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
+                            <AdminInput label="Subheadline" value={data?.hero?.subheadline || ""} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
+                            <ImageUploader label="Background Image" value={data?.hero?.backgroundImage || ""} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
                         </div>
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Introduction</h2>
-                            <AdminInput label="Title" value={data.intro.title} onChange={(e) => handleChange("intro", "title", e.target.value)} />
+                            <AdminInput label="Title" value={data?.intro?.title || ""} onChange={(e) => handleChange("intro", "title", e.target.value)} />
                             <textarea
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 mt-4"
                                 rows={4}
-                                value={data.intro.description}
+                                value={data?.intro?.description || ""}
                                 onChange={(e) => handleChange("intro", "description", e.target.value)}
                             />
                         </div>
@@ -136,7 +152,7 @@ export default function SponsorshipPageEditor() {
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Why Sponsor?</h2>
                             <ListEditor
                                 title="Benefits"
-                                items={data.whySponsor || []}
+                                items={data?.whySponsor || []}
                                 onUpdate={(items) => handleListUpdate("whySponsor", items)}
                                 itemTemplate={{ title: "New Benefit", description: "", icon: "Star" }}
                                 renderItemFields={(item, i, update) => (
@@ -153,9 +169,9 @@ export default function SponsorshipPageEditor() {
                             <p className="text-sm text-gray-500 mb-4">Note: Enter features as one per line.</p>
                             <ListEditor
                                 title="Packages"
-                                items={data.tiers.map((t: any) => ({ ...t, features: Array.isArray(t.features) ? getFeaturesText(t.features) : t.features })) || []}
+                                items={(data?.tiers || []).map((t: any) => ({ ...t, features: Array.isArray(t.features) ? getFeaturesText(t.features) : (t.features || "") }))}
                                 onUpdate={handleTierUpdate}
-                                itemTemplate={{ name: "New Tier", price: "$5,000", subheading: "Description", features: "Feature 1\nFeature 2", buttonLabel: "Select", isHighlighted: false }}
+                                itemTemplate={{ name: "New Tier", price: "₹ 50,000", subheading: "Description", features: "Feature 1\nFeature 2", buttonLabel: "Select", isHighlighted: false }}
                                 renderItemFields={(item, i, update) => (
                                     <>
                                         <div className="grid grid-cols-2 gap-4">
@@ -189,7 +205,7 @@ export default function SponsorshipPageEditor() {
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">How It Works Steps</h2>
                             <ListEditor
                                 title="Steps"
-                                items={data.howItWorks || []}
+                                items={data?.howItWorks || []}
                                 onUpdate={(items) => handleListUpdate("howItWorks", items)}
                                 itemTemplate={{ step: "1", title: "Step Title", description: "" }}
                                 renderItemFields={(item, i, update) => (
@@ -204,11 +220,11 @@ export default function SponsorshipPageEditor() {
 
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Contact Info</h2>
-                            <AdminInput label="Title" value={data.contact.title} onChange={(e) => handleChange("contact", "title", e.target.value)} />
-                            <AdminInput label="Text" value={data.contact.text} onChange={(e) => handleChange("contact", "text", e.target.value)} />
+                            <AdminInput label="Title" value={data?.contact?.title || ""} onChange={(e) => handleChange("contact", "title", e.target.value)} />
+                            <AdminInput label="Text" value={data?.contact?.text || ""} onChange={(e) => handleChange("contact", "text", e.target.value)} />
                             <div className="grid grid-cols-2 gap-4 mt-4">
-                                <AdminInput label="Email" value={data.contact.email} onChange={(e) => handleChange("contact", "email", e.target.value)} />
-                                <AdminInput label="Phone" value={data.contact.phone} onChange={(e) => handleChange("contact", "phone", e.target.value)} />
+                                <AdminInput label="Email" value={data?.contact?.email || ""} onChange={(e) => handleChange("contact", "email", e.target.value)} />
+                                <AdminInput label="Phone" value={data?.contact?.phone || ""} onChange={(e) => handleChange("contact", "phone", e.target.value)} />
                             </div>
                         </div>
                     </div>
