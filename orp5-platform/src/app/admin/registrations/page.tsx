@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import { Search, Download, Filter, Eye, X, Trash2, Upload, CheckCircle2, AlertTriangle, FileUp, ExternalLink, Hash, Clock, ShieldAlert } from 'lucide-react';
+import { Search, Download, Filter, Eye, X, Trash2, Upload, CheckCircle2, AlertTriangle, FileUp, ExternalLink, Hash, Clock, ShieldAlert, UserPlus } from 'lucide-react';
 import { RegistrationDetailModal } from '@/components/admin/RegistrationDetailModal';
+import { AddRegistrationModal } from '@/components/admin/AddRegistrationModal';
 
 interface Registration {
     id: string;
@@ -35,14 +36,14 @@ interface Registration {
 
 type StatusFilter = 'all' | 'awaiting_payment' | 'pending' | 'payment_claimed' | 'amount_mismatch' | 'paid' | 'claim_expired' | 'payment_rejected';
 
-const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; border: string }> = {
-    paid: { label: '✓ Paid', bg: 'bg-green-900', text: 'text-green-300', border: 'border-green-700' },
-    payment_claimed: { label: '⏳ Claimed', bg: 'bg-orange-900', text: 'text-orange-300', border: 'border-orange-700' },
-    amount_mismatch: { label: '⚠ Mismatch', bg: 'bg-red-900', text: 'text-red-300', border: 'border-red-700' },
-    awaiting_payment: { label: '🔵 Awaiting', bg: 'bg-blue-900', text: 'text-blue-300', border: 'border-blue-700' },
-    pending: { label: '⏳ Pending', bg: 'bg-yellow-900', text: 'text-yellow-300', border: 'border-yellow-700' },
-    claim_expired: { label: '💀 Expired', bg: 'bg-gray-800', text: 'text-gray-400', border: 'border-gray-600' },
-    payment_rejected: { label: '❌ Rejected', bg: 'bg-red-950', text: 'text-red-400', border: 'border-red-800' },
+const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; border: string; dot: string }> = {
+    paid: { label: 'Paid', bg: 'bg-emerald-950/80', text: 'text-emerald-300', border: 'border-emerald-700/60', dot: 'bg-emerald-400' },
+    payment_claimed: { label: 'Claimed', bg: 'bg-amber-950/80', text: 'text-amber-300', border: 'border-amber-700/60', dot: 'bg-amber-400 animate-pulse' },
+    amount_mismatch: { label: 'Mismatch', bg: 'bg-rose-950/80', text: 'text-rose-300', border: 'border-rose-700/60', dot: 'bg-rose-400' },
+    awaiting_payment: { label: 'Awaiting', bg: 'bg-sky-950/80', text: 'text-sky-300', border: 'border-sky-700/60', dot: 'bg-sky-400' },
+    pending: { label: 'Pending', bg: 'bg-yellow-950/80', text: 'text-yellow-300', border: 'border-yellow-700/60', dot: 'bg-yellow-400' },
+    claim_expired: { label: 'Expired', bg: 'bg-gray-900', text: 'text-gray-400', border: 'border-gray-700', dot: 'bg-gray-500' },
+    payment_rejected: { label: 'Rejected', bg: 'bg-red-950', text: 'text-red-400', border: 'border-red-800', dot: 'bg-red-500' },
 };
 
 export default function AdminRegistrationsPage() {
@@ -55,6 +56,9 @@ export default function AdminRegistrationsPage() {
     const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
     const [categoryFilter, setCategoryFilter] = useState<string>('all');
     const [modeFilter, setModeFilter] = useState<string>('all');
+
+    // Add Registration Modal
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     // Detail Modal
     const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null);
@@ -276,9 +280,10 @@ export default function AdminRegistrationsPage() {
     };
 
     const getStatusBadge = (status: string) => {
-        const cfg = STATUS_CONFIG[status] || { label: status, bg: 'bg-gray-700', text: 'text-gray-300', border: 'border-gray-600' };
+        const cfg = STATUS_CONFIG[status] || { label: status, bg: 'bg-gray-800', text: 'text-gray-300', border: 'border-gray-700', dot: 'bg-gray-400' };
         return (
-            <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${cfg.bg} ${cfg.text} ${cfg.border}`}>
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg.bg} ${cfg.text} ${cfg.border} shadow-sm whitespace-nowrap`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
                 {cfg.label}
             </span>
         );
@@ -365,7 +370,14 @@ export default function AdminRegistrationsPage() {
                                 {modes.map(mode => <option key={mode} value={mode} className="capitalize">{mode === 'all' ? 'All Modes' : mode}</option>)}
                             </select>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
+                            {/* Add Registration Manually */}
+                            <button
+                                onClick={() => setIsAddModalOpen(true)}
+                                className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-semibold transition flex items-center gap-2 text-sm text-white shadow-sm shadow-emerald-900/30"
+                            >
+                                <UserPlus size={16} /> Add Registration
+                            </button>
                             {/* MIS Import */}
                             <label className={`px-3 py-2 ${misLoading ? 'bg-gray-600 cursor-wait' : 'bg-purple-700 hover:bg-purple-600 cursor-pointer'} rounded-lg font-medium transition flex items-center gap-2 text-sm`}>
                                 <FileUp size={16} />
@@ -642,6 +654,15 @@ export default function AdminRegistrationsPage() {
                     </div>
                 </div>
             )}
+
+            {/* Add Registration Modal */}
+            <AddRegistrationModal
+                isOpen={isAddModalOpen}
+                onClose={() => setIsAddModalOpen(false)}
+                onSuccess={(newReg) => {
+                    setRegistrations(prev => [newReg, ...prev]);
+                }}
+            />
         </div>
     );
 }

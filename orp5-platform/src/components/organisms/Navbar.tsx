@@ -121,7 +121,17 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                 console.warn("Auth check suppressed:", error);
             }
         };
-        checkAdmin();
+
+        // Defer auth check to idle time to prioritize instant page load and render
+        if (typeof window !== "undefined") {
+            if ("requestIdleCallback" in window) {
+                const handle = (window as any).requestIdleCallback(checkAdmin, { timeout: 1500 });
+                return () => (window as any).cancelIdleCallback(handle);
+            } else {
+                const timer = setTimeout(checkAdmin, 300);
+                return () => clearTimeout(timer);
+            }
+        }
     }, []);
 
     const isTransparentAtTop = variant === "transparent" && !isScrolled;

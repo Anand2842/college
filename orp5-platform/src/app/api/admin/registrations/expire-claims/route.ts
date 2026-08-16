@@ -16,7 +16,7 @@ const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.RESEND_A
  */
 export async function POST() {
     try {
-        const supabase = getSupabaseAdmin();
+        const supabase = getSupabaseAdmin() as any;
         const now = new Date();
 
         // Fetch all payment_claimed registrations
@@ -42,7 +42,7 @@ export async function POST() {
             return NextResponse.json({ success: true, message: 'No pending claims found.', summary });
         }
 
-        for (const reg of claimed) {
+        for (const reg of ((claimed as any[]) || [])) {
             const regData = (reg.data as Record<string, any>) || {};
             const claimedAt = new Date(regData.payment_claimed_at || reg.created_at);
             const ageMs = now.getTime() - claimedAt.getTime();

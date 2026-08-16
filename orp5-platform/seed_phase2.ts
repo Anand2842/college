@@ -62,7 +62,7 @@ async function run() {
     ]
   };
 
-  const { error: pError } = await supabase.from('Page').upsert({
+  const { error: pError } = await (supabase.from('Page') as any).upsert({
     id: '00000000-0000-0000-0000-000000000004',
     slug: 'programme',
     title: 'Programme',

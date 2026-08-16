@@ -39,22 +39,35 @@ export function AdminToolbar() {
     useEffect(() => {
         // Check if user is admin client-side
         const checkAdmin = async () => {
-            const supabase = createClient();
+            try {
+                const supabase = createClient();
 
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('role')
-                    .eq('id', user.id)
-                    .single();
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('role')
+                        .eq('id', user.id)
+                        .single();
 
-                if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
-                    setIsAdmin(true);
+                    if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
+                        setIsAdmin(true);
+                    }
                 }
+            } catch (err) {
+                console.warn("Admin toolbar auth check suppressed:", err);
             }
         };
-        checkAdmin();
+
+        if (typeof window !== "undefined") {
+            if ("requestIdleCallback" in window) {
+                const handle = (window as any).requestIdleCallback(checkAdmin, { timeout: 2000 });
+                return () => (window as any).cancelIdleCallback(handle);
+            } else {
+                const timer = setTimeout(checkAdmin, 500);
+                return () => clearTimeout(timer);
+            }
+        }
     }, []);
 
     if (!isAdmin || !isVisible) return null;

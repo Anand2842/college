@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/atoms/Button"
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { CountdownTimer } from "@/components/atoms/CountdownTimer"
 import { Calendar } from "lucide-react";
@@ -23,7 +24,7 @@ export function Hero({
     headline = "",
     subheadline = "",
     dateVenueLine = "",
-    backgroundImage = "",
+    backgroundImage = "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=75&w=1920&auto=format&fit=crop",
     partners = [],
     registrationStart = "",
     registrationStatusText = "",
@@ -34,11 +35,21 @@ export function Hero({
 
     return (
         <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[85vh] lg:min-h-[92vh] bg-earth-green-deep">
-            {/* Background Image with Slow Ambient Motion */}
-            <div
-                className="absolute inset-0 bg-cover bg-center z-0 scale-105 transition-transform duration-1000 opacity-80"
-                style={{ backgroundImage: `url('${backgroundImage}')` }}
-            />
+            {/* Background Image & Animated GIF Layer */}
+            {backgroundImage ? (
+                <div
+                    className="absolute inset-0 bg-cover bg-center z-0 scale-105 transition-transform duration-1000 opacity-80 pointer-events-none"
+                    style={{ backgroundImage: `url('${backgroundImage}')` }}
+                >
+                    <img
+                        src={backgroundImage}
+                        alt="ORP-5 Hero Background"
+                        className="w-full h-full object-cover object-center"
+                        loading="eager"
+                        decoding="async"
+                    />
+                </div>
+            ) : null}
 
             {/* Multi-Layer Cinematic Gradient Mesh */}
             <div className="absolute inset-0 bg-gradient-to-b from-earth-green-deep/80 via-earth-green-dark/60 to-earth-green-deep/90 z-10" />

@@ -2,7 +2,7 @@ import { createPageMetadata } from '@/lib/metadata';
 import ContactClient from './ContactClient';
 import { getContactPageData } from '@/lib/cms';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // cache 5 minutes
 
 export const metadata = createPageMetadata({
     title: 'Contact Secretariat',

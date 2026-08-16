@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import Link from 'next/link';
-import { Search, Download, Eye, FileText, Clock, CheckCircle, XCircle, Trash2, X, Loader2, MessageSquare, Send, RefreshCw } from 'lucide-react';
+import { Search, Download, Eye, FileText, Clock, CheckCircle, XCircle, Trash2, X, Loader2, MessageSquare, Send, RefreshCw, FilePlus2, Filter } from 'lucide-react';
+import { AddSubmissionModal } from '@/components/admin/AddSubmissionModal';
 
 function AdminCommentThread({ submissionId }: { submissionId: string }) {
     const [comments, setComments] = useState<any[]>([]);
@@ -111,6 +112,9 @@ export default function AdminSubmissionsPage() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('all');
+    const [categoryFilter, setCategoryFilter] = useState<string>('all');
+    const [themeFilter, setThemeFilter] = useState<string>('all');
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null);
     const [updating, setUpdating] = useState(false);
 
@@ -214,14 +218,24 @@ export default function AdminSubmissionsPage() {
         document.body.removeChild(link);
     };
 
+    // Extract dynamic categories & themes
+    const categories = Array.from(new Set(submissions.map(s => s.category).filter(Boolean)));
+    const themes = Array.from(new Set(submissions.map(s => s.topic).filter(Boolean)));
+
     // Filter submissions
     const filteredSubmissions = submissions.filter(s => {
         if (statusFilter !== 'all' && s.status !== statusFilter) return false;
+        if (categoryFilter !== 'all' && s.category !== categoryFilter) return false;
+        if (themeFilter !== 'all' && s.topic !== themeFilter) return false;
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
-            if (!s.title?.toLowerCase().includes(query) &&
-                !s.authors?.toLowerCase().includes(query) &&
-                !s.email?.toLowerCase().includes(query)) {
+            const title = (s.title || '').toLowerCase();
+            const authors = (s.authors || '').toLowerCase();
+            const email = (s.email || '').toLowerCase();
+            const id = (s.id || '').toLowerCase();
+            const inst = (s.institution || '').toLowerCase();
+            const topic = (s.topic || '').toLowerCase();
+            if (!title.includes(query) && !authors.includes(query) && !email.includes(query) && !id.includes(query) && !inst.includes(query) && !topic.includes(query)) {
                 return false;
             }
         }
@@ -263,17 +277,24 @@ export default function AdminSubmissionsPage() {
                         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Paper Submissions</h1>
                         <p className="text-gray-400 mt-1">Manage abstract and paper submissions</p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
+                        <button
+                            onClick={() => setIsAddModalOpen(true)}
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg flex items-center gap-2 transition font-semibold text-white shadow-md shadow-blue-900/30"
+                        >
+                            <FilePlus2 size={18} />
+                            Add Submission
+                        </button>
                         <button
                             onClick={exportCSV}
-                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center gap-2 transition border border-gray-700"
+                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg flex items-center gap-2 transition border border-gray-700 font-medium"
                         >
                             <Download size={18} />
                             Export CSV
                         </button>
                         <Link
                             href="/admin"
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition font-medium"
+                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition font-medium"
                         >
                             Back to Admin
                         </Link>
@@ -330,29 +351,65 @@ export default function AdminSubmissionsPage() {
 
                 {/* Search & Filters */}
                 <div className="bg-gray-900 rounded-xl p-4 mb-6 border border-gray-800">
-                    <div className="flex flex-wrap gap-4 items-center">
-                        <div className="flex-1 min-w-[250px] relative">
+                    <div className="flex flex-wrap gap-3 items-center">
+                        <div className="flex-1 min-w-[220px] relative">
                             <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
                             <input
                                 type="text"
-                                placeholder="Search by title, author, email..."
+                                placeholder="Search by title, author, email, abstract ID..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                className="w-full pl-10 pr-4 py-2 bg-gray-950 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
                             />
                         </div>
 
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="px-4 py-2 bg-gray-950 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                            className="px-3.5 py-2 bg-gray-950 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
                         >
                             <option value="all">All Status</option>
-                            <option value="pending">Pending</option>
+                            <option value="pending">Pending Review</option>
                             <option value="accepted">Accepted</option>
                             <option value="rejected">Rejected</option>
                             <option value="revision">Revision Required</option>
                         </select>
+
+                        <select
+                            value={categoryFilter}
+                            onChange={(e) => setCategoryFilter(e.target.value)}
+                            className="px-3.5 py-2 bg-gray-950 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+                        >
+                            <option value="all">All Categories</option>
+                            {categories.map((c: any) => (
+                                <option key={c} value={c}>{c}</option>
+                            ))}
+                        </select>
+
+                        <select
+                            value={themeFilter}
+                            onChange={(e) => setThemeFilter(e.target.value)}
+                            className="px-3.5 py-2 bg-gray-950 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 max-w-[220px] truncate"
+                        >
+                            <option value="all">All Themes</option>
+                            {themes.map((t: any) => (
+                                <option key={t} value={t}>{t}</option>
+                            ))}
+                        </select>
+
+                        {(searchQuery || statusFilter !== 'all' || categoryFilter !== 'all' || themeFilter !== 'all') && (
+                            <button
+                                onClick={() => {
+                                    setSearchQuery('');
+                                    setStatusFilter('all');
+                                    setCategoryFilter('all');
+                                    setThemeFilter('all');
+                                }}
+                                className="px-3 py-2 text-xs text-blue-400 hover:text-blue-300 font-medium"
+                            >
+                                Reset
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -580,7 +637,15 @@ export default function AdminSubmissionsPage() {
                     </div>
                 </div>
             )}
+
+            {/* Add Submission Modal */}
+            <AddSubmissionModal
+                isOpen={isAddModalOpen}
+                onClose={() => setIsAddModalOpen(false)}
+                onSuccess={(newSub) => {
+                    setSubmissions(prev => [newSub, ...prev]);
+                }}
+            />
         </div>
     );
 }
-

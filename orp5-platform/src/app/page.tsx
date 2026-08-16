@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Hero } from "@/components/organisms/Hero";
@@ -49,26 +49,32 @@ export default async function Home() {
   let cmsData = null;
   try {
     cmsData = await getHomepageData();
-    console.log(`[${new Date().toISOString()}] Homepage Data Fetched:`, cmsData ? "Success" : "Failed");
   } catch (error) {
     console.error("Error fetching homepage data:", error);
   }
 
-  // Fallback default data if CMS returns null (first load before admin save)
+  // High-fidelity fallback default data for instantaneous first paint
   const defaultData: any = {
     hero: {
       headline: "5ᵗʰ International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
       subheadline: "Cultivating a Sustainable Future",
-      backgroundImage: "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=80&w=2938&auto=format&fit=crop",
+      backgroundImage: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765390801550_Here_is_a_202512102348.gif",
       registrationStart: "2026-09-21T00:00:00Z",
-      registrationStatusText: "Countdown to Conference"
+      registrationStatusText: "Countdown to Conference",
+      dateVenueLine: "21–25 September 2026 | NASC Complex, New Delhi, India"
     },
-    partners: [
-      { id: "p1", name: "Organizer 1", logoUrl: "" },
-      { id: "p2", name: "Organizer 2", logoUrl: "" },
-      { id: "p3", name: "Organizer 3", logoUrl: "" }
+    partners: [],
+    themes: [
+      { id: "t1", title: "Organic and Natural Rice Production Systems – Current Status", iconName: "Wheat" },
+      { id: "t2", title: "Innovations and Emerging Technologies in Organic Rice Production Systems", iconName: "Lightbulb" },
+      { id: "t3", title: "Natural Farming Models for Sustainable Rice Production", iconName: "Sprout" },
+      { id: "t4", title: "Climate Change Adaptation and Carbon-Neutral Rice Production Systems", iconName: "Sun" },
+      { id: "t5", title: "Soil, Water and Plant Health Management", iconName: "Droplets" },
+      { id: "t6", title: "Food Quality, Nutrition and Human Health", iconName: "HeartPulse" },
+      { id: "t7", title: "AI-Driven Mechanization and Digital Intelligence for Organic Rice Production Systems", iconName: "Cpu" },
+      { id: "t8", title: "Scaling, Value Chains, and Market Opportunities", iconName: "TrendingUp" },
+      { id: "t9", title: "Policy, Institutions, and Capacity Building-Youth & Farmers Perspectives", iconName: "Landmark" }
     ],
-    themes: [],
     speakers: [],
     programme: {},
     dates: [
@@ -84,8 +90,8 @@ export default async function Home() {
     faq: [],
     venue: {
       title: "Conference Venue",
-      description: "Join us at our world-class facility.",
-      address: "123 Conference Center Dr."
+      description: "NASC Complex, DPS Marg, Pusa, New Delhi, India.",
+      address: "NASC Complex, New Delhi, India"
     }
   };
 

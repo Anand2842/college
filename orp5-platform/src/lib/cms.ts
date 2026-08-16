@@ -394,51 +394,107 @@ export async function updateThemesPageData(data: any) {
     }
 }
 
+// In-memory cache for ultra-fast homepage responses
+let homepageCache: { data: any; timestamp: number } | null = null;
+const HOMEPAGE_CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+
 export async function getHomepageData() {
-    // Fetch Page 'home'
-    const content = await getPageContent('home');
-    if (!content) return null;
+    const now = Date.now();
+    if (homepageCache && (now - homepageCache.timestamp < HOMEPAGE_CACHE_TTL_MS)) {
+        return homepageCache.data;
+    }
 
-    // Fetch dynamic relations to ensure fresh data
-    const { data: themes } = await supabase.from('Theme').select('*').order('order');
-    const { data: speakers } = await supabase.from('Speaker').select('*').order('order'); // Filter for featured?
-    const { data: partners } = await supabase.from('Partner').select('*').order('order');
-    const { data: dates } = await supabase.from('ImportantDate').select('*').order('order');
+    try {
+        // Parallelize all queries concurrently instead of sequential waterfall
+        const [
+            content,
+            { data: themes },
+            { data: speakers },
+            { data: partners },
+            { data: dates }
+        ] = await Promise.all([
+            getPageContent('home'),
+            supabase.from('Theme').select('*').order('order'),
+            supabase.from('Speaker').select('*').order('order'),
+            supabase.from('Partner').select('*').order('order'),
+            supabase.from('ImportantDate').select('*').order('order')
+        ]);
 
-    // Homepage speakers logic: usually shows a subset. 
-    // The seed script migrated `homepage.speakers` -> ?
-    // I only migrated `speakers - page.json` to Speaker table.
-    // `homepage.speakers` in JSON was separate.
-    // I should probably just return `content.speakers` if it exists in JSON field, OR fetch from Speaker table if "featured".
-    // For now, let's mix in the specific tables that were migrated content-wise.
-    // Default themes fallback
-    const defaultThemes = [
-        {
-            id: 't1',
-            title: "Barriers & Constraints Limiting System Expansion",
-            description: "Economic, technical, policy, and market obstacles affecting adoption and scaling.",
-            iconName: "Mountain",
-            colorTheme: "brown"
-        },
-        {
-            id: 't2',
-            title: "Policy, Certification & Market Ecosystems",
-            description: "Institutional frameworks, incentives, certification processes, and value-chain integration.",
-            iconName: "Scale",
-            colorTheme: "gold"
-        },
-        {
-            id: 't3',
-            title: "Climate Change Adaptation & Carbon-Neutrality",
-            description: "Mitigation strategies, carbon budgeting, and resilient production systems.",
-            iconName: "CloudSun",
-            colorTheme: "green"
+        if (!content && !themes && !partners && !dates) {
+            return homepageCache?.data || null;
         }
-    ];
 
-    const finalThemes = (themes && themes.length > 0) ? themes : (content.themes || defaultThemes);
+        const baseContent = content || {};
 
-        const partnerList = partners || content.partners || [];
+        const defaultThemes = [
+            {
+                id: 't1',
+                title: "Organic and Natural Rice Production Systems – Current Status",
+                description: "Current state, practices, global outlook, and foundational agronomy for organic rice systems.",
+                iconName: "Wheat",
+                colorTheme: "green"
+            },
+            {
+                id: 't2',
+                title: "Innovations and Emerging Technologies in Organic Rice Production Systems",
+                description: "Biotechnological advancements, smart tools, bio-inputs, and novel organic farming practices.",
+                iconName: "Lightbulb",
+                colorTheme: "gold"
+            },
+            {
+                id: 't3',
+                title: "Natural Farming Models for Sustainable Rice Production",
+                description: "Traditional, ecological, and zero-budget natural farming frameworks and on-field outcomes.",
+                iconName: "Sprout",
+                colorTheme: "green"
+            },
+            {
+                id: 't4',
+                title: "Climate Change Adaptation and Carbon-Neutral Rice Production Systems",
+                description: "Methane mitigation, carbon sequestration, and climate-resilient organic water management.",
+                iconName: "Sun",
+                colorTheme: "green"
+            },
+            {
+                id: 't5',
+                title: "Soil, Water and Plant Health Management",
+                description: "Biological soil fertility, microbiome enhancement, organic pest management, and water conservation.",
+                iconName: "Droplets",
+                colorTheme: "green"
+            },
+            {
+                id: 't6',
+                title: "Food Quality, Nutrition and Human Health",
+                description: "Nutritional superiority, biofortification, residue-free grains, and consumer wellness.",
+                iconName: "HeartPulse",
+                colorTheme: "gold"
+            },
+            {
+                id: 't7',
+                title: "AI-Driven Mechanization and Digital Intelligence for Organic Rice Production Systems",
+                description: "Drone technology, precision robotics, sensor networks, and IoT for organic paddy fields.",
+                iconName: "Cpu",
+                colorTheme: "brown"
+            },
+            {
+                id: 't8',
+                title: "Scaling, Value Chains, and Market Opportunities",
+                description: "Direct-to-consumer pipelines, premiumization, export dynamics, and certification ecosystems.",
+                iconName: "TrendingUp",
+                colorTheme: "gold"
+            },
+            {
+                id: 't9',
+                title: "Policy, Institutions, and Capacity Building-Youth & Farmers Perspectives",
+                description: "Institutional support, farmer producer organizations, youth engagement, and enabling policies.",
+                iconName: "Landmark",
+                colorTheme: "brown"
+            }
+        ];
+
+        const finalThemes = (themes && themes.length > 0) ? themes : (baseContent.themes || defaultThemes);
+
+        const partnerList = partners && partners.length > 0 ? partners : (baseContent.partners || []);
         const partnersByCategory = partnerList.reduce((acc: Record<string, any[]>, p: any) => {
             const cat = p.category || 'Collaborators';
             if (!acc[cat]) acc[cat] = [];
@@ -446,34 +502,42 @@ export async function getHomepageData() {
             return acc;
         }, {});
 
-        return {
-        ...content,
-        themes: finalThemes,
-        partners: partnerList,
-        partnersByCategory,
-        dates: dates || content.dates,
-        // speakers needs care: content.speakers might be IDs? or simplified objects?
-        // Let's stick to content.speakers if available for layout, but usually we want dynamic.
-        // If content.speakers is null/empty, maybe grab top 4 keynote speakers?
-        speakers: content.speakers || speakers?.slice(0, 4), // Fallback
-        faq: content.faq || [
-            { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
-            { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
-            { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-            { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 20 August 2026. The call for abstracts opens on 01 January 2026." },
-            { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
-            { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
-            { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
-            { question: "Do I need to register before submitting an abstract?", answer: "No, abstract submission is free and independent of registration." },
-            { question: "Will I get a visa invitation letter?", answer: "Yes, registered delegates can request an official letter of invitation." },
-            { question: "Are the proceedings indexed?", answer: "Yes, full papers will be published in Plant Science Today, a Scopus-indexed, UGC-CARE listed journal." }
-        ]
-    };
+        const result = {
+            ...baseContent,
+            themes: finalThemes,
+            partners: partnerList,
+            partnersByCategory,
+            dates: dates && dates.length > 0 ? dates : (baseContent.dates || []),
+            speakers: baseContent.speakers || (speakers && speakers.length > 0 ? speakers.slice(0, 4) : []),
+            faq: baseContent.faq || [
+                { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
+                { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
+                { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
+                { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 20 August 2026. The call for abstracts opens on 01 January 2026." },
+                { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
+                { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
+                { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
+                { question: "Do I need to register before submitting an abstract?", answer: "No, abstract submission is free and independent of registration." },
+                { question: "Will I get a visa invitation letter?", answer: "Yes, registered delegates can request an official letter of invitation." },
+                { question: "Are the proceedings indexed?", answer: "Yes, full papers will be published in Plant Science Today, a Scopus-indexed, UGC-CARE listed journal." }
+            ]
+        };
+
+        homepageCache = { data: result, timestamp: now };
+        return result;
+    } catch (err) {
+        console.error("Error in parallel getHomepageData:", err);
+        if (homepageCache) return homepageCache.data;
+        return null;
+    }
 }
 
 // Generic update for Homepage
 export async function updateHomepageData(newData: any) {
     try {
+        // Invalidate cache immediately on update
+        homepageCache = null;
+
         // 1. Update Page Content
         await upsertPage('home', newData);
 
@@ -497,6 +561,12 @@ export async function updateHomepageData(newData: any) {
             await syncTable('Partner', mappedPartners);
         }
         if (newData.dates) await syncTable('ImportantDate', newData.dates);
+
+        try {
+            revalidatePath('/');
+        } catch {
+            // Safe fallback if called outside request context
+        }
 
         return true;
     } catch (error) {

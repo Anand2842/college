@@ -27,7 +27,7 @@ export async function GET() {
             throw pageError;
         }
 
-        for (const page of pages) {
+        for (const page of ((pages as any[]) || [])) {
             let contentStr = JSON.stringify(page.content);
             let updated = false;
             for (const oldEmail of OLD_EMAILS) {
@@ -37,8 +37,7 @@ export async function GET() {
                 }
             }
             if (updated) {
-                const { error: updateError } = await supabase
-                    .from('Page')
+                const { error: updateError } = await (supabase.from('Page') as any)
                     .update({ content: JSON.parse(contentStr), updatedAt: new Date().toISOString() })
                     .eq('id', page.id);
                 

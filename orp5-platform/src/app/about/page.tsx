@@ -1,5 +1,5 @@
 import { createPageMetadata } from '@/lib/metadata';
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // cache 5 minutes
 
 export const metadata = createPageMetadata({
     title: 'About',

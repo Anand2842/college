@@ -109,7 +109,7 @@ export async function POST(request: Request) {
             return NextResponse.json({
                 type: 'abstract',
                 email_masked: maskEmail(email),
-                submissions: rows.map(abs => ({
+                submissions: rows.map((abs: any) => ({
                     id: abs.id,
                     title: abs.title,
                     author_name: abs.author_name,

@@ -76,11 +76,11 @@ export default function RootLayout({
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-18391142256"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
         <Script
           id="google-tag-aw"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -93,7 +93,7 @@ export default function RootLayout({
         />
         <Script
           id="google-tag-manager"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

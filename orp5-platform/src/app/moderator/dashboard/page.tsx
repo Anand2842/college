@@ -41,11 +41,11 @@ export default async function ModeratorDashboard() {
 
     const stats = {
         total: submissions.length,
-        pending: submissions.filter(s => s.status === 'pending').length,
-        under_review: submissions.filter(s => s.status === 'under_review').length,
-        accepted: submissions.filter(s => s.status === 'accepted').length,
-        rejected: submissions.filter(s => s.status === 'rejected').length,
-        revision: submissions.filter(s => s.status === 'revision').length,
+        pending: submissions.filter((s: any) => s.status === 'pending').length,
+        under_review: submissions.filter((s: any) => s.status === 'under_review').length,
+        accepted: submissions.filter((s: any) => s.status === 'accepted').length,
+        rejected: submissions.filter((s: any) => s.status === 'rejected').length,
+        revision: submissions.filter((s: any) => s.status === 'revision').length,
     };
 
     const moderatorName = profile?.display_name || user.email || 'Moderator';
