@@ -183,20 +183,22 @@ export default function AboutPageEditor() {
 
                 {activeTab === "Organizers" && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Organizers</h2>
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Jointly Organised by</h2>
                         <ListEditor
-                            title="Organizer List"
+                            title="Organizing Bodies"
                             items={data.organizers || []}
                             onUpdate={(items) => handleListUpdate("organizers", items)}
-                            itemTemplate={{ id: "", name: "New Organizer", description: "", logoUrl: "" }}
+                            itemTemplate={{ id: "", name: "New Organizer", shortName: "", description: "", logoUrl: "", website: "" }}
                             renderItemFields={(item, i, update) => (
                                 <>
-                                    <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Full Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Short Name / Acronym" value={item.shortName || ""} onChange={(e) => update("shortName", e.target.value)} />
                                     <ImageUploader
-                                        label="Organizer Logo"
+                                        label="Organizer Logo (Circular/Emblem)"
                                         value={item.logoUrl || ""}
                                         onChange={(url) => update("logoUrl", url)}
                                     />
+                                    <AdminInput label="Website URL" value={item.website || ""} onChange={(e) => update("website", e.target.value)} />
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                                         <textarea
@@ -209,45 +211,95 @@ export default function AboutPageEditor() {
                             )}
                         />
 
-                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Supported By</h2>
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Supported by</h2>
                         <ListEditor
-                            title="Supported By List"
+                            title="Supported by (Government / Patron)"
                             items={data.supportedBy || []}
                             onUpdate={(items) => handleListUpdate("supportedBy", items)}
-                            itemTemplate={{ name: "New Supporter", imageUrl: "", website: "" }}
+                            itemTemplate={{ name: "Ministry of Agriculture & Farmers Welfare, Government of India", organization: "", imageUrl: "", website: "", description: "" }}
                             renderItemFields={(item, i, update) => (
                                 <>
-                                    <AdminInput label="Supporter Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Department / Division" value={item.organization || ""} onChange={(e) => update("organization", e.target.value)} />
                                     <ImageUploader
-                                        label="Supporter Logo"
+                                        label="Official Emblem / Logo"
                                         value={item.imageUrl || ""}
                                         onChange={(url) => update("imageUrl", url)}
                                     />
                                     <AdminInput label="Website URL" value={item.website || ""} onChange={(e) => update("website", e.target.value)} />
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                        <textarea
+                                            value={item.description || ""}
+                                            onChange={(e) => update("description", e.target.value)}
+                                            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 focus:outline-none h-20"
+                                        />
+                                    </div>
                                 </>
                             )}
                         />
 
-                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Collaborating Partners</h2>
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Knowledge Partner</h2>
                         <ListEditor
-                            title="Partners List"
-                            items={data.partners || []}
-                            onUpdate={(items) => handleListUpdate("partners", items)}
-                            itemTemplate={{ name: "New Partner", imageUrl: "", website: "" }}
+                            title="Knowledge Partner (IRRI / Global Research Lead)"
+                            items={data.knowledgePartner || []}
+                            onUpdate={(items) => handleListUpdate("knowledgePartner", items)}
+                            itemTemplate={{ name: "International Rice Research Institute (IRRI)", shortName: "IRRI", imageUrl: "", website: "", description: "" }}
+                            renderItemFields={(item, i, update) => (
+                                <>
+                                    <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Short Name" value={item.shortName || ""} onChange={(e) => update("shortName", e.target.value)} />
+                                    <ImageUploader
+                                        label="Logo"
+                                        value={item.imageUrl || ""}
+                                        onChange={(url) => update("imageUrl", url)}
+                                    />
+                                    <AdminInput label="Website URL" value={item.website || ""} onChange={(e) => update("website", e.target.value)} />
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                        <textarea
+                                            value={item.description || ""}
+                                            onChange={(e) => update("description", e.target.value)}
+                                            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 focus:outline-none h-20"
+                                        />
+                                    </div>
+                                </>
+                            )}
+                        />
+
+                        <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b mt-12">Technical Collaborating Partners</h2>
+                        <ListEditor
+                            title="Technical Collaborating Partners (Centurion, SafeRock, Plant Science Today, etc.)"
+                            items={data.technicalPartners || data.partners || []}
+                            onUpdate={(items) => {
+                                handleListUpdate("technicalPartners", items);
+                                handleListUpdate("partners", items);
+                            }}
+                            itemTemplate={{ name: "New Partner", subtitle: "", imageUrl: "", website: "", description: "" }}
                             renderItemFields={(item, i, update) => (
                                 <>
                                     <AdminInput label="Partner Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Sub-title / Tagline (Optional)" value={item.subtitle || ""} onChange={(e) => update("subtitle", e.target.value)} />
                                     <ImageUploader
                                         label="Partner Logo"
                                         value={item.imageUrl || ""}
                                         onChange={(url) => update("imageUrl", url)}
                                     />
                                     <AdminInput label="Website URL" value={item.website || ""} onChange={(e) => update("website", e.target.value)} />
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                        <textarea
+                                            value={item.description || ""}
+                                            onChange={(e) => update("description", e.target.value)}
+                                            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-earth-green/20 focus:outline-none h-20"
+                                        />
+                                    </div>
                                 </>
                             )}
                         />
                     </div>
                 )}
+
             </div>
         </div>
     );

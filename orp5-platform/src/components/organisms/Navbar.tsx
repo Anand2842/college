@@ -77,11 +77,16 @@ const navItems: NavItem[] = [
 
 interface NavbarProps {
     variant?: "default" | "dark" | "transparent";
+    logoUrl?: string;
+    logoAlt?: string;
 }
 
-export function Navbar({ variant = "default" }: NavbarProps) {
+export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: propLogoAlt }: NavbarProps) {
     const scrollY = useScrollPosition()
     const isScrolled = scrollY > 50
+
+    const [logo, setLogo] = React.useState<string>(propLogoUrl || "/orp5-logo.png");
+    const [logoAlt, setLogoAlt] = React.useState<string>(propLogoAlt || "ORP-5 Logo");
 
     const [isAdmin, setIsAdmin] = React.useState(false);
     const [isModerator, setIsModerator] = React.useState(false);
@@ -96,6 +101,24 @@ export function Navbar({ variant = "default" }: NavbarProps) {
     }
 
     React.useEffect(() => {
+        // Fetch site settings for branding if not supplied by props
+        if (!propLogoUrl) {
+            fetch("/api/settings")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.branding?.logoUrl) {
+                        setLogo(data.branding.logoUrl);
+                    }
+                    if (data.branding?.logoAlt) {
+                        setLogoAlt(data.branding.logoAlt);
+                    }
+                })
+                .catch(() => {});
+        }
+    }, [propLogoUrl]);
+
+    React.useEffect(() => {
+
         const checkAdmin = async () => {
             try {
                 const { createClient } = await import("@/utils/supabase/client");
@@ -160,7 +183,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.15em]">
                         <span className="w-2 h-2 rounded-full bg-amber-glow animate-pulse"></span>
                         <span className="text-white/60">Abstract Deadline:</span>
-                        <span className="text-rice-gold-light font-semibold">20 August 2026</span>
+                        <span className="text-rice-gold-light font-semibold">25 August 2026</span>
                     </div>
                     <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white/70">
                         <Link href="/blog" className="hover:text-rice-gold transition-colors">Blog</Link>
@@ -197,14 +220,16 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                     {/* Logo (Left) */}
                     <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity mr-8 min-w-fit group">
                         <Image
-                            src="/orp5-logo.png"
-                            alt="ORP-5 Logo"
+                            src={logo || "/orp5-logo.png"}
+                            alt={logoAlt || "ORP-5 Logo"}
                             width={120}
                             height={48}
                             className={cn(logoClass, isScrolled ? "h-10 w-auto" : "h-12 w-auto", "group-hover:scale-105 transition-transform duration-300")}
                             priority
+                            unoptimized={logo.startsWith('http')}
                         />
                     </Link>
+
 
                     {/* Main Links (Center) */}
                     <div className="hidden xl:flex items-center space-x-4 2xl:space-x-6">
@@ -309,7 +334,7 @@ export function Navbar({ variant = "default" }: NavbarProps) {
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse mt-1 shrink-0"></span>
                             <div>
                                 <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-1">Important Deadline</p>
-                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 20 August 2026</p>
+                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 25 August 2026</p>
                             </div>
                         </div>
 

@@ -94,7 +94,10 @@ export interface AboutPageData {
     organizers: Organizer[];
     partners: Partner[];
     supportedBy?: Partner[];
+    knowledgePartner?: Partner[];
+    technicalPartners?: Partner[];
 }
+
 
 // ============================================
 // Registration Page Types
@@ -385,4 +388,10 @@ export interface SiteSettings {
         siteName: string;
         description: string;
     };
+    branding?: {
+        logoUrl?: string;
+        footerLogoUrl?: string;
+        logoAlt?: string;
+    };
 }
+

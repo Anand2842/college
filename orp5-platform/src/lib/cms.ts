@@ -117,7 +117,7 @@ export async function getImportantDatesPageData() {
         },
         timeline: [
             { number: "01", date: "Jan 1, 2026", title: "Registration Opens" },
-            { number: "02", date: "Aug 15, 2026", title: "Abstract Submission Deadline" },
+            { number: "02", date: "Aug 25, 2026", title: "Abstract Submission Deadline" },
             { number: "03", date: "Jun 30, 2026", title: "Early Bird Registration Ends" },
             { number: "04", date: "Sep 7, 2026", title: "Conference Opening" }
         ],
@@ -130,7 +130,7 @@ export async function getImportantDatesPageData() {
             title: "For Presenters",
             intro: "Key dates for researchers and speakers.",
             items: [
-                { id: "p1", text: "**20 August 2026**: Abstract Submission Deadline" },
+                { id: "p1", text: "**25 August 2026**: Abstract Submission Deadline" },
                 { id: "p2", text: "**25 August 2026**: Notification of Acceptance" },
                 { id: "p3", text: "**15 May 2026**: Full Paper Submission" }
             ]
@@ -205,8 +205,76 @@ export async function getCommitteesPageData() {
 }
 
 export async function getAboutPageData() {
-    return getPageContent('about');
+    const content = await getPageContent('about');
+
+    const defaultSupportedBy = [
+        {
+            id: "sup-agri",
+            name: "Ministry of Agriculture & Farmers Welfare, Government of India",
+            organization: "Department of Agriculture & Farmers Welfare, Government of India",
+            website: "https://agriwelfare.gov.in/",
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1783005924235_Screenshot_2026-07-02_at_8.33.34_PM.png",
+            description: "Apex national governing body formulating agricultural policies, scaling natural and organic farming initiatives, and fostering sustainable agrarian livelihoods across India."
+        }
+    ];
+
+    const defaultKnowledgePartner = [
+        {
+            id: "kp-irri",
+            name: "International Rice Research Institute (IRRI)",
+            shortName: "IRRI",
+            website: "https://www.irri.org",
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1787226976668_IRRI_logo_IRRI_logo.png",
+            description: "The world’s premier international agricultural research organization dedicated to reducing poverty and hunger through rice science, climate-resilient cultivars, and sustainable production systems."
+        }
+    ];
+
+    const defaultTechnicalPartners = [
+        {
+            id: "tech-centurion",
+            name: "Centurion UNIVERSITY",
+            website: "https://cutm.ac.in/",
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/centurion_university_logo_optimized.png",
+            description: "A pioneer skill and research university dedicated to hands-on agricultural sciences, sustainable technology incubation, and rural entrepreneurship."
+
+        },
+        {
+            id: "tech-saferock",
+            name: "SafeRock® (A natural resource to enrich the earth)",
+            website: "https://saferock.blog/",
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1783006374552_1770917975702_1768755997876_saferock-logo-2023_(1).png",
+            description: "Global innovators in natural mineral soil conditioners, enhancing ecological crop nutrition and soil microbiome longevity."
+        },
+        {
+            id: "tech-pst",
+            name: "PLANT SCIENCE TODAY",
+            subtitle: "Published by HORIZON ePUBLISHING GROUP (HePG) • Powered by EMPIRION PUBLISHERS PRIVATE LIMITED",
+            website: "https://horizonepublishing.com/index.php/PST",
+            imageUrl: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1783006339058_Screenshot_2026-07-02_at_8.33.19_PM.png",
+            description: "Scopus-indexed (eISSN: 2348-1900), UGC-CARE listed open-access international journal publishing peer-reviewed conference proceedings and breakthrough research."
+        }
+    ];
+
+    if (!content) return null;
+
+    const technical = content.technicalPartners && content.technicalPartners.length > 0
+        ? content.technicalPartners
+        : (content.partners && content.partners.length > 0 ? content.partners : defaultTechnicalPartners);
+
+    const knowledge = content.knowledgePartner && content.knowledgePartner.length > 0
+        ? content.knowledgePartner
+        : defaultKnowledgePartner;
+
+    return {
+        ...content,
+        supportedBy: content.supportedBy && content.supportedBy.length > 0 ? content.supportedBy : defaultSupportedBy,
+        knowledgePartner: knowledge,
+        technicalPartners: technical,
+        partners: technical // backward compatibility
+    };
 }
+
+
 
 export async function getRegistrationPageData() {
     const content = await getPageContent('registration');
@@ -513,7 +581,7 @@ export async function getHomepageData() {
                 { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
                 { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
                 { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-                { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 20 August 2026. The call for abstracts opens on 01 January 2026." },
+                { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 25 August 2026. The call for abstracts opens on 01 January 2026." },
                 { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
                 { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
                 { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
@@ -807,7 +875,15 @@ export async function updateAccommodationPageData(newData: any) {
     }
 }
 
+let globalSettingsCache: { data: any; timestamp: number } | null = null;
+const GLOBAL_SETTINGS_TTL_MS = 60 * 1000;
+
 export async function getGlobalSettings() {
+    const now = Date.now();
+    if (globalSettingsCache && (now - globalSettingsCache.timestamp < GLOBAL_SETTINGS_TTL_MS)) {
+        return globalSettingsCache.data;
+    }
+
     const content = await getPageContent('site-settings');
 
     const defaultData = {
@@ -829,23 +905,44 @@ export async function getGlobalSettings() {
         meta: {
             siteName: "ORP-5",
             description: "5th International Conference on Organic and Natural Rice Production Systems"
+        },
+        branding: {
+            logoUrl: "/orp5-logo.png",
+            footerLogoUrl: "/orp5-logo.png",
+            logoAlt: "ORP-5 Conference Logo"
         }
     };
 
-    return content || defaultData;
+    const result = {
+        ...defaultData,
+        ...(content || {}),
+        branding: {
+            ...defaultData.branding,
+            ...(content?.branding || {})
+        }
+    };
+
+    globalSettingsCache = { data: result, timestamp: now };
+    return result;
 }
 
 export async function updateGlobalSettings(data: any) {
     try {
+        globalSettingsCache = null;
         await upsertPage('site-settings', data);
-        // Revalidate all pages since settings are global (whatsapp, etc)
-        revalidatePath('/', 'layout');
+        // Revalidate all pages since settings are global (logo, whatsapp, etc)
+        try {
+            revalidatePath('/', 'layout');
+        } catch {
+            // Safe fallback
+        }
         return true;
     } catch (e) {
         console.error("Error updating global settings:", e);
         throw e;
     }
 }
+
 
 export async function getContactPageData() {
     const content = await getPageContent('contact');

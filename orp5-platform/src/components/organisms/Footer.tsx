@@ -8,6 +8,8 @@ import Image from "next/image";
 
 export function Footer() {
     const [social, setSocial] = useState<{ facebook?: string; twitter?: string; linkedin?: string; instagram?: string }>({});
+    const [logo, setLogo] = useState<string>("/orp5-logo.png");
+    const [logoAlt, setLogoAlt] = useState<string>("ORP-5 Logo");
 
     useEffect(() => {
         fetch("/api/settings")
@@ -15,6 +17,12 @@ export function Footer() {
             .then(data => {
                 if (data.socialLinks) {
                     setSocial(data.socialLinks);
+                }
+                if (data.branding?.footerLogoUrl || data.branding?.logoUrl) {
+                    setLogo(data.branding.footerLogoUrl || data.branding.logoUrl);
+                }
+                if (data.branding?.logoAlt) {
+                    setLogoAlt(data.branding.logoAlt);
                 }
             })
             .catch(err => console.error("Failed to load footer settings:", err));
@@ -34,13 +42,15 @@ export function Footer() {
                     <div className="space-y-5">
                         <div className="bg-white/95 backdrop-blur-md p-3 rounded-2xl inline-block shadow-lg border border-white/30">
                             <Image
-                                src="/orp5-logo.png"
-                                alt="ORP-5 Logo"
+                                src={logo || "/orp5-logo.png"}
+                                alt={logoAlt || "ORP-5 Logo"}
                                 width={110}
                                 height={60}
                                 className="h-16 w-auto object-contain"
+                                unoptimized={logo.startsWith('http')}
                             />
                         </div>
+
                         <p className="text-white/75 text-sm leading-relaxed">
                             5ᵗʰ International Conference on Organic and Natural Rice Production Systems.
                             <span className="block text-rice-gold-light/90 font-medium mt-2">

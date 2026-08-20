@@ -259,31 +259,215 @@ export default async function AboutPage() {
                 </div>
             </section>
 
-            {/* Organizers Section */}
+            {/* 1. Jointly Organised by */}
             <section className="py-16 bg-white border-t border-gray-200/60 container mx-auto px-6 max-w-6xl">
                 <SectionTitle
-                    badge="Organizing Bodies"
-                    title="About the Organizers"
-                    subtitle="Jointly convened by leading agricultural universities and scientific associations."
+                    title="Jointly organised by"
+                    subtitle="Jointly convened by premier agricultural student leadership and leading international universities."
                     centered
                 />
 
                 <div className="space-y-6 mt-10">
-                    {data.organizers.map((org: any) => (
+                    {data.organizers?.map((org: any) => (
                         <div key={org.id} className="bg-[#FAF9F5] p-8 md:p-10 rounded-3xl border border-earth-green/10 flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left luxury-card">
                             {org.logoUrl && (
-                                <div className="w-36 h-36 shrink-0 flex items-center justify-center bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                                <div className="w-32 h-32 md:w-36 md:h-36 shrink-0 flex items-center justify-center bg-white rounded-full p-4 shadow-md border border-gray-100/80">
                                     <img src={org.logoUrl} alt={org.name} className="max-w-full max-h-full object-contain" />
                                 </div>
                             )}
-                            <div>
-                                <h3 className="text-2xl font-serif font-bold text-charcoal mb-3">{org.name}</h3>
-                                <p className="text-charcoal/75 leading-relaxed text-sm sm:text-base font-light">{org.description}</p>
+                            <div className="flex-1">
+                                <h3 className="text-2xl font-serif font-bold text-charcoal mb-2">{org.name}</h3>
+                                {org.shortName && (
+                                    <span className="inline-block text-xs font-bold uppercase tracking-wider text-rice-gold-dark mb-3">
+                                        {org.shortName}
+                                    </span>
+                                )}
+                                <p className="text-charcoal/75 leading-relaxed text-sm sm:text-base font-light mb-4">{org.description}</p>
+                                {org.website && (
+                                    <a
+                                        href={org.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold transition-colors"
+                                    >
+                                        Visit Institution Website <ArrowRight size={13} />
+                                    </a>
+                                )}
                             </div>
                         </div>
                     ))}
                 </div>
             </section>
+
+            {/* 2. Supported by & Knowledge Partner (Dual Pillar) */}
+            <section className="py-16 bg-[#FAF9F5] border-t border-earth-green/10">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+                        
+                        {/* Supported by Card */}
+                        <div className="flex flex-col">
+                            <SectionTitle
+                                title="Supported by"
+                                subtitle="National policy leadership and institutional patronage."
+                            />
+                            <div className="mt-6 flex-1 flex flex-col justify-between bg-white p-8 md:p-10 rounded-3xl border-2 border-rice-gold/30 shadow-md luxury-card relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-48 h-48 bg-rice-gold/10 rounded-full blur-3xl pointer-events-none" />
+                                {data.supportedBy?.[0] && (
+                                    <>
+                                        <div>
+                                            <div className="flex items-center gap-5 mb-6">
+                                                {data.supportedBy[0].imageUrl && (
+                                                    <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
+                                                        <img
+                                                            src={data.supportedBy[0].imageUrl}
+                                                            alt={data.supportedBy[0].name}
+                                                            className="max-w-full max-h-full object-contain"
+                                                        />
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <h3 className="text-xl font-serif font-bold text-charcoal leading-snug">
+                                                        {data.supportedBy[0].name}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <p className="text-charcoal/75 text-sm sm:text-base leading-relaxed font-light mb-6">
+                                                {data.supportedBy[0].description}
+                                            </p>
+                                        </div>
+                                        {data.supportedBy[0].website && (
+                                            <a
+                                                href={data.supportedBy[0].website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold transition-colors pt-4 border-t border-gray-100"
+                                            >
+                                                Visit Ministry Portal <ArrowRight size={13} />
+                                            </a>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Knowledge Partner Card */}
+                        <div className="flex flex-col">
+                            <SectionTitle
+                                title="Knowledge partner"
+                                subtitle="International scientific guidance and rice innovation."
+                            />
+                            <div className="mt-6 flex-1 flex flex-col justify-between bg-white p-8 md:p-10 rounded-3xl border-2 border-earth-green/20 shadow-md luxury-card relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-48 h-48 bg-earth-green/10 rounded-full blur-3xl pointer-events-none" />
+                                {data.knowledgePartner?.[0] && (
+                                    <>
+                                        <div>
+                                            <div className="flex items-center gap-5 mb-6">
+                                                {data.knowledgePartner[0].imageUrl && (
+                                                    <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
+                                                        <img
+                                                            src={data.knowledgePartner[0].imageUrl}
+                                                            alt={data.knowledgePartner[0].name}
+                                                            className="max-w-full max-h-full object-contain"
+                                                        />
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <h3 className="text-xl font-serif font-bold text-charcoal leading-snug">
+                                                        {data.knowledgePartner[0].name}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <p className="text-charcoal/75 text-sm sm:text-base leading-relaxed font-light mb-6">
+                                                {data.knowledgePartner[0].description}
+                                            </p>
+                                        </div>
+                                        {data.knowledgePartner[0].website && (
+                                            <a
+                                                href={data.knowledgePartner[0].website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold transition-colors pt-4 border-t border-gray-100"
+                                            >
+                                                Visit IRRI Official Website <ArrowRight size={13} />
+                                            </a>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* 3. Technical Collaborating Partners */}
+            {((data.technicalPartners && data.technicalPartners.length > 0) || (data.partners && data.partners.length > 0)) && (
+                <section className="py-16 bg-white border-t border-gray-200/60">
+                    <div className="container mx-auto px-6 max-w-6xl">
+                        <SectionTitle
+                            title="Technical collaborating partners"
+                            subtitle="Strategic technical allies across agricultural universities, soil mineral innovators, and scientific publishing."
+                            centered
+                        />
+
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-10">
+                            {(data.technicalPartners || data.partners).map((partner: any, idx: number) => (
+                                <div
+                                    key={partner.id || idx}
+                                    className="bg-[#FAF9F5] p-7 md:p-8 rounded-3xl border border-earth-green/10 flex flex-col justify-between hover:border-rice-gold/50 shadow-sm hover:shadow-md transition-all luxury-card group"
+                                >
+                                    <div>
+                                        <div className="flex items-center gap-4 mb-5">
+                                            {partner.imageUrl ? (
+                                                <div className="w-18 h-18 sm:w-20 sm:h-20 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
+                                                    <img
+                                                        src={partner.imageUrl}
+                                                        alt={partner.name}
+                                                        className="max-w-full max-h-full object-contain"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="w-14 h-14 bg-earth-green/10 rounded-2xl flex items-center justify-center text-earth-green">
+                                                    <Globe2 size={24} />
+                                                </div>
+                                            )}
+                                            <div className="flex-1">
+                                                <h4 className="font-serif font-bold text-base md:text-lg text-charcoal leading-snug">
+                                                    {partner.name}
+                                                </h4>
+                                                <span className="text-[10px] font-bold uppercase tracking-wider text-earth-green/80 block mt-0.5">
+                                                    Technical Collaborator
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {partner.subtitle && (
+                                            <p className="text-xs font-semibold text-earth-green mb-2">
+                                                {partner.subtitle}
+                                            </p>
+                                        )}
+                                        <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light mb-6">
+                                            {partner.description}
+                                        </p>
+                                    </div>
+                                    {partner.website && (
+                                        <a
+                                            href={partner.website}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-earth-green group-hover:text-rice-gold transition-colors pt-4 border-t border-gray-200/60"
+                                        >
+                                            Explore Website <ArrowRight size={13} />
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+
 
             {/* CTA Band */}
             <section className="py-14 container mx-auto px-6 max-w-6xl">

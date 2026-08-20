@@ -150,7 +150,7 @@ export default function ImportantDatesClient() {
                             Don't Miss Deadlines
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Submit Your Abstract Before 20 August 2026
+                            Submit Your Abstract Before 25 August 2026
                         </h3>
                         <p className="text-white/70 text-sm">
                             Ensure peer-review eligibility and inclusion in the official ORP-5 technical proceedings.

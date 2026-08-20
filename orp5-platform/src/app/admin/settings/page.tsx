@@ -132,6 +132,61 @@ export default function SettingsPage() {
                 </div>
             </div>
 
+            {/* Branding & Site Logo */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-2xl mb-8">
+                <div className="flex items-center justify-between pb-4 mb-6 border-b">
+                    <div>
+                        <h2 className="text-xl font-bold text-earth-green">Branding & Site Logo</h2>
+                        <p className="text-xs text-gray-500 mt-0.5">Customize the header and footer logos displayed across the entire platform.</p>
+                    </div>
+                </div>
+                <div className="grid gap-6">
+                    <div>
+                        <ImageUploader
+                            label="Main Header Logo"
+                            value={data.branding?.logoUrl || "/orp5-logo.png"}
+                            onChange={(url) => setData({
+                                ...data,
+                                branding: {
+                                    ...(data.branding || {}),
+                                    logoUrl: url || "/orp5-logo.png"
+                                }
+                            })}
+                        />
+                        <p className="text-xs text-gray-400 -mt-2">Recommended: Transparent PNG or SVG (approx. 240x96px or 3:1 ratio).</p>
+                    </div>
+
+                    <div className="h-px bg-gray-100 my-1" />
+
+                    <div>
+                        <ImageUploader
+                            label="Footer Logo (Optional)"
+                            value={data.branding?.footerLogoUrl || data.branding?.logoUrl || "/orp5-logo.png"}
+                            onChange={(url) => setData({
+                                ...data,
+                                branding: {
+                                    ...(data.branding || {}),
+                                    footerLogoUrl: url
+                                }
+                            })}
+                        />
+                        <p className="text-xs text-gray-400 -mt-2">Defaults to the main logo if not specified.</p>
+                    </div>
+
+                    <AdminInput
+                        label="Logo Alt Text"
+                        value={data.branding?.logoAlt || "ORP-5 Conference"}
+                        onChange={(e) => setData({
+                            ...data,
+                            branding: {
+                                ...(data.branding || {}),
+                                logoAlt: e.target.value
+                            }
+                        })}
+                    />
+                </div>
+            </div>
+
             {/* Important Dates */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-2xl mb-8">
                 <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Important Dates</h2>
@@ -144,6 +199,7 @@ export default function SettingsPage() {
                     <AdminInput label="Abstract Submission Deadline" type="date" value={data.dates.abstractDeadline} onChange={(e) => handleDateChange("abstractDeadline", e.target.value)} />
                 </div>
             </div>
+
 
             {/* Integrations */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-2xl mb-8">

@@ -80,7 +80,7 @@ export default async function Home() {
     dates: [
       { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "20 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
+      { date: "25 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
       { date: "25 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
       { date: "31 August 2026", label: "Registration Deadline", status: "upcoming" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
@@ -248,15 +248,16 @@ export default async function Home() {
             )}
             
             {/* Other Partners */}
-            {data.partnersByCategory && Object.keys(data.partnersByCategory).filter(cat => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat)).length > 0 && (
+            {data.partnersByCategory && Object.keys(data.partnersByCategory).filter(cat => !['Jointly organised by', 'Supported by', 'Knowledge partner', 'Technical collaborating partners', 'In collaboration with'].includes(cat)).length > 0 && (
               <div className="mt-12">
                 {Object.entries(data.partnersByCategory)
-                  .filter(([cat]) => !['Jointly organised by', 'Supported by', 'In collaboration with'].includes(cat))
+                  .filter(([cat]) => !['Jointly organised by', 'Supported by', 'Knowledge partner', 'Technical collaborating partners', 'In collaboration with'].includes(cat))
                   .sort(([catA], [catB]) => {
                     const orderA = data.partnerCategorySettings?.find((s: any) => s.name === catA)?.order ?? 99;
                     const orderB = data.partnerCategorySettings?.find((s: any) => s.name === catB)?.order ?? 99;
                     return orderA - orderB;
                   })
+
                   .map(([category, catPartners]: [string, any]) => {
                     const setting = data.partnerCategorySettings?.find((s: any) => s.name === category);
                     const mode = setting?.mode || "grid";

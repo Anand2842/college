@@ -52,10 +52,11 @@ for (const route of pages) {
       const paint = performance.getEntriesByType('paint');
       const firstPaint = paint.find(p => p.name === 'first-paint')?.startTime ?? 0;
       return {
-        domContentLoaded: nav?.domContentLoadedEventEnd - nav?.startTime ?? 0,
+        domContentLoaded: (nav?.domContentLoadedEventEnd - nav?.startTime) || 0,
         transferSize: nav?.transferSize ?? 0,
         firstPaint,
       };
+
     });
 
     const status = response?.status() ?? 0;

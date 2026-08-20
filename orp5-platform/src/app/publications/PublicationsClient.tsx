@@ -35,7 +35,7 @@ const TIMELINE_STEPS = [
     {
         step: "01",
         title: "Submit Abstract",
-        description: "Submit online before 20 August 2026.",
+        description: "Submit online before 25 August 2026.",
     },
     {
         step: "02",
