@@ -69,8 +69,8 @@ const blog1 = {
 </thead>
 <tbody>
 <tr><td>20 January 2026</td><td>Call for Abstracts opens / Registration opens</td></tr>
-<tr><td>15 August 2026</td><td>Abstract submission deadline</td></tr>
-<tr><td>20 August 2026</td><td>Notification of abstract status</td></tr>
+<tr><td>25 August 2026</td><td>Abstract submission deadline</td></tr>
+<tr><td>27 August 2026</td><td>Notification of abstract status</td></tr>
 <tr><td>31 August 2026</td><td>Registration deadline</td></tr>
 <tr><td>21 September 2026</td><td>Inauguration, plenary sessions, oral &amp; poster presentations</td></tr>
 <tr><td>22-23 September 2026</td><td>Technical sessions, oral/poster/video presentations</td></tr>
@@ -245,18 +245,17 @@ const blog2 = {
 </thead>
 <tbody>
 <tr><td>15 August 2026</td><td>Abstract submission deadline</td></tr>
-<tr><td>20 August 2026</td><td>Notification of abstract acceptance and presentation type</td></tr>
+<tr><td>27 August 2026</td><td>Notification of abstract acceptance and presentation type</td></tr>
 <tr><td>21-25 September 2026</td><td>Conference and presentations</td></tr>
 </tbody>
 </table>
 
 <h2>What Happens After Submission?</h2>
-<p>After the 15 August deadline, the scientific committee will review all abstracts through a blind peer review process. You will receive notification of acceptance and presentation type by <strong>20 August 2026</strong>. Accepted abstracts will be published in the Souvenir &amp; Abstract Book distributed at the conference.</p>
+<p>After the 15 August deadline, the scientific committee will review all abstracts through a blind peer review process. You will receive notification of acceptance and presentation type by <strong>27 August 2026</strong>. Accepted abstracts will be published in the Souvenir &amp; Abstract Book distributed at the conference.</p>
 
 <p>Full-length papers based on accepted abstracts may be submitted for publication in the <strong>Special Issue of Plant Science Today</strong> (Article Processing Charges: Rs. 16,000).</p>
 
 <h2>Need Help?</h2>
-<p>For abstract-related queries, contact: <strong>organizingsecretary@orp5ic.com</strong><br>For general queries: <strong>info@orp5ic.com</strong></p>
 `,
   published_at: '2026-07-04T10:00:00Z',
 };

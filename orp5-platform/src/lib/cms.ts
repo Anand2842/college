@@ -131,7 +131,7 @@ export async function getImportantDatesPageData() {
             intro: "Key dates for researchers and speakers.",
             items: [
                 { id: "p1", text: "**25 August 2026**: Abstract Submission Deadline" },
-                { id: "p2", text: "**25 August 2026**: Notification of Acceptance" },
+                { id: "p2", text: "**27 August 2026**: Notification of Acceptance" },
                 { id: "p3", text: "**15 May 2026**: Full Paper Submission" }
             ]
         },

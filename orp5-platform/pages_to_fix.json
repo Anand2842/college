@@ -30,11 +30,11 @@
           "label": "Call for Abstracts Opens"
         },
         {
-          "date": "15 August 2026",
-          "label": "Abstract Submission Deadline"
+          "date": "25 August 2026",
+          "label": "Deadline for Abstract Submission"
         },
         {
-          "date": "20 August 2026",
+          "date": "27 August 2026",
           "label": "Notification of Abstract Status"
         },
         {
@@ -200,7 +200,7 @@
           },
           {
             "id": "p3",
-            "text": "**Notification of Acceptance**: Authors will be notified of their abstract status by August 20, 2026."
+            "text": "**Notification of Acceptance**: Authors will be notified of their abstract status by August 27, 2026."
           }
         ],
         "title": "Presenter Deadlines"

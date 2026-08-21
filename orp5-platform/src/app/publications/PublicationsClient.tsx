@@ -45,7 +45,7 @@ const TIMELINE_STEPS = [
     {
         step: "03",
         title: "Decision & Status",
-        description: "Notification issued by 25 August 2026.",
+        description: "Notification issued by 27 August 2026.",
     },
     {
         step: "04",
