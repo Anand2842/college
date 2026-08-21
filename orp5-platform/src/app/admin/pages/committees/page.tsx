@@ -17,10 +17,19 @@ export default function CommitteesPageEditor() {
     const [activeCommitteeTab, setActiveCommitteeTab] = useState("International Scientific Committee");
 
     useEffect(() => {
-        fetch("/api/content/committees")
+        fetch(`/api/content/committees?_t=${Date.now()}`, { cache: "no-store" })
             .then((res) => res.json())
             .then((jsonData) => {
-                setData(jsonData);
+                if (jsonData && Object.keys(jsonData).length > 0) {
+                    setData(jsonData);
+                    if (jsonData.committees && jsonData.committees.length > 0) {
+                        setActiveCommitteeTab(jsonData.committees[0].label);
+                    }
+                }
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Failed to load committees:", err);
                 setLoading(false);
             });
     }, []);
@@ -40,9 +49,40 @@ export default function CommitteesPageEditor() {
     };
 
     const handleCommitteeMemberUpdate = (committeeIndex: number, newMembers: any[]) => {
-        const newCommittees = [...data.committees];
-        newCommittees[committeeIndex].members = newMembers;
-        setData({ ...data, committees: newCommittees });
+        setData((prev: any) => {
+            const newCommittees = [...(prev.committees || [])];
+            newCommittees[committeeIndex] = {
+                ...newCommittees[committeeIndex],
+                members: newMembers
+            };
+            return { ...prev, committees: newCommittees };
+        });
+    };
+
+    const handleAddCommittee = () => {
+        const label = prompt("Enter new Committee Name (e.g. Steering Committee):");
+        if (!label || !label.trim()) return;
+        const newCommittee = {
+            id: `c_${Date.now()}`,
+            label: label.trim(),
+            members: []
+        };
+        setData((prev: any) => ({
+            ...prev,
+            committees: [...(prev.committees || []), newCommittee]
+        }));
+        setActiveCommitteeTab(label.trim());
+    };
+
+    const handleDeleteCommittee = (committeeIndex: number, label: string) => {
+        if (!confirm(`Are you sure you want to delete the committee category "${label}" and all its members?`)) return;
+        setData((prev: any) => {
+            const newCommittees = (prev.committees || []).filter((_: any, idx: number) => idx !== committeeIndex);
+            if (newCommittees.length > 0) {
+                setActiveCommitteeTab(newCommittees[0].label);
+            }
+            return { ...prev, committees: newCommittees };
+        });
     };
 
     const handleSave = async () => {
@@ -54,8 +94,12 @@ export default function CommitteesPageEditor() {
                 headers: { 'Content-Type': 'application/json' }
             });
 
-            if (res.ok) alert("Committees Page Saved!");
-            else alert("Failed to save.");
+            if (res.ok) {
+                alert("Committees Page Saved Successfully!");
+            } else {
+                const errData = await res.json().catch(() => ({}));
+                alert(`Failed to save: ${errData.error || 'Server error'}`);
+            }
         } catch (e) {
             console.error(e);
             alert("Error saving.");
@@ -132,16 +176,41 @@ export default function CommitteesPageEditor() {
 
                 {activeTab === "Committees" && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div className="flex overflow-x-auto gap-2 mb-8 border-b pb-2">
-                            {data.committees.map((c: any) => (
-                                <button
-                                    key={c.id}
-                                    onClick={() => setActiveCommitteeTab(c.label)}
-                                    className={`px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors rounded-t-lg ${activeCommitteeTab === c.label ? "text-earth-green border-b-2 border-earth-green bg-green-50" : "text-gray-500 hover:text-gray-700"}`}
-                                >
-                                    {c.label}
-                                </button>
-                            ))}
+                        <div className="flex items-center justify-between gap-4 mb-8 border-b pb-3 flex-wrap">
+                            <div className="flex overflow-x-auto gap-2 items-center flex-1">
+                                {data.committees?.map((c: any, cIdx: number) => (
+                                    <div key={c.id || cIdx} className="flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => setActiveCommitteeTab(c.label)}
+                                            className={`px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors rounded-t-lg ${activeCommitteeTab === c.label ? "text-earth-green border-b-2 border-earth-green bg-green-50" : "text-gray-500 hover:text-gray-700"}`}
+                                        >
+                                            {c.label} ({c.members?.length || 0})
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Button type="button" size="sm" variant="outline" onClick={handleAddCommittee} className="text-xs">
+                                    + Add Category
+                                </Button>
+                                {data.committees?.length > 1 && (
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => {
+                                            const currIdx = data.committees.findIndex((c: any) => c.label === activeCommitteeTab);
+                                            if (currIdx !== -1) {
+                                                handleDeleteCommittee(currIdx, activeCommitteeTab);
+                                            }
+                                        }}
+                                        className="text-xs text-red-600 hover:bg-red-50 hover:border-red-300"
+                                    >
+                                        Delete Category
+                                    </Button>
+                                )}
+                            </div>
                         </div>
 
                         {data.committees.map((c: any, index: number) => {

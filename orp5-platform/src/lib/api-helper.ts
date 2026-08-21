@@ -7,11 +7,16 @@ export function createPageHandler(slug: string) {
         GET: async () => {
             const supabase = getSupabaseAdmin();
             const { data, error } = await supabase.from('Page').select('content').eq('slug', slug).single() as any;
+            const headers = {
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+            };
             if (error) {
                 // Return empty object if not found, rather than 500, to allow editor to initialize default state
-                return NextResponse.json({});
+                return NextResponse.json({}, { headers });
             }
-            return NextResponse.json(data?.content || {});
+            return NextResponse.json(data?.content || {}, { headers });
         },
         POST: async (req: Request) => {
             try {

@@ -120,22 +120,30 @@ function MemberCard({ member, index }: { member: any; index: number }) {
   );
 }
 
-export default function CommitteesClient() {
-  const [data, setData] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState("");
+export default function CommitteesClient({ initialData }: { initialData?: any }) {
+  const [data, setData] = useState<any>(initialData || null);
+  const [activeTab, setActiveTab] = useState<string>(
+    initialData?.committees?.[0]?.label || ""
+  );
 
   useEffect(() => {
-    fetch("/api/content/committees")
+    fetch(`/api/content/committees?_t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((jsonData) => {
-        setData(jsonData);
-        if (jsonData.committees?.length > 0) {
-          setActiveTab(jsonData.committees[0].label);
+        if (jsonData && Object.keys(jsonData).length > 0) {
+          setData(jsonData);
+          if (jsonData.committees && jsonData.committees.length > 0) {
+            setActiveTab((prev) => {
+              const exists = jsonData.committees.some((c: any) => c.label === prev);
+              return exists && prev ? prev : jsonData.committees[0].label;
+            });
+          }
         }
-      });
+      })
+      .catch((err) => console.error("Failed to fetch fresh committees:", err));
   }, []);
 
-  if (!data)
+  if (!data || !data.committees)
     return (
       <div className="min-h-screen bg-[#FAF9F5] flex flex-col items-center justify-center gap-4">
         <div className="w-8 h-8 border-2 border-earth-green/20 border-t-earth-green rounded-full animate-spin mb-4"></div>
@@ -143,8 +151,8 @@ export default function CommitteesClient() {
       </div>
     );
 
-  const currentCommittee = data.committees.find((c: any) => c.label === activeTab);
-  const allMembers = data.committees.flatMap((c: any) => c.members);
+  const currentCommittee = data.committees?.find((c: any) => c.label === activeTab) || data.committees?.[0];
+  const allMembers = data.committees?.flatMap((c: any) => c.members || []) || [];
 
   return (
     <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
