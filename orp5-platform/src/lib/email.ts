@@ -160,6 +160,141 @@ export async function sendSubmissionStatusEmail(
     }
 }
 
+export async function sendRegistrationPendingEmail(
+    email: string,
+    name: string,
+    ticketId: string,
+    feeAmount: number,
+    currency: string,
+    category: string,
+    mode: string
+) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
+    const payUrl = `${siteUrl}/registration/pay?id=${ticketId}`;
+    const ticketStatusUrl = `${siteUrl}/ticket-status`;
+    const currencySymbol = currency === 'USD' ? '$' : '₹';
+    const formattedFee = `${currencySymbol}${feeAmount.toLocaleString()}`;
+    const safeName = name || 'Participant';
+    const safeCategory = category || 'Delegate';
+    const safeMode = mode ? mode.charAt(0).toUpperCase() + mode.slice(1) : 'Physical';
+
+    const html = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Complete Your ORP-5 Registration</title>
+    <style type="text/css">
+        body { margin: 0; padding: 0; background-color: #f4f3ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #2b2b2b; }
+        table { border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        td { padding: 0; }
+        .container-table { width: 100% !important; max-width: 600px !important; margin: 0 auto; }
+        .btn-primary { background-color: #123125; color: #ffffff !important; display: inline-block; font-weight: bold; font-size: 15px; text-align: center; text-decoration: none; padding: 16px 36px; border-radius: 8px; }
+        @media only screen and (max-width: 600px) {
+            .mobile-p-20 { padding: 20px !important; }
+            .mobile-p-15 { padding: 15px !important; }
+            .mobile-btn { display: block !important; width: 100% !important; padding: 14px 20px !important; box-sizing: border-box !important; }
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f3ed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#f4f3ed">
+        <tr>
+            <td align="center" style="padding: 24px 12px 40px 12px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="container-table" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e5e3d8; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <tr>
+                        <td bgcolor="#123125" style="background-color: #123125; padding: 28px 24px 24px 24px; text-align: center;">
+                            <span style="font-size: 11px; font-weight: 800; color: #DFC074; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 6px;">5ᵗʰ INTERNATIONAL CONFERENCE</span>
+                            <h1 style="margin: 0; font-family: 'Georgia', serif; font-size: 24px; font-weight: bold; color: #ffffff; letter-spacing: 1px;">ORP-5 NEW DELHI</h1>
+                            <p style="margin: 6px 0 0 0; font-size: 12px; color: #a3d9b1;">21–25 September 2026 &nbsp;|&nbsp; NASC Complex, New Delhi</p>
+                        </td>
+                    </tr>
+                    <tr><td height="4" bgcolor="#DFC074" style="background-color: #DFC074; line-height: 4px; font-size: 4px;">&nbsp;</td></tr>
+                    <tr>
+                        <td class="mobile-p-20" style="padding: 32px 36px 24px 36px;">
+                            <p style="margin: 0 0 16px 0; font-size: 16px; color: #2b2b2b;">Dear <strong>${safeName}</strong>,</p>
+                            <p style="margin: 0 0 20px 0; font-size: 14px; line-height: 1.6; color: #4a4a4a;">Your registration details for <strong>ORP-5</strong> have been recorded. Please complete your registration fee payment to confirm your delegate pass.</p>
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 0 24px 0;">
+                                <tr>
+                                    <td bgcolor="#f0fdf4" style="background-color: #f0fdf4; border: 2px dashed #86efac; border-radius: 12px; padding: 20px; text-align: center;">
+                                        <span style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 6px;">Your Registration Ticket ID</span>
+                                        <span style="font-family: 'Courier New', Courier, monospace; font-size: 26px; font-weight: bold; color: #123125; letter-spacing: 2px; display: block; margin: 4px 0;">${ticketId}</span>
+                                        <span style="font-size: 11px; color: #15803d; display: block; margin-top: 4px;">Use this Ticket ID for fee submission & verification</span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#fbfaf4" style="background-color: #fbfaf4; border: 1px solid #e9e6d7; border-radius: 10px; margin: 0 0 28px 0;">
+                                <tr>
+                                    <td style="padding: 16px 20px; font-size: 13px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr><td style="padding: 6px 0; color: #6b7280;">Participant:</td><td style="padding: 6px 0; color: #111827; font-weight: bold; text-align: right;">${safeName}</td></tr>
+                                            <tr><td style="padding: 6px 0; color: #6b7280;">Category:</td><td style="padding: 6px 0; color: #111827; font-weight: bold; text-align: right;">${safeCategory}</td></tr>
+                                            <tr><td style="padding: 6px 0; color: #6b7280;">Mode:</td><td style="padding: 6px 0; color: #111827; font-weight: bold; text-align: right;">${safeMode}</td></tr>
+                                            <tr><td colspan="2" height="1" bgcolor="#e5e7eb" style="line-height: 1px; font-size: 1px;">&nbsp;</td></tr>
+                                            <tr><td style="padding: 10px 0 4px 0; color: #123125; font-weight: bold; font-size: 14px;">Total Fee Due:</td><td style="padding: 10px 0 4px 0; color: #123125; font-weight: 800; font-size: 22px; text-align: right;">${formattedFee}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 0 28px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="${payUrl}" target="_blank" class="btn-primary mobile-btn" style="background-color: #123125; color: #ffffff !important; display: inline-block; font-weight: bold; font-size: 15px; text-align: center; text-decoration: none; padding: 16px 36px; border-radius: 8px; letter-spacing: 0.5px; box-shadow: 0 4px 8px rgba(18, 49, 37, 0.25);">
+                                            Complete Registration & Payment &rarr;
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#fffbeb" style="background-color: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #d97706; border-radius: 8px; margin: 0 0 24px 0;">
+                                <tr>
+                                    <td class="mobile-p-15" style="padding: 16px 20px;">
+                                        <p style="margin: 0 0 6px 0; font-size: 13px; font-weight: bold; color: #92400e;">📌 Already Paid?</p>
+                                        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #78350f;">
+                                            If you have already made the payment and your confirmation email hasn't reached you yet, please reply to this email or reach out to <a href="mailto:info@orp5ic.com?subject=Payment%20Screenshot%20-%20Ticket%20${ticketId}" style="color: #92400e; font-weight: bold; text-decoration: underline;">info@orp5ic.com</a> with your <strong>payment screenshot</strong> and <strong>transaction reference (UTR)</strong>. Our team will verify and issue your confirmed ticket immediately.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0; font-size: 12px; color: #6b7280; text-align: center;">
+                                Real-time status: <a href="${ticketStatusUrl}" style="color: #123125; font-weight: bold; text-decoration: underline;">Ticket Status Portal</a>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" bgcolor="#f9fafb" style="background-color: #f9fafb; border-top: 1px solid #e5e7eb; padding: 20px; font-size: 12px; color: #6b7280;">
+                            <strong>ORP-5 Organizing Secretariat</strong> &nbsp;|&nbsp; <a href="mailto:info@orp5ic.com" style="color: #123125; text-decoration: none;">info@orp5ic.com</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
+
+    if (resend) {
+        try {
+            await resend.emails.send({
+                from: FROM_EMAIL,
+                to: email,
+                subject: `Complete your ORP-5 Registration: ${ticketId}`,
+                html
+            });
+            console.log(`[Email] Pending registration sent to ${email}`);
+        } catch (error) {
+            console.error('[Email] Failed to send pending registration:', error);
+        }
+    } else {
+        console.log(`[Dev Email] To: ${email} | Subject: Complete Registration | Ticket: ${ticketId}`);
+    }
+}
+
 export async function sendRegistrationAcknowledgementEmail(
     email: string,
     name: string,

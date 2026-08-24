@@ -352,20 +352,52 @@ export async function getSpeakersPageData() {
     const content = await getPageContent('speakers');
     const { data: speakers } = await supabase.from('Speaker').select('*').order('order');
 
-    if (!content && !speakers) return null;
+    const defaultData = {
+        hero: {
+            headline: "Keynote & Invited Speakers",
+            subheadline: "Learn from world-renowned experts, researchers, and policymakers shaping the future of organic and natural rice farming.",
+            backgroundImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1920"
+        },
+        intro: {
+            title: "",
+            description: ""
+        },
+        keynotes: [],
+        invited: [],
+        panel: []
+    };
+
+    if (!content && (!speakers || speakers.length === 0)) return defaultData;
 
     // Separate DB speakers by category
     const dbKeynotes = speakers?.filter((s: any) => s.category === 'keynote') || [];
     const dbInvited = speakers?.filter((s: any) => s.category === 'invited') || [];
     const dbPanel = speakers?.filter((s: any) => s.category === 'panel') || [];
 
-    // Fallback to JSON content if DB table is empty
-    const finalKeynotes = dbKeynotes.length > 0 ? dbKeynotes : (content?.keynotes || []);
-    const finalInvited = dbInvited.length > 0 ? dbInvited : (content?.invited || []);
-    const finalPanel = dbPanel.length > 0 ? dbPanel : (content?.panel || []);
+    // Prioritize content saved in JSON if available, fallback to DB table, then default
+    const finalKeynotes = (content?.keynotes && content.keynotes.length > 0)
+        ? content.keynotes
+        : (dbKeynotes.length > 0 ? dbKeynotes : defaultData.keynotes);
+
+    const finalInvited = (content?.invited && content.invited.length > 0)
+        ? content.invited
+        : (dbInvited.length > 0 ? dbInvited : defaultData.invited);
+
+    const finalPanel = (content?.panel && content.panel.length > 0)
+        ? content.panel
+        : (dbPanel.length > 0 ? dbPanel : defaultData.panel);
 
     return {
+        ...defaultData,
         ...content,
+        hero: {
+            ...defaultData.hero,
+            ...(content?.hero || {})
+        },
+        intro: {
+            ...defaultData.intro,
+            ...(content?.intro || {})
+        },
         keynotes: finalKeynotes,
         invited: finalInvited,
         panel: finalPanel
@@ -418,7 +450,16 @@ export async function getThemesPageData() {
 
 // Helper to update speakers
 export async function updateSpeakersPageData(data: any) {
-    return upsertPage('speakers', data);
+    const result = await upsertPage('speakers', data);
+    try {
+        revalidatePath('/speakers');
+        revalidatePath('/admin/pages/speakers');
+        revalidatePath('/admin/speakers');
+        revalidatePath('/');
+    } catch (e) {
+        console.error('Revalidation error on speakers:', e);
+    }
+    return result;
 }
 
 // Helper to update important dates

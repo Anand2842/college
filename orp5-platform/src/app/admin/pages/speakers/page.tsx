@@ -21,12 +21,11 @@ export default function SpeakersEditor() {
                 return res.json();
             })
             .then((jsonData) => {
-                setData(jsonData);
+                setData(jsonData || {});
                 setLoading(false);
             })
             .catch((e) => {
-                console.error("Fetch error:", e);
-                alert("Failed to load speakers data. If you have an adblocker enabled, please try disabling it.");
+                console.error("Fetch error on speakers:", e);
                 setLoading(false);
             });
     }, []);
@@ -34,7 +33,7 @@ export default function SpeakersEditor() {
     const handleChange = (section: string, field: string, value: string) => {
         setData((prev: any) => ({
             ...prev,
-            [section]: { ...prev[section], [field]: value },
+            [section]: { ...(prev?.[section] || {}), [field]: value },
         }));
     };
 
@@ -66,6 +65,9 @@ export default function SpeakersEditor() {
 
     if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-earth-green" size={40} /></div>;
 
+    const hero = data?.hero || {};
+    const intro = data?.intro || {};
+
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
             <PageHeader
@@ -88,16 +90,16 @@ export default function SpeakersEditor() {
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Hero Section</h2>
                             <div className="grid gap-6">
-                                <AdminInput label="Headline" value={data.hero.headline} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
-                                <AdminInput label="Subheadline" value={data.hero.subheadline} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
-                                <ImageUploader label="Background Image" value={data.hero.backgroundImage} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
+                                <AdminInput label="Headline" value={hero.headline || ""} onChange={(e) => handleChange("hero", "headline", e.target.value)} />
+                                <AdminInput label="Subheadline" value={hero.subheadline || ""} onChange={(e) => handleChange("hero", "subheadline", e.target.value)} />
+                                <ImageUploader label="Background Image" value={hero.backgroundImage || ""} onChange={(url) => handleChange("hero", "backgroundImage", url)} />
                             </div>
                         </div>
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
                             <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Intro Section</h2>
                             <div className="grid gap-6">
-                                <AdminInput label="Title" value={data.intro.title} onChange={(e) => handleChange("intro", "title", e.target.value)} />
-                                <AdminInput label="Description" value={data.intro.description} onChange={(e) => handleChange("intro", "description", e.target.value)} />
+                                <AdminInput label="Title" value={intro.title || ""} onChange={(e) => handleChange("intro", "title", e.target.value)} />
+                                <AdminInput label="Description" value={intro.description || ""} onChange={(e) => handleChange("intro", "description", e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -108,19 +110,20 @@ export default function SpeakersEditor() {
                         <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Keynote Speakers</h2>
                         <ListEditor
                             title="Speakers"
-                            items={data.keynotes || []}
+                            items={data?.keynotes || []}
                             onUpdate={(items) => handleListUpdate("keynotes", items)}
-                            itemTemplate={{ id: "", name: "New Speaker", role: "", institution: "", imageUrl: "", focusArea: "" }}
+                            itemTemplate={{ id: "", name: "New Speaker", role: "", institution: "", imageUrl: "", focusArea: "", countryCode: "" }}
                             renderItemFields={(item, i, update) => (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-4">
-                                        <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
-                                        <AdminInput label="Role" value={item.role} onChange={(e) => update("role", e.target.value)} />
-                                        <AdminInput label="Institution" value={item.institution} onChange={(e) => update("institution", e.target.value)} />
-                                        <AdminInput label="Focus Area" value={item.focusArea} onChange={(e) => update("focusArea", e.target.value)} />
+                                        <AdminInput label="Name" value={item.name || ""} onChange={(e) => update("name", e.target.value)} />
+                                        <AdminInput label="Role" value={item.role || ""} onChange={(e) => update("role", e.target.value)} />
+                                        <AdminInput label="Institution" value={item.institution || ""} onChange={(e) => update("institution", e.target.value)} />
+                                        <AdminInput label="Focus Area" value={item.focusArea || ""} onChange={(e) => update("focusArea", e.target.value)} />
+                                        <AdminInput label="Country Code (2-letter, e.g. IN, US, JP, IT)" value={item.countryCode || item.country || ""} onChange={(e) => update("countryCode", e.target.value)} />
                                     </div>
                                     <div>
-                                        <ImageUploader label="Speaker Photo" value={item.imageUrl} onChange={(url) => update("imageUrl", url)} />
+                                        <ImageUploader label="Speaker Photo" value={item.imageUrl || ""} onChange={(url) => update("imageUrl", url)} />
                                     </div>
                                 </div>
                             )}
@@ -133,23 +136,24 @@ export default function SpeakersEditor() {
                         <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Invited Speakers</h2>
                         <ListEditor
                             title="Invited Speakers"
-                            items={data.invited || []}
+                            items={data?.invited || []}
                             onUpdate={(items) => handleListUpdate("invited", items)}
-                            itemTemplate={{ id: "", name: "New Speaker", role: "", countryCode: "IN", imageUrl: "", tags: [] }}
+                            itemTemplate={{ id: "", name: "New Speaker", role: "", institution: "", countryCode: "IN", imageUrl: "", tags: [] }}
                             renderItemFields={(item, i, update) => (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-4">
-                                        <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
-                                        <AdminInput label="Role" value={item.role} onChange={(e) => update("role", e.target.value)} />
-                                        <AdminInput label="Country Code (2-letter)" value={item.countryCode} onChange={(e) => update("countryCode", e.target.value)} />
+                                        <AdminInput label="Name" value={item.name || ""} onChange={(e) => update("name", e.target.value)} />
+                                        <AdminInput label="Role" value={item.role || ""} onChange={(e) => update("role", e.target.value)} />
+                                        <AdminInput label="Institution" value={item.institution || ""} onChange={(e) => update("institution", e.target.value)} />
+                                        <AdminInput label="Country Code (2-letter, e.g. IN, US, JP)" value={item.countryCode || item.country || ""} onChange={(e) => update("countryCode", e.target.value)} />
                                         <AdminInput
                                             label="Tags (Comma separated)"
-                                            value={item.tags ? item.tags.join(", ") : ""}
+                                            value={Array.isArray(item.tags) ? item.tags.join(", ") : (item.tags || "")}
                                             onChange={(e) => update("tags", e.target.value.split(",").map((s: string) => s.trim()))}
                                         />
                                     </div>
                                     <div>
-                                        <ImageUploader label="Speaker Photo" value={item.imageUrl} onChange={(url) => update("imageUrl", url)} />
+                                        <ImageUploader label="Speaker Photo" value={item.imageUrl || ""} onChange={(url) => update("imageUrl", url)} />
                                     </div>
                                 </div>
                             )}
@@ -162,14 +166,14 @@ export default function SpeakersEditor() {
                         <h2 className="text-xl font-bold mb-6 text-earth-green pb-4 border-b">Scientific Panel</h2>
                         <ListEditor
                             title="Panel Members"
-                            items={data.panel || []}
+                            items={data?.panel || []}
                             onUpdate={(items) => handleListUpdate("panel", items)}
                             itemTemplate={{ id: "", name: "New Member", role: "", expertise: "" }}
                             renderItemFields={(item, i, update) => (
                                 <>
-                                    <AdminInput label="Name" value={item.name} onChange={(e) => update("name", e.target.value)} />
-                                    <AdminInput label="Role" value={item.role} onChange={(e) => update("role", e.target.value)} />
-                                    <AdminInput label="Expertise" value={item.expertise} onChange={(e) => update("expertise", e.target.value)} />
+                                    <AdminInput label="Name" value={item.name || ""} onChange={(e) => update("name", e.target.value)} />
+                                    <AdminInput label="Role / Institution" value={item.role || ""} onChange={(e) => update("role", e.target.value)} />
+                                    <AdminInput label="Expertise" value={item.expertise || ""} onChange={(e) => update("expertise", e.target.value)} />
                                 </>
                             )}
                         />

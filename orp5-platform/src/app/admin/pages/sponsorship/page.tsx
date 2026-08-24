@@ -33,8 +33,7 @@ export default function SponsorshipPageEditor() {
                         setLoading(false);
                     })
                     .catch((e) => {
-                        console.error("Fetch error:", e);
-                        alert("Failed to load sponsorship data. If you have an adblocker enabled, please try disabling it.");
+                        console.error("Fetch error on sponsorship data:", e);
                         setLoading(false);
                     });
             });
