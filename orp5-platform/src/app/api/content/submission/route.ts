@@ -16,12 +16,12 @@ export async function GET() {
     return NextResponse.json({
         hero: {
             headline: "Abstract Submission",
-            subheadline: "Submit your research for ORP-5. Please review the guidelines before submitting.",
+            subheadline: "Abstract submissions for ORP-5 concluded on 25 August 2026. Submissions are now under double-blind peer review.",
             backgroundImage: ""
         },
         timeline: [
             { label: "Call for Abstracts", date: "01 Jan 2026" },
-            { label: "Submission Deadline", date: "25 Aug 2026" },
+            { label: "Submission Deadline (Closed)", date: "25 Aug 2026" },
             { label: "Acceptance Notification", date: "27 Aug 2026" }
         ],
         categories: [

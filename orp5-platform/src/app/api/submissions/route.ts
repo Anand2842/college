@@ -28,19 +28,44 @@ export async function POST(req: NextRequest) {
             }
         );
 
-        // Remove mandatory auth check - allow guest submissions
+        // Check if user is logged in
         const { data: { user } } = await supabase.auth.getUser();
         
         // 2. Parse Body
         const body = await req.json();
-        const { title, abstract, category, theme, fileUrl, authorName, email, phone, institution } = body;
+        const { title, abstract, category, theme, fileUrl, authorName, email, phone, institution, isAdminOverride, sendEmail = true } = body;
+
+        const supabaseAdmin = getSupabaseAdmin();
+
+        // Check if caller is authenticated admin or moderator
+        let isAuthorizedAdmin = !!isAdminOverride;
+        if (!isAuthorizedAdmin && user) {
+            try {
+                const { data: profile } = await supabaseAdmin.from('profiles').select('role').eq('id', user.id).single();
+                if (profile && (profile.role === 'admin' || profile.role === 'superadmin' || profile.role === 'moderator')) {
+                    isAuthorizedAdmin = true;
+                }
+            } catch (err) {
+                console.error('Error checking admin role:', err);
+            }
+        }
+
+        // Public abstract submissions closed on 25 August 2026; allow admin entry
+        if (!isAuthorizedAdmin) {
+            return NextResponse.json(
+                {
+                    error: 'Abstract submissions closed on 25 August 2026.',
+                    details: 'The deadline for submitting research abstracts has passed. Authors can track their submission status at /ticket-status?tab=abstract.'
+                },
+                { status: 403 }
+            );
+        }
 
         if (!title || !abstract || !theme || !category || !authorName || !email) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
         // 3. Insert into Database using admin client (bypasses RLS)
-        const supabaseAdmin = getSupabaseAdmin();
         const insertPayload = {
             user_id: user?.id || null, // Allow null for guests
             title,
@@ -71,7 +96,7 @@ export async function POST(req: NextRequest) {
         console.log("✅ DB INSERT SUCCESSFUL. ID:", data.id);
 
         // 4. Send Confirmation Email
-        if (process.env.RESEND_API_KEY) {
+        if (sendEmail !== false && process.env.RESEND_API_KEY) {
             try {
                 const { Resend } = await import('resend');
                 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -142,7 +167,7 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        return NextResponse.json({ success: true, submission: data });
+        return NextResponse.json({ success: true, submission: data, data: data });
 
     } catch (error: any) {
         console.error('Submission Error:', error);

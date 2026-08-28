@@ -26,9 +26,9 @@ export default function AbstractsPage() {
 
             <section className="py-14 container mx-auto px-6 text-center">
                 <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-100 max-w-2xl mx-auto">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">Coming Soon</h2>
+                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">Under Peer Review</h2>
                     <p className="text-gray-600">
-                        We are currently collecting submissions. Check back later for the published abstracts.
+                        Abstract submissions closed on 25 August 2026 and are currently undergoing double-blind peer review. Accepted research papers and proceedings will be published here.
                     </p>
                 </div>
             </section>

@@ -182,8 +182,8 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                 >
                     <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.15em]">
                         <span className="w-2 h-2 rounded-full bg-amber-glow animate-pulse"></span>
-                        <span className="text-white/60">Abstract Deadline:</span>
-                        <span className="text-rice-gold-light font-semibold">25 August 2026</span>
+                        <span className="text-white/60">Registration Deadline:</span>
+                        <span className="text-rice-gold-light font-semibold">31 August 2026</span>
                     </div>
                     <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white/70">
                         <Link href="/blog" className="hover:text-rice-gold transition-colors">Blog</Link>
@@ -253,7 +253,7 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto">
                                         <div className="bg-white/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-earth-green/10 overflow-hidden p-2">
                                             {item.children.map((child) => (
-                                                <Link
+                                                 <Link
                                                     key={child.label}
                                                     href={child.href}
                                                     className="flex items-center px-4 py-2.5 text-[13px] font-medium text-charcoal rounded-xl hover:bg-earth-green/8 hover:text-earth-green transition-all"
@@ -281,7 +281,7 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
 
                     {/* Desktop CTAs (Right) */}
                     <div className="hidden xl:flex items-center gap-3">
-                        <Link href="/submission">
+                        <Link href="/ticket-status?tab=abstract">
                             <Button
                                 variant="outline"
                                 size="sm"
@@ -292,7 +292,7 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                                         : "border-earth-green/30 text-earth-green hover:bg-earth-green hover:text-white"
                                 )}
                             >
-                                Submit Abstract
+                                Track Status
                             </Button>
                         </Link>
                         <Button
@@ -329,12 +329,12 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
             {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-40 bg-white pt-24 px-6 xl:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-300">
                     <div className="flex flex-col space-y-6 pb-20">
-                        {/* Urgent Alert on Mobile */}
-                        <div className="bg-red-50 border border-red-100 rounded-xl p-4 flex items-start gap-3">
-                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse mt-1 shrink-0"></span>
+                        {/* Status Alert on Mobile */}
+                        <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-4 flex items-start gap-3">
+                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse mt-1 shrink-0"></span>
                             <div>
-                                <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-1">Important Deadline</p>
-                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 25 August 2026</p>
+                                <p className="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">Registration Deadline</p>
+                                <p className="text-sm font-medium text-amber-900">Delegate & Author Registration closes 31 August 2026</p>
                             </div>
                         </div>
 
@@ -392,8 +392,8 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                         </div>
 
                         <div className="flex flex-col gap-4 mt-8">
-                            <Link href="/submission" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button variant="outline" className="w-full justify-center h-12 text-earth-green border-earth-green font-bold">Submit Abstract</Button>
+                            <Link href="/ticket-status?tab=abstract" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button variant="outline" className="w-full justify-center h-12 text-earth-green border-earth-green font-bold">Track Abstract Status</Button>
                             </Link>
                             <Button
                                 onClick={() => {

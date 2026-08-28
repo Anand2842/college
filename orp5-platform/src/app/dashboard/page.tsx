@@ -79,10 +79,10 @@ export default async function DashboardPage() {
                         <p className="text-green-100 text-sm">{user.email}</p>
                     </div>
                     <Link
-                        href="/submission"
+                        href="/ticket-status?tab=abstract"
                         className="inline-flex items-center gap-2 bg-white text-[#1a5c26] font-bold text-sm px-5 py-2.5 rounded-full hover:bg-green-50 transition-all shadow-md self-start md:self-auto"
                     >
-                        + Submit Abstract
+                        Track Status
                     </Link>
                 </div>
             </div>
@@ -145,10 +145,10 @@ export default async function DashboardPage() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
                             </div>
-                            <h3 className="font-bold text-gray-900 mb-2">No submissions yet</h3>
-                            <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">Share your research with the global organic rice farming community.</p>
-                            <Link href="/submission" className="inline-block bg-earth-green text-white font-bold py-2.5 px-8 rounded-full hover:bg-green-700 transition-colors text-sm">
-                                Submit Abstract Now
+                            <h3 className="font-bold text-gray-900 mb-2">No submissions found for your account</h3>
+                            <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">Abstract submissions closed on 25 August 2026. If you submitted as a guest, you can track your status via email.</p>
+                            <Link href="/ticket-status?tab=abstract" className="inline-block bg-earth-green text-white font-bold py-2.5 px-8 rounded-full hover:bg-green-700 transition-colors text-sm">
+                                Track Abstract Status
                             </Link>
                         </div>
                     )}

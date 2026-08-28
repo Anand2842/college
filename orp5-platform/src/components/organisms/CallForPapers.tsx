@@ -44,9 +44,9 @@ export function CallForPapers() {
             
             {/* Left Content */}
             <div className="lg:col-span-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-sm font-bold mb-6 border border-red-100">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                DEADLINE: 25 AUGUST 2026
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-800 rounded-full text-sm font-bold mb-6 border border-amber-200">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                SUBMISSIONS CLOSED (25 AUGUST 2026)
               </div>
               
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">
@@ -54,7 +54,7 @@ export function CallForPapers() {
               </h2>
               
               <p className="text-gray-600 text-lg mb-8">
-                The ORP-5 Scientific Committee invites abstracts for oral, poster, and video presentations. All submissions undergo a blind peer review process.
+                The ORP-5 Scientific Committee has concluded receiving abstracts. All submitted abstracts for oral, poster, and video presentations are currently undergoing a double-blind peer review process.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -72,41 +72,27 @@ export function CallForPapers() {
               </div>
             </div>
             
-            {/* Right Content - CTAs & Countdown */}
+            {/* Right Content - CTAs & Status */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <div className="bg-[#FFFDF7] p-6 rounded-2xl border border-gray-100 text-center">
-                {timeLeft && (
-                  <div className="mb-6 pb-6 border-b border-gray-100">
-                    <div className="flex items-center justify-center gap-2 text-red-600 mb-3">
-                      <Clock size={18} className="animate-pulse" />
-                      <span className="text-sm font-bold uppercase tracking-wider">Abstracts Close In</span>
-                    </div>
-                    <div className="flex justify-center gap-3">
-                      {[
-                        { label: 'Days', value: timeLeft.days },
-                        { label: 'Hrs', value: timeLeft.hours },
-                        { label: 'Min', value: timeLeft.minutes },
-                        { label: 'Sec', value: timeLeft.seconds }
-                      ].map((unit, idx) => (
-                        <div key={idx} className="flex flex-col items-center">
-                          <div className="w-12 h-12 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-xl font-bold text-charcoal shadow-sm">
-                            {unit.value.toString().padStart(2, '0')}
-                          </div>
-                          <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">{unit.label}</span>
-                        </div>
-                      ))}
-                    </div>
+                <div className="mb-6 pb-6 border-b border-gray-100">
+                  <div className="inline-flex items-center justify-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-100">
+                    <Clock size={14} className="animate-spin text-emerald-600" />
+                    Peer Review in Progress
                   </div>
-                )}
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    Abstract submissions closed on 25 August 2026. Authors will receive status updates shortly.
+                  </p>
+                </div>
                 
-                <h3 className="font-bold text-charcoal mb-2">Ready to submit?</h3>
-                <p className="text-sm text-gray-500 mb-6">Create an account or login to access the submission portal.</p>
+                <h3 className="font-bold text-charcoal mb-2">Check Your Review Status</h3>
+                <p className="text-sm text-gray-500 mb-6">Enter your submission email to track review decisions and download receipts.</p>
                 
                 <div className="flex flex-col gap-3">
-                  <Link href="/submission" className="w-full">
-                    <Button className="w-full bg-earth-green hover:bg-green-800 text-white font-bold h-12 text-lg">
-                      <FileText className="mr-2" size={20} />
-                      Submit Abstract Now
+                  <Link href="/ticket-status?tab=abstract" className="w-full">
+                    <Button className="w-full bg-earth-green hover:bg-green-800 text-white font-bold h-12 text-base">
+                      <FileText className="mr-2" size={18} />
+                      Track Abstract Status
                     </Button>
                   </Link>
                   

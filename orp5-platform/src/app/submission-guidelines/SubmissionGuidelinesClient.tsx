@@ -92,14 +92,17 @@ export default function SubmissionGuidelinesClient() {
                         <div className="bg-earth-green-deep text-white rounded-3xl p-8 border border-white/10 shadow-lg relative overflow-hidden">
                             <div className="absolute -top-10 -right-10 w-40 h-40 bg-rice-gold/10 blur-[50px] rounded-full pointer-events-none" />
                             <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                                Ready to Submit?
+                                Submissions Closed
                             </span>
-                            <h3 className="text-lg font-serif font-bold text-white mb-6">
-                                Submit Your Abstract Online
+                            <h3 className="text-lg font-serif font-bold text-white mb-2">
+                                Track Abstract Status
                             </h3>
-                            <Link href="/submission" className="block w-full">
+                            <p className="text-xs text-white/70 mb-6 leading-relaxed">
+                                Submissions closed 25 August 2026. Authors can track review decisions.
+                            </p>
+                            <Link href="/ticket-status?tab=abstract" className="block w-full">
                                 <Button variant="premium" className="w-full text-xs uppercase tracking-wider font-bold justify-center">
-                                    Submit Now <ArrowRight size={15} className="ml-2" />
+                                    Track Status <ArrowRight size={15} className="ml-2" />
                                 </Button>
                             </Link>
                         </div>
@@ -223,14 +226,17 @@ export default function SubmissionGuidelinesClient() {
                         <div className="lg:hidden bg-earth-green-deep text-white rounded-3xl p-8 border border-white/10 shadow-lg relative overflow-hidden mt-12">
                             <div className="absolute -top-10 -right-10 w-40 h-40 bg-rice-gold/10 blur-[50px] rounded-full pointer-events-none" />
                             <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block text-center">
-                                Ready to Submit?
+                                Submissions Closed
                             </span>
-                            <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-6 text-center">
-                                Submit Your Abstract Online
+                            <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-2 text-center">
+                                Track Abstract Review Status
                             </h3>
-                            <Link href="/submission" className="block w-full">
+                            <p className="text-xs text-white/70 mb-6 text-center max-w-sm mx-auto">
+                                Submissions closed on 25 August 2026. Authors can track peer review outcomes online.
+                            </p>
+                            <Link href="/ticket-status?tab=abstract" className="block w-full">
                                 <Button variant="premium" className="w-full text-xs uppercase tracking-wider font-bold justify-center py-4">
-                                    Submit Now <ArrowRight size={15} className="ml-2" />
+                                    Track Status <ArrowRight size={15} className="ml-2" />
                                 </Button>
                             </Link>
                         </div>

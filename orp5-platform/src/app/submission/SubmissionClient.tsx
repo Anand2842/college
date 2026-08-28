@@ -364,17 +364,47 @@ export default function SubmissionClient() {
             <Navbar />
 
             <PageHero
-                headline={data.hero.headline}
-                subheadline={data.hero.subheadline}
+                headline={data.hero.headline || "Abstract Submissions"}
+                subheadline="The deadline for abstract submissions was 25 August 2026. Submissions are now officially closed and undergoing double-blind peer review."
                 backgroundImage={data.hero.backgroundImage}
                 breadcrumb="Home / Abstract Submission"
                 buttons={[
-                    { label: "Submit Now", link: "#form", variant: "primary" },
-                    { label: "Track Submission", link: "/ticket-status?tab=abstract", variant: "secondary" }
+                    { label: "Track Review Status", link: "/ticket-status?tab=abstract", variant: "primary" },
+                    { label: "Register for Conference", link: "/registration", variant: "secondary" }
                 ]}
             />
 
             <div className="container mx-auto px-6 max-w-5xl pb-20">
+
+                {/* Submissions Closed Notice Card */}
+                <div className="mb-16 -mt-8 relative z-20">
+                    <div className="bg-amber-50/90 backdrop-blur-md border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                        <div className="flex items-start gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0 mt-1">
+                                <FileText size={24} />
+                            </div>
+                            <div>
+                                <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-200/50 text-amber-900 text-xs font-bold uppercase tracking-wider mb-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                                    Submissions Closed on 25 August 2026
+                                </div>
+                                <h3 className="text-xl font-serif font-bold text-gray-900 mb-1">
+                                    Double-Blind Peer Review Underway
+                                </h3>
+                                <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
+                                    Thank you to all researchers, scientists, and academicians who submitted abstracts. Authors can track real-time evaluation status and access official submission receipts.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="shrink-0 w-full md:w-auto">
+                            <Link href="/ticket-status?tab=abstract" className="block w-full">
+                                <Button className="w-full bg-earth-green hover:bg-green-800 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm">
+                                    Track Review Status
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Timeline */}
                 <div className="mb-24">
@@ -383,19 +413,22 @@ export default function SubmissionClient() {
                         {/* Line */}
                         <div className="hidden md:block absolute top-[11px] left-0 right-0 h-0.5 bg-gray-200 -z-10"></div>
 
-                        {data.timeline.map((item: any, i: number) => (
-                            <div key={i} className="flex flex-col items-center bg-[#FFFDF7] px-4 z-10">
-                                <div className="w-6 h-6 rounded-full bg-[#24C535] border-4 border-[#FDFCF8] shadow-sm mb-4"></div>
-                                <h4 className="font-bold text-sm text-gray-900 mb-1">{item.label}</h4>
-                                <p className="text-xs text-gray-500">{item.date}</p>
-                            </div>
-                        ))}
+                        {data.timeline.map((item: any, i: number) => {
+                            const isClosed = item.label.toLowerCase().includes("deadline") || item.label.toLowerCase().includes("submission");
+                            return (
+                                <div key={i} className="flex flex-col items-center bg-[#FFFDF7] px-4 z-10">
+                                    <div className={`w-6 h-6 rounded-full ${isClosed ? 'bg-amber-500' : 'bg-[#24C535]'} border-4 border-[#FDFCF8] shadow-sm mb-4`}></div>
+                                    <h4 className="font-bold text-sm text-gray-900 mb-1">{item.label}</h4>
+                                    <p className="text-xs text-gray-500">{item.date} {isClosed ? '(Closed)' : ''}</p>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
                 {/* Categories */}
                 <div className="mb-24">
-                    <h2 className="text-2xl font-bold text-center mb-12">Submission Categories</h2>
+                    <h2 className="text-2xl font-bold text-center mb-12">Presentation Categories</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {data.categories.map((cat: any, i: number) => (
                             <div key={i} className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all">
@@ -419,93 +452,50 @@ export default function SubmissionClient() {
                     </div>
                 </div>
 
-                {/* Submission Form */}
-                <div id="form" className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 md:p-12 max-w-4xl mx-auto mb-20 scroll-mt-24">
-                    <h2 className="text-2xl font-bold text-center mb-10">Submission Form</h2>
-                    <form onSubmit={handleSubmit} className="space-y-8">
+                {/* Submission Closed Action Card (Replaces the Form) */}
+                <div id="form" className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-14 max-w-4xl mx-auto mb-20 scroll-mt-24 text-center relative overflow-hidden">
+                    <div className="w-16 h-16 rounded-full bg-earth-green/10 text-earth-green mx-auto flex items-center justify-center mb-6">
+                        <FileText size={32} />
+                    </div>
+                    
+                    <span className="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider rounded-full mb-4">
+                        Submissions Closed
+                    </span>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Full Name</label>
-                                <input required name="fullName" value={formState.fullName} onChange={handleInputChange} type="text" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Email Address</label>
-                                <input required name="email" value={formState.email} onChange={handleInputChange} type="email" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Phone</label>
-                                <input required name="phone" value={formState.phone} onChange={handleInputChange} type="tel" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Institution / Affiliation</label>
-                                <input required name="institution" value={formState.institution} onChange={handleInputChange} type="text" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                        </div>
+                    <h2 className="text-3xl font-serif font-bold text-charcoal mb-4">
+                        Abstract Submissions for ORP-5 Are Closed
+                    </h2>
+                    
+                    <p className="text-gray-600 text-base max-w-xl mx-auto mb-8 leading-relaxed">
+                        The submission window for research abstracts concluded on <strong>25 August 2026</strong>. If you have already submitted your research abstract, you can verify your review status and access confirmation records below.
+                    </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Presentation Category</label>
-                                <select required name="category" value={formState.category} onChange={handleInputChange} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 bg-white">
-                                    <option value="">Select Category</option>
-                                    {data.categories.map((c: any, i: number) => <option key={i} value={c.title}>{c.title}</option>)}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Thematic Area</label>
-                                <select required name="theme" value={formState.theme} onChange={handleInputChange} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 bg-white">
-                                    <option value="">Select Theme</option>
-                                    {data.thematicAreas.map((t: string, i: number) => <option key={i} value={t}>{t}</option>)}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-gray-500 mb-2">Abstract Title</label>
-                            <input required name="title" value={formState.title} onChange={handleInputChange} type="text" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-gray-500 mb-2">Abstract</label>
-                            <textarea name="abstract" value={formState.abstract} onChange={handleInputChange} rows={6} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 text-sm" placeholder="Paste your abstract text here..." />
-                            <p className="text-xs text-gray-400 mt-2">500 words limit. Alternatively you can upload a Document (PDF, DOC, DOCX) below.</p>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-gray-500 mb-2">Upload Abstract (PDF, DOC, DOCX)</label>
-                            <div
-                                onClick={() => fileInputRef.current?.click()}
-                                className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
-                            >
-                                {formState.file ? (
-                                    <>
-                                        <FileText size={40} className="text-earth-green mb-3" />
-                                        <p className="font-bold text-gray-900">{formState.file.name}</p>
-                                        <p className="text-xs text-gray-500 mt-1">{(formState.file.size / 1024).toFixed(1)} KB</p>
-                                        <p className="text-xs text-red-500 mt-3 font-medium hover:underline" onClick={(e) => { e.stopPropagation(); setFormState({ ...formState, file: null }); }}>Remove File</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="bg-gray-100 p-3 rounded-full mb-3 text-gray-400">
-                                            <Upload size={24} />
-                                        </div>
-                                        <p className="text-sm font-medium text-gray-600"><span className="text-earth-green font-bold">Upload a file</span> or drag and drop</p>
-                                        <p className="text-xs text-gray-400 mt-1">PDF, DOC, DOCX up to 10MB</p>
-                                    </>
-                                )}
-                                <input ref={fileInputRef} type="file" accept=".docx,.doc,.pdf" className="hidden" onChange={handleFileChange} />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-end gap-4 pt-6">
-                            <Button type="submit" className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg min-w-[160px]" disabled={submitting}>
-                                {submitting ? <><Loader2 className="animate-spin mr-2" /> Submitting...</> : "Submit Abstract"}
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto mb-10">
+                        <Link href="/ticket-status?tab=abstract" className="w-full sm:w-auto">
+                            <Button className="w-full bg-earth-green hover:bg-green-800 text-white font-bold h-12 px-8 text-sm">
+                                Track Review Status
                             </Button>
-                        </div>
-                    </form>
+                        </Link>
+                        <Link href="/registration" className="w-full sm:w-auto">
+                            <Button variant="outline" className="w-full h-12 px-8 text-sm font-bold text-earth-green border-earth-green/40 hover:bg-earth-green/5">
+                                Register for Conference
+                            </Button>
+                        </Link>
+                    </div>
+
+                    <div className="pt-8 border-t border-gray-100 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+                        <span>Have questions about your submission?</span>
+                        <Link href="/contact" className="font-bold text-earth-green hover:underline">
+                            Contact Editorial Secretariat
+                        </Link>
+                        <span>·</span>
+                        <Link href="/submission-guidelines" className="font-medium text-gray-600 hover:text-earth-green">
+                            View Participation Guidelines
+                        </Link>
+                    </div>
                 </div>
 
-                {/* Info & Footer */}
+                {/* Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
                     <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm">
                         <h3 className="font-bold text-gray-900 mb-2">{data.infoCards.review.title}</h3>
@@ -519,18 +509,19 @@ export default function SubmissionClient() {
 
                 {/* Bottom CTA Section */}
                 <div className="bg-[#E6F6EA] rounded-3xl py-16 text-center">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">{data.cta.headline}</h2>
-                    <p className="text-gray-600 mb-8 max-w-xl mx-auto">{data.cta.subheadline}</p>
+                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">Join Us in New Delhi</h2>
+                    <p className="text-gray-600 mb-8 max-w-xl mx-auto">Conference delegate registrations are currently open. Reserve your pass to attend keynotes, technical tracks, and exhibitions.</p>
                     <div className="flex justify-center gap-4">
-                        {data.cta.buttons.map((btn: any, i: number) => (
-                            <a key={i} href={btn.link}>
-                                <Button
-                                    className={btn.variant === "primary" ? "bg-[#24C535] hover:bg-green-600 text-white font-bold px-6 border-none" : "bg-transparent border border-[#24C535] text-[#1E992A] hover:bg-[#24C535]/10 px-6 font-bold"}
-                                >
-                                    {btn.label}
-                                </Button>
-                            </a>
-                        ))}
+                        <Link href="/registration">
+                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-xl border-none">
+                                Register as Delegate
+                            </Button>
+                        </Link>
+                        <Link href="/ticket-status">
+                            <Button variant="outline" className="bg-white border border-[#24C535] text-[#1E992A] hover:bg-[#24C535]/10 px-8 py-3 rounded-xl font-bold">
+                                Verify Registration
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

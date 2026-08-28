@@ -102,13 +102,13 @@ export function Hero({
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md sm:max-w-none mx-auto">
-                        <Link href="/submission" className="w-full sm:w-auto">
+                        <Link href="/ticket-status?tab=abstract" className="w-full sm:w-auto">
                             <Button
                                 size="xl"
                                 variant="premium"
                                 className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider py-4"
                             >
-                                Submit Abstract
+                                Track Abstract Status
                             </Button>
                         </Link>
                         <Button

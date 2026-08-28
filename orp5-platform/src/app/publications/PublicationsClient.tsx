@@ -34,8 +34,8 @@ const PUBLICATION_OUTPUTS = [
 const TIMELINE_STEPS = [
     {
         step: "01",
-        title: "Submit Abstract",
-        description: "Submit online before 25 August 2026.",
+        title: "Abstract Submission",
+        description: "Closed on 25 August 2026.",
     },
     {
         step: "02",
@@ -235,20 +235,25 @@ export default function PublicationsClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Join Scientific Proceedings
+                            Peer Review & Publication
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Submit Your Abstract for Peer Review
+                            Proceedings & Abstract Book
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Early submission ensures timely reviewer allocation and expedited review decisions.
+                            Accepted abstracts will be indexed with ISBN and featured in Scopus-indexed special issues. Authors can track review decisions below.
                         </p>
                     </div>
 
-                    <div className="relative z-10 shrink-0">
-                        <Link href="/submission">
+                    <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
+                        <Link href="/ticket-status?tab=abstract">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Submit Abstract <ArrowRight size={15} className="ml-2" />
+                                Track Abstract Status <ArrowRight size={15} className="ml-2" />
+                            </Button>
+                        </Link>
+                        <Link href="/registration">
+                            <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                Conference Registration
                             </Button>
                         </Link>
                     </div>

@@ -67,10 +67,10 @@ export function ThemeCard({
 
             <div className="pt-4 border-t border-gray-100 mt-auto">
                 <Link
-                    href={submissionHref || href}
+                    href={href || "/themes"}
                     className="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-earth-green group-hover:text-rice-gold-dark transition-all group-hover:gap-3"
                 >
-                    <span>{submissionHref ? "Submit Abstract to Track" : "Explore Track"}</span>
+                    <span>Explore Track Details</span>
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
             </div>

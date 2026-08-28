@@ -76,7 +76,9 @@ export function AddSubmissionModal({ isOpen, onClose, onSuccess }: AddSubmission
                     theme,
                     abstract: abstractText.trim(),
                     fileUrl: fileUrl.trim() || null,
-                    status
+                    status,
+                    sendEmail,
+                    isAdminOverride: true
                 })
             });
 
@@ -86,8 +88,10 @@ export function AddSubmissionModal({ isOpen, onClose, onSuccess }: AddSubmission
                 throw new Error(data.error || data.details || 'Failed to create abstract submission');
             }
 
+            const createdId = data.submission?.id || data.data?.id || data.id || `ABS-${Date.now()}`;
+
             onSuccess({
-                id: data.data?.id || `ABS-${Date.now()}`,
+                id: createdId,
                 title: title.trim(),
                 authors: authors.trim(),
                 email: email.trim().toLowerCase(),
