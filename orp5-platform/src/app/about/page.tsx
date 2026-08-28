@@ -479,22 +479,22 @@ export default async function AboutPage() {
                             Join The Deliberation
                         </span>
                         <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-white mb-3">
-                            Join Us at ORP-5 in New Delhi
+                            Submit Your Abstract or Register as a Delegate
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Participate in 9 technical sessions, plenary discussions, and 80+ national and global awards.
+                            Participate in 9 technical sessions, Scopus indexed proceedings, and 80+ national and global awards.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/registration">
+                        <Link href="/submission">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register Now
+                                Submit Abstract
                             </Button>
                         </Link>
-                        <Link href="/ticket-status?tab=abstract">
+                        <Link href="/registration">
                             <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Track Abstract Status
+                                Register Now
                             </Button>
                         </Link>
                     </div>

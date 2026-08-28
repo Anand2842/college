@@ -147,25 +147,20 @@ export default function ImportantDatesClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Peer Review in Progress
+                            Don't Miss Deadlines
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Abstract Submissions Closed (25 August 2026)
+                            Submit Your Abstract Before 25 August 2026
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Submissions are now under evaluation by the Scientific Committee. Track your review decisions and download receipts.
+                            Ensure peer-review eligibility and inclusion in the official ORP-5 technical proceedings.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/ticket-status?tab=abstract">
+                        <Link href="/submission">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Track Review Status <ArrowRight size={15} className="ml-2" />
-                            </Button>
-                        </Link>
-                        <Link href="/registration">
-                            <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register as Delegate
+                                Submit Abstract <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

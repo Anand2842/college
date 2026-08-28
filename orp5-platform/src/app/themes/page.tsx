@@ -82,11 +82,11 @@ export default async function ThemesPage() {
 
                                 <div className="mt-auto pt-4 border-t border-earth-green/5">
                                     <Link 
-                                        href="/submission-guidelines" 
+                                        href="/submission" 
                                         className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-earth-green group-hover:text-rice-gold-dark hover:gap-3 transition-all"
                                     >
-                                        <Sparkles size={13} />
-                                        <span>View Guidelines</span>
+                                        <Send size={13} />
+                                        <span>Submit Abstract</span>
                                         <ArrowRight size={13} />
                                     </Link>
                                 </div>
@@ -129,25 +129,25 @@ export default async function ThemesPage() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Conference Registration
+                            Call for Papers
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Join Us at ORP-5 in New Delhi
+                            Submit Your Abstract for Review
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Delegate passes include full access to scientific tracks, plenary keynotes, exhibition stalls, and conference souvenir kit.
+                            Accepted abstracts will be featured in the official ORP-5 proceedings and considered for Scopus-indexed partner journals.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/registration">
-                            <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register as Delegate <ArrowRight size={15} className="ml-2" />
+                        <Link href="/submission-guidelines">
+                            <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                Guidelines
                             </Button>
                         </Link>
-                        <Link href="/ticket-status?tab=abstract">
-                            <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Track Abstract Status
+                        <Link href="/submission">
+                            <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
+                                Submit Abstract <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

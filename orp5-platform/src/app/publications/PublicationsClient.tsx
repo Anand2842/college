@@ -34,8 +34,8 @@ const PUBLICATION_OUTPUTS = [
 const TIMELINE_STEPS = [
     {
         step: "01",
-        title: "Abstract Submission",
-        description: "Closed on 25 August 2026.",
+        title: "Submit Abstract",
+        description: "Submit online before 25 August 2026.",
     },
     {
         step: "02",
@@ -235,25 +235,20 @@ export default function PublicationsClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Peer Review & Publication
+                            Join Scientific Proceedings
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Proceedings & Abstract Book
+                            Submit Your Abstract for Peer Review
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Accepted abstracts will be indexed with ISBN and featured in Scopus-indexed special issues. Authors can track review decisions below.
+                            Early submission ensures timely reviewer allocation and expedited review decisions.
                         </p>
                     </div>
 
-                    <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/ticket-status?tab=abstract">
+                    <div className="relative z-10 shrink-0">
+                        <Link href="/submission">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Track Abstract Status <ArrowRight size={15} className="ml-2" />
-                            </Button>
-                        </Link>
-                        <Link href="/registration">
-                            <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Conference Registration
+                                Submit Abstract <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

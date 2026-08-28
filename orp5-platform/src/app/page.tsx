@@ -80,9 +80,9 @@ export default async function Home() {
     dates: [
       { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "25 August 2026", label: "Abstract Submission Deadline", status: "completed" },
-      { date: "27 August 2026", label: "Notification of Abstract Status", status: "completed" },
-      { date: "31 August 2026", label: "Registration Deadline", status: "urgent" },
+      { date: "25 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
+      { date: "27 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
+      { date: "31 August 2026", label: "Registration Deadline", status: "upcoming" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
     ],
     whyJoin: [],
@@ -135,9 +135,7 @@ export default async function Home() {
           <div className="mt-8 md:mt-10 space-y-0 text-left">
             {data.dates.map((item: any, index: number) => {
               const isCompleted = item.status === "completed";
-              const isUrgent = item.status === "urgent";
-              const isClosedDeadline = isCompleted && (item.label.toLowerCase().includes("deadline") || item.label.toLowerCase().includes("submission"));
-
+              const isUrgent = item.status === "urgent" || item.status === "active";
               return (
                 <div
                   key={index}
@@ -149,25 +147,20 @@ export default async function Home() {
                   }`} />
                   {/* Date */}
                   <span className={`text-sm font-serif font-bold shrink-0 w-[130px] sm:w-[160px] ${
-                    isUrgent ? 'text-earth-green font-extrabold' : isCompleted ? 'text-charcoal/60' : 'text-charcoal'
+                    isUrgent ? 'text-earth-green' : isCompleted ? 'text-charcoal/50' : 'text-charcoal'
                   }`}>
                     {item.date}
                   </span>
                   {/* Label */}
                   <span className={`text-sm ${
-                    isCompleted ? 'text-charcoal/60' : isUrgent ? 'text-charcoal font-semibold' : 'text-charcoal/80'
+                    isCompleted ? 'text-charcoal/50 line-through' : isUrgent ? 'text-charcoal font-semibold' : 'text-charcoal/80'
                   }`}>
                     {item.label}
                   </span>
-                  {/* Status badge */}
-                  {isCompleted && (
-                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 px-2.5 py-0.5 rounded-full shrink-0 hidden sm:inline">
-                      {isClosedDeadline ? 'Closed' : 'Completed'}
-                    </span>
-                  )}
+                  {/* Urgent badge */}
                   {isUrgent && (
-                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full shrink-0 hidden sm:inline">
-                      Upcoming Deadline
+                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full shrink-0 hidden sm:inline">
+                      Deadline
                     </span>
                   )}
                 </div>

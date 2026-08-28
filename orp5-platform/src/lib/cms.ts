@@ -117,7 +117,7 @@ export async function getImportantDatesPageData() {
         },
         timeline: [
             { number: "01", date: "Jan 1, 2026", title: "Registration Opens" },
-            { number: "02", date: "Aug 25, 2026", title: "Abstract Submission Deadline (Closed)" },
+            { number: "02", date: "Aug 25, 2026", title: "Abstract Submission Deadline" },
             { number: "03", date: "Jun 30, 2026", title: "Early Bird Registration Ends" },
             { number: "04", date: "Sep 7, 2026", title: "Conference Opening" }
         ],
@@ -130,7 +130,7 @@ export async function getImportantDatesPageData() {
             title: "For Presenters",
             intro: "Key dates for researchers and speakers.",
             items: [
-                { id: "p1", text: "**25 August 2026**: Abstract Submission Deadline (Closed)" },
+                { id: "p1", text: "**25 August 2026**: Abstract Submission Deadline" },
                 { id: "p2", text: "**27 August 2026**: Notification of Acceptance" },
                 { id: "p3", text: "**15 May 2026**: Full Paper Submission" }
             ]
@@ -503,9 +503,9 @@ export async function updateThemesPageData(data: any) {
     }
 }
 
-// In-memory cache for fast homepage responses
+// In-memory cache for ultra-fast homepage responses
 let homepageCache: { data: any; timestamp: number } | null = null;
-const HOMEPAGE_CACHE_TTL_MS = 5 * 1000; // 5 seconds TTL
+const HOMEPAGE_CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
 
 export async function getHomepageData() {
     const now = Date.now();
@@ -611,25 +611,22 @@ export async function getHomepageData() {
             return acc;
         }, {});
 
-        const rawDates = dates && dates.length > 0 ? dates : (baseContent.dates || []);
-        const sortedDates = [...rawDates].sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
-
         const result = {
             ...baseContent,
             themes: finalThemes,
             partners: partnerList,
             partnersByCategory,
-            dates: sortedDates,
+            dates: dates && dates.length > 0 ? dates : (baseContent.dates || []),
             speakers: baseContent.speakers || (speakers && speakers.length > 0 ? speakers.slice(0, 4) : []),
             faq: baseContent.faq || [
                 { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
                 { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
                 { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
-                { question: "How do I submit an abstract?", answer: "Abstract submissions concluded on 25 August 2026. All submitted abstracts are currently undergoing double-blind peer review. Authors can track review decisions at the Track Status portal." },
+                { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 25 August 2026. The call for abstracts opens on 01 January 2026." },
                 { question: "When does registration open?", answer: "Registration for the conference will start from 1 January 2026. Details of the registration will be shared shortly." },
                 { question: "Are there awards for researchers?", answer: "Yes, prizes and awards will be announced shortly to encourage participation from young researchers and students through poster sessions and innovation pitches." },
                 { question: "Is accommodation provided?", answer: "Information about hotels near the venue along with tariffs will be uploaded on the site shortly." },
-                { question: "Do I need to register before submitting an abstract?", answer: "Abstract submissions closed on 25 August 2026. Authors of accepted abstracts and all attending delegates must complete registration to attend." },
+                { question: "Do I need to register before submitting an abstract?", answer: "No, abstract submission is free and independent of registration." },
                 { question: "Will I get a visa invitation letter?", answer: "Yes, registered delegates can request an official letter of invitation." },
                 { question: "Are the proceedings indexed?", answer: "Yes, full papers will be published in Plant Science Today, a Scopus-indexed, UGC-CARE listed journal." }
             ]
