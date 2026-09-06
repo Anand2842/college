@@ -13,7 +13,7 @@ export function BadgePrintSheet({ attendees, layout = "a4-grid", settings }: Bad
     if (!attendees || attendees.length === 0) {
         return (
             <div className="p-12 text-center text-gray-500 bg-white rounded-xl border border-gray-200">
-                No attendees selected for printing.
+                No attendees selected for printing. Please select at least one badge.
             </div>
         );
     }
@@ -26,37 +26,49 @@ export function BadgePrintSheet({ attendees, layout = "a4-grid", settings }: Bad
     }
 
     return (
-        <div className="badge-print-container w-full">
-            {/* Global Print Stylesheet */}
-            <style jsx global>{`
+        <div className="badge-print-root w-full">
+            {/* Global Print Stylesheet for Flawless A4 Imposition */}
+            <style dangerouslySetInnerHTML={{ __html: `
                 @media print {
-                    /* Hide UI chrome */
-                    nav, header, aside, .no-print, .admin-sidebar, .admin-header, button {
+                    /* 1. Hide all non-print chrome, sidebars, headers, and buttons */
+                    nav, header, aside, .no-print, .admin-sidebar, .admin-header, button, [role="navigation"] {
                         display: none !important;
                     }
 
-                    /* Reset body styles for pure print output */
-                    body, html, main {
+                    /* 2. Reset page & body layout */
+                    html, body, #__next, main {
                         margin: 0 !important;
                         padding: 0 !important;
                         background: #ffffff !important;
                         color: #000000 !important;
                         width: 100% !important;
+                        min-height: 100% !important;
                     }
 
+                    /* 3. A4 Page Dimensions (210mm x 297mm) */
                     @page {
-                        size: A4 portrait;
-                        margin: 6mm 4mm;
+                        size: 210mm 297mm;
+                        margin: 0mm !important;
                     }
 
+                    /* 4. Sheet Container - Exact A4 Page Box */
                     .badge-sheet-page {
+                        width: 210mm !important;
+                        height: 297mm !important;
+                        max-height: 297mm !important;
+                        page-break-inside: avoid !important;
+                        break-inside: avoid !important;
                         page-break-after: always !important;
                         break-after: page !important;
-                        width: 100% !important;
-                        box-sizing: border-box !important;
-                        display: grid !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                        align-items: center !important;
                         justify-content: center !important;
-                        align-content: start !important;
+                        box-sizing: border-box !important;
+                        padding: 0 !important;
+                        margin: 0 auto !important;
+                        background: #ffffff !important;
+                        overflow: hidden !important;
                     }
 
                     .badge-sheet-page:last-child {
@@ -64,37 +76,70 @@ export function BadgePrintSheet({ attendees, layout = "a4-grid", settings }: Bad
                         break-after: avoid !important;
                     }
 
-                    /* Ensure exact color rendering in browser print dialog */
+                    /* 5. 2x2 A4 Grid (2 cols x 90mm = 180mm, 2 rows x 135mm = 270mm) */
+                    .badge-grid-container {
+                        display: grid !important;
+                        grid-template-columns: 90mm 90mm !important;
+                        grid-template-rows: 135mm 135mm !important;
+                        gap: 6mm 10mm !important;
+                        width: 190mm !important;
+                        height: 276mm !important;
+                        justify-content: center !important;
+                        align-content: center !important;
+                        box-sizing: border-box !important;
+                        margin: auto !important;
+                    }
+
+                    /* Single card print layout */
+                    .badge-single-container {
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                        width: 100% !important;
+                        height: 100% !important;
+                    }
+
+                    /* 6. Card container cut guide for scissors/guillotine */
+                    .cut-guide {
+                        border: 0.5px dashed #cbd5e1 !important;
+                        border-radius: 8px !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        box-sizing: border-box !important;
+                        width: 90mm !important;
+                        height: 135mm !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                    }
+
+                    /* 7. Ensure rich color printing (Green, Gold, Borders, QR) */
                     * {
                         -webkit-print-color-adjust: exact !important;
                         print-color-adjust: exact !important;
                     }
-
-                    /* Non-printing production cut guides */
-                    .cut-guide {
-                        border: none !important;
-                        padding: 0 !important;
-                    }
                 }
-            `}</style>
+            `}} />
 
             {layout === "a4-grid" ? (
                 // A4 2x2 Grid Pages
                 pages.map((pageGroup, pageIndex) => (
                     <div
                         key={pageIndex}
-                        className="badge-sheet-page mb-10 print:mb-0 bg-white p-4 sm:p-6 print:p-0 rounded-2xl border border-gray-200 print:border-none shadow-sm print:shadow-none"
+                        className="badge-sheet-page mb-10 print:mb-0 bg-white p-4 sm:p-8 print:p-0 rounded-3xl border border-gray-200 print:border-none shadow-sm print:shadow-none"
                     >
-                        <div className="no-print text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 text-center border-b pb-2">
-                            Sheet {pageIndex + 1} of {pages.length} &bull; 4 Badges (A4 Format)
+                        <div className="no-print text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 text-center border-b pb-2 flex items-center justify-between">
+                            <span className="font-mono text-emerald-800">ORP-5 MASTER PRINT SHEET</span>
+                            <span>Page {pageIndex + 1} of {pages.length} &bull; {pageGroup.length} Badges (A4 Sheet)</span>
+                            <span className="text-gray-400">90 × 135 mm Master Standard</span>
                         </div>
 
                         {/* 2 Columns x 2 Rows Grid with Cut Marks */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4 print:gap-2 justify-items-center">
+                        <div className="badge-grid-container grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-0 justify-items-center">
                             {pageGroup.map((attendee) => (
                                 <div
                                     key={attendee.id}
-                                    className="p-1 print:p-0.5 border border-dashed border-gray-300 print:border-gray-400 rounded-3xl relative cut-guide"
+                                    className="p-1 print:p-0 border border-dashed border-gray-300 print:border-gray-400 rounded-3xl relative cut-guide"
                                 >
                                     <AttendeeBadge attendee={attendee} settings={settings} />
                                 </div>
@@ -108,9 +153,11 @@ export function BadgePrintSheet({ attendees, layout = "a4-grid", settings }: Bad
                     {attendees.map((attendee) => (
                         <div
                             key={attendee.id}
-                            className="badge-sheet-page p-1 border border-dashed border-gray-300 print:border-gray-400 rounded-3xl cut-guide inline-block"
+                            className="badge-sheet-page p-2 border border-dashed border-gray-300 print:border-none rounded-3xl cut-guide inline-block mb-6 print:mb-0"
                         >
-                            <AttendeeBadge attendee={attendee} settings={settings} />
+                            <div className="badge-single-container">
+                                <AttendeeBadge attendee={attendee} settings={settings} />
+                            </div>
                         </div>
                     ))}
                 </div>

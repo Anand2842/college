@@ -571,62 +571,70 @@ export default function AdminBadgesPage() {
                     <RefreshCw className="animate-spin text-[#123125] mx-auto" size={32} />
                     <p className="text-gray-600 font-medium">Loading badges...</p>
                 </div>
-            ) : viewMode === "print-preview" ? (
-                <div className="bg-gray-100 p-4 sm:p-8 rounded-2xl border">
-                    <BadgePrintSheet attendees={selectedAttendees} layout={printLayout} settings={settings} />
-                </div>
             ) : (
-                <div className="space-y-4">
-                    <div className="no-print flex items-center justify-between text-xs text-gray-500 px-1">
-                        <span>
-                            Showing <strong>{filteredAttendees.length}</strong> badges &bull; <strong>{selectedAttendees.length}</strong> selected for print
-                        </span>
-                        <span>Click badge to edit info / click photo to replace</span>
+                <>
+                    {/* Always rendered for print (@media print), visible on screen only when in print-preview mode */}
+                    <div className={viewMode === "print-preview" ? "block" : "hidden print:block"}>
+                        <div className={viewMode === "print-preview" ? "bg-gray-100 p-4 sm:p-8 rounded-2xl border print:p-0 print:border-none print:bg-transparent" : "print:block"}>
+                            <BadgePrintSheet attendees={selectedAttendees} layout={printLayout} settings={settings} />
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-                        {filteredAttendees.map((att) => {
-                            const isSelected = selectedIds.has(att.id);
-                            return (
-                                <div
-                                    key={att.id}
-                                    className={`relative group transition-all duration-200 ${
-                                        isSelected ? "ring-4 ring-[#123125]/80 rounded-[28px]" : "opacity-60 hover:opacity-100"
-                                    }`}
-                                >
-                                    {/* Action Buttons on Card */}
-                                    <div className="no-print absolute top-3 right-3 z-30 flex items-center gap-1.5">
-                                        <button
-                                            onClick={() => setEditingAttendee(att)}
-                                            className="w-7 h-7 rounded-lg bg-white/95 text-gray-600 hover:text-black border border-gray-300 shadow-md flex items-center justify-center transition cursor-pointer"
-                                            title="Edit badge details"
-                                        >
-                                            <Edit3 size={13} />
-                                        </button>
-                                        <button
-                                            onClick={() => toggleSelect(att.id)}
-                                            className={`w-7 h-7 rounded-lg flex items-center justify-center shadow-md transition-all cursor-pointer ${
-                                                isSelected
-                                                    ? "bg-[#123125] text-white border border-[#123125]"
-                                                    : "bg-white/95 text-gray-400 border border-gray-300 hover:text-gray-700"
+                    {/* On-screen Interactive Card Grid (Always hidden during print) */}
+                    {viewMode === "cards" && (
+                        <div className="space-y-4 print:hidden">
+                            <div className="no-print flex items-center justify-between text-xs text-gray-500 px-1">
+                                <span>
+                                    Showing <strong>{filteredAttendees.length}</strong> badges &bull; <strong>{selectedAttendees.length}</strong> selected for print
+                                </span>
+                                <span>Click badge to edit info / click photo to replace</span>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+                                {filteredAttendees.map((att) => {
+                                    const isSelected = selectedIds.has(att.id);
+                                    return (
+                                        <div
+                                            key={att.id}
+                                            className={`relative group transition-all duration-200 ${
+                                                isSelected ? "ring-4 ring-[#123125]/80 rounded-[28px]" : "opacity-60 hover:opacity-100"
                                             }`}
-                                            title={isSelected ? "Unselect badge" : "Select badge for print"}
                                         >
-                                            {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
-                                        </button>
-                                    </div>
+                                            {/* Action Buttons on Card */}
+                                            <div className="no-print absolute top-3 right-3 z-30 flex items-center gap-1.5">
+                                                <button
+                                                    onClick={() => setEditingAttendee(att)}
+                                                    className="w-7 h-7 rounded-lg bg-white/95 text-gray-600 hover:text-black border border-gray-300 shadow-md flex items-center justify-center transition cursor-pointer"
+                                                    title="Edit badge details"
+                                                >
+                                                    <Edit3 size={13} />
+                                                </button>
+                                                <button
+                                                    onClick={() => toggleSelect(att.id)}
+                                                    className={`w-7 h-7 rounded-lg flex items-center justify-center shadow-md transition-all cursor-pointer ${
+                                                        isSelected
+                                                            ? "bg-[#123125] text-white border border-[#123125]"
+                                                            : "bg-white/95 text-gray-400 border border-gray-300 hover:text-gray-700"
+                                                    }`}
+                                                    title={isSelected ? "Unselect badge" : "Select badge for print"}
+                                                >
+                                                    {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
+                                                </button>
+                                            </div>
 
-                                    {/* Badge Component */}
-                                    <AttendeeBadge
-                                        attendee={att}
-                                        settings={settings}
-                                        onPhotoClick={() => setEditingAttendee(att)}
-                                    />
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+                                            {/* Badge Component */}
+                                            <AttendeeBadge
+                                                attendee={att}
+                                                settings={settings}
+                                                onPhotoClick={() => setEditingAttendee(att)}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
 
             {/* Edit Attendee Modal */}
