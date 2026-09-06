@@ -71,7 +71,7 @@ const blog1 = {
 <tr><td>20 January 2026</td><td>Call for Abstracts opens / Registration opens</td></tr>
 <tr><td>25 August 2026</td><td>Abstract submission deadline</td></tr>
 <tr><td>27 August 2026</td><td>Notification of abstract status</td></tr>
-<tr><td>31 August 2026</td><td>Registration deadline</td></tr>
+<tr><td>7 September 2026</td><td>Registration deadline</td></tr>
 <tr><td>21 September 2026</td><td>Inauguration, plenary sessions, oral &amp; poster presentations</td></tr>
 <tr><td>22-23 September 2026</td><td>Technical sessions, oral/poster/video presentations</td></tr>
 <tr><td>24 September 2026</td><td>Field visits to IIFSR and farmers' fields</td></tr>
@@ -132,7 +132,7 @@ const blog1 = {
 <p>The deadline for abstract submission is 15 August 2026. Abstracts should not exceed 500 words and must be uploaded at the link on www.orp5ic.com.</p>
 
 <h3>Is there a late registration fee?</h3>
-<p>Yes. A late fee of Rs. 1,000 (or 20 USD) per person applies after the registration deadline of 31 August 2026.</p>
+<p>Yes. A late fee of Rs. 1,000 (or 20 USD) per person applies after the registration deadline of 7 September 2026.</p>
 
 <h3>What journals will publish ORP-5 papers?</h3>
 <p>Selected full-length papers will be published in the Special Issue of <em>Plant Science Today</em> (Article Processing Charges: Rs. 16,000).</p>
@@ -396,7 +396,7 @@ const blog4 = {
   tags: ['ORP-5 registration', 'conference fees', 'registration deadline', 'organic rice conference', 'New Delhi conference'],
   content: `
 <h2>Registration Is Now Open for ORP-5</h2>
-<p>Registration for the <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong> opened on 20 January 2026 and will close on <strong>31 August 2026</strong>. The conference will be held from 21-25 September 2026 in New Delhi, India.</p>
+<p>Registration for the <strong>5th International Conference on Organic and Natural Rice Production Systems (ORP-5)</strong> opened on 20 January 2026 and will close on <strong>7 September 2026</strong>. The conference will be held from 21-25 September 2026 in New Delhi, India.</p>
 
 <p>ORP-5 offers both <strong>physical (in-person)</strong> and <strong>virtual (online)</strong> participation options. This guide covers everything you need to know about fees, deadlines, and the registration process.</p>
 
@@ -466,8 +466,8 @@ const blog4 = {
 </thead>
 <tbody>
 <tr><td>20 January 2026</td><td>Registration opens</td></tr>
-<tr><td>31 August 2026</td><td>Registration deadline</td></tr>
-<tr><td>After 31 August 2026</td><td>Late fee of Rs. 1,000 / 20 USD applies</td></tr>
+<tr><td>7 September 2026</td><td>Registration deadline</td></tr>
+<tr><td>After 7 September 2026</td><td>Late fee of Rs. 1,000 / 20 USD applies</td></tr>
 </tbody>
 </table>
 
@@ -476,7 +476,7 @@ const blog4 = {
 <p>For registration and accommodation queries, contact: <strong>info@orp5ic.com</strong></p>
 
 <h2>Late Registration Fee</h2>
-<p>A late fee of <strong>Rs. 1,000</strong> (for Indian delegates) or <strong>20 USD</strong> (for foreign delegates) per person applies after the registration deadline, regardless of category. Register before 31 August 2026 to avoid the late fee.</p>
+<p>A late fee of <strong>Rs. 1,000</strong> (for Indian delegates) or <strong>20 USD</strong> (for foreign delegates) per person applies after the registration deadline, regardless of category. Register before 7 September 2026 to avoid the late fee.</p>
 
 <h2>Accommodation Options Near the Venue</h2>
 <p>Since accommodation is not included in the registration fee, here are your options near the NASC Complex in New Delhi:</p>

@@ -146,16 +146,42 @@ export default function RegistrationTicketClient() {
                 </div>
 
                 {/* Download Actions */}
-                <div className="bg-[#FFFDF7] rounded-xl p-8 text-center mb-16 border border-[#EBE5D5]">
+                <div className="no-print bg-[#FFFDF7] rounded-xl p-8 text-center mb-16 border border-[#EBE5D5]">
                     <h3 className="font-serif font-bold text-lg text-charcoal mb-6">Download & Print Options</h3>
                     <div className="flex flex-wrap justify-center gap-4">
                         {actions.map((action: any, i: number) => (
-                            <Button key={i} variant="outline" className="bg-[#EBE5D5]/30 border-[#D1CAB0] text-charcoal hover:bg-[#EBE5D5] gap-2">
+                            <Button
+                                key={i}
+                                variant="outline"
+                                onClick={() => {
+                                    if (action.icon === "Printer" || action.icon === "FileDown") {
+                                        window.print();
+                                    }
+                                }}
+                                className="bg-[#EBE5D5]/30 border-[#D1CAB0] text-charcoal hover:bg-[#EBE5D5] gap-2 cursor-pointer"
+                            >
                                 {getIcon(action.icon)} {action.label}
                             </Button>
                         ))}
                     </div>
                 </div>
+
+                {/* Print Stylesheet */}
+                <style jsx global>{`
+                    @media print {
+                        nav, footer, .no-print, header, section:first-of-type {
+                            display: none !important;
+                        }
+                        body {
+                            background: white !important;
+                            color: black !important;
+                        }
+                        * {
+                            -webkit-print-color-adjust: exact !important;
+                            print-color-adjust: exact !important;
+                        }
+                    }
+                `}</style>
 
                 {/* Important Notes */}
                 <div className="space-y-4 mb-20 max-w-3xl mx-auto">

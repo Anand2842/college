@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Mail, Phone, Building, MapPin, CreditCard, ExternalLink, Image as ImageIcon, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { X, Mail, Phone, Building, MapPin, CreditCard, ExternalLink, Image as ImageIcon, AlertTriangle, CheckCircle2, Clock, IdCard } from 'lucide-react';
 
 interface Registration {
     id: string;
@@ -242,7 +243,13 @@ export function RegistrationDetailModal({ registration, onClose, onUpdateStatus,
                     <button onClick={onClose} className="px-4 py-2 text-gray-400 hover:text-white transition text-sm">
                         Close
                     </button>
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2">
+                        <Link
+                            href={`/admin/badges?search=${encodeURIComponent(registration.ticket_number || registration.id)}`}
+                            className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg font-medium transition text-sm flex items-center gap-2"
+                        >
+                            <IdCard size={15} /> Print Badge
+                        </Link>
                         {registration.payment_status !== 'paid' ? (
                             <button
                                 onClick={() => onUpdateStatus(registration.id, 'paid')}

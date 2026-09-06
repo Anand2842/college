@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import { Search, Download, Filter, Eye, X, Trash2, Upload, CheckCircle2, AlertTriangle, FileUp, ExternalLink, Hash, Clock, ShieldAlert, UserPlus } from 'lucide-react';
+import { Search, Download, Filter, Eye, X, Trash2, Upload, CheckCircle2, AlertTriangle, FileUp, ExternalLink, Hash, Clock, ShieldAlert, UserPlus, IdCard } from 'lucide-react';
 import { RegistrationDetailModal } from '@/components/admin/RegistrationDetailModal';
 import { AddRegistrationModal } from '@/components/admin/AddRegistrationModal';
 
@@ -378,6 +378,13 @@ export default function AdminRegistrationsPage() {
                             >
                                 <UserPlus size={16} /> Add Registration
                             </button>
+                            {/* Print Badges */}
+                            <Link
+                                href="/admin/badges"
+                                className="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 rounded-lg font-semibold transition flex items-center gap-2 text-sm text-white shadow-sm shadow-amber-900/30"
+                            >
+                                <IdCard size={16} /> Print Badges
+                            </Link>
                             {/* MIS Import */}
                             <label className={`px-3 py-2 ${misLoading ? 'bg-gray-600 cursor-wait' : 'bg-purple-700 hover:bg-purple-600 cursor-pointer'} rounded-lg font-medium transition flex items-center gap-2 text-sm`}>
                                 <FileUp size={16} />
@@ -519,10 +526,17 @@ export default function AdminRegistrationsPage() {
                                                 <button
                                                     onClick={() => setSelectedRegistration(reg)}
                                                     className="p-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
-                                                    title="View Details"
+                                                    title="View Full Details"
                                                 >
                                                     <Eye size={14} />
                                                 </button>
+                                                <Link
+                                                    href={`/admin/badges?search=${encodeURIComponent(reg.ticket_number || reg.id)}`}
+                                                    className="p-1.5 bg-emerald-800 hover:bg-emerald-700 rounded-lg transition text-white flex items-center justify-center"
+                                                    title="View & Print ID Badge"
+                                                >
+                                                    <IdCard size={14} />
+                                                </Link>
                                                 {reg.payment_status !== 'paid' ? (
                                                     <>
                                                         <button
