@@ -23,6 +23,14 @@ export default function RegistrationContent() {
             />
 
             <div className="container mx-auto px-6 max-w-6xl relative z-20 mt-10 md:mt-12 pb-20">
+                {/* Registration Deadline Notice */}
+                <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3.5 text-amber-950">
+                    <AlertCircle className="text-amber-600 shrink-0" size={22} />
+                    <p className="text-xs sm:text-sm font-medium">
+                        <strong className="font-bold text-amber-900">Registration Notice:</strong> Registration may be kept open till <strong className="font-bold text-amber-900">15 September 2026</strong>. Delegates are advised to complete their registration early to avoid late fee surcharges and guarantee physical delegate kits.
+                    </p>
+                </div>
+
                 {/* Participation Modes */}
                 <div className="bg-white rounded-3xl p-8 md:p-12 border border-earth-green/15 shadow-xl luxury-card mb-16">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
@@ -243,7 +251,7 @@ export default function RegistrationContent() {
                                 <Clock className="text-amber-600" size={22} /> Late Fee Advisory
                             </h3>
                             <p className="text-xs sm:text-sm text-charcoal/75 leading-relaxed font-light mb-4">
-                                A late fee surcharge of <strong className="text-amber-700 font-bold">₹1,000 (Indian)</strong> or <strong className="text-amber-700 font-bold">US$ 20 (Foreign)</strong> will apply per registrant after the regular registration deadline.
+                                A late fee surcharge of <strong className="text-amber-700 font-bold">₹1,000 (Indian)</strong> or <strong className="text-amber-700 font-bold">US$ 20 (Foreign)</strong> will apply per registrant after the registration deadline of <strong className="text-amber-700 font-bold">15 September 2026</strong> (Registration may be kept open till 15 September 2026).
                             </p>
                         </div>
                         <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-900 flex items-center gap-2">

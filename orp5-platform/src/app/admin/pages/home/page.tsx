@@ -432,7 +432,7 @@ export default function HomepageEditor() {
                                         <div key={dayKey} className="bg-gray-50 p-4 rounded-lg border border-gray-100">
                                             <h3 className="font-bold text-earth-green mb-3">Day {index + 1}</h3>
                                             <AdminInput
-                                                label="Date (e.g., 7 September 2026)"
+                                                label="Date (e.g., 15 September 2026)"
                                                 value={dayData.date}
                                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("programme", dayKey, { ...dayData, date: e.target.value })}
                                             />

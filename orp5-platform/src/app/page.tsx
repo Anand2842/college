@@ -82,7 +82,7 @@ export default async function Home() {
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
       { date: "25 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
       { date: "27 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
-      { date: "7 September 2026", label: "Registration Deadline", status: "upcoming" },
+      { date: "15 September 2026", label: "Registration Deadline", status: "upcoming" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
     ],
     whyJoin: [],
