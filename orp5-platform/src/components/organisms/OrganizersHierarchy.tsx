@@ -47,14 +47,14 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
   if (!hasAnyPartners) return null;
 
   return (
-    <section className="bg-[#FAF9F5] border-y border-[#E9E5D9] py-10 sm:py-14 md:py-16">
-      <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+    <section className="bg-[#FAF9F5] border-y border-[#E9E5D9] py-8 sm:py-12 md:py-14">
+      <div className="container mx-auto max-w-4xl px-3 sm:px-6">
         
         {/* Tier 1: Jointly Organised by */}
         {jointlyOrganised.length > 0 && (
-          <div className="mb-12 sm:mb-16">
-            <TierDivider title="Jointly organised by" />
-            <div className="grid grid-cols-3 gap-4 sm:gap-8 md:gap-12 max-w-3xl mx-auto mt-6 sm:mt-8 items-start justify-items-center">
+          <div className="mb-7 sm:mb-10">
+            <TierDivider title="Jointly organised by" className="my-2.5 sm:my-4" />
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-6 md:gap-8 max-w-2xl mx-auto mt-3.5 sm:mt-6 items-start justify-items-center">
               {jointlyOrganised.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 return (
@@ -64,10 +64,10 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     target={partner.website || partner.url ? "_blank" : "_self"}
                     rel="noopener noreferrer"
                     title={partner.name}
-                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center"
+                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center w-full"
                   >
                     {partner.logoUrl ? (
-                      <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full bg-white p-3 sm:p-4 shadow-sm border border-gray-200/80 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg group-hover:border-[#A88B38]/50 shrink-0">
+                      <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-white p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center transition-all duration-300 group-hover:shadow-md group-hover:border-[#A88B38]/50 shrink-0">
                         <img
                           src={partner.logoUrl}
                           alt={partner.name}
@@ -75,10 +75,10 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                         />
                       </div>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-gray-700 text-center">{partner.name}</span>
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 text-center">{partner.name}</span>
                     )}
                     {shortName && (
-                      <span className="mt-2.5 sm:mt-3 text-xs sm:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2 max-w-[130px] sm:max-w-[180px]">
+                      <span className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2">
                         {shortName}
                       </span>
                     )}
@@ -91,9 +91,9 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
 
         {/* Tier 2: Supported by */}
         {supportedBy.length > 0 && (
-          <div className="mb-12 sm:mb-16">
-            <TierDivider title="Supported by" />
-            <div className="flex justify-center mt-6 sm:mt-8">
+          <div className="mb-7 sm:mb-10">
+            <TierDivider title="Supported by" className="my-2.5 sm:my-4" />
+            <div className="flex justify-center mt-3.5 sm:mt-6">
               {supportedBy.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 return (
@@ -103,10 +103,10 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     target={partner.website || partner.url ? "_blank" : "_self"}
                     rel="noopener noreferrer"
                     title={partner.name}
-                    className="group flex flex-col items-center justify-center w-full max-w-[340px] sm:max-w-[380px] transition-all duration-300 transform hover:scale-105 text-center"
+                    className="group flex flex-col items-center justify-center w-full max-w-[190px] sm:max-w-[240px] md:max-w-[270px] transition-all duration-300 transform hover:scale-105 text-center"
                   >
                     {partner.logoUrl ? (
-                      <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300">
+                      <div className="h-16 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300">
                         <img
                           src={partner.logoUrl}
                           alt={partner.name}
@@ -114,10 +114,10 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                         />
                       </div>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-gray-700 text-center block">{partner.name}</span>
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 text-center block">{partner.name}</span>
                     )}
                     {shortName && (
-                      <span className="mt-2 sm:mt-2.5 text-xs sm:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200">
+                      <span className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200">
                         {shortName}
                       </span>
                     )}
@@ -130,9 +130,9 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
 
         {/* Tier 3: Knowledge partner */}
         {knowledgePartner.length > 0 && (
-          <div className="mb-12 sm:mb-16">
-            <TierDivider title="Knowledge partner" />
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto mt-6 sm:mt-8 items-start">
+          <div className="mb-7 sm:mb-10">
+            <TierDivider title="Knowledge partner" className="my-2.5 sm:my-4" />
+            <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
               {knowledgePartner.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 return (
@@ -142,10 +142,10 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     target={partner.website || partner.url ? "_blank" : "_self"}
                     rel="noopener noreferrer"
                     title={partner.name}
-                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center"
+                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center w-full"
                   >
                     {partner.logoUrl ? (
-                      <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-3 sm:p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
+                      <div className="h-14 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
                         <img
                           src={partner.logoUrl}
                           alt={partner.name}
@@ -153,10 +153,10 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                         />
                       </div>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-gray-700 text-center block">{partner.name}</span>
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 text-center block">{partner.name}</span>
                     )}
                     {shortName && (
-                      <span className="mt-2 sm:mt-2.5 text-xs sm:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2">
+                      <span className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2 leading-tight">
                         {shortName}
                       </span>
                     )}
@@ -170,8 +170,8 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
         {/* Tier 4: Technical collaborating partners */}
         {technicalPartners.length > 0 && (
           <div>
-            <TierDivider title="Technical collaborating partners" />
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto mt-6 sm:mt-8 items-start">
+            <TierDivider title="Technical collaborating partners" className="my-2.5 sm:my-4" />
+            <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
               {technicalPartners.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 const isCenturion = partner.name?.toLowerCase().includes('centurion');
@@ -182,21 +182,21 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     target={partner.website || partner.url ? "_blank" : "_self"}
                     rel="noopener noreferrer"
                     title={partner.name}
-                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center"
+                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center w-full"
                   >
                     {partner.logoUrl ? (
-                      <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-3 sm:p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
+                      <div className="h-14 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
                         <img
                           src={partner.logoUrl}
                           alt={partner.name}
-                          className={`max-h-full max-w-full object-contain ${isCenturion ? 'scale-115 sm:scale-125 transition-transform duration-300' : ''}`}
+                          className={`max-h-full max-w-full object-contain ${isCenturion ? 'scale-110 sm:scale-120 transition-transform duration-300' : ''}`}
                         />
                       </div>
                     ) : (
-                      <span className="text-xs sm:text-sm font-bold text-gray-700 text-center">{partner.name}</span>
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 text-center">{partner.name}</span>
                     )}
                     {shortName && (
-                      <span className="mt-2 sm:mt-2.5 text-xs sm:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2">
+                      <span className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2 leading-tight">
                         {shortName}
                       </span>
                     )}
@@ -211,3 +211,4 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
     </section>
   );
 };
+
