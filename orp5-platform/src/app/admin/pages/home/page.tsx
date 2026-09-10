@@ -316,7 +316,7 @@ export default function HomepageEditor() {
                                                         </div>
 
                                                         {/* Fields */}
-                                                        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                        <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
                                                             <div>
                                                                 <label className="block text-xs font-bold text-earth-green mb-1">Organisation Name</label>
                                                                 <input
@@ -324,6 +324,15 @@ export default function HomepageEditor() {
                                                                     value={partner.name}
                                                                     onChange={(e) => updatePartner(partner.id, "name", e.target.value)}
                                                                     placeholder="e.g., Ministry of Agriculture"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <label className="block text-xs font-bold text-earth-green mb-1">Short Name / Acronym</label>
+                                                                <input
+                                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-earth-green"
+                                                                    value={partner.shortName || ""}
+                                                                    onChange={(e) => updatePartner(partner.id, "shortName", e.target.value)}
+                                                                    placeholder="e.g. AIASA, IRRI, SSIAST"
                                                                 />
                                                             </div>
                                                             <div>
@@ -335,7 +344,7 @@ export default function HomepageEditor() {
                                                                     placeholder="https://..."
                                                                 />
                                                             </div>
-                                                            <div className="md:col-span-2">
+                                                            <div className="md:col-span-3">
                                                                 <ImageUploader
                                                                     label="Logo"
                                                                     value={partner.logoUrl}

@@ -607,7 +607,15 @@ export async function getHomepageData() {
 
         const finalThemes = (themes && themes.length > 0) ? themes : (baseContent.themes || defaultThemes);
 
-        const partnerList = partners && partners.length > 0 ? partners : (baseContent.partners || []);
+        const rawPartnerList = partners && partners.length > 0 ? partners : (baseContent.partners || []);
+        const partnerList = rawPartnerList.map((p: any) => {
+            const fromContent = (baseContent.partners || []).find((bp: any) => bp.id === p.id || bp.name?.toLowerCase().trim() === p.name?.toLowerCase().trim());
+            return {
+                ...fromContent,
+                ...p,
+                shortName: p.shortName || fromContent?.shortName,
+            };
+        });
         const partnersByCategory = partnerList.reduce((acc: Record<string, any[]>, p: any) => {
             const cat = p.category || 'Collaborators';
             if (!acc[cat]) acc[cat] = [];
