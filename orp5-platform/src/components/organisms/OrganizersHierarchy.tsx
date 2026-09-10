@@ -60,72 +60,65 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
           </div>
         )}
 
-        {/* Tier 2: Supported by & Knowledge partner (Side-by-side) */}
-        {(supportedBy.length > 0 || knowledgePartner.length > 0) && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 mb-12 sm:mb-16 max-w-4xl mx-auto">
-            
-            {/* Left: Supported by */}
-            {supportedBy.length > 0 && (
-              <div className="flex flex-col items-center">
-                <TierDivider title="Supported by" className="w-full" />
-                <div className="w-full flex justify-center mt-4 sm:mt-6">
-                  {supportedBy.map((partner: any) => (
-                    <a
-                      key={partner.id}
-                      href={partner.website || partner.url || '#'}
-                      target={partner.website || partner.url ? "_blank" : "_self"}
-                      rel="noopener noreferrer"
-                      title={partner.name}
-                      className="group w-full max-w-[320px] transition-all duration-300 transform hover:scale-105"
-                    >
-                      {partner.logoUrl ? (
-                        <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300">
-                          <img
-                            src={partner.logoUrl}
-                            alt={partner.name}
-                            className="max-h-full max-w-full object-contain"
-                          />
-                        </div>
-                      ) : (
-                        <span className="text-xs sm:text-sm font-bold text-gray-700 text-center block">{partner.name}</span>
-                      )}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
+        {/* Tier 2: Supported by */}
+        {supportedBy.length > 0 && (
+          <div className="mb-12 sm:mb-16">
+            <TierDivider title="Supported by" />
+            <div className="flex justify-center mt-6 sm:mt-8">
+              {supportedBy.map((partner: any) => (
+                <a
+                  key={partner.id}
+                  href={partner.website || partner.url || '#'}
+                  target={partner.website || partner.url ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  title={partner.name}
+                  className="group w-full max-w-[340px] sm:max-w-[380px] transition-all duration-300 transform hover:scale-105"
+                >
+                  {partner.logoUrl ? (
+                    <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300">
+                      <img
+                        src={partner.logoUrl}
+                        alt={partner.name}
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <span className="text-xs sm:text-sm font-bold text-gray-700 text-center block">{partner.name}</span>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
-            {/* Right: Knowledge partner */}
-            {knowledgePartner.length > 0 && (
-              <div className="flex flex-col items-center">
-                <TierDivider title="Knowledge partner" className="w-full" />
-                <div className="w-full flex justify-center mt-4 sm:mt-6">
-                  {knowledgePartner.map((partner: any) => (
-                    <a
-                      key={partner.id}
-                      href={partner.website || partner.url || '#'}
-                      target={partner.website || partner.url ? "_blank" : "_self"}
-                      rel="noopener noreferrer"
-                      title={partner.name}
-                      className="group w-full max-w-[320px] transition-all duration-300 transform hover:scale-105"
-                    >
-                      {partner.logoUrl ? (
-                        <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300">
-                          <img
-                            src={partner.logoUrl}
-                            alt={partner.name}
-                            className="max-h-full max-w-full object-contain"
-                          />
-                        </div>
-                      ) : (
-                        <span className="text-xs sm:text-sm font-bold text-gray-700 text-center block">{partner.name}</span>
-                      )}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-
+        {/* Tier 3: Knowledge partner */}
+        {knowledgePartner.length > 0 && (
+          <div className="mb-12 sm:mb-16">
+            <TierDivider title="Knowledge partner" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto mt-6 sm:mt-8 items-stretch">
+              {knowledgePartner.map((partner: any) => (
+                <a
+                  key={partner.id}
+                  href={partner.website || partner.url || '#'}
+                  target={partner.website || partner.url ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  title={partner.name}
+                  className="group flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105"
+                >
+                  {partner.logoUrl ? (
+                    <div className="h-28 sm:h-32 md:h-36 w-full bg-white rounded-2xl p-3 sm:p-4 shadow-sm border border-gray-200/80 flex items-center justify-center group-hover:shadow-lg group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden">
+                      <img
+                        src={partner.logoUrl}
+                        alt={partner.name}
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <span className="text-xs sm:text-sm font-bold text-gray-700 text-center block">{partner.name}</span>
+                  )}
+                </a>
+              ))}
+            </div>
           </div>
         )}
 

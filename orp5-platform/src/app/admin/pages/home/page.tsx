@@ -205,6 +205,7 @@ export default function HomepageEditor() {
                     const TIERS = [
                         { key: "Jointly organised by", label: "Jointly organised by", description: "Primary organising institutions (shown largest, at the top)", color: "bg-green-50 border-green-200", badge: "bg-green-100 text-green-800" },
                         { key: "Supported by", label: "Supported by", description: "Government bodies & major supporters (shown in the middle)", color: "bg-blue-50 border-blue-200", badge: "bg-blue-100 text-blue-800" },
+                        { key: "Knowledge partner", label: "Knowledge partner", description: "International & national research leads (shown alongside Supported by)", color: "bg-purple-50 border-purple-200", badge: "bg-purple-100 text-purple-800" },
                         { key: "In collaboration with", label: "In collaboration with", description: "Academic institutions, publishers & industry partners (shown at the bottom)", color: "bg-amber-50 border-amber-200", badge: "bg-amber-100 text-amber-800" },
                     ];
 

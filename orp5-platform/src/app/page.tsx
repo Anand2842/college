@@ -1,4 +1,5 @@
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Dynamic server rendering for immediate updates
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Hero } from "@/components/organisms/Hero";

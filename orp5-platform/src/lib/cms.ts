@@ -503,13 +503,17 @@ export async function updateThemesPageData(data: any) {
     }
 }
 
-// In-memory cache for ultra-fast homepage responses
+// In-memory cache for fast homepage responses
 let homepageCache: { data: any; timestamp: number } | null = null;
-const HOMEPAGE_CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+const HOMEPAGE_CACHE_TTL_MS = 0; // Set to 0 to ensure admin updates reflect instantly
+
+export function invalidateHomepageCache() {
+    homepageCache = null;
+}
 
 export async function getHomepageData() {
     const now = Date.now();
-    if (homepageCache && (now - homepageCache.timestamp < HOMEPAGE_CACHE_TTL_MS)) {
+    if (HOMEPAGE_CACHE_TTL_MS > 0 && homepageCache && (now - homepageCache.timestamp < HOMEPAGE_CACHE_TTL_MS)) {
         return homepageCache.data;
     }
 

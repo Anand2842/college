@@ -1,5 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Dynamic server rendering for immediate updates
 import { createPageMetadata } from '@/lib/metadata';
-export const revalidate = 300; // cache 5 minutes
 
 export const metadata = createPageMetadata({
     title: 'About',
@@ -299,106 +300,123 @@ export default async function AboutPage() {
                 </div>
             </section>
 
-            {/* 2. Supported by & Knowledge Partner (Dual Pillar) */}
-            <section className="py-16 bg-[#FAF9F5] border-t border-earth-green/10">
-                <div className="container mx-auto px-6 max-w-6xl">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-                        
-                        {/* Supported by Card */}
-                        <div className="flex flex-col">
-                            <SectionTitle
-                                title="Supported by"
-                                subtitle="National policy leadership and institutional patronage."
-                            />
-                            <div className="mt-6 flex-1 flex flex-col justify-between bg-white p-8 md:p-10 rounded-3xl border-2 border-rice-gold/30 shadow-md luxury-card relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-48 h-48 bg-rice-gold/10 rounded-full blur-3xl pointer-events-none" />
-                                {data.supportedBy?.[0] && (
-                                    <>
-                                        <div>
-                                            <div className="flex items-center gap-5 mb-6">
-                                                {data.supportedBy[0].imageUrl && (
-                                                    <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
-                                                        <img
-                                                            src={data.supportedBy[0].imageUrl}
-                                                            alt={data.supportedBy[0].name}
-                                                            className="max-w-full max-h-full object-contain"
-                                                        />
-                                                    </div>
-                                                )}
-                                                <div>
-                                                    <h3 className="text-xl font-serif font-bold text-charcoal leading-snug">
-                                                        {data.supportedBy[0].name}
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <p className="text-charcoal/75 text-sm sm:text-base leading-relaxed font-light mb-6">
-                                                {data.supportedBy[0].description}
-                                            </p>
+            {/* 2. Supported by */}
+            {data.supportedBy && data.supportedBy.length > 0 && (
+                <section className="py-16 bg-[#FAF9F5] border-t border-earth-green/10">
+                    <div className="container mx-auto px-6 max-w-4xl">
+                        <SectionTitle
+                            title="Supported by"
+                            subtitle="National policy leadership and institutional patronage."
+                            centered
+                        />
+                        <div className="mt-10 space-y-6">
+                            {data.supportedBy.map((sup: any, idx: number) => (
+                                <div key={sup.id || idx} className="bg-white p-8 md:p-10 rounded-3xl border border-rice-gold/30 shadow-md luxury-card relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start text-center md:text-left">
+                                    <div className="absolute top-0 right-0 w-48 h-48 bg-rice-gold/10 rounded-full blur-3xl pointer-events-none" />
+                                    {sup.imageUrl && (
+                                        <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
+                                            <img
+                                                src={sup.imageUrl}
+                                                alt={sup.name}
+                                                className="max-w-full max-h-full object-contain"
+                                            />
                                         </div>
-                                        {data.supportedBy[0].website && (
+                                    )}
+                                    <div className="flex-1">
+                                        <h3 className="text-xl sm:text-2xl font-serif font-bold text-charcoal leading-snug mb-2">
+                                            {sup.name}
+                                        </h3>
+                                        {sup.shortName && sup.shortName !== sup.name && (
+                                            <span className="inline-block text-xs font-bold uppercase tracking-wider text-rice-gold-dark mb-3">
+                                                {sup.shortName}
+                                            </span>
+                                        )}
+                                        {sup.description && (
+                                            <p className="text-charcoal/75 text-sm sm:text-base leading-relaxed font-light mb-4">
+                                                {sup.description}
+                                            </p>
+                                        )}
+                                        {sup.website && (
                                             <a
-                                                href={data.supportedBy[0].website}
+                                                href={sup.website}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold transition-colors pt-4 border-t border-gray-100"
+                                                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold transition-colors"
                                             >
-                                                Visit Ministry Portal <ArrowRight size={13} />
+                                                Visit Official Portal <ArrowRight size={13} />
                                             </a>
                                         )}
-                                    </>
-                                )}
-                            </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-
-                        {/* Knowledge Partner Card */}
-                        <div className="flex flex-col">
-                            <SectionTitle
-                                title="Knowledge partner"
-                                subtitle="International scientific guidance and rice innovation."
-                            />
-                            <div className="mt-6 flex-1 flex flex-col justify-between bg-white p-8 md:p-10 rounded-3xl border-2 border-earth-green/20 shadow-md luxury-card relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-48 h-48 bg-earth-green/10 rounded-full blur-3xl pointer-events-none" />
-                                {data.knowledgePartner?.[0] && (
-                                    <>
-                                        <div>
-                                            <div className="flex items-center gap-5 mb-6">
-                                                {data.knowledgePartner[0].imageUrl && (
-                                                    <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
-                                                        <img
-                                                            src={data.knowledgePartner[0].imageUrl}
-                                                            alt={data.knowledgePartner[0].name}
-                                                            className="max-w-full max-h-full object-contain"
-                                                        />
-                                                    </div>
-                                                )}
-                                                <div>
-                                                    <h3 className="text-xl font-serif font-bold text-charcoal leading-snug">
-                                                        {data.knowledgePartner[0].name}
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <p className="text-charcoal/75 text-sm sm:text-base leading-relaxed font-light mb-6">
-                                                {data.knowledgePartner[0].description}
-                                            </p>
-                                        </div>
-                                        {data.knowledgePartner[0].website && (
-                                            <a
-                                                href={data.knowledgePartner[0].website}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-earth-green hover:text-rice-gold transition-colors pt-4 border-t border-gray-100"
-                                            >
-                                                Visit IRRI Official Website <ArrowRight size={13} />
-                                            </a>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
+
+            {/* 3. Knowledge Partner */}
+            {data.knowledgePartner && data.knowledgePartner.length > 0 && (
+                <section className="py-16 bg-white border-t border-gray-200/60">
+                    <div className="container mx-auto px-6 max-w-6xl">
+                        <SectionTitle
+                            title="Knowledge partner"
+                            subtitle="International & national scientific guidance, research leadership, and rice innovation."
+                            centered
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-10">
+                            {data.knowledgePartner.map((kp: any, idx: number) => (
+                                <div
+                                    key={kp.id || idx}
+                                    className="bg-[#FAF9F5] p-7 md:p-8 rounded-3xl border border-earth-green/10 flex flex-col justify-between hover:border-earth-green/40 shadow-sm hover:shadow-md transition-all luxury-card group"
+                                >
+                                    <div>
+                                        <div className="flex items-center gap-4 mb-5">
+                                            {kp.imageUrl ? (
+                                                <div className="w-18 h-18 sm:w-20 sm:h-20 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
+                                                    <img
+                                                        src={kp.imageUrl}
+                                                        alt={kp.name}
+                                                        className="max-w-full max-h-full object-contain"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="w-14 h-14 bg-earth-green/10 rounded-2xl flex items-center justify-center text-earth-green">
+                                                    <Globe2 size={24} />
+                                                </div>
+                                            )}
+                                            <div className="flex-1 min-w-0">
+                                                <h4 className="font-serif font-bold text-base md:text-lg text-charcoal leading-snug">
+                                                    {kp.name}
+                                                </h4>
+                                                {kp.shortName && (
+                                                    <span className="text-[10px] font-bold uppercase tracking-wider text-earth-green/80 block mt-0.5">
+                                                        {kp.shortName}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        {kp.description && (
+                                            <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light mb-6">
+                                                {kp.description}
+                                            </p>
+                                        )}
+                                    </div>
+                                    {kp.website && (
+                                        <a
+                                            href={kp.website}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-earth-green group-hover:text-rice-gold transition-colors pt-4 border-t border-gray-200/60"
+                                        >
+                                            Visit {kp.shortName || "Website"} <ArrowRight size={13} />
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* 3. Technical Collaborating Partners */}
             {((data.technicalPartners && data.technicalPartners.length > 0) || (data.partners && data.partners.length > 0)) && (
