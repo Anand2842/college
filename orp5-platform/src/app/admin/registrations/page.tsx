@@ -34,7 +34,7 @@ interface Registration {
     payment_reference?: string;
 }
 
-type StatusFilter = 'all' | 'awaiting_payment' | 'pending' | 'payment_claimed' | 'amount_mismatch' | 'paid' | 'claim_expired' | 'payment_rejected';
+type StatusFilter = 'all' | 'awaiting_payment' | 'pending' | 'payment_claimed' | 'amount_mismatch' | 'paid' | 'claim_expired' | 'payment_rejected' | 'duplicate_cancelled';
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; border: string; dot: string }> = {
     paid: { label: 'Paid', bg: 'bg-emerald-950/80', text: 'text-emerald-300', border: 'border-emerald-700/60', dot: 'bg-emerald-400' },
@@ -44,6 +44,8 @@ const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; b
     pending: { label: 'Pending', bg: 'bg-yellow-950/80', text: 'text-yellow-300', border: 'border-yellow-700/60', dot: 'bg-yellow-400' },
     claim_expired: { label: 'Expired', bg: 'bg-gray-900', text: 'text-gray-400', border: 'border-gray-700', dot: 'bg-gray-500' },
     payment_rejected: { label: 'Rejected', bg: 'bg-red-950', text: 'text-red-400', border: 'border-red-800', dot: 'bg-red-500' },
+    duplicate_cancelled: { label: 'Duplicate Void', bg: 'bg-purple-950/60', text: 'text-purple-300', border: 'border-purple-800/60', dot: 'bg-purple-500' },
+    cancelled: { label: 'Cancelled', bg: 'bg-gray-950', text: 'text-gray-500', border: 'border-gray-800', dot: 'bg-gray-600' },
 };
 
 export default function AdminRegistrationsPage() {
@@ -204,7 +206,11 @@ export default function AdminRegistrationsPage() {
 
     const filteredRegistrations = useMemo(() => {
         return registrations.filter(r => {
-            if (statusFilter !== 'all' && r.payment_status !== statusFilter) return false;
+            if (statusFilter === 'all') {
+                if (r.payment_status === 'duplicate_cancelled' || r.payment_status === 'cancelled') return false;
+            } else if (r.payment_status !== statusFilter) {
+                return false;
+            }
             if (categoryFilter !== 'all' && r.category !== categoryFilter) return false;
             if (modeFilter !== 'all' && r.mode !== modeFilter) return false;
             if (searchQuery) {
@@ -225,19 +231,22 @@ export default function AdminRegistrationsPage() {
         const claimed = byStatus('payment_claimed');
         const mismatch = byStatus('amount_mismatch');
         const awaiting = byStatus('awaiting_payment');
+        const active = registrations.filter(r => r.payment_status !== 'duplicate_cancelled' && r.payment_status !== 'cancelled');
+
+        const USD_TO_INR_RATE = 95.55;
 
         const totalRevenue = paid.reduce((sum, r) => {
             const amt = r.fee_amount || r.feeAmount || 0;
-            return sum + (r.currency === 'USD' ? amt * 84 : amt);
+            return sum + (r.currency === 'USD' ? amt * USD_TO_INR_RATE : amt);
         }, 0);
 
         const pendingRevenue = [...claimed, ...awaiting, ...registrations.filter(r => r.payment_status === 'pending')].reduce((sum, r) => {
             const amt = r.fee_amount || r.feeAmount || 0;
-            return sum + (r.currency === 'USD' ? amt * 84 : amt);
+            return sum + (r.currency === 'USD' ? amt * USD_TO_INR_RATE : amt);
         }, 0);
 
         return {
-            total: registrations.length,
+            total: active.length,
             paid: paid.length,
             claimed: claimed.length,
             mismatch: mismatch.length,
@@ -346,12 +355,14 @@ export default function AdminRegistrationsPage() {
                                 onChange={e => setStatusFilter(e.target.value as StatusFilter)}
                                 className="px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
                             >
-                                <option value="all">All Status</option>
+                                <option value="all">All Active</option>
                                 <option value="payment_claimed">⏳ Claimed (Action Needed)</option>
                                 <option value="amount_mismatch">⚠ Mismatch</option>
                                 <option value="paid">✓ Paid</option>
                                 <option value="awaiting_payment">🔵 Awaiting Payment</option>
                                 <option value="pending">Pending</option>
+                                <option value="duplicate_cancelled">🚫 Voided Duplicates</option>
+                                <option value="cancelled">✖ Cancelled</option>
                             </select>
                             {/* Category Filter */}
                             <select
@@ -531,9 +542,11 @@ export default function AdminRegistrationsPage() {
                                                     <Eye size={14} />
                                                 </button>
                                                 <Link
-                                                    href={`/admin/badges?search=${encodeURIComponent(reg.ticket_number || reg.id)}`}
+                                                    href={`/registration/ticket?id=${encodeURIComponent(reg.ticket_number || reg.id)}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                     className="p-1.5 bg-emerald-800 hover:bg-emerald-700 rounded-lg transition text-white flex items-center justify-center"
-                                                    title="View & Print ID Badge"
+                                                    title="Direct Print Attendee ID Card"
                                                 >
                                                     <IdCard size={14} />
                                                 </Link>

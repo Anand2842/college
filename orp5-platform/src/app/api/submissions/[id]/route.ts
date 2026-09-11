@@ -140,16 +140,20 @@ export async function PATCH(
                 });
         }
 
-        // Send Email Notification
+        // Send Email Notification (await so serverless environment delivers it)
         if (data.email) {
-            const { sendSubmissionStatusEmail } = await import('@/lib/email');
-            sendSubmissionStatusEmail(
-                data.email,
-                data.author_name || data.authors || 'Author',
-                data.title,
-                status as any,
-                notes || undefined
-            ).catch((err: any) => console.error('Failed to send status email:', err));
+            try {
+                const { sendSubmissionStatusEmail } = await import('@/lib/email');
+                await sendSubmissionStatusEmail(
+                    data.email,
+                    data.author_name || data.authors || 'Author',
+                    data.title,
+                    status as any,
+                    notes || undefined
+                );
+            } catch (err: any) {
+                console.error('Failed to send status email:', err);
+            }
         }
 
         // Revalidate caches

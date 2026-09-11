@@ -44,33 +44,68 @@ export async function POST(request: Request) {
         const supabase = getSupabaseAdmin();
 
         // Verify both match before sending
-        const { data: rows } = await supabase
+        const { data: initialRows } = await supabase
             .from('registrations')
             .select('id, status, data')
             .filter('data->>ticket_number', 'eq', ticketId)
             .filter('data->>email', 'ilike', email)
             .limit(1);
 
+        let rows = initialRows;
+
         if (!rows || rows.length === 0) {
-            return NextResponse.json({ error: 'No matching registration found.' }, { status: 404 });
+            // Fallback: check other ticket field variations
+            const { data: fallbackRows } = await supabase
+                .from('registrations')
+                .select('id, status, data')
+                .filter('data->>email', 'ilike', email);
+
+            const match = fallbackRows?.find((r: any) => {
+                const rowData = r.data || {};
+                const tNum = (rowData.ticket_number || rowData.ticket_id || rowData.ticketId || r.id || '').toString().trim().toUpperCase();
+                return tNum === ticketId;
+            });
+
+            if (match) {
+                rows = [match];
+            } else {
+                return NextResponse.json({ error: 'No matching registration found for this Ticket ID and email.' }, { status: 404 });
+            }
         }
 
         const reg = rows[0];
-        const d = reg.data as Record<string, any>;
+        const d = (reg.data as Record<string, any>) || {};
+        const isPaid = reg.status === 'approved' || d.payment_status === 'paid';
+        const finalTicketId = d.ticket_number || d.ticket_id || d.ticketId || ticketId;
+        const recipientName = d.full_name || d.fullName || 'Attendee';
 
-        // Send the acknowledgement email again
-        const { sendRegistrationAcknowledgementEmail } = await import('@/lib/email');
-        await sendRegistrationAcknowledgementEmail(
-            d.email,
-            d.full_name || 'Attendee',
-            d.ticket_number,
-            d.fee_amount,
-            d.currency || 'INR',
-            d.category,
-            d.mode
-        );
+        if (isPaid) {
+            // Attendee is confirmed paid: send ticket confirmation pass
+            const { sendRegistrationStatusEmail } = await import('@/lib/email');
+            await sendRegistrationStatusEmail(
+                d.email || email,
+                recipientName,
+                finalTicketId,
+                'paid'
+            );
+        } else {
+            // Attendee payment still pending: send acknowledgement with payment instructions
+            const { sendRegistrationAcknowledgementEmail } = await import('@/lib/email');
+            await sendRegistrationAcknowledgementEmail(
+                d.email || email,
+                recipientName,
+                finalTicketId,
+                d.fee_amount || d.feeAmount || 0,
+                d.currency || 'INR',
+                d.category || 'Participant',
+                d.mode || 'In-Person'
+            );
+        }
 
-        return NextResponse.json({ success: true, message: `Ticket details resent to ${email.replace(/(.{2}).+(@.+)/, '$1***$2')}` });
+        return NextResponse.json({ 
+            success: true, 
+            message: `Ticket details resent to ${email.replace(/(.{2}).+(@.+)/, '$1***$2')}` 
+        });
     } catch (err: any) {
         console.error('[resend-ticket] Error:', err);
         return NextResponse.json({ error: 'Failed to resend. Please try again.' }, { status: 500 });

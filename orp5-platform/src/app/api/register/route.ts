@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { sendRegistrationAcknowledgementEmail } from '@/lib/email';
 
 const supabase = getSupabaseAdmin();
 
@@ -87,20 +88,45 @@ export async function POST(request: Request) {
             submittedAt: new Date().toISOString()
         };
 
-        // 4. Duplicate guard — same email OR phone cannot have more than one active registration
-        const { data: existingRegs } = await supabase
-            .from('registrations')
-            .select('id, data')
-            .or(`data->>email.eq.${body.email},data->>phone.eq.${body.phone}`);
+        // 4. Duplicate guard — check both email and phone number against active registrations
+        const cleanEmail = String(body.email).trim().toLowerCase();
+        const rawPhoneDigits = String(body.phone || '').replace(/\D/g, '');
+        const cleanPhone = rawPhoneDigits.length >= 8 ? rawPhoneDigits.slice(-10) : '';
 
-        if (existingRegs && existingRegs.length > 0) {
-            const active = existingRegs.filter((r: any) => {
+        const { data: allRegs } = await supabase
+            .from('registrations')
+            .select('id, data');
+
+        if (allRegs && allRegs.length > 0) {
+            const existing = allRegs.find((r: any) => {
+                const regEmail = (r.data?.email || '').trim().toLowerCase();
+                const existingPhoneDigits = String(r.data?.phone || r.data?.mobile || '').replace(/\D/g, '');
+                const regPhone = existingPhoneDigits.length >= 8 ? existingPhoneDigits.slice(-10) : '';
                 const status = r.data?.payment_status;
-                return status !== 'claim_expired' && status !== 'rejected';
+
+                const isActive = status !== 'claim_expired' && status !== 'rejected' && status !== 'cancelled' && status !== 'duplicate_cancelled';
+                if (!isActive) return false;
+
+                const matchesEmail = regEmail && regEmail === cleanEmail;
+                const matchesPhone = cleanPhone && regPhone && regPhone === cleanPhone;
+
+                return matchesEmail || matchesPhone;
             });
-            if (active.length > 0) {
+
+            if (existing) {
+                const exTicket = existing.data?.ticket_number || existing.data?.ticketId || existing.id;
+                const isPaid = existing.data?.payment_status === 'paid';
+                const matchedOn = (existing.data?.email || '').trim().toLowerCase() === cleanEmail ? 'Email' : 'Mobile Number';
+
                 return NextResponse.json({
-                    error: 'A registration with this email or phone number already exists. If you need help, contact info@orp5ic.com with your Ticket ID.'
+                    success: false,
+                    isDuplicate: true,
+                    isPaid,
+                    ticketId: exTicket,
+                    error: isPaid
+                        ? `A registration with this ${matchedOn} already exists with Ticket ID ${exTicket}. Your delegate pass & ID card are active.`
+                        : `A registration with this ${matchedOn} already exists with Ticket ID ${exTicket}. Please complete payment for your existing ticket.`,
+                    redirectUrl: isPaid ? `/registration/ticket?id=${exTicket}` : `/registration/pay?id=${exTicket}`
                 }, { status: 409 });
             }
         }
@@ -120,9 +146,9 @@ export async function POST(request: Request) {
             throw error;
         }
 
-        // 5. Send acknowledgement email — fire & forget, don't block the response
-        import('@/lib/email').then(({ sendRegistrationAcknowledgementEmail }) => {
-            sendRegistrationAcknowledgementEmail(
+        // 5. Send acknowledgement email (await so serverless function doesn't abort mid-flight)
+        try {
+            await sendRegistrationAcknowledgementEmail(
                 body.email,
                 body.fullName,
                 ticketId,
@@ -130,8 +156,10 @@ export async function POST(request: Request) {
                 body.currency,
                 body.category,
                 body.mode
-            ).catch((emailErr: any) => console.error("Failed to send acknowledgement email:", emailErr));
-        });
+            );
+        } catch (emailErr: any) {
+            console.error("Failed to send acknowledgement email:", emailErr);
+        }
 
         return NextResponse.json({ success: true, ticketId });
     } catch (error: any) {

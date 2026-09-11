@@ -245,10 +245,12 @@ export function RegistrationDetailModal({ registration, onClose, onUpdateStatus,
                     </button>
                     <div className="flex items-center gap-2">
                         <Link
-                            href={`/admin/badges?search=${encodeURIComponent(registration.ticket_number || registration.id)}`}
+                            href={`/registration/ticket?id=${encodeURIComponent(registration.ticket_number || registration.id)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg font-medium transition text-sm flex items-center gap-2"
                         >
-                            <IdCard size={15} /> Print Badge
+                            <IdCard size={15} /> Print ID Card
                         </Link>
                         {registration.payment_status !== 'paid' ? (
                             <button

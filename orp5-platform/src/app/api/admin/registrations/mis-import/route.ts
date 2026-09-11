@@ -147,15 +147,19 @@ export async function POST(request: Request) {
                     })
                     .eq('id', regId);
 
-                // Send confirmation email
+                // Send confirmation email (await so serverless function does not drop the delivery)
                 if (regData.email) {
-                    const { sendRegistrationStatusEmail } = await import('@/lib/email');
-                    sendRegistrationStatusEmail(
-                        regData.email,
-                        regData.full_name || regData.fullName || 'Attendee',
-                        regData.ticket_number,
-                        'paid'
-                    ).catch(e => console.error(`Email failed for ${ticketId}:`, e));
+                    try {
+                        const { sendRegistrationStatusEmail } = await import('@/lib/email');
+                        await sendRegistrationStatusEmail(
+                            regData.email,
+                            regData.full_name || regData.fullName || 'Attendee',
+                            regData.ticket_number || ticketId,
+                            'paid'
+                        );
+                    } catch (e) {
+                        console.error(`Email failed for ${ticketId}:`, e);
+                    }
                 }
             }
         }

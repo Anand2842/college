@@ -126,6 +126,23 @@ export async function POST(
             console.error('Failed to send admin notification:', emailErr);
         }
 
+        // ── Attendee receipt notification (non-fatal) ──
+        if (regData.email) {
+            try {
+                const { sendPaymentClaimReceivedEmail } = await import('@/lib/email');
+                await sendPaymentClaimReceivedEmail(
+                    regData.email,
+                    regData.full_name || regData.fullName || 'Attendee',
+                    regData.ticket_number || id,
+                    utr_number.trim().toUpperCase(),
+                    expectedAmount,
+                    regData.currency || 'INR'
+                );
+            } catch (emailErr) {
+                console.error('Failed to send attendee claim receipt email:', emailErr);
+            }
+        }
+
         return NextResponse.json({
             success: true,
             message: 'Payment claim recorded. Admin notified.',

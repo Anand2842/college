@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
-import { Loader2, CheckCircle, Download, CreditCard, Mail, Phone, ChevronRight, FileText, AlertCircle } from "lucide-react";
+import { Loader2, CheckCircle, Download, CreditCard, Mail, Phone, ChevronRight, FileText, AlertCircle, IdCard } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import QRCode from "react-qr-code";
@@ -282,7 +282,7 @@ export default function RegistrationSuccessClient() {
                             <div className="space-y-3">
                                 <button
                                     onClick={() => handlePrint('receipt')}
-                                    className="w-full flex items-center justify-between bg-[#C1A87D] hover:bg-[#b0966a] text-white p-4 rounded-lg transition-colors font-bold text-sm"
+                                    className="w-full flex items-center justify-between bg-[#C1A87D] hover:bg-[#b0966a] text-white p-4 rounded-lg transition-colors font-bold text-sm cursor-pointer"
                                 >
                                     <div className="flex items-center gap-3">
                                         <FileText size={20} />
@@ -293,6 +293,22 @@ export default function RegistrationSuccessClient() {
                                     </div>
                                     <Download size={16} />
                                 </button>
+
+                                <Link
+                                    href={`/registration/ticket?id=${encodeURIComponent(displayUser.registrationId)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full flex items-center justify-between bg-[#123125] hover:bg-[#1b4332] text-white p-4 rounded-lg transition-colors font-bold text-sm cursor-pointer"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <IdCard size={20} className="text-[#DFC074]" />
+                                        <div className="text-left">
+                                            <div className="leading-none">Official ID Card</div>
+                                            <div className="text-[10px] text-[#DFC074] mt-1">(Print / Badge)</div>
+                                        </div>
+                                    </div>
+                                    <Download size={16} />
+                                </Link>
 
                             </div>
                         </div>

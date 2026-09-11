@@ -15,25 +15,31 @@ export async function GET() {
 
         if (regErr) console.error("Error fetching registrations:", regErr);
 
-        const delegates = (regRows || []).map((row: any) => {
-            const data = row.data || {};
-            const country = data.country || (data.nationality === 'indian' ? 'India' : 'International');
-            return {
-                id: row.id,
-                name: data.full_name || data.fullName || 'Registered Delegate',
-                ticketNumber: data.ticket_number || data.ticketId || `ORP5IC-IND-${row.id.substring(0, 5).toUpperCase()}`,
-                category: (data.category || 'Delegate').toUpperCase(),
-                group: 'delegate',
-                subgroup: data.category || 'Delegate',
-                country: country.toUpperCase(),
-                institution: data.institution || data.affiliation || '',
-                designation: data.designation || '',
-                photoUrl: data.photo_url || data.photoUrl || data.avatar_url || '',
-                mode: data.mode || 'physical',
-                paymentStatus: data.payment_status || 'awaiting_payment',
-                submittedAt: row.created_at || data.submittedAt,
-            };
-        });
+        const delegates = (regRows || [])
+            .filter((row: any) => {
+                const data = row.data || {};
+                const status = data.payment_status || row.status;
+                return status !== 'duplicate_cancelled' && status !== 'cancelled' && status !== 'rejected';
+            })
+            .map((row: any) => {
+                const data = row.data || {};
+                const country = data.country || (data.nationality === 'indian' ? 'India' : 'International');
+                return {
+                    id: row.id,
+                    name: data.full_name || data.fullName || 'Registered Delegate',
+                    ticketNumber: data.ticket_number || data.ticketId || `ORP5IC-IND-${row.id.substring(0, 5).toUpperCase()}`,
+                    category: (data.category || 'Delegate').toUpperCase(),
+                    group: 'delegate',
+                    subgroup: data.category || 'Delegate',
+                    country: country.toUpperCase(),
+                    institution: data.institution || data.affiliation || '',
+                    designation: data.designation || '',
+                    photoUrl: data.photo_url || data.photoUrl || data.avatar_url || '',
+                    mode: data.mode || 'physical',
+                    paymentStatus: data.payment_status || 'awaiting_payment',
+                    submittedAt: row.created_at || data.submittedAt,
+                };
+            });
 
         // 2. Fetch Committee Members
         const { data: commPage, error: commErr } = await supabase

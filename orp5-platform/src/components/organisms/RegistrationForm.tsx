@@ -141,6 +141,10 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                 setTimeout(() => {
                     router.push(`/registration/pay?id=${data.ticketId}`);
                 }, 300);
+            } else if (data.isDuplicate && data.redirectUrl) {
+                alert(`${data.error}\n\nRedirecting you to your ticket...`);
+                if (onSuccess) onSuccess();
+                router.push(data.redirectUrl);
             } else {
                 throw new Error(data.error || "Registration failed. Please try again.");
             }

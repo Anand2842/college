@@ -81,35 +81,39 @@ export async function POST(
             .eq('id', id)
             .single();
 
-        // Send email notification
+        // Send email notification (await so serverless environment delivers them)
         if (submission) {
-            const { sendCommentNotificationEmail } = await import('@/lib/email');
+            try {
+                const { sendCommentNotificationEmail } = await import('@/lib/email');
 
-            if (resolvedRole === 'moderator' || resolvedRole === 'admin' || resolvedRole === 'superadmin') {
-                // Notify the author
-                if (submission.email) {
-                    sendCommentNotificationEmail(
-                        submission.email,
-                        submission.author_name || 'Author',
-                        submission.title,
-                        resolvedRole,
-                        message.trim(),
-                        id
-                    ).catch((err: any) => console.error('Failed to send comment email to author:', err));
+                if (resolvedRole === 'moderator' || resolvedRole === 'admin' || resolvedRole === 'superadmin') {
+                    // Notify the author
+                    if (submission.email) {
+                        await sendCommentNotificationEmail(
+                            submission.email,
+                            submission.author_name || 'Author',
+                            submission.title,
+                            resolvedRole,
+                            message.trim(),
+                            id
+                        );
+                    }
+                } else {
+                    // Author replied — notify admin/moderator
+                    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.RESEND_ADMIN_EMAIL || 'orp5admin@gmail.com';
+                    if (adminEmail) {
+                        await sendCommentNotificationEmail(
+                            adminEmail,
+                            'Moderator',
+                            submission.title,
+                            'author',
+                            message.trim(),
+                            id
+                        );
+                    }
                 }
-            } else {
-                // Author replied — notify admin/moderator
-                const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
-                if (adminEmail) {
-                    sendCommentNotificationEmail(
-                        adminEmail,
-                        'Moderator',
-                        submission.title,
-                        'author',
-                        message.trim(),
-                        id
-                    ).catch((err: any) => console.error('Failed to send author reply notification:', err));
-                }
+            } catch (err: any) {
+                console.error('Failed to send comment notification email:', err);
             }
         }
 

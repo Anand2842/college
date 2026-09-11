@@ -209,6 +209,23 @@ export function AttendeeBadge({
             }}
         >
             {/* ============================================================ */}
+            {/* LANYARD SLOT PUNCH GUIDE (Centered on entire 90mm badge)     */}
+            {/* 14 mm × 3.5 mm guide centered at exact 50% (45mm) width      */}
+            {/* ============================================================ */}
+            {config.showSlotGuide && (
+                <div
+                    className="absolute top-1.5 print:top-[2mm] left-1/2 -translate-x-1/2 z-30 pointer-events-none flex items-center justify-center"
+                    title="Lanyard Slot Punch Target (14mm x 3.5mm)"
+                >
+                    <div className="w-[54px] h-[12px] print:w-[14mm] print:h-[3.5mm] rounded-full border border-dashed border-gray-400 bg-white/90 shadow-2xs flex items-center justify-center print:border-gray-400/80 print:bg-transparent">
+                        <span className="no-print text-[5px] font-black text-gray-400 uppercase tracking-widest leading-none select-none">
+                            SLOT PUNCH
+                        </span>
+                    </div>
+                </div>
+            )}
+
+            {/* ============================================================ */}
             {/* 1. LEFT GREEN STRIP (Section 2: Exactly 15 mm wide)          */}
             {/* Width: 15 mm (60px on screen, print:w-[15mm]). Full 135mm ht.*/}
             {/* Secondary Green (#0C513A) + 1mm Gold divider line (#d99b26)   */}
@@ -240,21 +257,9 @@ export function AttendeeBadge({
             <div className="flex-1 print:w-[75mm] h-full flex flex-col justify-between bg-white px-3 pt-1.5 pb-3.5 overflow-hidden relative">
                 
                 {/* ------------------------------------------------------------ */}
-                {/* SECTION 1: Lanyard Slot Zone                                 */}
-                {/* 14 mm × 3.5 mm punch guide isolated on non-printing layer    */}
+                {/* TOP MARGIN / LANYARD CLEARANCE SPACER                        */}
                 {/* ------------------------------------------------------------ */}
-                <div className="w-full flex items-center justify-center shrink-0 pt-0.5 pb-0.5">
-                    {config.showSlotGuide && (
-                        <div
-                            className="w-[54px] h-[12px] print:w-[14mm] print:h-[3.5mm] rounded-full border border-dashed border-gray-400 bg-gray-100/70 flex items-center justify-center print:border-transparent print:bg-transparent"
-                            title="Lanyard Slot Punch Target (14mm x 3.5mm)"
-                        >
-                            <span className="no-print text-[5px] font-black text-gray-400 uppercase tracking-widest leading-none select-none">
-                                SLOT PUNCH
-                            </span>
-                        </div>
-                    )}
-                </div>
+                <div className="w-full h-3 print:h-[3.5mm] shrink-0" />
 
                 {/* ------------------------------------------------------------ */}
                 {/* SECTION 2: Conference Branding Header                        */}

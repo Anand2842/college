@@ -97,26 +97,30 @@ export async function PATCH(
             return NextResponse.json({ error: 'Failed to update registration' }, { status: 500 });
         }
 
-        // Send Email Notification if marked as PAID or REJECTED
+        // Send Email Notification if marked as PAID or REJECTED (await to ensure serverless runtime delivers it)
         if (updatedData.email) {
-            const finalTicketId = updatedData.ticket_number as string;
+            const finalTicketId = (updatedData.ticket_number || updatedData.ticket_id || updatedData.ticketId || id) as string;
 
-            if (payment_status === 'paid') {
-                const { sendRegistrationStatusEmail } = await import('@/lib/email');
-                sendRegistrationStatusEmail(
-                    updatedData.email as string,
-                    (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
-                    finalTicketId,
-                    'paid'
-                ).catch(err => console.error('Failed to send registration email:', err));
-            } else if (payment_status === 'payment_rejected') {
-                const { sendPaymentRejectedEmail } = await import('@/lib/email');
-                sendPaymentRejectedEmail(
-                    updatedData.email as string,
-                    (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
-                    finalTicketId,
-                    admin_verification_note
-                ).catch(err => console.error('Failed to send rejection email:', err));
+            try {
+                if (payment_status === 'paid') {
+                    const { sendRegistrationStatusEmail } = await import('@/lib/email');
+                    await sendRegistrationStatusEmail(
+                        updatedData.email as string,
+                        (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
+                        finalTicketId,
+                        'paid'
+                    );
+                } else if (payment_status === 'payment_rejected') {
+                    const { sendPaymentRejectedEmail } = await import('@/lib/email');
+                    await sendPaymentRejectedEmail(
+                        updatedData.email as string,
+                        (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
+                        finalTicketId,
+                        admin_verification_note
+                    );
+                }
+            } catch (err) {
+                console.error('Failed to send registration status email:', err);
             }
         }
 
