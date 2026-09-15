@@ -132,9 +132,12 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
         {knowledgePartner.length > 0 && (
           <div className="mb-7 sm:mb-10">
             <TierDivider title="Knowledge partner" className="my-2.5 sm:my-4" />
-            <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
               {knowledgePartner.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
+                const isIcar = (partner?.name || "").toLowerCase().includes("icar") || (partner?.shortName || "").toLowerCase().includes("icar") || (partner?.name || "").toLowerCase().includes("iari");
+                const logoSrc = isIcar ? "/images/partners/icar-logo.png" : partner.logoUrl;
+
                 return (
                   <a
                     key={partner.id}
@@ -144,12 +147,12 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     title={partner.name}
                     className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center w-full"
                   >
-                    {partner.logoUrl ? (
-                      <div className="h-14 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
+                    {logoSrc ? (
+                      <div className="h-16 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
                         <img
-                          src={partner.logoUrl}
+                          src={logoSrc}
                           alt={partner.name}
-                          className="max-h-full max-w-full object-contain"
+                          className={`max-h-full max-w-full object-contain ${isIcar ? 'scale-125 md:scale-135 transition-transform duration-300' : ''}`}
                         />
                       </div>
                     ) : (
@@ -171,7 +174,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
         {technicalPartners.length > 0 && (
           <div>
             <TierDivider title="Technical collaborating partners" className="my-2.5 sm:my-4" />
-            <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
               {technicalPartners.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 const isCenturion = partner.name?.toLowerCase().includes('centurion');
@@ -185,7 +188,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center w-full"
                   >
                     {partner.logoUrl ? (
-                      <div className="h-14 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
+                      <div className="h-16 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">
                         <img
                           src={partner.logoUrl}
                           alt={partner.name}

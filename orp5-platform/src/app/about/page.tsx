@@ -303,7 +303,7 @@ export default async function AboutPage() {
             {/* 2. Supported by */}
             {data.supportedBy && data.supportedBy.length > 0 && (
                 <section className="py-16 bg-[#FAF9F5] border-t border-earth-green/10">
-                    <div className="container mx-auto px-6 max-w-4xl">
+                    <div className="container mx-auto px-6 max-w-5xl">
                         <SectionTitle
                             title="Supported by"
                             subtitle="National policy leadership and institutional patronage."
@@ -314,7 +314,7 @@ export default async function AboutPage() {
                                 <div key={sup.id || idx} className="bg-white p-8 md:p-10 rounded-3xl border border-rice-gold/30 shadow-md luxury-card relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start text-center md:text-left">
                                     <div className="absolute top-0 right-0 w-48 h-48 bg-rice-gold/10 rounded-full blur-3xl pointer-events-none" />
                                     {sup.imageUrl && (
-                                        <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
+                                        <div className="w-full md:w-64 lg:w-72 h-24 sm:h-28 shrink-0 flex items-center justify-center bg-[#FAF9F5] rounded-2xl p-4 shadow-inner border border-gray-100">
                                             <img
                                                 src={sup.imageUrl}
                                                 alt={sup.name}
@@ -327,7 +327,7 @@ export default async function AboutPage() {
                                             {sup.name}
                                         </h3>
                                         {sup.shortName && sup.shortName !== sup.name && (
-                                            <span className="inline-block text-xs font-bold uppercase tracking-wider text-rice-gold-dark mb-3">
+                                            <span className="inline-block px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-rice-gold/15 text-rice-gold-dark mb-3">
                                                 {sup.shortName}
                                             </span>
                                         )}
@@ -364,61 +364,68 @@ export default async function AboutPage() {
                             centered
                         />
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-10">
-                            {data.knowledgePartner.map((kp: any, idx: number) => (
-                                <div
-                                    key={kp.id || idx}
-                                    className="bg-[#FAF9F5] p-7 md:p-8 rounded-3xl border border-earth-green/10 flex flex-col justify-between hover:border-earth-green/40 shadow-sm hover:shadow-md transition-all luxury-card group"
-                                >
-                                    <div>
-                                        <div className="flex items-center gap-4 mb-5">
-                                            {kp.imageUrl ? (
-                                                <div className="w-18 h-18 sm:w-20 sm:h-20 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2.5 shadow-sm border border-gray-100">
+                            {data.knowledgePartner.map((kp: any, idx: number) => {
+                                const isIcar = (kp.name || "").toLowerCase().includes("icar") || (kp.shortName || "").toLowerCase().includes("icar") || (kp.name || "").toLowerCase().includes("iari");
+                                const logoSrc = isIcar ? "/images/partners/icar-logo.png" : kp.imageUrl;
+
+                                return (
+                                    <div
+                                        key={kp.id || idx}
+                                        className="bg-[#FAF9F5] p-7 md:p-8 rounded-3xl border border-earth-green/10 flex flex-col justify-between hover:border-earth-green/40 shadow-sm hover:shadow-md transition-all luxury-card group"
+                                    >
+                                        <div>
+                                            {/* Dedicated Logo Showcase Container */}
+                                            <div className="w-full h-28 sm:h-32 bg-white rounded-2xl p-4 sm:p-5 shadow-xs border border-gray-100 flex items-center justify-center mb-6 group-hover:border-earth-green/30 group-hover:shadow-sm transition-all overflow-hidden">
+                                                {logoSrc ? (
                                                     <img
-                                                        src={kp.imageUrl}
+                                                        src={logoSrc}
                                                         alt={kp.name}
-                                                        className="max-w-full max-h-full object-contain"
+                                                        className={`max-w-full max-h-full object-contain ${isIcar ? 'scale-125 md:scale-135 transition-transform' : ''}`}
                                                     />
-                                                </div>
-                                            ) : (
-                                                <div className="w-14 h-14 bg-earth-green/10 rounded-2xl flex items-center justify-center text-earth-green">
-                                                    <Globe2 size={24} />
-                                                </div>
-                                            )}
-                                            <div className="flex-1 min-w-0">
-                                                <h4 className="font-serif font-bold text-base md:text-lg text-charcoal leading-snug">
+                                                ) : (
+                                                    <div className="flex items-center gap-2 text-earth-green font-serif font-bold">
+                                                        <Globe2 size={24} />
+                                                        <span className="text-sm">{kp.shortName || kp.name}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            
+                                            <div className="mb-4">
+                                                <h4 className="font-serif font-bold text-lg md:text-xl text-charcoal leading-snug mb-1.5">
                                                     {kp.name}
                                                 </h4>
                                                 {kp.shortName && (
-                                                    <span className="text-[10px] font-bold uppercase tracking-wider text-earth-green/80 block mt-0.5">
+                                                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-earth-green/10 text-earth-green mt-1">
                                                         {kp.shortName}
                                                     </span>
                                                 )}
                                             </div>
+
+                                            {kp.description && (
+                                                <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light mb-6">
+                                                    {kp.description}
+                                                </p>
+                                            )}
                                         </div>
-                                        {kp.description && (
-                                            <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light mb-6">
-                                                {kp.description}
-                                            </p>
+                                        {kp.website && (
+                                            <a
+                                                href={kp.website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 text-xs font-semibold text-earth-green group-hover:text-rice-gold transition-colors pt-4 border-t border-gray-200/60"
+                                            >
+                                                Visit {kp.shortName || "Website"} <ArrowRight size={13} />
+                                            </a>
                                         )}
                                     </div>
-                                    {kp.website && (
-                                        <a
-                                            href={kp.website}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-earth-green group-hover:text-rice-gold transition-colors pt-4 border-t border-gray-200/60"
-                                        >
-                                            Visit {kp.shortName || "Website"} <ArrowRight size={13} />
-                                        </a>
-                                    )}
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* 3. Technical Collaborating Partners */}
+            {/* 4. Technical Collaborating Partners */}
             {((data.technicalPartners && data.technicalPartners.length > 0) || (data.partners && data.partners.length > 0)) && (
                 <section className="py-16 bg-white border-t border-gray-200/60">
                     <div className="container mx-auto px-6 max-w-6xl">
@@ -428,7 +435,6 @@ export default async function AboutPage() {
                             centered
                         />
 
-
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-10">
                             {(data.technicalPartners || data.partners).map((partner: any, idx: number) => (
                                 <div
@@ -436,37 +442,41 @@ export default async function AboutPage() {
                                     className="bg-[#FAF9F5] p-7 md:p-8 rounded-3xl border border-earth-green/10 flex flex-col justify-between hover:border-rice-gold/50 shadow-sm hover:shadow-md transition-all luxury-card group"
                                 >
                                     <div>
-                                        <div className="flex items-center gap-4 mb-5">
+                                        {/* Dedicated Logo Showcase Container */}
+                                        <div className="w-full h-24 sm:h-28 bg-white rounded-2xl p-4 sm:p-5 shadow-xs border border-gray-100 flex items-center justify-center mb-6 group-hover:border-rice-gold/40 group-hover:shadow-sm transition-all">
                                             {partner.imageUrl ? (
-                                                <div className="w-18 h-18 sm:w-20 sm:h-20 shrink-0 flex items-center justify-center bg-white rounded-2xl p-2 shadow-sm border border-gray-100">
-                                                    <img
-                                                        src={partner.imageUrl}
-                                                        alt={partner.name}
-                                                        className="max-w-full max-h-full object-contain"
-                                                    />
-                                                </div>
+                                                <img
+                                                    src={partner.imageUrl}
+                                                    alt={partner.name}
+                                                    className="max-w-full max-h-full object-contain"
+                                                />
                                             ) : (
-                                                <div className="w-14 h-14 bg-earth-green/10 rounded-2xl flex items-center justify-center text-earth-green">
+                                                <div className="flex items-center gap-2 text-earth-green font-serif font-bold">
                                                     <Globe2 size={24} />
+                                                    <span className="text-sm">{partner.name}</span>
                                                 </div>
                                             )}
-                                            <div className="flex-1">
-                                                <h4 className="font-serif font-bold text-base md:text-lg text-charcoal leading-snug">
-                                                    {partner.name}
-                                                </h4>
-                                                <span className="text-[10px] font-bold uppercase tracking-wider text-earth-green/80 block mt-0.5">
-                                                    Technical Collaborator
-                                                </span>
-                                            </div>
                                         </div>
+
+                                        <div className="mb-4">
+                                            <h4 className="font-serif font-bold text-lg md:text-xl text-charcoal leading-snug mb-1">
+                                                {partner.name}
+                                            </h4>
+                                            <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-earth-green/10 text-earth-green/80 mt-1">
+                                                Technical Collaborator
+                                            </span>
+                                        </div>
+
                                         {partner.subtitle && (
                                             <p className="text-xs font-semibold text-earth-green mb-2">
                                                 {partner.subtitle}
                                             </p>
                                         )}
-                                        <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light mb-6">
-                                            {partner.description}
-                                        </p>
+                                        {partner.description && (
+                                            <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light mb-6">
+                                                {partner.description}
+                                            </p>
+                                        )}
                                     </div>
                                     {partner.website && (
                                         <a
