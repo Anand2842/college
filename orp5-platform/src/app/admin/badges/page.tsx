@@ -542,10 +542,10 @@ export default function AdminBadgesPage() {
                     </div>
                 )}
 
-                {/* Filters & Presets Bar */}
-                <div className="space-y-3">
-                    {/* Row 1: Search & Quick Presets */}
-                    <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+                {/* Filters & Presets Master Bar */}
+                <div className="space-y-4">
+                    {/* Row 1: Search & Quick 1-Click Presets */}
+                    <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
                         <div className="relative flex-1">
                             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                             <input
@@ -553,25 +553,36 @@ export default function AdminBadgesPage() {
                                 placeholder="Search by name, country, category, institution, Ticket ID, or abstract title..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125]"
+                                className="w-full pl-10 pr-9 py-2.5 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white shadow-2xs"
                             />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery("")}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                                >
+                                    <X size={15} />
+                                </button>
+                            )}
                         </div>
 
-                        {/* Quick Filter Presets */}
-                        <div className="flex flex-wrap items-center gap-2">
+                        {/* Quick 1-Click Filter Presets */}
+                        <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+                            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mr-1 hidden sm:inline">
+                                Quick:
+                            </span>
                             <button
                                 onClick={() => {
                                     setModeFilter("physical");
                                     setPaymentFilter("paid");
                                     setAbstractFilter("all");
                                 }}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                                     modeFilter === "physical" && paymentFilter === "paid" && abstractFilter === "all"
-                                        ? "bg-[#123125] text-white shadow-sm"
+                                        ? "bg-[#123125] text-white shadow-sm ring-2 ring-[#123125]/30"
                                         : "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
                                 }`}
                             >
-                                📍 Offline + Paid Badges
+                                📍 Offline + Paid
                             </button>
                             <button
                                 onClick={() => {
@@ -579,116 +590,286 @@ export default function AdminBadgesPage() {
                                     setAbstractFilter("accepted");
                                     setPaymentFilter("all");
                                 }}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                                     modeFilter === "physical" && abstractFilter === "accepted"
-                                        ? "bg-[#123125] text-white shadow-sm"
+                                        ? "bg-purple-900 text-white shadow-sm ring-2 ring-purple-900/30"
                                         : "bg-purple-50 text-purple-800 border border-purple-200 hover:bg-purple-100"
                                 }`}
                             >
-                                ★ Accepted Authors (Offline)
+                                ★ Offline Presenters
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setPaymentFilter("paid");
+                                    setModeFilter("all");
+                                    setAbstractFilter("all");
+                                }}
+                                className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                                    paymentFilter === "paid" && modeFilter === "all" && abstractFilter === "all"
+                                        ? "bg-green-800 text-white shadow-sm"
+                                        : "bg-green-50 text-green-800 border border-green-200 hover:bg-green-100"
+                                }`}
+                            >
+                                💳 Paid
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setPaymentFilter("unpaid");
+                                    setModeFilter("all");
+                                    setAbstractFilter("all");
+                                }}
+                                className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                                    paymentFilter === "unpaid" && modeFilter === "all" && abstractFilter === "all"
+                                        ? "bg-amber-800 text-white shadow-sm"
+                                        : "bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100"
+                                }`}
+                            >
+                                ⏳ Unpaid
                             </button>
                             <button
                                 onClick={() => {
                                     setModeFilter("virtual");
+                                    setPaymentFilter("all");
+                                    setAbstractFilter("all");
                                 }}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
                                     modeFilter === "virtual"
-                                        ? "bg-[#123125] text-white shadow-sm"
+                                        ? "bg-blue-800 text-white shadow-sm"
                                         : "bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100"
                                 }`}
                             >
-                                🌐 Online Only
+                                🌐 Online
                             </button>
                             {(modeFilter !== "all" || paymentFilter !== "all" || abstractFilter !== "all" || categoryFilter !== "all" || searchQuery !== "" || groupFilter !== "all") && (
                                 <button
                                     onClick={clearAllFilters}
-                                    className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-red-600 hover:bg-red-50 border border-red-200 transition"
+                                    className="px-2.5 py-1.5 rounded-xl text-xs font-bold text-red-600 hover:bg-red-50 border border-red-200 transition flex items-center gap-1 cursor-pointer"
                                     title="Reset all filters"
                                 >
-                                    ✕ Reset
+                                    <X size={13} /> Reset
                                 </button>
                             )}
                         </div>
                     </div>
 
-                    {/* Row 2: 4 Core Dropdown Filters */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                        {/* Attendance Mode Filter */}
-                        <div>
-                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
-                                Attendance Mode
-                            </label>
-                            <select
-                                value={modeFilter}
-                                onChange={(e) => setModeFilter(e.target.value)}
-                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
-                            >
-                                <option value="all">All Modes ({filterStats.physical + filterStats.virtual})</option>
-                                <option value="physical">📍 Offline / In-Person ({filterStats.physical})</option>
-                                <option value="virtual">🌐 Online / Virtual ({filterStats.virtual})</option>
-                            </select>
+                    {/* Row 2: Visual Segmented Pill Filters for Instant 1-Click Toggling */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                        {/* 1. Attendance Mode Segment */}
+                        <div className="bg-gray-50/80 p-2.5 rounded-2xl border border-gray-200/80">
+                            <div className="flex items-center justify-between mb-1.5 px-1">
+                                <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider">
+                                    Attendance Mode
+                                </span>
+                                <span className="text-[10px] text-gray-500 font-medium">
+                                    {modeFilter === "physical" ? "Offline only" : modeFilter === "virtual" ? "Online only" : "All modes"}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-1 bg-gray-200/70 p-1 rounded-xl text-xs">
+                                <button
+                                    onClick={() => setModeFilter("all")}
+                                    className={`py-1.5 px-2 rounded-lg font-bold transition text-center cursor-pointer ${
+                                        modeFilter === "all"
+                                            ? "bg-white text-gray-900 shadow-xs"
+                                            : "text-gray-600 hover:text-gray-900"
+                                    }`}
+                                >
+                                    All ({filterStats.physical + filterStats.virtual})
+                                </button>
+                                <button
+                                    onClick={() => setModeFilter("physical")}
+                                    className={`py-1.5 px-2 rounded-lg font-bold transition text-center cursor-pointer flex items-center justify-center gap-1 ${
+                                        modeFilter === "physical"
+                                            ? "bg-[#123125] text-white shadow-xs"
+                                            : "text-gray-700 hover:text-gray-900"
+                                    }`}
+                                >
+                                    📍 Offline ({filterStats.physical})
+                                </button>
+                                <button
+                                    onClick={() => setModeFilter("virtual")}
+                                    className={`py-1.5 px-2 rounded-lg font-bold transition text-center cursor-pointer flex items-center justify-center gap-1 ${
+                                        modeFilter === "virtual"
+                                            ? "bg-blue-700 text-white shadow-xs"
+                                            : "text-gray-700 hover:text-gray-900"
+                                    }`}
+                                >
+                                    🌐 Online ({filterStats.virtual})
+                                </button>
+                            </div>
                         </div>
 
-                        {/* Payment Status Filter */}
-                        <div>
-                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
-                                Payment Status
-                            </label>
-                            <select
-                                value={paymentFilter}
-                                onChange={(e) => setPaymentFilter(e.target.value)}
-                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
-                            >
-                                <option value="all">All Payments ({filterStats.paid + filterStats.unpaid})</option>
-                                <option value="paid">✓ Paid / Confirmed ({filterStats.paid})</option>
-                                <option value="unpaid">⏳ Awaiting Payment / Unpaid ({filterStats.unpaid})</option>
-                            </select>
+                        {/* 2. Payment Status Segment */}
+                        <div className="bg-gray-50/80 p-2.5 rounded-2xl border border-gray-200/80">
+                            <div className="flex items-center justify-between mb-1.5 px-1">
+                                <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider">
+                                    Payment Status
+                                </span>
+                                <span className="text-[10px] text-gray-500 font-medium">
+                                    {paymentFilter === "paid" ? "Paid only" : paymentFilter === "unpaid" ? "Unpaid only" : "All payments"}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-1 bg-gray-200/70 p-1 rounded-xl text-xs">
+                                <button
+                                    onClick={() => setPaymentFilter("all")}
+                                    className={`py-1.5 px-2 rounded-lg font-bold transition text-center cursor-pointer ${
+                                        paymentFilter === "all"
+                                            ? "bg-white text-gray-900 shadow-xs"
+                                            : "text-gray-600 hover:text-gray-900"
+                                    }`}
+                                >
+                                    All ({filterStats.paid + filterStats.unpaid})
+                                </button>
+                                <button
+                                    onClick={() => setPaymentFilter("paid")}
+                                    className={`py-1.5 px-2 rounded-lg font-bold transition text-center cursor-pointer flex items-center justify-center gap-1 ${
+                                        paymentFilter === "paid"
+                                            ? "bg-emerald-700 text-white shadow-xs"
+                                            : "text-emerald-800 hover:text-emerald-950"
+                                    }`}
+                                >
+                                    ✓ Paid ({filterStats.paid})
+                                </button>
+                                <button
+                                    onClick={() => setPaymentFilter("unpaid")}
+                                    className={`py-1.5 px-2 rounded-lg font-bold transition text-center cursor-pointer flex items-center justify-center gap-1 ${
+                                        paymentFilter === "unpaid"
+                                            ? "bg-amber-600 text-white shadow-xs"
+                                            : "text-amber-800 hover:text-amber-950"
+                                    }`}
+                                >
+                                    ⏳ Unpaid ({filterStats.unpaid})
+                                </button>
+                            </div>
                         </div>
 
-                        {/* Abstract Status Filter */}
-                        <div>
-                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
-                                Abstract Status
-                            </label>
-                            <select
-                                value={abstractFilter}
-                                onChange={(e) => setAbstractFilter(e.target.value)}
-                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
-                            >
-                                <option value="all">All (Abstract & Non-Abstract)</option>
-                                <option value="accepted">★ Abstract Accepted ({filterStats.absAccepted})</option>
-                                <option value="submitted">📝 Abstract Submitted ({filterStats.absSubmitted})</option>
-                                <option value="none">No Abstract ({filterStats.noAbstract})</option>
-                            </select>
-                        </div>
-
-                        {/* Category Filter */}
-                        <div>
-                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
-                                Category
-                            </label>
-                            <select
-                                value={categoryFilter}
-                                onChange={(e) => handleCategoryChange(e.target.value)}
-                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
-                            >
-                                <option value="all">All Categories ({attendees.filter(a => groupFilter === "all" || a.group === groupFilter).length})</option>
-                                {availableCategories.filter(c => c !== "all").map((cat) => (
-                                    <option key={cat} value={cat}>
-                                        {cat} ({categoryCounts[cat] || 0})
-                                    </option>
-                                ))}
-                            </select>
+                        {/* 3. Abstract Status Segment */}
+                        <div className="bg-gray-50/80 p-2.5 rounded-2xl border border-gray-200/80">
+                            <div className="flex items-center justify-between mb-1.5 px-1">
+                                <span className="text-[11px] font-bold text-gray-700 uppercase tracking-wider">
+                                    Abstract Status
+                                </span>
+                                <span className="text-[10px] text-gray-500 font-medium">
+                                    {abstractFilter === "accepted" ? "Accepted only" : abstractFilter === "submitted" ? "Submitted" : abstractFilter === "none" ? "No Abstract" : "All"}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-4 gap-1 bg-gray-200/70 p-1 rounded-xl text-[11px]">
+                                <button
+                                    onClick={() => setAbstractFilter("all")}
+                                    className={`py-1.5 px-1 rounded-lg font-bold transition text-center cursor-pointer ${
+                                        abstractFilter === "all"
+                                            ? "bg-white text-gray-900 shadow-xs"
+                                            : "text-gray-600 hover:text-gray-900"
+                                    }`}
+                                >
+                                    All
+                                </button>
+                                <button
+                                    onClick={() => setAbstractFilter("accepted")}
+                                    className={`py-1.5 px-1 rounded-lg font-bold transition text-center cursor-pointer ${
+                                        abstractFilter === "accepted"
+                                            ? "bg-purple-800 text-white shadow-xs"
+                                            : "text-purple-800 hover:text-purple-950"
+                                    }`}
+                                    title="Abstract Accepted"
+                                >
+                                    ★ Accepted ({filterStats.absAccepted})
+                                </button>
+                                <button
+                                    onClick={() => setAbstractFilter("submitted")}
+                                    className={`py-1.5 px-1 rounded-lg font-bold transition text-center cursor-pointer ${
+                                        abstractFilter === "submitted"
+                                            ? "bg-indigo-800 text-white shadow-xs"
+                                            : "text-indigo-800 hover:text-indigo-950"
+                                    }`}
+                                    title="Abstract Submitted"
+                                >
+                                    📝 Sub ({filterStats.absSubmitted})
+                                </button>
+                                <button
+                                    onClick={() => setAbstractFilter("none")}
+                                    className={`py-1.5 px-1 rounded-lg font-bold transition text-center cursor-pointer ${
+                                        abstractFilter === "none"
+                                            ? "bg-gray-800 text-white shadow-xs"
+                                            : "text-gray-600 hover:text-gray-900"
+                                    }`}
+                                    title="No Abstract"
+                                >
+                                    None ({filterStats.noAbstract})
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Row 3: Display Elements Toggles */}
+                    {/* Active Filter Chips / Badges Row (Shows exactly what is filtered with 1-click removal) */}
+                    {(modeFilter !== "all" || paymentFilter !== "all" || abstractFilter !== "all" || categoryFilter !== "all" || searchQuery !== "" || groupFilter !== "all") && (
+                        <div className="flex flex-wrap items-center gap-2 p-2 bg-emerald-50/50 border border-emerald-100 rounded-xl text-xs">
+                            <span className="font-bold text-emerald-900 text-[11px] uppercase tracking-wider flex items-center gap-1">
+                                <Filter size={12} /> Active Filters:
+                            </span>
+                            {modeFilter !== "all" && (
+                                <span className="inline-flex items-center gap-1 bg-white border border-emerald-300 text-emerald-900 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                                    Mode: {modeFilter === "physical" ? "📍 Offline" : "🌐 Online"}
+                                    <button onClick={() => setModeFilter("all")} className="hover:text-red-600 cursor-pointer ml-0.5">
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            )}
+                            {paymentFilter !== "all" && (
+                                <span className="inline-flex items-center gap-1 bg-white border border-green-300 text-green-900 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                                    Payment: {paymentFilter === "paid" ? "✓ Paid" : "⏳ Unpaid"}
+                                    <button onClick={() => setPaymentFilter("all")} className="hover:text-red-600 cursor-pointer ml-0.5">
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            )}
+                            {abstractFilter !== "all" && (
+                                <span className="inline-flex items-center gap-1 bg-white border border-purple-300 text-purple-900 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                                    Abstract: {abstractFilter === "accepted" ? "★ Accepted" : abstractFilter === "submitted" ? "📝 Submitted" : "None"}
+                                    <button onClick={() => setAbstractFilter("all")} className="hover:text-red-600 cursor-pointer ml-0.5">
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            )}
+                            {categoryFilter !== "all" && (
+                                <span className="inline-flex items-center gap-1 bg-white border border-[#d99b26]/50 text-gray-900 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                                    Category: {categoryFilter}
+                                    <button onClick={() => setCategoryFilter("all")} className="hover:text-red-600 cursor-pointer ml-0.5">
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            )}
+                            {groupFilter !== "all" && (
+                                <span className="inline-flex items-center gap-1 bg-white border border-blue-300 text-blue-900 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                                    Group: {groupFilter}
+                                    <button onClick={() => setGroupFilter("all")} className="hover:text-red-600 cursor-pointer ml-0.5">
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            )}
+                            {searchQuery && (
+                                <span className="inline-flex items-center gap-1 bg-white border border-gray-300 text-gray-800 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                                    Search: &ldquo;{searchQuery}&rdquo;
+                                    <button onClick={() => setSearchQuery("")} className="hover:text-red-600 cursor-pointer ml-0.5">
+                                        <X size={12} />
+                                    </button>
+                                </span>
+                            )}
+                            <button
+                                onClick={clearAllFilters}
+                                className="text-red-600 font-bold hover:underline cursor-pointer ml-auto text-[11px]"
+                            >
+                                Clear All Filters
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Row 4: Display Elements Toggles */}
                     <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
                         <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Badge Elements:</span>
                         <div className="flex flex-wrap items-center gap-2">
                             <button
                                 onClick={() => setSettings((s) => ({ ...s, showCountry: !s.showCountry }))}
-                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center cursor-pointer ${
                                     settings.showCountry ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
                                 }`}
                             >
@@ -696,7 +877,7 @@ export default function AdminBadgesPage() {
                             </button>
                             <button
                                 onClick={() => setSettings((s) => ({ ...s, showInstitution: !s.showInstitution }))}
-                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center cursor-pointer ${
                                     settings.showInstitution ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
                                 }`}
                             >
@@ -704,7 +885,7 @@ export default function AdminBadgesPage() {
                             </button>
                             <button
                                 onClick={() => setSettings((s) => ({ ...s, showOrganizers: !s.showOrganizers }))}
-                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center cursor-pointer ${
                                     settings.showOrganizers ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
                                 }`}
                             >
@@ -712,7 +893,7 @@ export default function AdminBadgesPage() {
                             </button>
                             <button
                                 onClick={() => setSettings((s) => ({ ...s, showSlotGuide: !s.showSlotGuide }))}
-                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center cursor-pointer ${
                                     settings.showSlotGuide ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
                                 }`}
                                 title="Lanyard Slot Punch Production Guide"

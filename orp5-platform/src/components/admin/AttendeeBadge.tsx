@@ -125,6 +125,102 @@ export function normalizeBadgeCategory(raw?: string): string {
     return upper;
 }
 
+export interface CategoryBandStyle {
+    bg: string;
+    border: string;
+    textColor: string;
+}
+
+export function getCategoryBandStyle(categoryStr?: string, group?: string): CategoryBandStyle {
+    const norm = normalizeBadgeCategory(categoryStr);
+    
+    switch (norm) {
+        case "STUDENT":
+            return {
+                bg: "#1D4ED8", // Vibrant Royal Blue
+                border: "#F59E0B",
+                textColor: "#FFFFFF",
+            };
+        case "RESEARCH SCHOLAR":
+            return {
+                bg: "#4338CA", // Deep Indigo / Iris
+                border: "#F59E0B",
+                textColor: "#FFFFFF",
+            };
+        case "SCIENTIST":
+            return {
+                bg: "#065F46", // Emerald Green
+                border: "#d99b26",
+                textColor: "#FFFFFF",
+            };
+        case "INVITED SPEAKER":
+            return {
+                bg: "#6B21A8", // Regal Royal Purple
+                border: "#FBBF24",
+                textColor: "#FFFFFF",
+            };
+        case "ORGANIZING COMMITTEE":
+            return {
+                bg: "#0F172A", // Executive Midnight Navy
+                border: "#F59E0B",
+                textColor: "#FFFFFF",
+            };
+        case "PROFESSIONAL":
+            return {
+                bg: "#991B1B", // Rich Crimson / Maroon
+                border: "#F59E0B",
+                textColor: "#FFFFFF",
+            };
+        case "INNOVATIVE FARMER":
+            return {
+                bg: "#B45309", // Warm Amber / Ochre
+                border: "#FDE68A",
+                textColor: "#FFFFFF",
+            };
+        case "VOLUNTEER":
+            return {
+                bg: "#C2410C", // Vibrant Tangerine Orange
+                border: "#FFEDD5",
+                textColor: "#FFFFFF",
+            };
+        case "VIP":
+        case "GUEST OF HONOUR":
+            return {
+                bg: "#831843", // Imperial Ruby
+                border: "#FCD34D",
+                textColor: "#FFFFFF",
+            };
+        case "DELEGATE":
+        default:
+            if (group === "speaker") {
+                return {
+                    bg: "#6B21A8",
+                    border: "#FBBF24",
+                    textColor: "#FFFFFF",
+                };
+            }
+            if (group === "committee") {
+                return {
+                    bg: "#0F172A",
+                    border: "#F59E0B",
+                    textColor: "#FFFFFF",
+                };
+            }
+            if (group === "volunteer") {
+                return {
+                    bg: "#C2410C",
+                    border: "#FFEDD5",
+                    textColor: "#FFFFFF",
+                };
+            }
+            return {
+                bg: "#0C513A", // Classic ORP-5 Master Green
+                border: "#d99b26",
+                textColor: "#FFFFFF",
+            };
+    }
+}
+
 /**
  * Section 8: Name typography rules (Fixed container 68–70 mm wide x 9 mm high)
  *
@@ -187,6 +283,7 @@ export function AttendeeBadge({
 
     const flagEmoji = getCountryFlag(country);
     const nameStyles = useMemo(() => getNameTypographyStyles(name), [name]);
+    const bandStyle = useMemo(() => getCategoryBandStyle(attendee.category, attendee.group), [attendee.category, attendee.group]);
 
     // Optional photo dimension
     const photoDimension = config.photoSize === "sm" ? 64 : config.photoSize === "lg" ? 84 : 74;
@@ -229,22 +326,24 @@ export function AttendeeBadge({
             )}
 
             {/* ============================================================ */}
-            {/* 1. LEFT GREEN STRIP (Section 2: Exactly 15 mm wide)          */}
+            {/* 1. LEFT CATEGORY COLOR BAND (Section 2: Exactly 15 mm wide)  */}
             {/* Width: 15 mm (60px on screen, print:w-[15mm]). Full 135mm ht.*/}
-            {/* Secondary Green (#0C513A) + 1mm Gold divider line (#d99b26)   */}
+            {/* Role-specific color + accent divider line                    */}
             {/* ============================================================ */}
             <div
-                className="w-[60px] print:w-[15mm] border-r-[1.5px] border-[#d99b26] flex items-center justify-center relative select-none shrink-0 overflow-hidden"
+                className="w-[60px] print:w-[15mm] border-r-[1.5px] flex items-center justify-center relative select-none shrink-0 overflow-hidden"
                 style={{
-                    backgroundColor: "#0C513A",
+                    backgroundColor: bandStyle.bg,
+                    borderColor: bandStyle.border,
                 }}
             >
                 <div
                     className={cn(
-                        "text-white font-black uppercase whitespace-nowrap",
+                        "font-black uppercase whitespace-nowrap",
                         sideCategoryClass
                     )}
                     style={{
+                        color: bandStyle.textColor,
                         writingMode: "vertical-rl",
                         transform: "rotate(180deg)",
                     }}
@@ -448,33 +547,48 @@ export function AttendeeBadge({
                             <div className="h-[1px] bg-gray-300 flex-1 max-w-[45px]" />
                         </div>
 
-                        {/* Clean Three-Logo Lockup (Zero borders, zero dividers) */}
-                        <div className="flex items-center justify-between w-full max-w-[270px] px-2">
+                        {/* Clean Three-Logo Lockup with Labels (AIASA, UAS Raichur, IPB University) */}
+                        <div className="grid grid-cols-3 gap-1.5 w-full max-w-[276px] px-1">
                             {/* Logo 1: AIASA */}
-                            <div className="flex-1 flex items-center justify-center h-[58px]">
-                                <img
-                                    src="/images/partners/aiasa-logo.png"
-                                    alt="AIASA"
-                                    className="max-h-[58px] max-w-[76px] object-contain"
-                                />
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="h-[44px] flex items-center justify-center">
+                                    <img
+                                        src="/images/partners/aiasa-logo.png"
+                                        alt="AIASA"
+                                        className="max-h-[44px] max-w-[62px] object-contain"
+                                    />
+                                </div>
+                                <span className="text-[8.5px] font-bold text-gray-900 tracking-tight mt-1 text-center leading-none whitespace-nowrap">
+                                    AIASA
+                                </span>
                             </div>
 
                             {/* Logo 2: UAS Raichur */}
-                            <div className="flex-1 flex items-center justify-center h-[58px]">
-                                <img
-                                    src="/images/partners/uas-raichur-logo.png"
-                                    alt="UAS Raichur"
-                                    className="max-h-[58px] max-w-[76px] object-contain"
-                                />
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="h-[44px] flex items-center justify-center">
+                                    <img
+                                        src="/images/partners/uas-raichur-logo.png"
+                                        alt="UAS Raichur"
+                                        className="max-h-[44px] max-w-[62px] object-contain"
+                                    />
+                                </div>
+                                <span className="text-[8.5px] font-bold text-gray-900 tracking-tight mt-1 text-center leading-none whitespace-nowrap">
+                                    UAS Raichur
+                                </span>
                             </div>
 
                             {/* Logo 3: IPB University */}
-                            <div className="flex-1 flex items-center justify-center h-[58px]">
-                                <img
-                                    src="/images/partners/ipb-university.png"
-                                    alt="IPB University"
-                                    className="max-h-[48px] max-w-[64px] object-contain"
-                                />
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="h-[44px] flex items-center justify-center">
+                                    <img
+                                        src="/images/partners/ipb-university.png"
+                                        alt="IPB University"
+                                        className="max-h-[44px] max-w-[62px] object-contain"
+                                    />
+                                </div>
+                                <span className="text-[8.5px] font-bold text-gray-900 tracking-tight mt-1 text-center leading-none whitespace-nowrap">
+                                    IPB University
+                                </span>
                             </div>
                         </div>
                     </div>
