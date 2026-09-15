@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { CheckCircle, XCircle, Loader2, RefreshCw, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/atoms/Button';
@@ -69,10 +70,22 @@ export default function AdminScannerPage() {
         <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4">
             <div className="w-full max-w-md bg-white rounded-xl shadow-md overflow-hidden">
                 <div className="bg-[#123125] p-4 text-white flex justify-between items-center">
-                    <h1 className="font-bold text-lg">Ticket Scanner</h1>
-                    <Button variant="ghost" size="sm" onClick={resetScan} className="text-white hover:bg-white/10 h-8 w-8 p-0">
-                        <RefreshCw size={16} />
-                    </Button>
+                    <div>
+                        <h1 className="font-bold text-lg leading-tight">Ticket Scanner</h1>
+                        <p className="text-[11px] text-gray-300">Official Delegate Verification</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Link
+                            href="/scan"
+                            className="text-[11px] font-bold bg-[#d99b26] text-black px-2.5 py-1 rounded-lg hover:bg-amber-400 transition"
+                            title="Open Fullscreen Scanner without Admin Sidebar"
+                        >
+                            📱 Fullscreen App
+                        </Link>
+                        <Button variant="ghost" size="sm" onClick={resetScan} className="text-white hover:bg-white/10 h-8 w-8 p-0">
+                            <RefreshCw size={16} />
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Scanner Area */}
@@ -85,7 +98,7 @@ export default function AdminScannerPage() {
                                 styles={{ container: { width: '100%', height: '300px' } }}
                                 components={{ finder: true }}
                             />
-                            <div className="absolute bottom-4 left-0 right-0 text-center text-white/80 text-xs">
+                            <div className="absolute bottom-4 left-0 right-0 text-center text-white/80 text-xs pointer-events-none">
                                 Point camera at QR Code
                             </div>
                         </div>
@@ -95,23 +108,43 @@ export default function AdminScannerPage() {
                                 <Loader2 className="animate-spin text-earth-green mb-4" size={48} />
                             )}
 
-                            {verificationStatus === 'success' && (
-                                <div className="text-center">
-                                    <div className="bg-green-100 p-4 rounded-full inline-block mb-4">
-                                        <CheckCircle className="text-green-600" size={48} />
-                                    </div>
-                                    <h2 className="text-2xl font-bold text-green-700 mb-1">VERIFIED</h2>
-                                    <p className="text-sm text-gray-500">Access Granted</p>
-                                </div>
+                            {verificationStatus === 'success' && registrant && (
+                                (() => {
+                                    const isPaidConfirmed = registrant.isPaid || 
+                                                           registrant.paymentStatus?.toLowerCase().includes('paid') || 
+                                                           registrant.paymentStatus?.toLowerCase().includes('confirmed') || 
+                                                           registrant.paymentStatus?.toLowerCase().includes('official') || 
+                                                           registrant.paymentStatus?.toLowerCase().includes('exempt');
+
+                                    return isPaidConfirmed ? (
+                                        <div className="text-center">
+                                            <div className="bg-emerald-100 text-emerald-600 p-3.5 rounded-full inline-block mb-3 shadow-xs">
+                                                <CheckCircle size={44} />
+                                            </div>
+                                            <h2 className="text-2xl font-black text-emerald-800 mb-0.5 uppercase tracking-tight">VERIFIED & CONFIRMED</h2>
+                                            <p className="text-xs text-emerald-700 font-semibold">Access Granted &bull; Credentials Valid</p>
+                                        </div>
+                                    ) : (
+                                        <div className="text-center">
+                                            <div className="bg-amber-100 text-amber-700 p-3.5 rounded-full inline-block mb-3 shadow-xs">
+                                                <AlertTriangle size={44} />
+                                            </div>
+                                            <h2 className="text-xl font-black text-amber-900 mb-0.5 uppercase tracking-tight">PAYMENT PENDING / UNPAID</h2>
+                                            <p className="text-xs text-amber-800 font-bold bg-amber-200/70 px-3 py-1 rounded-full inline-block mt-1">
+                                                ⚠️ Collect Payment at Registration Desk
+                                            </p>
+                                        </div>
+                                    );
+                                })()
                             )}
 
                             {verificationStatus === 'error' && (
                                 <div className="text-center">
-                                    <div className="bg-red-100 p-4 rounded-full inline-block mb-4">
-                                        <XCircle className="text-red-600" size={48} />
+                                    <div className="bg-red-100 text-red-600 p-3.5 rounded-full inline-block mb-3">
+                                        <XCircle size={44} />
                                     </div>
-                                    <h2 className="text-2xl font-bold text-red-700 mb-1">INVALID</h2>
-                                    <p className="text-sm text-gray-500">{errorMsg}</p>
+                                    <h2 className="text-2xl font-bold text-red-700 mb-1">INVALID TICKET</h2>
+                                    <p className="text-xs text-gray-600 max-w-xs">{errorMsg}</p>
                                 </div>
                             )}
                         </div>
@@ -122,23 +155,53 @@ export default function AdminScannerPage() {
                 <div className="p-6">
                     {verificationStatus === 'success' && registrant ? (
                         <div className="space-y-4">
-                            <div className="border-b border-gray-100 pb-4">
-                                <label className="text-xs text-gray-400 uppercase font-bold">Name</label>
-                                <p className="text-xl font-bold text-charcoal">{registrant.name}</p>
+                            <div className="border-b border-gray-100 pb-3">
+                                <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Attendee Name</label>
+                                <p className="text-xl font-black text-[#123125]">{registrant.name}</p>
+                                {registrant.designation && (
+                                    <p className="text-xs text-gray-500 font-medium">{registrant.designation}</p>
+                                )}
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="text-xs text-gray-400 uppercase font-bold">Category</label>
-                                    <p className="font-medium text-gray-800">{registrant.category}</p>
+
+                            <div className="grid grid-cols-2 gap-3 text-xs">
+                                <div className="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                    <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider block">Category</label>
+                                    <p className="font-bold text-[#123125] mt-0.5">{registrant.category}</p>
                                 </div>
-                                <div>
-                                    <label className="text-xs text-gray-400 uppercase font-bold">Ticket ID</label>
-                                    <p className="font-mono text-sm text-gray-600 truncate" title={registrant.ticketId}>{registrant.ticketId}</p>
+                                <div className="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                    <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider block">Ticket ID</label>
+                                    <p className="font-mono font-bold text-gray-700 mt-0.5 break-all" title={registrant.ticketId}>{registrant.ticketId}</p>
+                                </div>
+                                <div className="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                    <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider block">Mode</label>
+                                    <p className="font-bold text-gray-800 mt-0.5">{registrant.mode || 'In-Person'}</p>
+                                </div>
+                                <div className="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                    <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider block">Payment Status</label>
+                                    <p className={`font-bold mt-0.5 ${registrant.isPaid || registrant.paymentStatus?.includes('Paid') || registrant.paymentStatus?.includes('Official') ? 'text-green-700' : 'text-amber-700'}`}>
+                                        {registrant.paymentStatus || 'Awaiting Payment'}
+                                    </p>
                                 </div>
                             </div>
 
-                            <Button onClick={resetScan} className="w-full bg-[#123125] text-white hover:bg-[#1a4534] mt-4">
-                                Scan Next
+                            {registrant.institution && (
+                                <div className="bg-gray-50 p-2.5 rounded-xl border border-gray-100 text-xs">
+                                    <label className="text-[10px] text-gray-400 uppercase font-bold tracking-wider block">Institution / Affiliation</label>
+                                    <p className="font-medium text-gray-700 mt-0.5">{registrant.institution}</p>
+                                </div>
+                            )}
+
+                            {registrant.hasAbstract && (
+                                <div className="bg-purple-50 p-2.5 rounded-xl border border-purple-200 text-xs">
+                                    <label className="text-[10px] text-purple-900 uppercase font-bold tracking-wider block">
+                                        Research Abstract ({registrant.abstractStatus === 'accepted' ? '★ Accepted Presenter' : '📝 Submitted'})
+                                    </label>
+                                    <p className="font-medium text-purple-950 mt-0.5 italic">{registrant.abstractTitle}</p>
+                                </div>
+                            )}
+
+                            <Button onClick={resetScan} className="w-full bg-[#123125] text-white hover:bg-[#1a4534] mt-2 font-bold shadow-md cursor-pointer">
+                                Scan Next Badge
                             </Button>
                         </div>
                     ) : (
