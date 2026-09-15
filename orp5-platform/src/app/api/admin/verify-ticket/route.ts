@@ -41,18 +41,22 @@ export async function POST(request: Request) {
                 const tNum = (data.ticket_number || data.ticketId || data.ticket_id || '').toUpperCase().trim();
                 const tClean = tNum.replace(/[^A-Z0-9]/g, '');
 
-                // Match exact ticket number
-                if (tNum && (tNum === ticketId.toUpperCase() || tClean === cleanQuery)) return true;
-
-                // Match full UUID
-                if (row.id && (row.id.toLowerCase() === ticketId.toLowerCase() || row.id.replace(/-/g, '').toUpperCase() === cleanQuery)) return true;
-
-                // Match prefix (e.g. ORP5IC-IND-38762 generated from 38762 prefix of row.id)
-                const idPrefix5 = row.id.substring(0, 5).toUpperCase();
-                const idPrefix8 = row.id.substring(0, 8).toUpperCase();
-                if (ticketId.toUpperCase().includes(idPrefix5) || cleanQuery.includes(idPrefix5) || cleanQuery.includes(idPrefix8)) {
-                    return true;
+                // Match exact ticket number or numeric/clean suffix
+                if (tNum) {
+                    if (tNum === ticketId.toUpperCase() || tClean === cleanQuery) return true;
+                    if (cleanQuery.length >= 4 && (tClean.includes(cleanQuery) || cleanQuery.includes(tClean))) return true;
                 }
+
+                // Match full UUID or UUID prefix
+                if (row.id) {
+                    const rowIdClean = row.id.replace(/-/g, '').toUpperCase();
+                    if (row.id.toLowerCase() === ticketId.toLowerCase() || rowIdClean === cleanQuery) return true;
+                    if (cleanQuery.length >= 5 && (rowIdClean.startsWith(cleanQuery) || cleanQuery.includes(row.id.substring(0, 5).toUpperCase()))) return true;
+                }
+
+                // Match attendee name
+                const fullName = (data.full_name || data.fullName || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+                if (cleanQuery.length >= 5 && fullName.includes(cleanQuery)) return true;
 
                 return false;
             });
@@ -132,44 +136,215 @@ export async function POST(request: Request) {
             }
         }
 
-        // 3. Fallback: Search in Committees page if it's a committee badge (e.g. ORP5IC-COM-001)
-        if (ticketId.toUpperCase().includes('COM-') || ticketId.toUpperCase().includes('COMMITTEE')) {
-            const { data: commPage } = await supabase
-                .from('Page')
-                .select('content')
-                .eq('slug', 'committees')
-                .maybeSingle();
+        // 3. Check Committees & Organizing Secretariat (slug: 'committees')
+        const { data: commPage } = await supabase
+            .from('Page')
+            .select('content')
+            .eq('slug', 'committees')
+            .maybeSingle();
 
-            const committeeContent = commPage?.content || {};
-            if (Array.isArray(committeeContent.committees)) {
-                let comCounter = 1;
-                for (const cm of committeeContent.committees) {
-                    const groupLabel = cm.label || 'Committee Member';
-                    if (Array.isArray(cm.members)) {
-                        for (const m of cm.members) {
-                            const paddedId = String(comCounter++).padStart(3, '0');
-                            const comTicket = `ORP5IC-COM-${paddedId}`;
-                            if (ticketId.toUpperCase().includes(paddedId) || ticketId.toUpperCase() === comTicket) {
-                                return NextResponse.json({
-                                    valid: true,
-                                    registrant: {
-                                        id: m.id || `comm-${paddedId}`,
-                                        name: m.name || 'Committee Member',
-                                        category: groupLabel.toUpperCase(),
-                                        ticketId: comTicket,
-                                        mode: 'In-Person (Physical)',
-                                        institution: m.affiliation || m.designation || '',
-                                        country: (m.country || 'India').toUpperCase(),
-                                        designation: m.designation || '',
-                                        paymentStatus: 'Exempt / Official',
-                                        status: 'Organizing Committee',
-                                    }
-                                });
-                            }
-                        }
-                    }
+        const committeeContent = commPage?.content || {};
+        const committeeList: any[] = [];
+        let comCounter = 1;
+
+        if (Array.isArray(committeeContent.committees)) {
+            committeeContent.committees.forEach((cm: any) => {
+                const groupLabel = cm.label || 'Committee Member';
+                if (Array.isArray(cm.members)) {
+                    cm.members.forEach((m: any) => {
+                        const paddedId = String(comCounter++).padStart(3, '0');
+                        committeeList.push({
+                            id: m.id || `comm-${paddedId}`,
+                            ticketNumber: `ORP5IC-COM-${paddedId}`,
+                            paddedId,
+                            name: m.name || 'Committee Member',
+                            category: groupLabel.toUpperCase(),
+                            designation: m.role || '',
+                            institution: m.affiliation || '',
+                            country: (m.country || 'India').toUpperCase(),
+                            photoUrl: m.imageUrl || '',
+                        });
+                    });
                 }
-            }
+            });
+        }
+
+        if (Array.isArray(committeeContent.contacts)) {
+            committeeContent.contacts.forEach((c: any) => {
+                const paddedId = String(comCounter++).padStart(3, '0');
+                committeeList.push({
+                    id: c.id || `contact-${paddedId}`,
+                    ticketNumber: `ORP5IC-COM-${paddedId}`,
+                    paddedId,
+                    name: c.name || 'Organizing Secretariat',
+                    category: 'ORGANIZING SECRETARIAT',
+                    designation: c.role || 'Secretariat',
+                    institution: 'ORP-5 Organizing Committee',
+                    country: 'INDIA',
+                    photoUrl: c.imageUrl || '',
+                });
+            });
+        }
+
+        // Match against committee & secretariat
+        const cleanQuery = ticketId.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const matchedComm = committeeList.find(c => {
+            const tNum = c.ticketNumber.toUpperCase();
+            const tClean = tNum.replace(/[^A-Z0-9]/g, '');
+            const idClean = c.id.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            const nameClean = c.name.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+            return tNum === ticketId.toUpperCase() ||
+                   tClean === cleanQuery ||
+                   cleanQuery === `COM${c.paddedId}` ||
+                   cleanQuery.includes(`COM${c.paddedId}`) ||
+                   idClean === cleanQuery ||
+                   (cleanQuery.length > 4 && nameClean.includes(cleanQuery));
+        });
+
+        if (matchedComm) {
+            return NextResponse.json({
+                valid: true,
+                registrant: {
+                    id: matchedComm.id,
+                    name: matchedComm.name,
+                    category: matchedComm.category,
+                    ticketId: matchedComm.ticketNumber,
+                    mode: 'In-Person (Physical)',
+                    institution: matchedComm.institution || 'Organizing Committee',
+                    country: matchedComm.country,
+                    designation: matchedComm.designation,
+                    photoUrl: matchedComm.photoUrl,
+                    isPaid: true,
+                    paymentStatus: 'Official / VIP Pass',
+                    status: 'Active',
+                }
+            });
+        }
+
+        // 4. Check Speakers (Keynote, Invited, Panel) (slug: 'speakers')
+        const { data: spkPage } = await supabase
+            .from('Page')
+            .select('content')
+            .eq('slug', 'speakers')
+            .maybeSingle();
+
+        const spkContent = spkPage?.content || {};
+        const speakerList: any[] = [];
+        let spkCounter = 1;
+
+        const allSpkList = [
+            ...(spkContent.keynotes || []).map((s: any) => ({ ...s, speakerType: 'Keynote Speaker' })),
+            ...(spkContent.invited || []).map((s: any) => ({ ...s, speakerType: 'Invited Speaker' })),
+            ...(spkContent.panel || []).map((s: any) => ({ ...s, speakerType: 'Panel Speaker' })),
+        ];
+
+        allSpkList.forEach((s: any) => {
+            const paddedId = String(spkCounter++).padStart(3, '0');
+            speakerList.push({
+                id: s.id || `spk-${paddedId}`,
+                ticketNumber: `ORP5IC-SPK-${paddedId}`,
+                paddedId,
+                name: s.name || 'Distinguished Speaker',
+                category: (s.speakerType || 'KEYNOTE SPEAKER').toUpperCase(),
+                designation: s.role || 'Speaker',
+                institution: s.institution || '',
+                country: (s.countryCode === 'IN' ? 'India' : (s.country || 'International')).toUpperCase(),
+                photoUrl: s.imageUrl || '',
+            });
+        });
+
+        const matchedSpk = speakerList.find(s => {
+            const tNum = s.ticketNumber.toUpperCase();
+            const tClean = tNum.replace(/[^A-Z0-9]/g, '');
+            const idClean = s.id.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            const nameClean = s.name.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+            return tNum === ticketId.toUpperCase() ||
+                   tClean === cleanQuery ||
+                   cleanQuery === `SPK${s.paddedId}` ||
+                   cleanQuery.includes(`SPK${s.paddedId}`) ||
+                   idClean === cleanQuery ||
+                   (cleanQuery.length > 4 && nameClean.includes(cleanQuery));
+        });
+
+        if (matchedSpk) {
+            return NextResponse.json({
+                valid: true,
+                registrant: {
+                    id: matchedSpk.id,
+                    name: matchedSpk.name,
+                    category: matchedSpk.category,
+                    ticketId: matchedSpk.ticketNumber,
+                    mode: 'In-Person (Physical)',
+                    institution: matchedSpk.institution || 'Invited Faculty',
+                    country: matchedSpk.country,
+                    designation: matchedSpk.designation,
+                    photoUrl: matchedSpk.photoUrl,
+                    isPaid: true,
+                    paymentStatus: 'Official Speaker Pass',
+                    status: 'Active',
+                }
+            });
+        }
+
+        // 5. Check Volunteers
+        const defaultVolunteers = [
+            { name: "Aarav Sharma", country: "INDIA", designation: "Student Coordinator", institution: "Galgotias University" },
+            { name: "Priya Patel", country: "INDIA", designation: "Registration Desk Volunteer", institution: "IARI Pusa" },
+            { name: "Rohan Verma", country: "INDIA", designation: "Audiovisual & Stage Lead", institution: "Centurion University" },
+            { name: "Ananya Gupta", country: "INDIA", designation: "Hospitality Coordinator", institution: "Galgotias University" },
+            { name: "Siddharth Rao", country: "INDIA", designation: "Delegate Assistance Volunteer", institution: "IIFSR Modipuram" },
+            { name: "Sneha Nair", country: "INDIA", designation: "Media & Press Volunteer", institution: "Galgotias University" },
+            { name: "Vikram Malhotra", country: "INDIA", designation: "Logistics & Transport", institution: "IARI Pusa" },
+            { name: "Ishita Sen", country: "INDIA", designation: "Scientific Sessions Aide", institution: "Centurion University" },
+        ].map((v, i) => {
+            const paddedId = String(i + 1).padStart(3, '0');
+            return {
+                id: `vol-${paddedId}`,
+                ticketNumber: `ORP5IC-VOL-${paddedId}`,
+                paddedId,
+                name: v.name,
+                category: 'CONFERENCE VOLUNTEER',
+                designation: v.designation,
+                institution: v.institution,
+                country: v.country,
+                photoUrl: '',
+            };
+        });
+
+        const matchedVol = defaultVolunteers.find(v => {
+            const tNum = v.ticketNumber.toUpperCase();
+            const tClean = tNum.replace(/[^A-Z0-9]/g, '');
+            const idClean = v.id.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            const nameClean = v.name.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+            return tNum === ticketId.toUpperCase() ||
+                   tClean === cleanQuery ||
+                   cleanQuery === `VOL${v.paddedId}` ||
+                   cleanQuery.includes(`VOL${v.paddedId}`) ||
+                   idClean === cleanQuery ||
+                   (cleanQuery.length > 4 && nameClean.includes(cleanQuery));
+        });
+
+        if (matchedVol) {
+            return NextResponse.json({
+                valid: true,
+                registrant: {
+                    id: matchedVol.id,
+                    name: matchedVol.name,
+                    category: matchedVol.category,
+                    ticketId: matchedVol.ticketNumber,
+                    mode: 'In-Person (Physical)',
+                    institution: matchedVol.institution,
+                    country: matchedVol.country,
+                    designation: matchedVol.designation,
+                    photoUrl: matchedVol.photoUrl,
+                    isPaid: true,
+                    paymentStatus: 'Official Volunteer Pass',
+                    status: 'Active',
+                }
+            });
         }
 
         return NextResponse.json({ valid: false, message: `Ticket "${ticketId}" not found in conference records.` }, { status: 404 });
