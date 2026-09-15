@@ -7,13 +7,25 @@ export async function GET() {
     try {
         const supabase = getSupabaseAdmin();
 
-        // 1. Fetch Registered Delegates
-        const { data: regRows, error: regErr } = await supabase
-            .from('registrations')
-            .select('*')
-            .order('created_at', { ascending: false });
+        // 1. Fetch Registered Delegates and Abstracts in parallel
+        const [{ data: regRows, error: regErr }, { data: absRows, error: absErr }] = await Promise.all([
+            supabase.from('registrations').select('*').order('created_at', { ascending: false }),
+            supabase.from('abstracts').select('id, email, phone, user_id, status, title')
+        ]);
 
         if (regErr) console.error("Error fetching registrations:", regErr);
+        if (absErr) console.error("Error fetching abstracts:", absErr);
+
+        // Build quick lookup maps for abstracts
+        const absByEmail = new Map<string, any>();
+        const absByPhone = new Map<string, any>();
+        const absByUser = new Map<string, any>();
+
+        (absRows || []).forEach((a: any) => {
+            if (a.email) absByEmail.set(a.email.trim().toLowerCase(), a);
+            if (a.phone) absByPhone.set(a.phone.trim().replace(/\D/g, ''), a);
+            if (a.user_id) absByUser.set(a.user_id, a);
+        });
 
         const delegates = (regRows || [])
             .filter((row: any) => {
@@ -24,6 +36,21 @@ export async function GET() {
             .map((row: any) => {
                 const data = row.data || {};
                 const country = data.country || (data.nationality === 'indian' ? 'India' : 'International');
+                const rawMode = (data.mode || row.mode || 'physical').toLowerCase();
+                const mode = rawMode.includes('virtual') || rawMode.includes('online') ? 'virtual' : 'physical';
+                
+                const email = (data.email || row.email || '').trim().toLowerCase();
+                const phone = (data.phone || row.phone || data.mobile || '').trim().replace(/\D/g, '');
+                const userId = row.user_id || data.user_id || '';
+
+                const matchedAbs = (email ? absByEmail.get(email) : null) ||
+                                  (phone ? absByPhone.get(phone) : null) ||
+                                  (userId ? absByUser.get(userId) : null);
+
+                const hasAbstract = !!matchedAbs;
+                const abstractStatus = matchedAbs?.status || 'none';
+                const abstractTitle = matchedAbs?.title || '';
+
                 return {
                     id: row.id,
                     name: data.full_name || data.fullName || 'Registered Delegate',
@@ -35,8 +62,11 @@ export async function GET() {
                     institution: data.institution || data.affiliation || '',
                     designation: data.designation || '',
                     photoUrl: data.photo_url || data.photoUrl || data.avatar_url || '',
-                    mode: data.mode || 'physical',
-                    paymentStatus: data.payment_status || 'awaiting_payment',
+                    mode: mode,
+                    paymentStatus: data.payment_status || row.status || 'awaiting_payment',
+                    hasAbstract: hasAbstract,
+                    abstractStatus: abstractStatus,
+                    abstractTitle: abstractTitle,
                     submittedAt: row.created_at || data.submittedAt,
                 };
             });

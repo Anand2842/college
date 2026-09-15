@@ -18,6 +18,9 @@ export interface AttendeeBadgeData {
     photoUrl?: string;
     mode?: string;
     paymentStatus?: string;
+    hasAbstract?: boolean;
+    abstractStatus?: 'accepted' | 'pending' | 'rejected' | 'none' | string;
+    abstractTitle?: string;
 }
 
 export interface BadgeSettings {

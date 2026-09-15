@@ -40,9 +40,12 @@ export default function AdminBadgesPage() {
     // Active Group Filter: "all" | "delegate" | "committee" | "speaker" | "volunteer"
     const [groupFilter, setGroupFilter] = useState<string>("all");
 
-    // Search & Additional Filters
+    // Search & Multi-Dimensional Filters
     const [searchQuery, setSearchQuery] = useState("");
     const [categoryFilter, setCategoryFilter] = useState<string>("all");
+    const [modeFilter, setModeFilter] = useState<string>("all"); // "all" | "physical" | "virtual"
+    const [paymentFilter, setPaymentFilter] = useState<string>("all"); // "all" | "paid" | "unpaid"
+    const [abstractFilter, setAbstractFilter] = useState<string>("all"); // "all" | "accepted" | "submitted" | "none"
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
     // Badge Customization & Photo Settings (Adjustable as requested)
@@ -66,6 +69,10 @@ export default function AdminBadgesPage() {
         institution: "",
         group: "delegate",
         photoUrl: "",
+        mode: "physical",
+        paymentStatus: "paid",
+        hasAbstract: false,
+        abstractStatus: "none",
     });
 
     useEffect(() => {
@@ -99,8 +106,10 @@ export default function AdminBadgesPage() {
                         institution: d.institution || d.affiliation || "",
                         designation: d.designation || "",
                         photoUrl: d.photo_url || "",
-                        mode: d.mode || "physical",
+                        mode: (d.mode || "physical").toLowerCase().includes("virtual") ? "virtual" : "physical",
                         paymentStatus: d.payment_status || "awaiting_payment",
+                        hasAbstract: false,
+                        abstractStatus: "none",
                     }));
 
                     // Master Template Exemplars (Devansh Dogra + Long Name test badges)
@@ -118,6 +127,8 @@ export default function AdminBadgesPage() {
                             photoUrl: "",
                             mode: "physical",
                             paymentStatus: "paid",
+                            hasAbstract: true,
+                            abstractStatus: "accepted",
                         },
                         {
                             id: "exemplar-muhammad",
@@ -132,6 +143,8 @@ export default function AdminBadgesPage() {
                             photoUrl: "",
                             mode: "physical",
                             paymentStatus: "paid",
+                            hasAbstract: true,
+                            abstractStatus: "accepted",
                         },
                         {
                             id: "exemplar-li-wei",
@@ -146,6 +159,8 @@ export default function AdminBadgesPage() {
                             photoUrl: "",
                             mode: "physical",
                             paymentStatus: "paid",
+                            hasAbstract: false,
+                            abstractStatus: "none",
                         },
                     ];
 
@@ -161,14 +176,65 @@ export default function AdminBadgesPage() {
         }
     };
 
-    // Filter attendees
+    // Global counts across filters
+    const filterStats = useMemo(() => {
+        let physical = 0, virtual = 0;
+        let paid = 0, unpaid = 0;
+        let absAccepted = 0, absSubmitted = 0, noAbstract = 0;
+
+        attendees.forEach((a) => {
+            if (groupFilter === "all" || a.group === groupFilter) {
+                // Mode
+                const isVirtual = a.mode === "virtual" || a.mode === "online";
+                if (isVirtual) virtual++;
+                else physical++;
+
+                // Payment
+                const rawPay = (a.paymentStatus || "").toLowerCase();
+                const isPaid = rawPay === "paid" || rawPay === "payment_claimed" || rawPay === "confirmed" || rawPay === "free_pass" || rawPay === "waived" || a.group === "committee" || a.group === "speaker" || a.group === "volunteer";
+                if (isPaid) paid++;
+                else unpaid++;
+
+                // Abstract
+                if (a.abstractStatus === "accepted") absAccepted++;
+                if (a.hasAbstract) absSubmitted++;
+                else noAbstract++;
+            }
+        });
+
+        return { physical, virtual, paid, unpaid, absAccepted, absSubmitted, noAbstract };
+    }, [attendees, groupFilter]);
+
+    // Filter attendees with multi-dimensional criteria
     const filteredAttendees = useMemo(() => {
         return attendees.filter((att) => {
             // Group filter
             if (groupFilter !== "all" && att.group !== groupFilter) return false;
 
             // Category filter
-            if (categoryFilter !== "all" && att.category.toLowerCase() !== categoryFilter.toLowerCase()) return false;
+            if (categoryFilter !== "all" && att.category?.toLowerCase() !== categoryFilter.toLowerCase()) return false;
+
+            // Mode filter: Offline (Physical) vs Online (Virtual)
+            if (modeFilter !== "all") {
+                const isVirtual = att.mode === "virtual" || att.mode === "online";
+                if (modeFilter === "physical" && isVirtual) return false;
+                if (modeFilter === "virtual" && !isVirtual) return false;
+            }
+
+            // Payment filter: Paid vs Unpaid
+            if (paymentFilter !== "all") {
+                const rawPay = (att.paymentStatus || "").toLowerCase();
+                const isPaid = rawPay === "paid" || rawPay === "payment_claimed" || rawPay === "confirmed" || rawPay === "free_pass" || rawPay === "waived" || att.group === "committee" || att.group === "speaker" || att.group === "volunteer";
+                if (paymentFilter === "paid" && !isPaid) return false;
+                if (paymentFilter === "unpaid" && isPaid) return false;
+            }
+
+            // Abstract filter: Accepted vs Submitted vs None
+            if (abstractFilter !== "all") {
+                if (abstractFilter === "accepted" && att.abstractStatus !== "accepted") return false;
+                if (abstractFilter === "submitted" && !att.hasAbstract) return false;
+                if (abstractFilter === "none" && att.hasAbstract) return false;
+            }
 
             // Search query
             if (searchQuery.trim()) {
@@ -178,14 +244,15 @@ export default function AdminBadgesPage() {
                 const inst = (att.institution || "").toLowerCase();
                 const ctry = (att.country || "").toLowerCase();
                 const cat = (att.category || "").toLowerCase();
-                if (!name.includes(q) && !ticket.includes(q) && !inst.includes(q) && !ctry.includes(q) && !cat.includes(q)) {
+                const absTitle = (att.abstractTitle || "").toLowerCase();
+                if (!name.includes(q) && !ticket.includes(q) && !inst.includes(q) && !ctry.includes(q) && !cat.includes(q) && !absTitle.includes(q)) {
                     return false;
                 }
             }
 
             return true;
         });
-    }, [attendees, groupFilter, categoryFilter, searchQuery]);
+    }, [attendees, groupFilter, categoryFilter, modeFilter, paymentFilter, abstractFilter, searchQuery]);
 
     // Cohort Summary Counts
     const stats = useMemo(() => {
@@ -197,16 +264,21 @@ export default function AdminBadgesPage() {
         return { total, delegates, committee, speakers, volunteers };
     }, [attendees]);
 
-    // Categories in the filtered cohort
-    const availableCategories = useMemo(() => {
-        const set = new Set<string>();
+    // Categories in the filtered cohort with count
+    const categoryCounts = useMemo(() => {
+        const counts: Record<string, number> = {};
         attendees.forEach((a) => {
             if (groupFilter === "all" || a.group === groupFilter) {
-                if (a.category) set.add(a.category);
+                const cat = a.category ? a.category.toUpperCase() : "UNASSIGNED";
+                counts[cat] = (counts[cat] || 0) + 1;
             }
         });
-        return ["all", ...Array.from(set)];
+        return counts;
     }, [attendees, groupFilter]);
+
+    const availableCategories = useMemo(() => {
+        return ["all", ...Object.keys(categoryCounts).sort()];
+    }, [categoryCounts]);
 
     // Selection handlers
     const toggleSelect = (id: string) => {
@@ -228,9 +300,47 @@ export default function AdminBadgesPage() {
         setSelectedIds(next);
     };
 
+    const handleGroupChange = (group: string) => {
+        setGroupFilter(group);
+        setCategoryFilter("all");
+        // Ensure attendees in this group are selected for print
+        const next = new Set(selectedIds);
+        attendees.forEach((a) => {
+            if (group === "all" || a.group === group) {
+                next.add(a.id);
+            }
+        });
+        setSelectedIds(next);
+    };
+
+    const handleCategoryChange = (cat: string) => {
+        setCategoryFilter(cat);
+        // Ensure attendees in this category are selected for print
+        const next = new Set(selectedIds);
+        attendees.forEach((a) => {
+            if (groupFilter === "all" || a.group === groupFilter) {
+                if (cat === "all" || a.category.toLowerCase() === cat.toLowerCase()) {
+                    next.add(a.id);
+                }
+            }
+        });
+        setSelectedIds(next);
+    };
+
+    const clearAllFilters = () => {
+        setSearchQuery("");
+        setCategoryFilter("all");
+        setModeFilter("all");
+        setPaymentFilter("all");
+        setAbstractFilter("all");
+        setGroupFilter("all");
+        setSelectedIds(new Set(attendees.map((a) => a.id)));
+    };
+
+    // KEY FIX: selectedAttendees MUST be scoped to filteredAttendees so printing reflects the active category/group/search filters!
     const selectedAttendees = useMemo(() => {
-        return attendees.filter((a) => selectedIds.has(a.id));
-    }, [attendees, selectedIds]);
+        return filteredAttendees.filter((a) => selectedIds.has(a.id));
+    }, [filteredAttendees, selectedIds]);
 
     // Save edited attendee
     const handleSaveEdit = (e: React.FormEvent) => {
@@ -322,9 +432,9 @@ export default function AdminBadgesPage() {
                     <Button
                         onClick={() => window.print()}
                         disabled={selectedAttendees.length === 0}
-                        className="bg-[#123125] hover:bg-[#1a4434] text-white gap-2 font-bold px-6 shadow-lg"
+                        className="bg-[#123125] hover:bg-[#1a4434] text-white gap-2 font-bold px-6 shadow-lg transition-all"
                     >
-                        <Printer size={18} /> Print {selectedAttendees.length} Badges
+                        <Printer size={18} /> Print {selectedAttendees.length} {categoryFilter !== "all" ? `(${categoryFilter})` : groupFilter !== "all" ? `(${groupFilter.toUpperCase()})` : "Badges"}
                     </Button>
                 </div>
             </div>
@@ -343,10 +453,7 @@ export default function AdminBadgesPage() {
                     return (
                         <div
                             key={tab.id}
-                            onClick={() => {
-                                setGroupFilter(tab.id);
-                                setCategoryFilter("all");
-                            }}
+                            onClick={() => handleGroupChange(tab.id)}
                             className={`p-3.5 rounded-2xl border cursor-pointer transition-all ${
                                 isActive
                                     ? "bg-[#123125] text-white shadow-md border-[#123125]"
@@ -435,72 +542,223 @@ export default function AdminBadgesPage() {
                     </div>
                 )}
 
-                {/* Filters, Search & Layout Bar */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    {/* Search */}
-                    <div className="relative md:col-span-2">
-                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                        <input
-                            type="text"
-                            placeholder="Search by name, country, category, institution, or Ticket ID..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125]"
-                        />
+                {/* Filters & Presets Bar */}
+                <div className="space-y-3">
+                    {/* Row 1: Search & Quick Presets */}
+                    <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                            <input
+                                type="text"
+                                placeholder="Search by name, country, category, institution, Ticket ID, or abstract title..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125]"
+                            />
+                        </div>
+
+                        {/* Quick Filter Presets */}
+                        <div className="flex flex-wrap items-center gap-2">
+                            <button
+                                onClick={() => {
+                                    setModeFilter("physical");
+                                    setPaymentFilter("paid");
+                                    setAbstractFilter("all");
+                                }}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                    modeFilter === "physical" && paymentFilter === "paid" && abstractFilter === "all"
+                                        ? "bg-[#123125] text-white shadow-sm"
+                                        : "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+                                }`}
+                            >
+                                📍 Offline + Paid Badges
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setModeFilter("physical");
+                                    setAbstractFilter("accepted");
+                                    setPaymentFilter("all");
+                                }}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                    modeFilter === "physical" && abstractFilter === "accepted"
+                                        ? "bg-[#123125] text-white shadow-sm"
+                                        : "bg-purple-50 text-purple-800 border border-purple-200 hover:bg-purple-100"
+                                }`}
+                            >
+                                ★ Accepted Authors (Offline)
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setModeFilter("virtual");
+                                }}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                    modeFilter === "virtual"
+                                        ? "bg-[#123125] text-white shadow-sm"
+                                        : "bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100"
+                                }`}
+                            >
+                                🌐 Online Only
+                            </button>
+                            {(modeFilter !== "all" || paymentFilter !== "all" || abstractFilter !== "all" || categoryFilter !== "all" || searchQuery !== "" || groupFilter !== "all") && (
+                                <button
+                                    onClick={clearAllFilters}
+                                    className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-red-600 hover:bg-red-50 border border-red-200 transition"
+                                    title="Reset all filters"
+                                >
+                                    ✕ Reset
+                                </button>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Category Filter */}
-                    <div>
-                        <select
-                            value={categoryFilter}
-                            onChange={(e) => setCategoryFilter(e.target.value)}
-                            className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white capitalize"
-                        >
-                            {availableCategories.map((cat) => (
-                                <option key={cat} value={cat}>
-                                    {cat === "all" ? "All Categories" : cat}
-                                </option>
-                            ))}
-                        </select>
+                    {/* Row 2: 4 Core Dropdown Filters */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        {/* Attendance Mode Filter */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
+                                Attendance Mode
+                            </label>
+                            <select
+                                value={modeFilter}
+                                onChange={(e) => setModeFilter(e.target.value)}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
+                            >
+                                <option value="all">All Modes ({filterStats.physical + filterStats.virtual})</option>
+                                <option value="physical">📍 Offline / In-Person ({filterStats.physical})</option>
+                                <option value="virtual">🌐 Online / Virtual ({filterStats.virtual})</option>
+                            </select>
+                        </div>
+
+                        {/* Payment Status Filter */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
+                                Payment Status
+                            </label>
+                            <select
+                                value={paymentFilter}
+                                onChange={(e) => setPaymentFilter(e.target.value)}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
+                            >
+                                <option value="all">All Payments ({filterStats.paid + filterStats.unpaid})</option>
+                                <option value="paid">✓ Paid / Confirmed ({filterStats.paid})</option>
+                                <option value="unpaid">⏳ Awaiting Payment / Unpaid ({filterStats.unpaid})</option>
+                            </select>
+                        </div>
+
+                        {/* Abstract Status Filter */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
+                                Abstract Status
+                            </label>
+                            <select
+                                value={abstractFilter}
+                                onChange={(e) => setAbstractFilter(e.target.value)}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
+                            >
+                                <option value="all">All (Abstract & Non-Abstract)</option>
+                                <option value="accepted">★ Abstract Accepted ({filterStats.absAccepted})</option>
+                                <option value="submitted">📝 Abstract Submitted ({filterStats.absSubmitted})</option>
+                                <option value="none">No Abstract ({filterStats.noAbstract})</option>
+                            </select>
+                        </div>
+
+                        {/* Category Filter */}
+                        <div>
+                            <label className="block text-[11px] font-bold text-gray-600 uppercase tracking-wider mb-1">
+                                Category
+                            </label>
+                            <select
+                                value={categoryFilter}
+                                onChange={(e) => handleCategoryChange(e.target.value)}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#123125] bg-white font-semibold"
+                            >
+                                <option value="all">All Categories ({attendees.filter(a => groupFilter === "all" || a.group === groupFilter).length})</option>
+                                {availableCategories.filter(c => c !== "all").map((cat) => (
+                                    <option key={cat} value={cat}>
+                                        {cat} ({categoryCounts[cat] || 0})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
-                    {/* Country, Institution & Organizers Toggles */}
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => setSettings((s) => ({ ...s, showCountry: !s.showCountry }))}
-                            className={`flex-1 py-2 px-2 rounded-xl border text-[11px] font-bold transition text-center ${
-                                settings.showCountry ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
-                            }`}
-                        >
-                            Country: {settings.showCountry ? "ON" : "OFF"}
-                        </button>
-                        <button
-                            onClick={() => setSettings((s) => ({ ...s, showInstitution: !s.showInstitution }))}
-                            className={`flex-1 py-2 px-2 rounded-xl border text-[11px] font-bold transition text-center ${
-                                settings.showInstitution ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
-                            }`}
-                        >
-                            Affiliation: {settings.showInstitution ? "ON" : "OFF"}
-                        </button>
-                        <button
-                            onClick={() => setSettings((s) => ({ ...s, showOrganizers: !s.showOrganizers }))}
-                            className={`flex-1 py-2 px-2 rounded-xl border text-[11px] font-bold transition text-center ${
-                                settings.showOrganizers ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
-                            }`}
-                        >
-                            Organizers: {settings.showOrganizers ? "ON" : "OFF"}
-                        </button>
-                        <button
-                            onClick={() => setSettings((s) => ({ ...s, showSlotGuide: !s.showSlotGuide }))}
-                            className={`flex-1 py-2 px-2 rounded-xl border text-[11px] font-bold transition text-center ${
-                                settings.showSlotGuide ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
-                            }`}
-                            title="Lanyard Slot Punch Production Guide"
-                        >
-                            Slot Guide: {settings.showSlotGuide ? "ON" : "OFF"}
-                        </button>
+                    {/* Row 3: Display Elements Toggles */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
+                        <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Badge Elements:</span>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <button
+                                onClick={() => setSettings((s) => ({ ...s, showCountry: !s.showCountry }))}
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                    settings.showCountry ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
+                                }`}
+                            >
+                                Country: {settings.showCountry ? "ON" : "OFF"}
+                            </button>
+                            <button
+                                onClick={() => setSettings((s) => ({ ...s, showInstitution: !s.showInstitution }))}
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                    settings.showInstitution ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
+                                }`}
+                            >
+                                Affiliation: {settings.showInstitution ? "ON" : "OFF"}
+                            </button>
+                            <button
+                                onClick={() => setSettings((s) => ({ ...s, showOrganizers: !s.showOrganizers }))}
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                    settings.showOrganizers ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
+                                }`}
+                            >
+                                Organizers: {settings.showOrganizers ? "ON" : "OFF"}
+                            </button>
+                            <button
+                                onClick={() => setSettings((s) => ({ ...s, showSlotGuide: !s.showSlotGuide }))}
+                                className={`py-1 px-2.5 rounded-lg border text-[11px] font-bold transition text-center ${
+                                    settings.showSlotGuide ? "bg-emerald-50 border-emerald-400 text-emerald-900" : "bg-gray-100 text-gray-400"
+                                }`}
+                                title="Lanyard Slot Punch Production Guide"
+                            >
+                                Slot Guide: {settings.showSlotGuide ? "ON" : "OFF"}
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                {/* Interactive Category Chips */}
+                {Object.keys(categoryCounts).length > 1 && (
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-2 text-xs border-t border-gray-100">
+                        <span className="font-bold text-gray-500 shrink-0 mr-1 flex items-center gap-1">
+                            <Filter size={13} className="text-[#d99b26]" /> Categories:
+                        </span>
+                        <button
+                            onClick={() => handleCategoryChange("all")}
+                            className={`px-3 py-1 rounded-lg font-bold transition shrink-0 cursor-pointer ${
+                                categoryFilter === "all"
+                                    ? "bg-[#123125] text-white shadow-xs"
+                                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            }`}
+                        >
+                            All ({attendees.filter(a => groupFilter === "all" || a.group === groupFilter).length})
+                        </button>
+                        {Object.entries(categoryCounts).map(([cat, count]) => (
+                            <button
+                                key={cat}
+                                onClick={() => handleCategoryChange(cat)}
+                                className={`px-2.5 py-1 rounded-lg transition shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                                    categoryFilter.toLowerCase() === cat.toLowerCase()
+                                        ? "bg-[#d99b26] text-white font-bold shadow-xs"
+                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium"
+                                }`}
+                            >
+                                <span>{cat}</span>
+                                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                                    categoryFilter.toLowerCase() === cat.toLowerCase() ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
+                                }`}>
+                                    {count}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                )}
 
                 {/* Selection & Layout Toggles */}
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t">
@@ -583,9 +841,9 @@ export default function AdminBadgesPage() {
                     {/* On-screen Interactive Card Grid (Always hidden during print) */}
                     {viewMode === "cards" && (
                         <div className="space-y-4 print:hidden">
-                            <div className="no-print flex items-center justify-between text-xs text-gray-500 px-1">
+                            <div className="no-print flex flex-wrap items-center justify-between text-xs text-gray-500 px-1 gap-2">
                                 <span>
-                                    Showing <strong>{filteredAttendees.length}</strong> badges &bull; <strong>{selectedAttendees.length}</strong> selected for print
+                                    Showing <strong>{filteredAttendees.length}</strong> badges matching filters &bull; <strong>{selectedAttendees.length}</strong> selected for print
                                 </span>
                                 <span>Click badge to edit info / click photo to replace</span>
                             </div>
@@ -593,41 +851,80 @@ export default function AdminBadgesPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
                                 {filteredAttendees.map((att) => {
                                     const isSelected = selectedIds.has(att.id);
+                                    const isPaid = (att.paymentStatus || "").toLowerCase() === "paid" || 
+                                                  (att.paymentStatus || "").toLowerCase() === "payment_claimed" || 
+                                                  (att.paymentStatus || "").toLowerCase() === "confirmed" || 
+                                                  (att.paymentStatus || "").toLowerCase() === "free_pass" || 
+                                                  (att.paymentStatus || "").toLowerCase() === "waived" || 
+                                                  att.group === "committee" || att.group === "speaker" || att.group === "volunteer";
+                                    const isVirtual = att.mode === "virtual" || att.mode === "online";
+
                                     return (
                                         <div
                                             key={att.id}
-                                            className={`relative group transition-all duration-200 ${
-                                                isSelected ? "ring-4 ring-[#123125]/80 rounded-[28px]" : "opacity-60 hover:opacity-100"
-                                            }`}
+                                            className="flex flex-col items-center"
                                         >
-                                            {/* Action Buttons on Card */}
-                                            <div className="no-print absolute top-3 right-3 z-30 flex items-center gap-1.5">
-                                                <button
-                                                    onClick={() => setEditingAttendee(att)}
-                                                    className="w-7 h-7 rounded-lg bg-white/95 text-gray-600 hover:text-black border border-gray-300 shadow-md flex items-center justify-center transition cursor-pointer"
-                                                    title="Edit badge details"
-                                                >
-                                                    <Edit3 size={13} />
-                                                </button>
-                                                <button
-                                                    onClick={() => toggleSelect(att.id)}
-                                                    className={`w-7 h-7 rounded-lg flex items-center justify-center shadow-md transition-all cursor-pointer ${
-                                                        isSelected
-                                                            ? "bg-[#123125] text-white border border-[#123125]"
-                                                            : "bg-white/95 text-gray-400 border border-gray-300 hover:text-gray-700"
-                                                    }`}
-                                                    title={isSelected ? "Unselect badge" : "Select badge for print"}
-                                                >
-                                                    {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
-                                                </button>
+                                            <div
+                                                className={`relative group transition-all duration-200 ${
+                                                    isSelected ? "ring-4 ring-[#123125]/80 rounded-[28px]" : "opacity-60 hover:opacity-100"
+                                                }`}
+                                            >
+                                                {/* Action Buttons on Card */}
+                                                <div className="no-print absolute top-3 right-3 z-30 flex items-center gap-1.5">
+                                                    <button
+                                                        onClick={() => setEditingAttendee(att)}
+                                                        className="w-7 h-7 rounded-lg bg-white/95 text-gray-600 hover:text-black border border-gray-300 shadow-md flex items-center justify-center transition cursor-pointer"
+                                                        title="Edit badge details"
+                                                    >
+                                                        <Edit3 size={13} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => toggleSelect(att.id)}
+                                                        className={`w-7 h-7 rounded-lg flex items-center justify-center shadow-md transition-all cursor-pointer ${
+                                                            isSelected
+                                                                ? "bg-[#123125] text-white border border-[#123125]"
+                                                                : "bg-white/95 text-gray-400 border border-gray-300 hover:text-gray-700"
+                                                        }`}
+                                                        title={isSelected ? "Unselect badge" : "Select badge for print"}
+                                                    >
+                                                        {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
+                                                    </button>
+                                                </div>
+
+                                                {/* Badge Component */}
+                                                <AttendeeBadge
+                                                    attendee={att}
+                                                    settings={settings}
+                                                    onPhotoClick={() => setEditingAttendee(att)}
+                                                />
                                             </div>
 
-                                            {/* Badge Component */}
-                                            <AttendeeBadge
-                                                attendee={att}
-                                                settings={settings}
-                                                onPhotoClick={() => setEditingAttendee(att)}
-                                            />
+                                            {/* Status Tags Under Card */}
+                                            <div className="no-print mt-2.5 flex flex-wrap items-center justify-center gap-1.5 text-[10px] font-bold max-w-[280px]">
+                                                <span className={`px-2 py-0.5 rounded-full ${
+                                                    isVirtual
+                                                        ? "bg-blue-100 text-blue-800"
+                                                        : "bg-emerald-100 text-emerald-800"
+                                                }`}>
+                                                    {isVirtual ? "🌐 Online" : "📍 Offline"}
+                                                </span>
+                                                <span className={`px-2 py-0.5 rounded-full ${
+                                                    isPaid
+                                                        ? "bg-green-100 text-green-800"
+                                                        : "bg-amber-100 text-amber-800"
+                                                }`}>
+                                                    {isPaid ? "✓ Paid" : "⏳ Unpaid"}
+                                                </span>
+                                                {att.hasAbstract && (
+                                                    <span className={`px-2 py-0.5 rounded-full ${
+                                                        att.abstractStatus === "accepted"
+                                                            ? "bg-purple-100 text-purple-800"
+                                                            : "bg-indigo-100 text-indigo-800"
+                                                    }`} title={att.abstractTitle || "Abstract"}>
+                                                        {att.abstractStatus === "accepted" ? "★ Accepted" : "📝 Submitted"}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     );
                                 })}
