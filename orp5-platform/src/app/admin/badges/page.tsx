@@ -261,7 +261,8 @@ export default function AdminBadgesPage() {
         const committee = attendees.filter((a) => a.group === "committee").length;
         const speakers = attendees.filter((a) => a.group === "speaker").length;
         const volunteers = attendees.filter((a) => a.group === "volunteer").length;
-        return { total, delegates, committee, speakers, volunteers };
+        const blank = attendees.filter((a) => a.group === "blank" || a.isBlank).length;
+        return { total, delegates, committee, speakers, volunteers, blank };
     }, [attendees]);
 
     // Categories in the filtered cohort with count
@@ -439,14 +440,45 @@ export default function AdminBadgesPage() {
                 </div>
             </div>
 
+            {/* Smart Deduplication & Blank Cards Summary Banner */}
+            <div className="no-print bg-gradient-to-r from-[#0C513A] to-[#123125] text-white p-4 rounded-2xl border border-[#d99b26]/30 shadow-md flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#d99b26]/20 border border-[#d99b26]/40 flex items-center justify-center shrink-0">
+                        <Award className="text-[#d99b26]" size={22} />
+                    </div>
+                    <div>
+                        <h4 className="text-sm font-black tracking-tight text-white flex items-center gap-2">
+                            <span>Smart Deduplication Active</span>
+                            <span className="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30">
+                                Official Precedence Applied
+                            </span>
+                        </h4>
+                        <p className="text-xs text-gray-300 mt-0.5">
+                            Duplicate registrations and cross-category entries (Speakers & Committee) are automatically merged. 25 Blank On-Spot Cards generated for pen handwriting.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <Button
+                        size="sm"
+                        onClick={() => handleGroupChange("blank")}
+                        className="bg-[#d99b26] hover:bg-amber-400 text-[#123125] font-black text-xs gap-1.5 shadow-sm cursor-pointer"
+                    >
+                        <Edit3 size={14} /> View 25 Blank Cards
+                    </Button>
+                </div>
+            </div>
+
             {/* Cohort Tabs / Quick Stats (Hidden during print) */}
-            <div className="no-print grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div className="no-print grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                 {[
                     { id: "all", label: "All Badges", count: stats.total, icon: Users, color: "border-gray-300" },
                     { id: "delegate", label: "Delegates", count: stats.delegates, icon: Globe, color: "border-emerald-500" },
-                    { id: "committee", label: "Organizing Committee", count: stats.committee, icon: Award, color: "border-blue-500" },
+                    { id: "committee", label: "Committee", count: stats.committee, icon: Award, color: "border-blue-500" },
                     { id: "speaker", label: "Speakers", count: stats.speakers, icon: Mic, color: "border-purple-500" },
                     { id: "volunteer", label: "Volunteers", count: stats.volunteers, icon: HeartHandshake, color: "border-amber-500" },
+                    { id: "blank", label: "Blank (On-Spot)", count: stats.blank, icon: Edit3, color: "border-amber-600" },
                 ].map((tab) => {
                     const Icon = tab.icon;
                     const isActive = groupFilter === tab.id;

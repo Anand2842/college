@@ -9,7 +9,7 @@ export interface AttendeeBadgeData {
     name: string;
     ticketNumber: string;
     category: string;
-    group?: "delegate" | "committee" | "speaker" | "volunteer";
+    group?: "delegate" | "committee" | "speaker" | "volunteer" | "blank";
     subgroup?: string;
     country?: string;
     institution?: string;
@@ -21,6 +21,7 @@ export interface AttendeeBadgeData {
     hasAbstract?: boolean;
     abstractStatus?: 'accepted' | 'pending' | 'rejected' | 'none' | string;
     abstractTitle?: string;
+    isBlank?: boolean;
 }
 
 export interface BadgeSettings {
@@ -181,6 +182,13 @@ export function getCategoryBandStyle(categoryStr?: string, group?: string): Cate
             return {
                 bg: "#C2410C", // Vibrant Tangerine Orange
                 border: "#FFEDD5",
+                textColor: "#FFFFFF",
+            };
+        case "ON-SPOT REGISTRATION":
+        case "ON-SPOT":
+            return {
+                bg: "#D97706", // Warm Rich Amber/Gold
+                border: "#FDE68A",
                 textColor: "#FFFFFF",
             };
         case "VIP":
@@ -491,46 +499,82 @@ export function AttendeeBadge({
                 {/* SECTION 4: Attendee Identity (Shifted ~8–12mm Upward)        */}
                 {/* Tightened rhythm: Hero Name -> Gold Category -> Country Flag */}
                 {/* ------------------------------------------------------------ */}
-                <div className="w-full flex flex-col items-center justify-center text-center shrink-0">
-                    {/* Attendee Name (Fixed-zone, max 2 lines, no ellipsis) */}
-                    <div className="w-full max-w-[272px] min-h-[36px] flex items-center justify-center">
-                        <h2
-                            className="font-black uppercase text-[#063F2B] text-center w-full break-words tracking-tight"
-                            style={{
-                                fontSize: nameStyles.fontSize,
-                                lineHeight: nameStyles.lineHeight,
-                                letterSpacing: nameStyles.letterSpacing,
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical",
-                                overflow: "visible",
-                            }}
-                            title={name}
-                        >
-                            {name}
-                        </h2>
-                    </div>
-
-                    {/* Category: Standardized Gold for all categories */}
-                    <div className="text-[11px] sm:text-[11.5px] font-black uppercase tracking-[0.14em] text-[#c4891e] mt-1 leading-none">
-                        {category}
-                    </div>
-
-                    {/* Country & National Flag */}
-                    {config.showCountry && (
-                        <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-gray-700 tracking-wider mt-1.5 leading-none">
-                            <span className="text-xs leading-none">{flagEmoji}</span>
-                            <span>{country}</span>
+                {attendee.isBlank || attendee.group === "blank" ? (
+                    <div className="w-full max-w-[276px] flex flex-col justify-center space-y-1.5 py-1.5 px-2.5 border border-dashed border-gray-400/90 rounded-xl bg-gray-50/70 shrink-0">
+                        {/* Name Line */}
+                        <div className="flex items-baseline gap-1.5 w-full">
+                            <span className="text-[8px] font-black uppercase text-[#063F2B] tracking-wider shrink-0">
+                                NAME:
+                            </span>
+                            <div className="flex-1 border-b-[1.5px] border-gray-400 border-dashed h-3" />
                         </div>
-                    )}
 
-                    {/* Optional Institution / Affiliation */}
-                    {config.showInstitution && institution && (
-                        <div className="text-[8.5px] text-gray-600 font-medium max-w-[270px] text-center line-clamp-2 mt-1 leading-tight px-1">
-                            {institution}
+                        {/* Institution Line */}
+                        <div className="flex items-baseline gap-1.5 w-full">
+                            <span className="text-[8px] font-black uppercase text-[#063F2B] tracking-wider shrink-0">
+                                INST:
+                            </span>
+                            <div className="flex-1 border-b-[1.5px] border-gray-400 border-dashed h-3" />
                         </div>
-                    )}
-                </div>
+
+                        {/* Category Line & Country */}
+                        <div className="flex items-center justify-between gap-1.5 pt-0.5">
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-[7.5px] font-bold uppercase text-gray-500 tracking-wider shrink-0">
+                                    ROLE:
+                                </span>
+                                <span className="text-[8.5px] font-black text-[#c4891e] uppercase tracking-wide">
+                                    ON-SPOT DELEGATE
+                                </span>
+                            </div>
+                            <div className="text-[8.5px] font-bold text-gray-700 flex items-center gap-1">
+                                <span>🇮🇳</span>
+                                <span>INDIA</span>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="w-full flex flex-col items-center justify-center text-center shrink-0">
+                        {/* Attendee Name (Fixed-zone, max 2 lines, no ellipsis) */}
+                        <div className="w-full max-w-[272px] min-h-[36px] flex items-center justify-center">
+                            <h2
+                                className="font-black uppercase text-[#063F2B] text-center w-full break-words tracking-tight"
+                                style={{
+                                    fontSize: nameStyles.fontSize,
+                                    lineHeight: nameStyles.lineHeight,
+                                    letterSpacing: nameStyles.letterSpacing,
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "visible",
+                                }}
+                                title={name}
+                            >
+                                {name}
+                            </h2>
+                        </div>
+
+                        {/* Category: Standardized Gold for all categories */}
+                        <div className="text-[11px] sm:text-[11.5px] font-black uppercase tracking-[0.14em] text-[#c4891e] mt-1 leading-none">
+                            {category}
+                        </div>
+
+                        {/* Country & National Flag */}
+                        {config.showCountry && (
+                            <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-gray-700 tracking-wider mt-1.5 leading-none">
+                                <span className="text-xs leading-none">{flagEmoji}</span>
+                                <span>{country}</span>
+                            </div>
+                        )}
+
+                        {/* Optional Institution / Affiliation */}
+                        {config.showInstitution && institution && (
+                            <div className="text-[8.5px] text-gray-600 font-medium max-w-[270px] text-center line-clamp-2 mt-1 leading-tight px-1">
+                                {institution}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* ------------------------------------------------------------ */}
                 {/* SECTION 5: Organisers Footer (Shifted ~3–5mm Upward)         */}

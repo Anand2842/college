@@ -347,6 +347,29 @@ export async function POST(request: Request) {
             });
         }
 
+        // 6. Check On-Spot / Blank Registration Badges (e.g. ORP5IC-SPOT-001)
+        if (cleanQuery.includes('SPOT') || ticketId.toUpperCase().includes('SPOT-')) {
+            const spotMatch = cleanQuery.match(/SPOT(\d+)/);
+            const spotNum = spotMatch ? spotMatch[1].padStart(3, '0') : '001';
+            return NextResponse.json({
+                valid: true,
+                registrant: {
+                    id: `spot-${spotNum}`,
+                    name: 'On-Spot Registered Delegate',
+                    category: 'ON-SPOT REGISTRATION',
+                    ticketId: `ORP5IC-SPOT-${spotNum}`,
+                    mode: 'In-Person (Physical)',
+                    institution: 'Physical Registration Desk (Handwritten)',
+                    country: 'INDIA',
+                    designation: 'On-Spot Delegate Pass',
+                    photoUrl: '',
+                    isPaid: true,
+                    paymentStatus: 'Official / On-Spot Pass',
+                    status: 'Active',
+                }
+            });
+        }
+
         return NextResponse.json({ valid: false, message: `Ticket "${ticketId}" not found in conference records.` }, { status: 404 });
 
     } catch (error: any) {
