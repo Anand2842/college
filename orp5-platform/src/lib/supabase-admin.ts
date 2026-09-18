@@ -16,16 +16,6 @@ export const getSupabaseAdmin = (): any => {
             persistSession: false,
             autoRefreshToken: false,
         },
-        global: {
-            fetch: (url, options = {}) => {
-                // Use ISR (revalidate every 60s) for blazing-fast cached responses
-                const { cache, next, ...restOptions } = options as any;
-                return fetch(url, {
-                    ...restOptions,
-                    next: { revalidate: 60 },
-                });
-            },
-        },
     });
 
     return supabaseAdminInstance;

@@ -26,6 +26,7 @@ export function getPartnerShortName(partner: any): string {
   if (name.includes("raichur")) return "UAS Raichur";
   if (name.includes("ipb") || name.includes("pertanian bogor")) return "IPB University";
   if (name.includes("ministry of agriculture") || name.includes("farmers welfare")) return "MoA&FW, GoI";
+  if (name.includes("nabard") || name.includes("national bank for agriculture")) return "NABARD";
   if (name.includes("irri") || name.includes("international rice research")) return "IRRI";
   if (name.includes("icar") || name.includes("iari") || name.includes("indian agricultural research")) return "ICAR-IARI";
   if (name.includes("sri sri") || name.includes("ssiast") || name.includes("art of living")) return "SSIAST";
@@ -38,10 +39,25 @@ export function getPartnerShortName(partner: any): string {
 }
 
 export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partnersByCategory }) => {
-  const jointlyOrganised = partnersByCategory["Jointly organised by"] || [];
-  const supportedBy = partnersByCategory["Supported by"] || [];
-  const knowledgePartner = partnersByCategory["Knowledge partner"] || [];
-  const technicalPartners = partnersByCategory["Technical collaborating partners"] || partnersByCategory["In collaboration with"] || [];
+  // Normalize lookup across possible casing / spacing variations
+  const getCategoryList = (targetCat: string) => {
+    const target = targetCat.toLowerCase().trim();
+    const result: any[] = [];
+    for (const [cat, list] of Object.entries(partnersByCategory || {})) {
+      if (cat.toLowerCase().trim() === target && Array.isArray(list)) {
+        result.push(...list);
+      }
+    }
+    return result;
+  };
+
+  const jointlyOrganised = getCategoryList("Jointly organised by");
+  const supportedBy = getCategoryList("Supported by");
+  const knowledgePartner = getCategoryList("Knowledge partner");
+  const technicalPartners = [
+    ...getCategoryList("Technical collaborating partners"),
+    ...getCategoryList("In collaboration with")
+  ];
 
   const hasAnyPartners = jointlyOrganised.length > 0 || supportedBy.length > 0 || knowledgePartner.length > 0 || technicalPartners.length > 0;
   if (!hasAnyPartners) return null;
@@ -93,7 +109,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
         {supportedBy.length > 0 && (
           <div className="mb-7 sm:mb-10">
             <TierDivider title="Supported by" className="my-2.5 sm:my-4" />
-            <div className="flex justify-center mt-3.5 sm:mt-6">
+            <div className={`flex flex-wrap items-start justify-center gap-4 sm:gap-8 max-w-2xl mx-auto mt-3.5 sm:mt-6`}>
               {supportedBy.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 return (
@@ -103,7 +119,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     target={partner.website || partner.url ? "_blank" : "_self"}
                     rel="noopener noreferrer"
                     title={partner.name}
-                    className="group flex flex-col items-center justify-center w-full max-w-[190px] sm:max-w-[240px] md:max-w-[270px] transition-all duration-300 transform hover:scale-105 text-center"
+                    className="group flex flex-col items-center justify-center w-full max-w-[190px] sm:max-w-[240px] md:max-w-[260px] transition-all duration-300 transform hover:scale-105 text-center"
                   >
                     {partner.logoUrl ? (
                       <div className="h-16 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300">
@@ -117,7 +133,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                       <span className="text-[10px] sm:text-xs font-bold text-gray-700 text-center block">{partner.name}</span>
                     )}
                     {shortName && (
-                      <span className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200">
+                      <span className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs md:text-sm font-bold text-[#133826] text-center tracking-wide group-hover:text-[#A88B38] transition-colors duration-200 line-clamp-2">
                         {shortName}
                       </span>
                     )}
@@ -132,7 +148,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
         {knowledgePartner.length > 0 && (
           <div className="mb-7 sm:mb-10">
             <TierDivider title="Knowledge partner" className="my-2.5 sm:my-4" />
-            <div className="grid grid-cols-3 gap-2.5 sm:gap-5 md:gap-7 max-w-3xl mx-auto mt-3.5 sm:mt-6 items-start">
+            <div className="flex flex-wrap items-start justify-center gap-4 sm:gap-8 max-w-2xl mx-auto mt-3.5 sm:mt-6">
               {knowledgePartner.map((partner: any) => {
                 const shortName = getPartnerShortName(partner);
                 const isIcar = (partner?.name || "").toLowerCase().includes("icar") || (partner?.shortName || "").toLowerCase().includes("icar") || (partner?.name || "").toLowerCase().includes("iari");
@@ -145,7 +161,7 @@ export const OrganizersHierarchy: React.FC<OrganizersHierarchyProps> = ({ partne
                     target={partner.website || partner.url ? "_blank" : "_self"}
                     rel="noopener noreferrer"
                     title={partner.name}
-                    className="group flex flex-col items-center justify-start transition-all duration-300 transform hover:scale-105 text-center w-full"
+                    className="group flex flex-col items-center justify-center w-full max-w-[190px] sm:max-w-[240px] md:max-w-[260px] transition-all duration-300 transform hover:scale-105 text-center"
                   >
                     {logoSrc ? (
                       <div className="h-16 sm:h-20 md:h-24 w-full bg-white rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 shadow-xs border border-gray-200/80 flex items-center justify-center group-hover:shadow-md group-hover:border-[#A88B38]/50 transition-all duration-300 overflow-hidden shrink-0">

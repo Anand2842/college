@@ -5,47 +5,69 @@ import { invalidateHomepageCache } from '@/lib/cms';
 
 async function syncAboutPartnersToTable(supabase: any, content: any) {
     if (!content) return;
-    const partnerUpdates: { match: string; logoUrl?: string; website?: string }[] = [];
+    const partnerEntries: { id?: string; name: string; match: string; logoUrl: string; website: string; category: string }[] = [];
 
-    const checkList = (list: any[]) => {
+    const checkList = (list: any[], category: string) => {
         if (!Array.isArray(list)) return;
         for (const item of list) {
-            const logo = item.imageUrl || item.logoUrl;
-            if (item.name && logo) {
-                partnerUpdates.push({
+            const logo = item.imageUrl || item.logoUrl || '';
+            if (item.name && item.name.trim()) {
+                partnerEntries.push({
+                    id: item.id,
+                    name: item.name.trim(),
                     match: item.name.toLowerCase().trim(),
                     logoUrl: logo,
-                    website: item.website || ''
+                    website: item.website || '',
+                    category
                 });
             }
         }
     };
 
-    checkList(content.organizers);
-    checkList(content.supportedBy);
-    checkList(content.knowledgePartner);
-    checkList(content.technicalPartners);
-    checkList(content.partners);
+    checkList(content.organizers, 'Jointly organised by');
+    checkList(content.supportedBy, 'Supported by');
+    checkList(content.knowledgePartner, 'Knowledge partner');
+    checkList(content.technicalPartners, 'Technical collaborating partners');
+    checkList(content.partners, 'In collaboration with');
 
-    if (partnerUpdates.length === 0) return;
+    if (partnerEntries.length === 0) return;
 
     try {
-        const { data: partners } = await supabase.from('Partner').select('id, name, logoUrl');
-        if (!partners || partners.length === 0) return;
+        const { data: partners } = await supabase.from('Partner').select('*');
+        const existingPartners = partners || [];
 
-        for (const p of partners) {
-            const pName = p.name.toLowerCase().trim();
-            const found = partnerUpdates.find(u =>
-                pName === u.match ||
-                pName.includes(u.match) ||
-                u.match.includes(pName)
+        for (const entry of partnerEntries) {
+            const found = existingPartners.find((p: any) =>
+                (entry.id && p.id === entry.id) ||
+                p.name.toLowerCase().trim() === entry.match ||
+                p.name.toLowerCase().trim().includes(entry.match) ||
+                entry.match.includes(p.name.toLowerCase().trim())
             );
-            if (found && found.logoUrl && found.logoUrl !== p.logoUrl) {
-                await supabase.from('Partner').update({
-                    logoUrl: found.logoUrl,
-                    ...(found.website ? { website: found.website } : {}),
+
+            if (found) {
+                // Update existing
+                const updates: any = {
                     updatedAt: new Date().toISOString()
-                }).eq('id', p.id);
+                };
+                if (entry.logoUrl && entry.logoUrl !== found.logoUrl) updates.logoUrl = entry.logoUrl;
+                if (entry.website && entry.website !== found.website) updates.website = entry.website;
+                if (entry.category && entry.category !== found.category) updates.category = entry.category;
+
+                if (Object.keys(updates).length > 1) {
+                    await supabase.from('Partner').update(updates).eq('id', found.id);
+                }
+            } else {
+                // Insert new partner into Partner table
+                await supabase.from('Partner').insert({
+                    id: entry.id || crypto.randomUUID(),
+                    name: entry.name,
+                    logoUrl: entry.logoUrl,
+                    website: entry.website,
+                    category: entry.category,
+                    order: existingPartners.length + 1,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                });
             }
         }
     } catch (err) {

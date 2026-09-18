@@ -5,19 +5,46 @@ const supabase = {
     from: (table: string) => getSupabaseAdmin().from(table),
 } as any;
 
+const TABLE_COLUMNS: Record<string, string[]> = {
+    Partner: ['id', 'name', 'logoUrl', 'website', 'category', 'order', 'createdAt', 'updatedAt'],
+    Theme: ['id', 'title', 'description', 'icon', 'colorTheme', 'order', 'createdAt', 'updatedAt'],
+    ImportantDate: ['id', 'date', 'label', 'status', 'order', 'createdAt', 'updatedAt'],
+};
+
 // Helper to sync table rows (Upsert + Delete Missing)
 async function syncTable(table: string, items: any[], idField = 'id') {
     if (!Array.isArray(items)) return;
 
-    // 1. Assign values and IDs
+    // 1. Assign values and IDs & sanitize columns
+    const allowedCols = TABLE_COLUMNS[table];
     const finalItems = items.map(item => {
-        if (!item[idField]) {
-            return { ...item, [idField]: crypto.randomUUID() };
+        const id = item[idField] || crypto.randomUUID();
+        const baseRow: any = {
+            ...item,
+            [idField]: id,
+            updatedAt: new Date().toISOString()
+        };
+
+        if (table === 'Partner') {
+            baseRow.logoUrl = item.logoUrl || item.imageUrl || '';
+            baseRow.website = item.website || '';
+            baseRow.category = item.category || 'Supported by';
         }
-        return item;
+
+        if (allowedCols) {
+            const sanitized: any = {};
+            for (const col of allowedCols) {
+                if (baseRow[col] !== undefined) {
+                    sanitized[col] = baseRow[col];
+                }
+            }
+            return sanitized;
+        }
+
+        return baseRow;
     });
 
-    const finalIds = finalItems.map(i => i[idField]);
+    const finalIds = finalItems.map(i => i[idField]).filter(Boolean);
 
     // 2. Delete missing records
     if (finalIds.length > 0) {
@@ -34,8 +61,10 @@ async function syncTable(table: string, items: any[], idField = 'id') {
 
     // 3. Upsert all items
     for (const item of finalItems) {
-        const row = { ...item, updatedAt: new Date().toISOString() };
-        await supabase.from(table).upsert(row);
+        const { error } = await supabase.from(table).upsert(item);
+        if (error) {
+            console.error(`Error upserting row into ${table}:`, error);
+        }
     }
 }
 
@@ -614,10 +643,12 @@ export async function getHomepageData() {
                 ...fromContent,
                 ...p,
                 shortName: p.shortName || fromContent?.shortName,
+                logoUrl: p.logoUrl || fromContent?.logoUrl || fromContent?.imageUrl || '',
+                category: (p.category || fromContent?.category || 'In collaboration with').trim(),
             };
         });
         const partnersByCategory = partnerList.reduce((acc: Record<string, any[]>, p: any) => {
-            const cat = p.category || 'Collaborators';
+            const cat = (p.category || 'In collaboration with').trim();
             if (!acc[cat]) acc[cat] = [];
             acc[cat].push(p);
             return acc;
