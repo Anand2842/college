@@ -65,12 +65,12 @@ export default async function VenuePage() {
                         {data.spaces[0]?.imageUrl && (
                             <img 
                                 src={data.spaces[0].imageUrl} 
-                                alt="NASC Complex" 
+                                alt="PHD Chamber of Commerce and Industry" 
                                 className="w-full h-full object-cover"
                             />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-                            <p className="text-white font-serif text-2xl font-bold">{data.intro.title || "NASC Complex"}</p>
+                            <p className="text-white font-serif text-2xl font-bold">{data.intro.title || "PHD Chamber of Commerce and Industry"}</p>
                         </div>
                     </div>
                 </div>
@@ -83,8 +83,8 @@ export default async function VenuePage() {
                         <div className="flex flex-col justify-center">
                             <SectionTitle
                                 badge="Location"
-                                title="A.P. Shinde Symposium Hall"
-                                subtitle="Strategically located in Central New Delhi with rapid access to transit corridors."
+                                title="PHD Chamber of Commerce and Industry"
+                                subtitle="Conveniently located in the Hauz Khas institutional area with easy access to metro and major transit corridors."
                                 centered={false}
                             />
                             
@@ -139,13 +139,13 @@ export default async function VenuePage() {
                         {/* Map */}
                         <div className="w-full min-h-[400px] lg:h-auto rounded-3xl overflow-hidden shadow-lg border border-earth-green/15 relative">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d77.5779!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdd240d7a2847%3A0x2e3e5e5e5e5e5e5e!2sNASC%20Complex%2C%20New%20Delhi!5e0!3m2!1sen!2sin!4v1234567890"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.645219526392!2d77.2101361!3d28.5503817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d8baaaaaaab%3A0x794843147ac2cb53!2sPHD%20Chamber%20of%20Commerce%20and%20Industry!5e0!3m2!1sen!2sin!4v1789763918802!5m2!1sen!2sin"
                                 className="absolute inset-0 w-full h-full"
                                 style={{ border: 0 }}
                                 allowFullScreen
                                 loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                title="NASC Complex, New Delhi"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                title="PHD Chamber of Commerce and Industry, New Delhi"
                             />
                         </div>
                     </div>

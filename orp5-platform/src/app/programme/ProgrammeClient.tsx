@@ -132,7 +132,7 @@ export default function ProgrammeClient() {
                         </div>
                         <div>
                             <div className="text-xs font-bold uppercase tracking-wider text-rice-gold">Official Schedule Document</div>
-                            <div className="text-sm font-medium text-white/90">A.P. Shinde Symposium Hall, NASC Complex, New Delhi | 21–25 Sept 2026</div>
+                            <div className="text-sm font-medium text-white/90">PHD Chamber of Commerce & Industry, Hauz Khas, New Delhi | 21–25 Sept 2026</div>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">

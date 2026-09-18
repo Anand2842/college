@@ -209,7 +209,7 @@ export async function sendRegistrationPendingEmail(
                         <td bgcolor="#123125" style="background-color: #123125; padding: 28px 24px 24px 24px; text-align: center;">
                             <span style="font-size: 11px; font-weight: 800; color: #DFC074; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 6px;">5ᵗʰ INTERNATIONAL CONFERENCE</span>
                             <h1 style="margin: 0; font-family: 'Georgia', serif; font-size: 24px; font-weight: bold; color: #ffffff; letter-spacing: 1px;">ORP-5 NEW DELHI</h1>
-                            <p style="margin: 6px 0 0 0; font-size: 12px; color: #a3d9b1;">21–25 September 2026 &nbsp;|&nbsp; NASC Complex, New Delhi</p>
+                            <p style="margin: 6px 0 0 0; font-size: 12px; color: #a3d9b1;">21–25 September 2026 &nbsp;|&nbsp; PHD Chamber of Commerce & Industry, New Delhi</p>
                         </td>
                     </tr>
                     <tr><td height="4" bgcolor="#DFC074" style="background-color: #DFC074; line-height: 4px; font-size: 4px;">&nbsp;</td></tr>
@@ -383,7 +383,7 @@ export async function sendRegistrationStatusEmail(
 
             <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 24px 0; font-size: 13px; color: #4b5563;">
                 <p style="margin: 0 0 6px 0;"><strong>Event Dates:</strong> 21 – 25 September 2026</p>
-                <p style="margin: 0 0 6px 0;"><strong>Venue:</strong> NASC Complex, Pusa, New Delhi, India</p>
+                <p style="margin: 0 0 6px 0;"><strong>Venue:</strong> PHD Chamber of Commerce and Industry, PHD House, 4/2 August Kranti Marg, Hauz Khas, New Delhi 110016</p>
                 <p style="margin: 0;"><strong>Organizers:</strong> AIASA, UAS Raichur &amp; IPB University</p>
             </div>
 

@@ -343,28 +343,28 @@ export async function getVenuePageData() {
 
     const defaultData = {
         hero: {
-            headline: "NASC Complex, New Delhi",
-            subheadline: "A world-class venue for a world-class conference, located in the heart of New Delhi.",
+            headline: "PHD Chamber of Commerce and Industry, New Delhi",
+            subheadline: "A prestigious venue for a world-class conference, located in the Hauz Khas institutional area of New Delhi.",
             backgroundImage: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1920"
         },
         intro: {
             title: "About the Venue",
-            description: "The National Agricultural Science Complex (NASC) is a premier facility known for its state-of-the-art infrastructure and commitment to agricultural excellence. Located in New Delhi, it provides the perfect setting for high-impact academic gatherings."
+            description: "PHD Chamber of Commerce and Industry is a premier institution housed at PHD House, offering modern conference facilities in the heart of New Delhi's Siri Institutional Area. It provides the perfect setting for high-impact academic and professional gatherings."
         },
         highlights: [
-            { id: "h1", iconName: "Users", title: "3000+ Seating", description: "Main auditorium with massive capacity." },
+            { id: "h1", iconName: "Users", title: "State-of-the-Art Halls", description: "Spacious conference halls and auditoriums." },
             { id: "h2", iconName: "Wifi", title: "High-Speed WiFi", description: "Seamless connectivity across the campus." },
-            { id: "h3", iconName: "Coffee", title: "Premium Catering", description: "Multiple cafeterias and dining halls." }
+            { id: "h3", iconName: "Coffee", title: "Premium Catering", description: "On-site catering and dining facilities." }
         ],
         spaces: [
-            { id: "s1", title: "Main Auditorium", description: "For keynotes and opening ceremonies.", imageUrl: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800" },
-            { id: "s2", title: "Conference Hall A", description: "Dedicated for technical sessions.", imageUrl: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&q=80&w=800" }
+            { id: "s1", title: "Main Conference Hall", description: "For keynotes and opening ceremonies.", imageUrl: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800" },
+            { id: "s2", title: "Seminar Hall", description: "Dedicated for technical sessions.", imageUrl: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&q=80&w=800" }
         ],
         location: {
-            address: "DPS Marg, Todapur Village, Pusa, New Delhi, Delhi 110012, India",
-            coordinates: "28.63N, 77.16E",
-            airportDist: "18 km (approx 45 min)",
-            metroDist: "1.5 km (Pusa Road Metro)",
+            address: "PHD House, 4/2, August Kranti Marg, Siri Institutional Area, Block A, Nipccd Campus, Hauz Khas, New Delhi, Delhi 110016",
+            coordinates: "28.5504N, 77.2101E",
+            airportDist: "15 km (approx 35 min)",
+            metroDist: "2 km (INA / Hauz Khas Metro)",
             hotelsDist: "Within 1-3 km radius"
         },
         facilities: [
@@ -662,7 +662,7 @@ export async function getHomepageData() {
             dates: dates && dates.length > 0 ? dates : (baseContent.dates || []),
             speakers: baseContent.speakers || (speakers && speakers.length > 0 ? speakers.slice(0, 4) : []),
             faq: baseContent.faq || [
-                { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at NASC Complex, New Delhi, India." },
+                { question: "What is the date and venue of ORP-5?", answer: "The 5ᵗʰ International Conference on Organic and Natural Rice Farming and Production Systems (ORP 5) will be held from September 21-25, 2026 at PHD Chamber of Commerce and Industry, PHD House, 4/2 August Kranti Marg, Hauz Khas, New Delhi 110016, India." },
                 { question: "What is the focus of the conference?", answer: "ORP-5 focuses on advancing sustainable and eco-friendly rice cultivation, highlighting global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management." },
                 { question: "Who can attend?", answer: "The conference welcomes scientists, rice growers, policymakers, students, and other stakeholders across the organic and natural rice production and commercialization chain." },
                 { question: "How do I submit an abstract?", answer: "Abstracts (not exceeding 500 words) can be submitted through the portal on or before 25 August 2026. The call for abstracts opens on 01 January 2026." },

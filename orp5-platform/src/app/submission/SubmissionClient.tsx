@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
-import { Loader2, CheckCircle, Upload, FileText, Download, Printer, Mail, Copy, Check, LayoutDashboard } from "lucide-react";
+import { Loader2, CheckCircle, Upload, FileText, Download, Printer, Mail, Copy, Check, LayoutDashboard, AlertCircle, ArrowRight, Clock, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { SubmissionPageData } from "@/types/pages";
 import { fetchJSON } from "@/lib/fetchWrapper";
@@ -369,8 +369,8 @@ export default function SubmissionClient() {
                 backgroundImage={data.hero.backgroundImage}
                 breadcrumb="Home / Abstract Submission"
                 buttons={[
-                    { label: "Submit Now", link: "#form", variant: "primary" },
-                    { label: "Track Submission", link: "/ticket-status?tab=abstract", variant: "secondary" }
+                    { label: "Track Submission Status", link: "/ticket-status?tab=abstract", variant: "primary" },
+                    { label: "Delegate Registration", link: "/registration", variant: "secondary" }
                 ]}
             />
 
@@ -390,6 +390,63 @@ export default function SubmissionClient() {
                                 <p className="text-xs text-gray-500">{item.date}</p>
                             </div>
                         ))}
+                    </div>
+                </div>
+
+                {/* Submissions Closed Notice Card */}
+                <div id="closed-notice" className="bg-gradient-to-br from-white via-amber-50/20 to-emerald-50/30 rounded-3xl shadow-xl border border-amber-200/70 p-8 md:p-14 max-w-4xl mx-auto mb-20 scroll-mt-24 text-center relative overflow-hidden">
+                    {/* Decorative background glow */}
+                    <div className="absolute top-0 right-0 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-72 h-72 bg-emerald-200/20 rounded-full blur-3xl pointer-events-none" />
+
+                    <div className="relative z-10">
+                        {/* Status Pill */}
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-100 text-red-700 border border-red-200 text-xs sm:text-sm font-bold uppercase tracking-wider mb-6 shadow-sm">
+                            <Clock size={16} className="text-red-600" />
+                            <span>Abstract Submissions are Closed</span>
+                        </div>
+
+                        <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">
+                            Submissions for ORP-5 are Now Closed
+                        </h2>
+
+                        <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
+                            The deadline for abstract submissions has concluded. The Scientific Review Committee is currently evaluating all submissions. We extend our sincere gratitude to all researchers, scientists, and participants who contributed.
+                        </p>
+
+                        {/* Author Action Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto text-left mb-10">
+                            <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+                                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold mb-4">
+                                    <LayoutDashboard size={20} />
+                                </div>
+                                <h3 className="font-bold text-gray-900 text-base mb-1">Track Submission Status</h3>
+                                <p className="text-xs sm:text-sm text-gray-500 mb-4">Check your abstract review decision, assigned track, and reviewer notes.</p>
+                                <Link href="/ticket-status?tab=abstract">
+                                    <Button className="w-full bg-[#123125] hover:bg-earth-green text-white font-semibold text-xs uppercase tracking-wider py-2.5 rounded-lg flex items-center justify-center gap-2">
+                                        Track Abstract <ArrowRight size={14} />
+                                    </Button>
+                                </Link>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow">
+                                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-4">
+                                    <ShieldCheck size={20} />
+                                </div>
+                                <h3 className="font-bold text-gray-900 text-base mb-1">Delegate Registration</h3>
+                                <p className="text-xs sm:text-sm text-gray-500 mb-4">Presenting authors must complete registration to confirm their slot in proceedings.</p>
+                                <Link href="/registration">
+                                    <Button className="w-full bg-[#24C535] hover:bg-green-600 text-white font-semibold text-xs uppercase tracking-wider py-2.5 rounded-lg flex items-center justify-center gap-2">
+                                        Register Now <ArrowRight size={14} />
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Contact info for special inquiries */}
+                        <div className="bg-gray-50/80 rounded-xl p-4 border border-gray-200 text-xs text-gray-600 max-w-xl mx-auto">
+                            For urgent editorial enquiries or late submission permissions, please reach out to the Secretariat at <a href="mailto:info@orp5ic.com" className="text-earth-green font-bold underline">info@orp5ic.com</a>.
+                        </div>
                     </div>
                 </div>
 
@@ -419,92 +476,6 @@ export default function SubmissionClient() {
                     </div>
                 </div>
 
-                {/* Submission Form */}
-                <div id="form" className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 md:p-12 max-w-4xl mx-auto mb-20 scroll-mt-24">
-                    <h2 className="text-2xl font-bold text-center mb-10">Submission Form</h2>
-                    <form onSubmit={handleSubmit} className="space-y-8">
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Full Name</label>
-                                <input required name="fullName" value={formState.fullName} onChange={handleInputChange} type="text" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Email Address</label>
-                                <input required name="email" value={formState.email} onChange={handleInputChange} type="email" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Phone</label>
-                                <input required name="phone" value={formState.phone} onChange={handleInputChange} type="tel" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Institution / Affiliation</label>
-                                <input required name="institution" value={formState.institution} onChange={handleInputChange} type="text" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Presentation Category</label>
-                                <select required name="category" value={formState.category} onChange={handleInputChange} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 bg-white">
-                                    <option value="">Select Category</option>
-                                    {data.categories.map((c: any, i: number) => <option key={i} value={c.title}>{c.title}</option>)}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm text-gray-500 mb-2">Thematic Area</label>
-                                <select required name="theme" value={formState.theme} onChange={handleInputChange} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 bg-white">
-                                    <option value="">Select Theme</option>
-                                    {data.thematicAreas.map((t: string, i: number) => <option key={i} value={t}>{t}</option>)}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-gray-500 mb-2">Abstract Title</label>
-                            <input required name="title" value={formState.title} onChange={handleInputChange} type="text" className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20" />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-gray-500 mb-2">Abstract</label>
-                            <textarea name="abstract" value={formState.abstract} onChange={handleInputChange} rows={6} className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-earth-green/20 text-sm" placeholder="Paste your abstract text here..." />
-                            <p className="text-xs text-gray-400 mt-2">500 words limit. Alternatively you can upload a Document (PDF, DOC, DOCX) below.</p>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm text-gray-500 mb-2">Upload Abstract (PDF, DOC, DOCX)</label>
-                            <div
-                                onClick={() => fileInputRef.current?.click()}
-                                className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
-                            >
-                                {formState.file ? (
-                                    <>
-                                        <FileText size={40} className="text-earth-green mb-3" />
-                                        <p className="font-bold text-gray-900">{formState.file.name}</p>
-                                        <p className="text-xs text-gray-500 mt-1">{(formState.file.size / 1024).toFixed(1)} KB</p>
-                                        <p className="text-xs text-red-500 mt-3 font-medium hover:underline" onClick={(e) => { e.stopPropagation(); setFormState({ ...formState, file: null }); }}>Remove File</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="bg-gray-100 p-3 rounded-full mb-3 text-gray-400">
-                                            <Upload size={24} />
-                                        </div>
-                                        <p className="text-sm font-medium text-gray-600"><span className="text-earth-green font-bold">Upload a file</span> or drag and drop</p>
-                                        <p className="text-xs text-gray-400 mt-1">PDF, DOC, DOCX up to 10MB</p>
-                                    </>
-                                )}
-                                <input ref={fileInputRef} type="file" accept=".docx,.doc,.pdf" className="hidden" onChange={handleFileChange} />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-end gap-4 pt-6">
-                            <Button type="submit" className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg min-w-[160px]" disabled={submitting}>
-                                {submitting ? <><Loader2 className="animate-spin mr-2" /> Submitting...</> : "Submit Abstract"}
-                            </Button>
-                        </div>
-                    </form>
-                </div>
-
                 {/* Info & Footer */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
                     <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm">
@@ -519,18 +490,19 @@ export default function SubmissionClient() {
 
                 {/* Bottom CTA Section */}
                 <div className="bg-[#E6F6EA] rounded-3xl py-16 text-center">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">{data.cta.headline}</h2>
-                    <p className="text-gray-600 mb-8 max-w-xl mx-auto">{data.cta.subheadline}</p>
-                    <div className="flex justify-center gap-4">
-                        {data.cta.buttons.map((btn: any, i: number) => (
-                            <a key={i} href={btn.link}>
-                                <Button
-                                    className={btn.variant === "primary" ? "bg-[#24C535] hover:bg-green-600 text-white font-bold px-6 border-none" : "bg-transparent border border-[#24C535] text-[#1E992A] hover:bg-[#24C535]/10 px-6 font-bold"}
-                                >
-                                    {btn.label}
-                                </Button>
-                            </a>
-                        ))}
+                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">Ready to Participate as a Delegate?</h2>
+                    <p className="text-gray-600 mb-8 max-w-xl mx-auto">All presenting authors and attendees must register to access the conference sessions, field trips, and conference proceedings.</p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <Link href="/registration">
+                            <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg w-full sm:w-auto">
+                                Register as Delegate
+                            </Button>
+                        </Link>
+                        <Link href="/ticket-status?tab=abstract">
+                            <Button className="bg-transparent border border-[#24C535] text-[#1E992A] hover:bg-[#24C535]/10 px-8 py-3 font-bold rounded-lg w-full sm:w-auto">
+                                Track My Abstract Status
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

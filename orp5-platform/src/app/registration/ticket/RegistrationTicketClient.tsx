@@ -248,7 +248,7 @@ export default function RegistrationTicketClient() {
                                     Organic &amp; Natural Rice Production Systems
                                 </h3>
                                 <p className="text-xs text-gray-300 mt-0.5">
-                                    21 – 25 September 2026 • NASC Complex, Pusa, New Delhi, India
+                                    21 – 25 September 2026 • PHD Chamber of Commerce & Industry, Hauz Khas, New Delhi 110016
                                 </p>
                             </div>
                             <div className="self-start md:self-auto flex items-center gap-1.5 bg-[#DFC074]/15 border border-[#DFC074]/40 px-3 py-1 rounded-full text-[#DFC074] text-xs font-bold uppercase tracking-wider shrink-0">
@@ -309,7 +309,7 @@ export default function RegistrationTicketClient() {
                                     </div>
                                     <div className="flex items-center gap-1.5 w-full">
                                         <MapPin size={13} className="text-red-500 shrink-0" />
-                                        <span>NASC Complex, Dev Prakash Shastri Marg, Pusa, New Delhi</span>
+                                        <span>PHD House, 4/2 August Kranti Marg, Hauz Khas, New Delhi 110016</span>
                                     </div>
                                 </div>
                             </div>

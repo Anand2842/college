@@ -125,7 +125,7 @@ export function Footer() {
                                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-rice-gold shrink-0 mt-0.5">
                                     <MapPin size={15} />
                                 </div>
-                                <span>A.P. Shinde Symposium Hall,<br />NASC Complex, New Delhi, India</span>
+                                <span>PHD Chamber of Commerce & Industry,<br />PHD House, Hauz Khas, New Delhi 110016</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-rice-gold shrink-0">

@@ -18,7 +18,7 @@ export default function RegistrationContent() {
 
             <PageHero
                 headline="Conference Registration"
-                subheadline="Secure your participation pass for physical attendance at NASC Complex New Delhi or worldwide virtual live streaming."
+                subheadline="Secure your participation pass for physical attendance at PHD Chamber of Commerce & Industry, New Delhi or worldwide virtual live streaming."
                 breadcrumb="Home / Registration"
             />
 
@@ -51,7 +51,7 @@ export default function RegistrationContent() {
                             </div>
                             <div>
                                 <h3 className="font-serif font-bold text-lg text-charcoal mb-1">Physical In-Person Mode</h3>
-                                <p className="text-xs sm:text-sm text-charcoal/70 font-light">Attend at the NASC Complex, New Delhi with complete delegate kit, lunch, refreshments & cultural galas.</p>
+                                <p className="text-xs sm:text-sm text-charcoal/70 font-light">Attend at PHD Chamber of Commerce & Industry, Hauz Khas, New Delhi with complete delegate kit, lunch, refreshments & cultural galas.</p>
                             </div>
                         </div>
 

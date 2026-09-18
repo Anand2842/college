@@ -44,3 +44,5 @@ next-env.d.ts
 .env*.local
 tests/venv/
 tests/pdf_text.txt
+*_log.json
+*_audit.json

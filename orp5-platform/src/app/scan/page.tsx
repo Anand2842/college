@@ -402,7 +402,7 @@ export default function PublicScannerPage() {
 
             {/* Footer */}
             <footer className="text-center py-3 text-xs text-gray-300/80 font-medium">
-                ORP-5 International Conference &bull; NASC Complex, New Delhi, India
+                ORP-5 International Conference &bull; PHD Chamber of Commerce & Industry, New Delhi
             </footer>
         </div>
     );

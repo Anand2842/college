@@ -28,9 +28,9 @@ export function VenuePreview({ venue }: { venue?: any }) {
                   <span>New Delhi, India</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-white mb-1">
-                  A.P. Shinde Symposium Hall
+                  PHD Chamber of Commerce and Industry
                 </h3>
-                <p className="text-white/70 text-sm mb-5">NASC Complex, Dev Prakash Shastri Marg • 21–25 September 2026</p>
+                <p className="text-white/70 text-sm mb-5">PHD House, August Kranti Marg, Hauz Khas, New Delhi • 21–25 September 2026</p>
                 
                 <div className="flex flex-wrap gap-3 justify-center">
                   <Link href="/venue">

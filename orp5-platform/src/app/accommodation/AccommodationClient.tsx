@@ -195,7 +195,7 @@ export default function AccommodationClient() {
                         <SectionTitle
                             badge="Additional Options"
                             title="Nearby Recommended Hotels"
-                            subtitle="Alternate comfortable lodging options within 5–10 km radius of the NASC Complex."
+                            subtitle="Alternate comfortable lodging options within 5–10 km radius of the PHD Chamber of Commerce & Industry."
                             centered
                         />
 

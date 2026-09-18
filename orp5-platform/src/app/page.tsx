@@ -62,7 +62,7 @@ export default async function Home() {
       backgroundImage: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765390801550_Here_is_a_202512102348.gif",
       registrationStart: "2026-09-21T00:00:00Z",
       registrationStatusText: "Countdown to Conference",
-      dateVenueLine: "21–25 September 2026 | NASC Complex, New Delhi, India"
+      dateVenueLine: "21–25 September 2026 | PHD Chamber of Commerce & Industry, New Delhi"
     },
     partners: [],
     themes: [
@@ -81,9 +81,9 @@ export default async function Home() {
     dates: [
       { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
       { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "25 August 2026", label: "Abstract Submission Deadline", status: "urgent" },
-      { date: "27 August 2026", label: "Notification of Abstract Status", status: "upcoming" },
-      { date: "15 September 2026", label: "Registration Deadline", status: "upcoming" },
+      { date: "25 August 2026", label: "Abstract Submission Deadline (Closed)", status: "completed" },
+      { date: "27 August 2026", label: "Notification of Abstract Status", status: "completed" },
+      { date: "15 September 2026", label: "Registration Deadline", status: "urgent" },
       { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
     ],
     whyJoin: [],
@@ -91,8 +91,8 @@ export default async function Home() {
     faq: [],
     venue: {
       title: "Conference Venue",
-      description: "NASC Complex, DPS Marg, Pusa, New Delhi, India.",
-      address: "NASC Complex, New Delhi, India"
+      description: "PHD House, 4/2 August Kranti Marg, Hauz Khas, New Delhi 110016, India.",
+      address: "PHD Chamber of Commerce & Industry, Hauz Khas, New Delhi"
     }
   };
 

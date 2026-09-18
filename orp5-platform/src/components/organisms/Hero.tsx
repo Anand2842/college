@@ -102,23 +102,23 @@ export function Hero({
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md sm:max-w-none mx-auto">
-                        <Link href="/submission" className="w-full sm:w-auto">
-                            <Button
-                                size="xl"
-                                variant="premium"
-                                className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider py-4"
-                            >
-                                Submit Abstract
-                            </Button>
-                        </Link>
                         <Button
-                            variant="glass"
                             size="xl"
-                            className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider font-bold py-4 hover:border-rice-gold/60 transition-all"
+                            variant="premium"
+                            className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider font-bold py-4 shadow-lg shadow-emerald-900/30"
                             onClick={openModal}
                         >
                             Register Now
                         </Button>
+                        <Link href="/ticket-status?tab=abstract" className="w-full sm:w-auto">
+                            <Button
+                                variant="glass"
+                                size="xl"
+                                className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider py-4 hover:border-rice-gold/60 transition-all"
+                            >
+                                Track Abstract
+                            </Button>
+                        </Link>
                     </div>
 
                 </motion.div>

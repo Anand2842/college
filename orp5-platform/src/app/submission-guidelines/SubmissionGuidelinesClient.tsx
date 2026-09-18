@@ -91,17 +91,27 @@ export default function SubmissionGuidelinesClient() {
                         {/* CTA Box in sidebar */}
                         <div className="bg-earth-green-deep text-white rounded-3xl p-8 border border-white/10 shadow-lg relative overflow-hidden">
                             <div className="absolute -top-10 -right-10 w-40 h-40 bg-rice-gold/10 blur-[50px] rounded-full pointer-events-none" />
-                            <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                                Ready to Submit?
+                            <span className="text-xs font-bold uppercase tracking-[0.2em] text-red-300 mb-2 block">
+                                Submissions Closed
                             </span>
-                            <h3 className="text-lg font-serif font-bold text-white mb-6">
-                                Submit Your Abstract Online
+                            <h3 className="text-lg font-serif font-bold text-white mb-2">
+                                Abstract Status & Registration
                             </h3>
-                            <Link href="/submission" className="block w-full">
-                                <Button variant="premium" className="w-full text-xs uppercase tracking-wider font-bold justify-center">
-                                    Submit Now <ArrowRight size={15} className="ml-2" />
-                                </Button>
-                            </Link>
+                            <p className="text-xs text-white/70 mb-6 leading-relaxed">
+                                Submissions have closed. Track your review outcome or complete delegate registration.
+                            </p>
+                            <div className="space-y-3">
+                                <Link href="/ticket-status?tab=abstract" className="block w-full">
+                                    <Button variant="premium" className="w-full text-xs uppercase tracking-wider font-bold justify-center">
+                                        Track Status <ArrowRight size={15} className="ml-2" />
+                                    </Button>
+                                </Link>
+                                <Link href="/registration" className="block w-full">
+                                    <Button variant="glass" className="w-full text-xs uppercase tracking-wider font-bold justify-center text-white">
+                                        Register Now
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
 

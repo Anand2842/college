@@ -150,7 +150,7 @@ export async function POST(request: Request) {
                                         <tr><td style="padding: 8px 0; color: #666;">Mode:</td><td style="padding: 8px 0; font-weight: bold; text-transform: capitalize;">${mode}</td></tr>
                                         <tr><td style="padding: 8px 0; color: #666;">Fee Amount:</td><td style="padding: 8px 0; font-weight: bold; color: #166534;">${formattedFee} (Confirmed)</td></tr>
                                         <tr><td style="padding: 8px 0; color: #666;">Dates:</td><td style="padding: 8px 0; font-weight: bold;">21–25 September 2026</td></tr>
-                                        <tr><td style="padding: 8px 0; color: #666;">Venue:</td><td style="padding: 8px 0; font-weight: bold;">NASC Complex, New Delhi, India</td></tr>
+                                        <tr><td style="padding: 8px 0; color: #666;">Venue:</td><td style="padding: 8px 0; font-weight: bold;">PHD Chamber of Commerce & Industry, Hauz Khas, New Delhi 110016</td></tr>
                                     </table>
                                     <p style="font-size: 13px; color: #666; margin-top: 24px;">For any queries, please reach out to <a href="mailto:info@orp5ic.com" style="color: #123125; font-weight: bold;">info@orp5ic.com</a>.</p>
                                 </div>

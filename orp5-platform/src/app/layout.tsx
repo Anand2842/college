@@ -169,13 +169,13 @@ export default function RootLayout({
             "image": "https://www.orp5ic.com/og-image.jpg",
             "location": {
               "@type": "Place",
-              "name": "NASC Complex",
+              "name": "PHD Chamber of Commerce and Industry",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "NASC Complex, DPS Marg",
-                "addressLocality": "New Delhi",
+                "streetAddress": "PHD House, 4/2, August Kranti Marg, Siri Institutional Area",
+                "addressLocality": "Hauz Khas, New Delhi",
                 "addressRegion": "Delhi",
-                "postalCode": "110012",
+                "postalCode": "110016",
                 "addressCountry": "IN"
               }
             },

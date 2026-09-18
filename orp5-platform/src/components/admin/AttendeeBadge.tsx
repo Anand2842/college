@@ -412,7 +412,7 @@ export function AttendeeBadge({
 
                     {/* Date & Venue Bar */}
                     <div className="text-[7px] font-medium text-gray-500 text-center tracking-tight mt-1 w-full">
-                        21 – 25 September 2026 &nbsp;|&nbsp; NASC Complex, New Delhi, India
+                        21 – 25 September 2026 &nbsp;|&nbsp; PHD Chamber of Commerce & Industry, New Delhi
                     </div>
                 </div>
 

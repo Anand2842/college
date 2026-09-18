@@ -554,7 +554,7 @@ export default function ProgrammePageEditor() {
                                                             value={sess.venue || ""}
                                                             onChange={(e) => handleUpdateSession(activeTab, sIdx, "venue", e.target.value)}
                                                             className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-xs"
-                                                            placeholder="A.P. Shinde Symposium Hall"
+                                                            placeholder="PHD Chamber of Commerce and Industry"
                                                         />
                                                     </div>
                                                 </div>

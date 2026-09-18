@@ -26,9 +26,11 @@ const navItems: NavItem[] = [
         ]
     },
     {
-        label: "Call for Papers",
+        label: "Abstracts",
         href: "/submission",
         children: [
+            { label: "Abstract Submission (Closed)", href: "/submission" },
+            { label: "Track Abstract Status", href: "/ticket-status?tab=abstract" },
             { label: "Submission Guidelines", href: "/submission-guidelines" },
             { label: "Conference Themes", href: "/themes" },
             { label: "Publications", href: "/publications" },

@@ -44,24 +44,24 @@ export function CallForPapers() {
             
             {/* Left Content */}
             <div className="lg:col-span-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-50 text-red-600 rounded-full text-sm font-bold mb-6 border border-red-100">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                DEADLINE: 25 AUGUST 2026
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold mb-6 border border-red-200">
+                <Clock size={14} className="text-red-600" />
+                ABSTRACT SUBMISSIONS CLOSED
               </div>
               
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-charcoal mb-4">
-                Share Your Research with the World
+                Abstract Submissions are Now Closed
               </h2>
               
               <p className="text-gray-600 text-lg mb-8">
-                The ORP-5 Scientific Committee invites abstracts for oral, poster, and video presentations. All submissions undergo a blind peer review process.
+                The ORP-5 Scientific Committee has closed abstract intake. Submitted abstracts are currently undergoing blind peer review. Authors will be notified of decisions via email.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {[
-                  "Abstracts up to 500 words",
-                  "PDF/DOCX file upload",
-                  "Double-blind peer review",
+                  "Blind peer review in progress",
+                  "Scopus-indexed publication",
+                  "Oral & Poster sessions scheduled",
                   "Published in Souvenir & Abstract Book",
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-gray-700">
@@ -72,48 +72,28 @@ export function CallForPapers() {
               </div>
             </div>
             
-            {/* Right Content - CTAs & Countdown */}
+            {/* Right Content - CTAs */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <div className="bg-[#FFFDF7] p-6 rounded-2xl border border-gray-100 text-center">
-                {timeLeft && (
-                  <div className="mb-6 pb-6 border-b border-gray-100">
-                    <div className="flex items-center justify-center gap-2 text-red-600 mb-3">
-                      <Clock size={18} className="animate-pulse" />
-                      <span className="text-sm font-bold uppercase tracking-wider">Abstracts Close In</span>
-                    </div>
-                    <div className="flex justify-center gap-3">
-                      {[
-                        { label: 'Days', value: timeLeft.days },
-                        { label: 'Hrs', value: timeLeft.hours },
-                        { label: 'Min', value: timeLeft.minutes },
-                        { label: 'Sec', value: timeLeft.seconds }
-                      ].map((unit, idx) => (
-                        <div key={idx} className="flex flex-col items-center">
-                          <div className="w-12 h-12 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-xl font-bold text-charcoal shadow-sm">
-                            {unit.value.toString().padStart(2, '0')}
-                          </div>
-                          <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">{unit.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-4 font-bold">
+                  <CheckCircle2 size={24} />
+                </div>
                 
-                <h3 className="font-bold text-charcoal mb-2">Ready to submit?</h3>
-                <p className="text-sm text-gray-500 mb-6">Create an account or login to access the submission portal.</p>
+                <h3 className="font-bold text-charcoal mb-2 text-lg">Already Submitted?</h3>
+                <p className="text-sm text-gray-500 mb-6">Track your review decision or complete your mandatory delegate registration.</p>
                 
                 <div className="flex flex-col gap-3">
-                  <Link href="/submission" className="w-full">
-                    <Button className="w-full bg-earth-green hover:bg-green-800 text-white font-bold h-12 text-lg">
-                      <FileText className="mr-2" size={20} />
-                      Submit Abstract Now
+                  <Link href="/ticket-status?tab=abstract" className="w-full">
+                    <Button className="w-full bg-[#123125] hover:bg-earth-green text-white font-bold h-12 text-base">
+                      <FileText className="mr-2" size={18} />
+                      Track Abstract Status
                     </Button>
                   </Link>
                   
-                  <Link href="/submission-guidelines" className="w-full">
-                    <Button variant="outline" className="w-full h-12">
-                      <Download className="mr-2" size={18} />
-                      Download Guidelines
+                  <Link href="/registration" className="w-full">
+                    <Button className="w-full bg-[#24C535] hover:bg-green-600 text-white font-bold h-12 text-base">
+                      <CheckCircle2 className="mr-2" size={18} />
+                      Delegate Registration
                     </Button>
                   </Link>
                 </div>
