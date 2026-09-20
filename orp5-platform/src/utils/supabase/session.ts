@@ -92,7 +92,9 @@ export async function updateSession(request: NextRequest) {
     }
 
     // Protected API Routes Logic (specifically admin APIs)
-    if (request.nextUrl.pathname.startsWith('/api/admin') && !request.nextUrl.pathname.startsWith('/api/admin/verify-ticket')) {
+    if (request.nextUrl.pathname.startsWith('/api/admin') && 
+        !request.nextUrl.pathname.startsWith('/api/admin/verify-ticket') &&
+        !request.nextUrl.pathname.startsWith('/api/admin/attendance')) {
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }

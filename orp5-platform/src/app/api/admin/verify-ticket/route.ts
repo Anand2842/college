@@ -3,10 +3,21 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
+export const CHECKPOINTS: Record<string, { name: string; singleUse: boolean; icon: string }> = {
+    main_entry: { name: 'Main Entrance Check-In', singleUse: false, icon: '🎟️' },
+    kit_distribution: { name: 'Conference Kit Distribution', singleUse: true, icon: '🎒' },
+    lunch_day_1: { name: 'Lunch — Day 1 (22 Sep)', singleUse: true, icon: '🍱' },
+    lunch_day_2: { name: 'Lunch — Day 2 (23 Sep)', singleUse: true, icon: '🍱' },
+    lunch_day_3: { name: 'Lunch — Day 3 (24 Sep)', singleUse: true, icon: '🍱' },
+    gala_dinner: { name: 'Gala Dinner / Banquet (23 Sep)', singleUse: true, icon: '🍽️' },
+    plenary_hall: { name: 'Plenary Session Hall', singleUse: false, icon: '🏛️' },
+    tech_hall: { name: 'Technical Sessions Hall', singleUse: false, icon: '🎤' },
+};
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        let { ticketId } = body;
+        let { ticketId, checkpoint = 'main_entry', scannedBy = 'Scanner Device', location = 'PHD House', recordScan = true } = body;
 
         if (!ticketId || typeof ticketId !== 'string') {
             return NextResponse.json({ error: 'Ticket ID is required' }, { status: 400 });
@@ -25,8 +36,9 @@ export async function POST(request: Request) {
             }
         }
 
-        console.log(`[VERIFY] Received request to verify ticket: "${ticketId}"`);
+        console.log(`[VERIFY] Verifying ticket: "${ticketId}" at checkpoint: "${checkpoint}" (record: ${recordScan})`);
         const supabase = getSupabaseAdmin();
+        const checkpointConfig = CHECKPOINTS[checkpoint] || { name: checkpoint, singleUse: false, icon: '📍' };
 
         // 2. Multi-tier lookup across registrations table
         const { data: allRegs, error: fetchErr } = await supabase
@@ -57,6 +69,14 @@ export async function POST(request: Request) {
                 // Match attendee name
                 const fullName = (data.full_name || data.fullName || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
                 if (cleanQuery.length >= 5 && fullName.includes(cleanQuery)) return true;
+
+                // Match attendee email
+                const emailStr = (data.email || '').trim().toLowerCase();
+                if (ticketId.includes('@') && emailStr === ticketId.toLowerCase()) return true;
+
+                // Match attendee phone
+                const phoneClean = (data.phone || '').replace(/\D/g, '');
+                if (cleanQuery.length >= 8 && phoneClean.includes(cleanQuery)) return true;
 
                 return false;
             });
@@ -108,6 +128,43 @@ export async function POST(request: Request) {
                     }
                 }
 
+                // 2b. Handle Scan History & Persistence
+                const existingScans = Array.isArray(data.scans) ? [...data.scans] : [];
+                const priorScansForCheckpoint = existingScans.filter((s: any) => s.checkpoint === checkpoint);
+                const isDuplicate = priorScansForCheckpoint.length > 0;
+                const lastPreviousScan = isDuplicate ? priorScansForCheckpoint[priorScansForCheckpoint.length - 1] : null;
+
+                let newScanRecord: any = null;
+                if (recordScan) {
+                    newScanRecord = {
+                        id: `scan_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                        checkpoint,
+                        checkpointName: checkpointConfig.name,
+                        timestamp: new Date().toISOString(),
+                        scannedBy: String(scannedBy || 'Gate Scanner'),
+                        location: String(location || 'Venue Checkpoint'),
+                        isDuplicate: isDuplicate,
+                        scanIndex: priorScansForCheckpoint.length + 1
+                    };
+
+                    existingScans.push(newScanRecord);
+
+                    // Update database
+                    const updatedData = {
+                        ...data,
+                        scans: existingScans,
+                        last_scanned_at: newScanRecord.timestamp,
+                        scan_count: existingScans.length,
+                        ...(checkpoint === 'kit_distribution' ? { kit_collected: true, kit_collected_at: newScanRecord.timestamp } : {}),
+                        ...(checkpoint === 'main_entry' && !data.checked_in_at ? { checked_in_at: newScanRecord.timestamp } : {})
+                    };
+
+                    await supabase
+                        .from('registrations')
+                        .update({ data: updatedData })
+                        .eq('id', matched.id);
+                }
+
                 return NextResponse.json({
                     valid: true,
                     registrant: {
@@ -131,6 +188,16 @@ export async function POST(request: Request) {
                         abstractTopic: matchedAbs?.topic || matchedAbs?.category || null,
                         status: matched.status || 'Active',
                         registeredAt: matched.created_at || data.submittedAt || null,
+                    },
+                    scanDetails: {
+                        checkpoint,
+                        checkpointName: checkpointConfig.name,
+                        checkpointIcon: checkpointConfig.icon,
+                        scanCountForCheckpoint: priorScansForCheckpoint.length + (recordScan ? 1 : 0),
+                        isDuplicateScan: isDuplicate && checkpointConfig.singleUse,
+                        lastPreviousScanAt: lastPreviousScan ? lastPreviousScan.timestamp : null,
+                        totalScans: existingScans.length,
+                        scanHistory: existingScans
                     }
                 });
             }
@@ -163,6 +230,8 @@ export async function POST(request: Request) {
                             institution: m.affiliation || '',
                             country: (m.country || 'India').toUpperCase(),
                             photoUrl: m.imageUrl || '',
+                            email: m.email || '',
+                            phone: m.phone || ''
                         });
                     });
                 }
@@ -182,11 +251,12 @@ export async function POST(request: Request) {
                     institution: 'ORP-5 Organizing Committee',
                     country: 'INDIA',
                     photoUrl: c.imageUrl || '',
+                    email: c.email || '',
+                    phone: c.phone || ''
                 });
             });
         }
 
-        // Match against committee & secretariat
         const cleanQuery = ticketId.toUpperCase().replace(/[^A-Z0-9]/g, '');
         const matchedComm = committeeList.find(c => {
             const tNum = c.ticketNumber.toUpperCase();
@@ -203,6 +273,21 @@ export async function POST(request: Request) {
         });
 
         if (matchedComm) {
+            const { existingScans, isDuplicate, lastPreviousScan, totalScans } = await recordOfficialBadgeScan(
+                supabase, 
+                matchedComm.ticketNumber, 
+                matchedComm.name, 
+                matchedComm.category, 
+                matchedComm.designation, 
+                matchedComm.institution, 
+                matchedComm.country, 
+                checkpoint, 
+                checkpointConfig, 
+                scannedBy, 
+                location, 
+                recordScan
+            );
+
             return NextResponse.json({
                 valid: true,
                 registrant: {
@@ -218,6 +303,16 @@ export async function POST(request: Request) {
                     isPaid: true,
                     paymentStatus: 'Official / VIP Pass',
                     status: 'Active',
+                },
+                scanDetails: {
+                    checkpoint,
+                    checkpointName: checkpointConfig.name,
+                    checkpointIcon: checkpointConfig.icon,
+                    scanCountForCheckpoint: (isDuplicate ? 2 : 1),
+                    isDuplicateScan: isDuplicate && checkpointConfig.singleUse,
+                    lastPreviousScanAt: lastPreviousScan ? lastPreviousScan.timestamp : null,
+                    totalScans,
+                    scanHistory: existingScans
                 }
             });
         }
@@ -269,6 +364,21 @@ export async function POST(request: Request) {
         });
 
         if (matchedSpk) {
+            const { existingScans, isDuplicate, lastPreviousScan, totalScans } = await recordOfficialBadgeScan(
+                supabase, 
+                matchedSpk.ticketNumber, 
+                matchedSpk.name, 
+                matchedSpk.category, 
+                matchedSpk.designation, 
+                matchedSpk.institution, 
+                matchedSpk.country, 
+                checkpoint, 
+                checkpointConfig, 
+                scannedBy, 
+                location, 
+                recordScan
+            );
+
             return NextResponse.json({
                 valid: true,
                 registrant: {
@@ -284,6 +394,16 @@ export async function POST(request: Request) {
                     isPaid: true,
                     paymentStatus: 'Official Speaker Pass',
                     status: 'Active',
+                },
+                scanDetails: {
+                    checkpoint,
+                    checkpointName: checkpointConfig.name,
+                    checkpointIcon: checkpointConfig.icon,
+                    scanCountForCheckpoint: (isDuplicate ? 2 : 1),
+                    isDuplicateScan: isDuplicate && checkpointConfig.singleUse,
+                    lastPreviousScanAt: lastPreviousScan ? lastPreviousScan.timestamp : null,
+                    totalScans,
+                    scanHistory: existingScans
                 }
             });
         }
@@ -328,6 +448,21 @@ export async function POST(request: Request) {
         });
 
         if (matchedVol) {
+            const { existingScans, isDuplicate, lastPreviousScan, totalScans } = await recordOfficialBadgeScan(
+                supabase, 
+                matchedVol.ticketNumber, 
+                matchedVol.name, 
+                matchedVol.category, 
+                matchedVol.designation, 
+                matchedVol.institution, 
+                matchedVol.country, 
+                checkpoint, 
+                checkpointConfig, 
+                scannedBy, 
+                location, 
+                recordScan
+            );
+
             return NextResponse.json({
                 valid: true,
                 registrant: {
@@ -343,6 +478,16 @@ export async function POST(request: Request) {
                     isPaid: true,
                     paymentStatus: 'Official Volunteer Pass',
                     status: 'Active',
+                },
+                scanDetails: {
+                    checkpoint,
+                    checkpointName: checkpointConfig.name,
+                    checkpointIcon: checkpointConfig.icon,
+                    scanCountForCheckpoint: (isDuplicate ? 2 : 1),
+                    isDuplicateScan: isDuplicate && checkpointConfig.singleUse,
+                    lastPreviousScanAt: lastPreviousScan ? lastPreviousScan.timestamp : null,
+                    totalScans,
+                    scanHistory: existingScans
                 }
             });
         }
@@ -351,13 +496,30 @@ export async function POST(request: Request) {
         if (cleanQuery.includes('SPOT') || ticketId.toUpperCase().includes('SPOT-')) {
             const spotMatch = cleanQuery.match(/SPOT(\d+)/);
             const spotNum = spotMatch ? spotMatch[1].padStart(3, '0') : '001';
+            const spotTicket = `ORP5IC-SPOT-${spotNum}`;
+
+            const { existingScans, isDuplicate, lastPreviousScan, totalScans } = await recordOfficialBadgeScan(
+                supabase, 
+                spotTicket, 
+                `On-Spot Delegate #${spotNum}`, 
+                'ON-SPOT REGISTRATION', 
+                'On-Spot Delegate Pass', 
+                'Physical Registration Desk (Handwritten)', 
+                'INDIA', 
+                checkpoint, 
+                checkpointConfig, 
+                scannedBy, 
+                location, 
+                recordScan
+            );
+
             return NextResponse.json({
                 valid: true,
                 registrant: {
                     id: `spot-${spotNum}`,
-                    name: 'On-Spot Registered Delegate',
+                    name: `On-Spot Delegate #${spotNum}`,
                     category: 'ON-SPOT REGISTRATION',
-                    ticketId: `ORP5IC-SPOT-${spotNum}`,
+                    ticketId: spotTicket,
                     mode: 'In-Person (Physical)',
                     institution: 'Physical Registration Desk (Handwritten)',
                     country: 'INDIA',
@@ -366,6 +528,16 @@ export async function POST(request: Request) {
                     isPaid: true,
                     paymentStatus: 'Official / On-Spot Pass',
                     status: 'Active',
+                },
+                scanDetails: {
+                    checkpoint,
+                    checkpointName: checkpointConfig.name,
+                    checkpointIcon: checkpointConfig.icon,
+                    scanCountForCheckpoint: (isDuplicate ? 2 : 1),
+                    isDuplicateScan: isDuplicate && checkpointConfig.singleUse,
+                    lastPreviousScanAt: lastPreviousScan ? lastPreviousScan.timestamp : null,
+                    totalScans,
+                    scanHistory: existingScans
                 }
             });
         }
@@ -375,5 +547,90 @@ export async function POST(request: Request) {
     } catch (error: any) {
         console.error("Verification error:", error);
         return NextResponse.json({ error: 'Verification failed: ' + error?.message }, { status: 500 });
+    }
+}
+
+/**
+ * Helper to record scans for special badges (Committee, Speaker, Volunteer, On-Spot)
+ */
+async function recordOfficialBadgeScan(
+    supabase: any,
+    ticketNumber: string,
+    name: string,
+    category: string,
+    designation: string,
+    institution: string,
+    country: string,
+    checkpoint: string,
+    checkpointConfig: any,
+    scannedBy: string,
+    location: string,
+    recordScan: boolean
+) {
+    try {
+        // Look for existing row in registrations by ticket_number
+        const { data: rows } = await supabase.from('registrations').select('*');
+        let matchedRow = rows?.find((r: any) => (r.data?.ticket_number || '').toUpperCase() === ticketNumber.toUpperCase());
+
+        let existingScans: any[] = [];
+        if (matchedRow && Array.isArray(matchedRow.data?.scans)) {
+            existingScans = [...matchedRow.data.scans];
+        }
+
+        const priorScansForCheckpoint = existingScans.filter((s: any) => s.checkpoint === checkpoint);
+        const isDuplicate = priorScansForCheckpoint.length > 0;
+        const lastPreviousScan = isDuplicate ? priorScansForCheckpoint[priorScansForCheckpoint.length - 1] : null;
+
+        if (recordScan) {
+            const newScan = {
+                id: `scan_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                checkpoint,
+                checkpointName: checkpointConfig.name,
+                timestamp: new Date().toISOString(),
+                scannedBy: String(scannedBy || 'Gate Scanner'),
+                location: String(location || 'Venue Checkpoint'),
+                isDuplicate: isDuplicate,
+                scanIndex: priorScansForCheckpoint.length + 1
+            };
+            existingScans.push(newScan);
+
+            const payloadData = {
+                ...(matchedRow?.data || {}),
+                ticket_number: ticketNumber,
+                full_name: name,
+                category: category,
+                designation: designation,
+                institution: institution,
+                country: country,
+                nationality: country,
+                payment_status: 'paid',
+                mode: 'physical',
+                scans: existingScans,
+                last_scanned_at: newScan.timestamp,
+                scan_count: existingScans.length,
+                ...(checkpoint === 'kit_distribution' ? { kit_collected: true, kit_collected_at: newScan.timestamp } : {}),
+                ...(checkpoint === 'main_entry' && !(matchedRow?.data?.checked_in_at) ? { checked_in_at: newScan.timestamp } : {})
+            };
+
+            if (matchedRow) {
+                await supabase.from('registrations').update({ data: payloadData }).eq('id', matchedRow.id);
+            } else {
+                await supabase.from('registrations').insert({
+                    data: payloadData,
+                    status: 'approved',
+                    submitted_at: new Date().toISOString()
+                });
+            }
+        }
+
+        return {
+            existingScans,
+            isDuplicate,
+            lastPreviousScan,
+            totalScans: existingScans.length
+        };
+    } catch (e) {
+        console.error('Error recording official badge scan:', e);
+        return { existingScans: [], isDuplicate: false, lastPreviousScan: null, totalScans: 1 };
     }
 }
