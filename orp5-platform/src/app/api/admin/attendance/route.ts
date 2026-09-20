@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { CHECKPOINTS } from '@/app/api/admin/verify-ticket/route';
+import { getCanonicalConferenceBadgeDirectory } from '@/lib/badge-registry';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +14,10 @@ export async function GET(request: Request) {
 
         const supabase = getSupabaseAdmin();
 
-        // Fetch all registrations
+        // 1. Get canonical badge directory (all printed badges)
+        const { allBadges } = await getCanonicalConferenceBadgeDirectory();
+
+        // 2. Fetch all raw registrations for latest live scans
         const { data: allRegs, error } = await supabase
             .from('registrations')
             .select('*')
@@ -24,9 +28,28 @@ export async function GET(request: Request) {
             return NextResponse.json({ error: 'Database error fetching attendance' }, { status: 500 });
         }
 
+        // Map live scans by registrationId or badge id
+        const scansByRegId = new Map<string, any[]>();
+        const lastScanTimeByRegId = new Map<string, string>();
+        const checkedInMap = new Map<string, boolean>();
+        const kitMap = new Map<string, boolean>();
+
+        (allRegs || []).forEach((row: any) => {
+            const data = row.data || {};
+            const scans = Array.isArray(data.scans) ? data.scans : [];
+            const rId = row.id.toLowerCase();
+            scansByRegId.set(rId, scans);
+            if (data.ticket_number) {
+                scansByRegId.set(data.ticket_number.toUpperCase().trim(), scans);
+            }
+            if (data.last_scanned_at) lastScanTimeByRegId.set(rId, data.last_scanned_at);
+            if (data.checked_in_at) checkedInMap.set(rId, true);
+            if (data.kit_collected) kitMap.set(rId, true);
+        });
+
         // Aggregate stats and extract all flat scan records
         const stats = {
-            totalRegistrations: allRegs.length,
+            totalRegistrations: allBadges.length,
             totalCheckedIn: 0,
             totalKitsDistributed: 0,
             lunchDay1: 0,
@@ -40,31 +63,23 @@ export async function GET(request: Request) {
         const allScanEvents: any[] = [];
         const attendeeSummaryList: any[] = [];
 
-        (allRegs || []).forEach((row: any) => {
-            const data = row.data || {};
-            const scans = Array.isArray(data.scans) ? data.scans : [];
-            const ticketId = data.ticket_number || data.ticketId || `ORP5IC-IND-${row.id.substring(0, 5).toUpperCase()}`;
-            const name = data.full_name || data.fullName || data.name || 'Delegate';
-            const category = data.category || 'DELEGATE';
-            const institution = data.institution || data.affiliation || '';
-            const mode = data.mode || 'physical';
-            const isPaid = (data.payment_status || row.status || '').toLowerCase() === 'paid' ||
-                           (data.payment_status || '').toLowerCase() === 'confirmed' ||
-                           (data.payment_status || '').toLowerCase() === 'free_pass';
+        allBadges.forEach((badge) => {
+            const rId = (badge.registrationId || badge.id).toLowerCase();
+            const liveScans = scansByRegId.get(rId) || scansByRegId.get(badge.ticketNumber.toUpperCase()) || badge.scans || [];
 
-            if (scans.length > 0) {
+            if (liveScans.length > 0) {
                 stats.uniqueAttendeesScanned++;
-                stats.totalScansOverall += scans.length;
+                stats.totalScansOverall += liveScans.length;
             }
 
-            let hasCheckedIn = false;
-            let hasKit = false;
+            let hasCheckedIn = checkedInMap.get(rId) || false;
+            let hasKit = kitMap.get(rId) || false;
             let hasLunch1 = false;
             let hasLunch2 = false;
             let hasLunch3 = false;
             let hasDinner = false;
 
-            scans.forEach((scan: any) => {
+            liveScans.forEach((scan: any) => {
                 const cp = scan.checkpoint || 'main_entry';
                 if (cp === 'main_entry') { hasCheckedIn = true; }
                 if (cp === 'kit_distribution') { hasKit = true; }
@@ -75,11 +90,11 @@ export async function GET(request: Request) {
 
                 allScanEvents.push({
                     scanId: scan.id,
-                    attendeeId: row.id,
-                    ticketId,
-                    name,
-                    category,
-                    institution,
+                    attendeeId: badge.id,
+                    ticketId: badge.ticketNumber,
+                    name: badge.name,
+                    category: badge.category,
+                    institution: badge.institution,
                     checkpoint: cp,
                     checkpointName: scan.checkpointName || CHECKPOINTS[cp]?.name || cp,
                     timestamp: scan.timestamp,
@@ -87,36 +102,37 @@ export async function GET(request: Request) {
                     location: scan.location || 'Venue',
                     isDuplicate: !!scan.isDuplicate,
                     scanIndex: scan.scanIndex || 1,
-                    isPaid
+                    isPaid: badge.isPaid
                 });
             });
 
-            if (hasCheckedIn || data.checked_in_at) stats.totalCheckedIn++;
-            if (hasKit || data.kit_collected) stats.totalKitsDistributed++;
+            if (hasCheckedIn) stats.totalCheckedIn++;
+            if (hasKit) stats.totalKitsDistributed++;
             if (hasLunch1) stats.lunchDay1++;
             if (hasLunch2) stats.lunchDay2++;
             if (hasLunch3) stats.lunchDay3++;
             if (hasDinner) stats.galaDinner++;
 
             attendeeSummaryList.push({
-                id: row.id,
-                ticketId,
-                name,
-                category,
-                institution,
-                email: data.email || '',
-                phone: data.phone || '',
-                mode,
-                isPaid,
-                totalScans: scans.length,
-                hasCheckedIn: hasCheckedIn || !!data.checked_in_at,
-                hasKit: hasKit || !!data.kit_collected,
+                id: badge.id,
+                ticketId: badge.ticketNumber,
+                name: badge.name,
+                category: badge.category,
+                institution: badge.institution,
+                email: badge.email || '',
+                phone: badge.phone || '',
+                group: badge.group,
+                mode: badge.mode,
+                isPaid: badge.isPaid,
+                totalScans: liveScans.length,
+                hasCheckedIn,
+                hasKit,
                 hasLunch1,
                 hasLunch2,
                 hasLunch3,
                 hasDinner,
-                lastScannedAt: data.last_scanned_at || null,
-                scans
+                lastScannedAt: lastScanTimeByRegId.get(rId) || null,
+                scans: liveScans
             });
         });
 
