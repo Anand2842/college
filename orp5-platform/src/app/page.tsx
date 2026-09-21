@@ -10,6 +10,7 @@ import { StatsStrip } from "@/components/organisms/StatsStrip";
 import { OrganizersHierarchy } from "@/components/organisms/OrganizersHierarchy";
 import { AboutPreview } from "@/components/organisms/AboutPreview";
 import { VenuePreview } from "@/components/organisms/VenuePreview";
+import { HomeGallerySection } from "@/components/organisms/HomeGallerySection";
 import { Footer } from "@/components/organisms/Footer";
 import { createPageMetadata } from "@/lib/metadata";
 import {
@@ -230,7 +231,10 @@ export default async function Home() {
       {/* 6. Venue & Accommodation Preview */}
       <VenuePreview venue={data.venue} />
 
-      {/* 7. Organizers & Global Partners */}
+      {/* 7. Bold Live Media & Photo Gallery Showcase */}
+      <HomeGallerySection items={data.gallery} />
+
+      {/* 8. Organizers & Global Partners */}
       <section id="partners" className="py-16 bg-white border-t border-gray-200/60">
         <div className="container mx-auto px-6 text-center max-w-7xl">
           <SectionTitle
