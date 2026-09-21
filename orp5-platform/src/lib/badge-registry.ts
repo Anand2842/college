@@ -17,6 +17,7 @@ export interface CanonicalBadgeEntry {
     hasAbstract: boolean;
     abstractStatus: string;
     abstractTitle: string;
+    isBlank?: boolean;
     email?: string;
     phone?: string;
     userId?: string;
@@ -405,27 +406,46 @@ export async function getCanonicalConferenceBadgeDirectory(): Promise<{
         return true;
     });
 
-    // 6. Blank / On-Spot Badges
-    const blankCards: CanonicalBadgeEntry[] = Array.from({ length: 25 }).map((_, index) => {
-        const paddedId = String(index + 1).padStart(3, '0');
-        return {
-            id: `spot-${paddedId}`,
-            name: "ON-SPOT DELEGATE",
-            ticketNumber: `ORP5IC-SPOT-${paddedId}`,
-            category: "ON-SPOT REGISTRATION",
-            group: 'blank' as const,
-            subgroup: "Blank Card",
-            country: "INDIA",
-            institution: "On-Spot Attendee",
-            designation: "Attendee",
-            photoUrl: "",
-            mode: "physical",
-            paymentStatus: "paid",
-            isPaid: true,
-            hasAbstract: false,
-            abstractStatus: "none",
-            abstractTitle: "",
-        };
+    // 6. Blank / On-Spot Badges (20 cards per category = 220 cards total)
+    const blankCategories = [
+        { code: "DEL", category: "DELEGATE", subgroup: "Delegate Blank", role: "DELEGATE" },
+        { code: "RES", category: "RESEARCH SCHOLAR", subgroup: "Research Scholar Blank", role: "RESEARCH SCHOLAR" },
+        { code: "SCI", category: "SCIENTIST", subgroup: "Scientist / Faculty Blank", role: "SCIENTIST" },
+        { code: "STU", category: "STUDENT", subgroup: "Student Blank", role: "STUDENT" },
+        { code: "PRO", category: "PROFESSIONAL", subgroup: "Professional Blank", role: "PROFESSIONAL" },
+        { code: "FAR", category: "INNOVATIVE FARMER", subgroup: "Farmer Blank", role: "INNOVATIVE FARMER" },
+        { code: "SPK", category: "INVITED SPEAKER", subgroup: "Invited Speaker Blank", role: "INVITED SPEAKER" },
+        { code: "COM", category: "ORGANIZING COMMITTEE", subgroup: "Committee Blank", role: "ORGANIZING COMMITTEE" },
+        { code: "VOL", category: "VOLUNTEER", subgroup: "Volunteer Blank", role: "VOLUNTEER" },
+        { code: "VIP", category: "GUEST OF HONOUR", subgroup: "VIP / Guest of Honour Blank", role: "GUEST OF HONOUR" },
+        { code: "SPT", category: "ON-SPOT REGISTRATION", subgroup: "On-Spot Registration Blank", role: "ON-SPOT REGISTRATION" },
+    ];
+
+    const blankCards: CanonicalBadgeEntry[] = [];
+    blankCategories.forEach((cat) => {
+        for (let i = 1; i <= 20; i++) {
+            const paddedIndex = String(i).padStart(3, '0');
+            const ticketNum = `ORP5IC-BLK-${cat.code}-${paddedIndex}`;
+            blankCards.push({
+                id: `blank-${cat.code.toLowerCase()}-${paddedIndex}`,
+                name: `BLANK ${cat.role} #${paddedIndex}`,
+                ticketNumber: ticketNum,
+                category: cat.category,
+                group: 'blank' as const,
+                subgroup: cat.subgroup,
+                country: "INDIA",
+                institution: "Blank / On-Spot Attendee",
+                designation: cat.category,
+                photoUrl: "",
+                mode: "physical",
+                paymentStatus: "paid",
+                isPaid: true,
+                hasAbstract: false,
+                abstractStatus: "none",
+                abstractTitle: "",
+                isBlank: true,
+            });
+        }
     });
 
     const allBadges: CanonicalBadgeEntry[] = [

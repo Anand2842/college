@@ -519,17 +519,17 @@ export function AttendeeBadge({
 
                         {/* Category Line & Country */}
                         <div className="flex items-center justify-between gap-1.5 pt-0.5">
-                            <div className="flex items-baseline gap-1">
+                            <div className="flex items-baseline gap-1 min-w-0">
                                 <span className="text-[7.5px] font-bold uppercase text-gray-500 tracking-wider shrink-0">
-                                    ROLE:
+                                    CATEGORY:
                                 </span>
-                                <span className="text-[8.5px] font-black text-[#c4891e] uppercase tracking-wide">
-                                    ON-SPOT DELEGATE
+                                <span className="text-[8.5px] font-black text-[#063F2B] uppercase tracking-wide truncate">
+                                    {category}
                                 </span>
                             </div>
-                            <div className="text-[8.5px] font-bold text-gray-700 flex items-center gap-1">
-                                <span>🇮🇳</span>
-                                <span>INDIA</span>
+                            <div className="text-[8.5px] font-bold text-gray-700 flex items-center gap-1 shrink-0">
+                                <span>{flagEmoji}</span>
+                                <span>{country}</span>
                             </div>
                         </div>
                     </div>

@@ -57,13 +57,15 @@ export async function POST(request: Request) {
             matched = badgeMapById.get(ticketId.toLowerCase().trim());
         }
 
-        // TIER 3: Suffix Match for ORP5IC-IND-XXXXX / ORP5IC-INT-XXXXX / ORP5IC-COM-XXX / ORP5IC-SPK-XXX
+        // TIER 3: Suffix Match for ORP5IC-IND-XXXXX / ORP5IC-INT-XXXXX / ORP5IC-COM-XXX / ORP5IC-SPK-XXX / ORP5IC-BLK-XXX-XXX
         if (!matched) {
-            const indMatch = cleanTicketUpper.match(/ORP5IC-(?:IND|INT)-([A-Z0-9]{4,6})/i);
+            const indMatch = cleanTicketUpper.match(/ORP5IC-(?:IND|INT|COM|SPK|VOL|BLK|SPOT)-([A-Z0-9-]+)/i);
             if (indMatch) {
                 const suffix = indMatch[1].toUpperCase();
                 matched = allBadges.find(b => 
                     b.ticketNumber.toUpperCase().endsWith(suffix) || 
+                    b.ticketNumber.toUpperCase().includes(suffix) ||
+                    b.id.toUpperCase().endsWith(suffix) ||
                     b.id.toUpperCase().startsWith(suffix) ||
                     (b.registrationId && b.registrationId.toUpperCase().startsWith(suffix))
                 );

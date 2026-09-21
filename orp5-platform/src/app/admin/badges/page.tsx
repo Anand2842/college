@@ -454,7 +454,7 @@ export default function AdminBadgesPage() {
                             </span>
                         </h4>
                         <p className="text-xs text-gray-300 mt-0.5">
-                            Duplicate registrations and cross-category entries (Speakers & Committee) are automatically merged. 25 Blank On-Spot Cards generated for pen handwriting.
+                            Duplicate registrations and cross-category entries (Speakers & Committee) are automatically merged. 220 Blank ID Cards (20 per category) generated with unique scannable QR codes.
                         </p>
                     </div>
                 </div>
@@ -465,7 +465,7 @@ export default function AdminBadgesPage() {
                         onClick={() => handleGroupChange("blank")}
                         className="bg-[#d99b26] hover:bg-amber-400 text-[#123125] font-black text-xs gap-1.5 shadow-sm cursor-pointer"
                     >
-                        <Edit3 size={14} /> View 25 Blank Cards
+                        <Edit3 size={14} /> View Blank Badges ({stats.blank})
                     </Button>
                 </div>
             </div>
