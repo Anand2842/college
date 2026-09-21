@@ -103,6 +103,7 @@ export function Footer() {
                         </h4>
                         <ul className="grid grid-cols-2 sm:grid-cols-1 gap-y-2 text-sm text-white/75">
                             <li><Link href="/about" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">About ORP-5</Link></li>
+                            <li><Link href="/brochure" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">5th Circular & Brochure</Link></li>
                             <li><Link href="/committees" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Committees</Link></li>
                             <li><Link href="/programme" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Programme</Link></li>
                             <li><Link href="/speakers" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Speakers</Link></li>

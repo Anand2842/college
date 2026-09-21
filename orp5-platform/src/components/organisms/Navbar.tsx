@@ -23,6 +23,7 @@ const navItems: NavItem[] = [
         children: [
             { label: "About ORP-5", href: "/about" },
             { label: "Organizing Committee", href: "/committees" },
+            { label: "5th Circular & Brochure", href: "/brochure" },
         ]
     },
     {
