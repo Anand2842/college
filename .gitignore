@@ -8,3 +8,6 @@ audit-deliverables/evidence/
 
 screenshots/
 audit-output/
+
+# delegate/payment exports - never commit
+*.xlsx

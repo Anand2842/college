@@ -59,11 +59,11 @@ export function AboutPreview() {
             </div>
             
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-charcoal mb-5 leading-tight">
-              Shaping the Next Frontier in Sustainable Rice Ecosystems
+              Five Days on the Future of Sustainable Rice Ecosystems
             </h2>
             
             <p className="text-charcoal/75 text-base sm:text-lg leading-relaxed mb-8 font-light">
-              Building on symposia held in France, Italy, Brazil, and Japan, <strong className="text-earth-green font-semibold">ORP-5</strong> convenes in India for the first time — bringing together agronomists, policy architects, and organic producers from 40+ countries to deliberate on resilient rice systems.
+              Building on symposia held in France, Italy, Brazil, and Japan, <strong className="text-earth-green font-semibold">ORP-5</strong> convened in India for the first time — bringing together agronomists, policy architects, and organic producers from 40+ countries to deliberate on resilient rice systems.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4">

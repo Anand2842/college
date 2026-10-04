@@ -10,14 +10,15 @@ import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import * as LucideIcons from "lucide-react";
 
-export default function AwardsClient() {
-    const [data, setData] = useState<any>(null);
+export default function AwardsClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/awards")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     if (!data) return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">

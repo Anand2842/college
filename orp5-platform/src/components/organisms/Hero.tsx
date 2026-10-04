@@ -4,9 +4,7 @@ import { Button } from "@/components/atoms/Button"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { CountdownTimer } from "@/components/atoms/CountdownTimer"
 import { Calendar } from "lucide-react";
-import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
 
 interface HeroProps {
     headline?: string;
@@ -14,9 +12,6 @@ interface HeroProps {
     dateVenueLine?: string;
     backgroundImage?: string;
     partners?: any[];
-    registrationStart?: string;
-    registrationStatusText?: string;
-    registrationBannerText?: string;
     whyJoin?: any[];
 }
 
@@ -26,13 +21,8 @@ export function Hero({
     dateVenueLine = "",
     backgroundImage = "https://images.unsplash.com/photo-1536617621972-e5659779df3a?q=75&w=1920&auto=format&fit=crop",
     partners = [],
-    registrationStart = "",
-    registrationStatusText = "",
-    registrationBannerText = "",
     whyJoin = [],
 }: HeroProps) {
-    const { openModal } = useRegistrationModal();
-
     return (
         <section className="relative w-full flex items-center justify-center overflow-hidden min-h-[85vh] lg:min-h-[92vh] bg-earth-green-deep">
             {/* Background Image & Animated GIF Layer */}
@@ -46,6 +36,7 @@ export function Hero({
                         alt="ORP-5 Hero Background"
                         className="w-full h-full object-cover object-center"
                         loading="eager"
+                        fetchPriority="high"
                         decoding="async"
                     />
                 </div>
@@ -64,10 +55,10 @@ export function Hero({
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     className="flex flex-col items-center max-w-5xl mx-auto"
                 >
-                    {/* Live Floating Status Island */}
+                    {/* Status Island */}
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs sm:text-sm font-semibold text-rice-gold-light mb-8 shadow-lg">
-                        <span className="w-2 h-2 rounded-full bg-emerald-light animate-pulse" />
-                        <span>5th Global Symposium</span>
+                        <span className="w-2 h-2 rounded-full bg-emerald-light" />
+                        <span>Successfully Concluded</span>
                         <span className="w-1 h-1 rounded-full bg-white/40" />
                         <span className="text-white/80">New Delhi, India</span>
                     </div>
@@ -92,31 +83,24 @@ export function Hero({
                         </div>
                     )}
 
-                    {/* Countdown Section */}
-                    <div className="mb-12 flex flex-col items-center w-full max-w-xl">
-                        <p className="text-xs sm:text-sm font-bold tracking-[0.25em] uppercase text-rice-gold-light/80 mb-2">
-                            {registrationStatusText}
-                        </p>
-                        <CountdownTimer targetDate={registrationStart} />
-                    </div>
-
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md sm:max-w-none mx-auto">
-                        <Button
-                            size="xl"
-                            variant="premium"
-                            className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider font-bold py-4 shadow-lg shadow-emerald-900/30"
-                            onClick={openModal}
-                        >
-                            Register Now
-                        </Button>
-                        <Link href="/ticket-status?tab=abstract" className="w-full sm:w-auto">
+                        <Link href="/gallery" className="w-full sm:w-auto">
+                            <Button
+                                size="xl"
+                                variant="premium"
+                                className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider font-bold py-4 shadow-lg shadow-emerald-900/30"
+                            >
+                                View Photo Gallery
+                            </Button>
+                        </Link>
+                        <Link href="/programme" className="w-full sm:w-auto">
                             <Button
                                 variant="glass"
                                 size="xl"
                                 className="w-full sm:min-w-[210px] text-xs sm:text-sm uppercase tracking-wider py-4 hover:border-rice-gold/60 transition-all"
                             >
-                                Track Abstract
+                                Programme as Held
                             </Button>
                         </Link>
                     </div>

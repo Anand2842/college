@@ -5,6 +5,7 @@ import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export function Footer() {
     const [social, setSocial] = useState<{ facebook?: string; twitter?: string; linkedin?: string; instagram?: string }>({});
@@ -12,8 +13,7 @@ export function Footer() {
     const [logoAlt, setLogoAlt] = useState<string>("ORP-5 Logo");
 
     useEffect(() => {
-        fetch("/api/settings")
-            .then(res => res.json())
+        getSiteSettings()
             .then(data => {
                 if (data.socialLinks) {
                     setSocial(data.socialLinks);
@@ -110,7 +110,7 @@ export function Footer() {
                             <li><Link href="/themes" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Themes</Link></li>
                             <li><Link href="/awards" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Awards & Prizes</Link></li>
                             <li><Link href="/venue" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Venue & Travel</Link></li>
-                            <li><Link href="/registration" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Registration</Link></li>
+                            <li><Link href="/gallery" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Photo Gallery</Link></li>
                             <li><Link href="/contact" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Contact Us</Link></li>
                         </ul>
                     </div>
@@ -150,7 +150,7 @@ export function Footer() {
                             Stay Updated
                         </h4>
                         <p className="text-sm text-white/75 mb-4 leading-relaxed">
-                            Subscribe to receive official announcements, key deadlines, and speaker updates.
+                            Subscribe to receive official announcements and post-conference updates.
                         </p>
                         <NewsletterForm />
                     </div>

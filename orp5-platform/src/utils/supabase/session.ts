@@ -91,10 +91,13 @@ export async function updateSession(request: NextRequest) {
         }
     }
 
-    // Protected API Routes Logic (specifically admin APIs)
-    if (request.nextUrl.pathname.startsWith('/api/admin') && 
+    // Protected API Routes Logic (admin APIs, plus any write to CMS content or site settings)
+    const isAdminApi = request.nextUrl.pathname.startsWith('/api/admin') &&
         !request.nextUrl.pathname.startsWith('/api/admin/verify-ticket') &&
-        !request.nextUrl.pathname.startsWith('/api/admin/attendance')) {
+        !request.nextUrl.pathname.startsWith('/api/admin/attendance');
+    const isContentWrite = request.method !== 'GET' &&
+        (request.nextUrl.pathname.startsWith('/api/content') || request.nextUrl.pathname.startsWith('/api/settings'));
+    if (isAdminApi || isContentWrite) {
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }

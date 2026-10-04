@@ -8,7 +8,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 import { ChevronDown, Menu, X, ArrowRight } from "lucide-react";
-import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
+import { getSiteSettings } from "@/lib/site-settings";
 
 interface NavItem {
     label: string;
@@ -23,52 +23,39 @@ const navItems: NavItem[] = [
         children: [
             { label: "About ORP-5", href: "/about" },
             { label: "Organizing Committee", href: "/committees" },
-            { label: "5th Circular & Brochure", href: "/brochure" },
-        ]
-    },
-    {
-        label: "Abstracts",
-        href: "/submission",
-        children: [
-            { label: "Abstract Submission (Closed)", href: "/submission" },
-            { label: "Track Abstract Status", href: "/ticket-status?tab=abstract" },
-            { label: "Submission Guidelines", href: "/submission-guidelines" },
             { label: "Conference Themes", href: "/themes" },
-            { label: "Publications", href: "/publications" },
+            { label: "5th Circular & Brochure", href: "/brochure" },
         ]
     },
     {
         label: "Programme",
         href: "/programme",
         children: [
-            { label: "Schedule", href: "/programme" },
+            { label: "Programme as Held", href: "/programme" },
             { label: "Speakers", href: "/speakers" },
-            { label: "Important Dates", href: "/important-dates" },
         ]
     },
     {
-        label: "Registration",
-        href: "/registration",
-        children: [
-            { label: "Tariff & Guidelines", href: "/registration" },
-            { label: "Track Ticket Status", href: "/ticket-status" },
-        ]
+        label: "Gallery",
+        href: "/gallery",
     },
     {
         label: "Awards",
         href: "/awards",
     },
     {
-        label: "Sponsorship",
-        href: "/sponsorship",
+        label: "Publications",
+        href: "/publications",
+        children: [
+            { label: "Publications", href: "/publications" },
+            { label: "Track Abstract Status", href: "/ticket-status?tab=abstract" },
+        ]
     },
     {
-        label: "Venue & Travel",
+        label: "Venue",
         href: "/venue",
         children: [
             { label: "Venue Details", href: "/venue" },
-            { label: "Accommodation", href: "/accommodation" },
-            { label: "How to Reach", href: "/how-to-reach" },
             { label: "About the City", href: "/about/city" },
         ]
     },
@@ -93,7 +80,6 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
 
     const [isAdmin, setIsAdmin] = React.useState(false);
     const [isModerator, setIsModerator] = React.useState(false);
-    const { openModal } = useRegistrationModal();
 
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -106,8 +92,7 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
     React.useEffect(() => {
         // Fetch site settings for branding if not supplied by props
         if (!propLogoUrl) {
-            fetch("/api/settings")
-                .then(res => res.json())
+            getSiteSettings()
                 .then(data => {
                     if (data.branding?.logoUrl) {
                         setLogo(data.branding.logoUrl);
@@ -184,9 +169,9 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                     )}
                 >
                     <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.15em]">
-                        <span className="w-2 h-2 rounded-full bg-amber-glow animate-pulse"></span>
-                        <span className="text-white/60">Abstract Deadline:</span>
-                        <span className="text-rice-gold-light font-semibold">25 August 2026</span>
+                        <span className="w-2 h-2 rounded-full bg-emerald-light"></span>
+                        <span className="text-white/60">Concluded:</span>
+                        <span className="text-rice-gold-light font-semibold">21–25 September 2026, New Delhi</span>
                     </div>
                     <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white/70">
                         <Link href="/blog" className="hover:text-rice-gold transition-colors">Blog</Link>
@@ -284,39 +269,25 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
 
                     {/* Desktop CTAs (Right) */}
                     <div className="hidden xl:flex items-center gap-3">
-                        <Link href="/submission">
+                        <Link href="/gallery">
                             <Button
-                                variant="outline"
+                                variant="premium"
                                 size="sm"
-                                className={cn(
-                                    "font-bold text-xs uppercase tracking-wider px-5 transition-all",
-                                    isTransparentAtTop
-                                        ? "border-white/50 text-white hover:bg-white hover:text-earth-green"
-                                        : "border-earth-green/30 text-earth-green hover:bg-earth-green hover:text-white"
-                                )}
+                                className="px-6 py-2 rounded-lg"
                             >
-                                Submit Abstract
+                                Photo Gallery
                             </Button>
                         </Link>
-                        <Button
-                            variant="premium"
-                            size="sm"
-                            className="px-6 py-2 rounded-lg"
-                            onClick={openModal}
-                        >
-                            Register Now
-                        </Button>
                     </div>
 
                     {/* Mobile Controls */}
                     <div className="flex items-center gap-4 xl:hidden">
                         {isScrolled && (
-                            <Button
-                                className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-xs uppercase tracking-wider px-4 py-2"
-                                onClick={openModal}
-                            >
-                                Register
-                            </Button>
+                            <Link href="/gallery">
+                                <Button className="bg-rice-gold hover:bg-rice-gold-dark text-earth-green font-bold text-xs uppercase tracking-wider px-4 py-2">
+                                    Gallery
+                                </Button>
+                            </Link>
                         )}
                         <button
                             className={cn("p-2 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors rounded-md", isTransparentAtTop ? "text-white hover:bg-white/10" : "text-black bg-gray-50 hover:bg-gray-100")}
@@ -332,15 +303,6 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
             {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-40 bg-white pt-24 px-6 xl:hidden overflow-y-auto animate-in fade-in slide-in-from-top-5 duration-300">
                     <div className="flex flex-col space-y-6 pb-20">
-                        {/* Urgent Alert on Mobile */}
-                        <div className="bg-red-50 border border-red-100 rounded-xl p-4 flex items-start gap-3">
-                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse mt-1 shrink-0"></span>
-                            <div>
-                                <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-1">Important Deadline</p>
-                                <p className="text-sm font-medium text-red-900">Abstract Submission closes 25 August 2026</p>
-                            </div>
-                        </div>
-
                         {navItems.map((item) => (
                             <div key={item.label} className="border-b border-gray-100 pb-4 last:border-0">
                                 {item.children ? (
@@ -395,18 +357,9 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                         </div>
 
                         <div className="flex flex-col gap-4 mt-8">
-                            <Link href="/submission" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button variant="outline" className="w-full justify-center h-12 text-earth-green border-earth-green font-bold">Submit Abstract</Button>
+                            <Link href="/gallery" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button className="w-full justify-center h-12 bg-earth-green text-white hover:bg-earth-green/90 font-bold">Photo Gallery</Button>
                             </Link>
-                            <Button
-                                onClick={() => {
-                                    setIsMobileMenuOpen(false);
-                                    openModal();
-                                }}
-                                className="w-full justify-center h-12 bg-earth-green text-white hover:bg-earth-green/90 font-bold"
-                            >
-                                Register Now
-                            </Button>
                             
                             {isLoggedIn ? (
                                 <form action="/auth/signout" method="post" className="w-full mt-4">

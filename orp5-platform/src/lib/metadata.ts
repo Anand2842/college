@@ -15,7 +15,7 @@ export function createPageMetadata({
     image = '/og-image.jpg',
     keywords = ['organic rice', 'conference', 'agriculture', 'sustainable farming'],
 }: PageMetadataOptions): Metadata {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.orp5ic.com';
     const url = `${baseUrl}${path}`;
     const fullTitle = `${title} | ORP-5 Conference`;
 

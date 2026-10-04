@@ -158,6 +158,7 @@ export default function SpeakersClient({ initialData }: { initialData?: any }) {
   const [activeTab, setActiveTab] = useState<string>("KEYNOTE SPEAKERS");
 
   useEffect(() => {
+    if (initialData) return;
     fetch(`/api/content/presenters?_t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((jsonData) => {
@@ -166,7 +167,7 @@ export default function SpeakersClient({ initialData }: { initialData?: any }) {
         }
       })
       .catch((err) => console.error("Failed to fetch fresh speakers:", err));
-  }, []);
+  }, [initialData]);
 
   if (!data) {
     return (

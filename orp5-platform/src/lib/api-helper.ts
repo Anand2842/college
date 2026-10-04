@@ -127,7 +127,7 @@ export function createPageHandler(slug: string) {
                 }
 
                 // Invalidate cache
-                const pathToRevalidate = slug === 'home' ? '/' : `/${slug}`;
+                const pathToRevalidate = slug === 'home' ? '/' : slug === 'city' ? '/about/city' : `/${slug}`;
                 if (slug === 'home') {
                     invalidateHomepageCache();
                 }

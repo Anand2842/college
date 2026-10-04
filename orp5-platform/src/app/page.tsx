@@ -1,5 +1,4 @@
-export const dynamic = 'force-dynamic';
-export const revalidate = 0; // Dynamic server rendering for immediate updates
+export const revalidate = 3600; // content is frozen post-event; admin saves still revalidate '/' immediately
 
 import { Navbar } from "@/components/organisms/Navbar";
 import { Hero } from "@/components/organisms/Hero";
@@ -11,6 +10,7 @@ import { OrganizersHierarchy } from "@/components/organisms/OrganizersHierarchy"
 import { AboutPreview } from "@/components/organisms/AboutPreview";
 import { VenuePreview } from "@/components/organisms/VenuePreview";
 import { HomeGallerySection } from "@/components/organisms/HomeGallerySection";
+import { AwardsCertificatesStrip } from "@/components/organisms/AwardsCertificatesStrip";
 import { Footer } from "@/components/organisms/Footer";
 import { createPageMetadata } from "@/lib/metadata";
 import {
@@ -19,6 +19,7 @@ import {
   Cpu, Droplets, Wheat, Sun, HeartPulse, TrendingUp, Landmark
 } from "lucide-react";
 import { getHomepageData } from "@/lib/cms";
+import galleryData from "@/data/gallery.json";
 import Link from "next/link";
 
 // Icon Mapping (for CMS iconName field)
@@ -42,7 +43,7 @@ const themeIconsByIndex: LucideIcon[] = [
 
 export const metadata = createPageMetadata({
   title: '5th International Conference on Organic and Natural Rice Production Systems',
-  description: 'Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production, featuring leading experts, workshops, and networking opportunities.',
+  description: 'ORP-5 was held 21–25 September 2026 at PHD House, New Delhi. Explore photos, the programme as held, conference themes, awards and publications from the 5th International Conference on Organic and Natural Rice Production Systems.',
   path: '/',
   keywords: ['organic rice', 'natural farming', 'sustainable agriculture', 'rice conference', 'ORP-5', 'production systems'],
 });
@@ -61,8 +62,6 @@ export default async function Home() {
       headline: "5ᵗʰ International Conference on <br /> <span class='text-rice-gold'>Organic and Natural Rice</span> <br /> Production Systems",
       subheadline: "Cultivating a Sustainable Future",
       backgroundImage: "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/1765390801550_Here_is_a_202512102348.gif",
-      registrationStart: "2026-09-21T00:00:00Z",
-      registrationStatusText: "Countdown to Conference",
       dateVenueLine: "21–25 September 2026 | PHD Chamber of Commerce & Industry, New Delhi"
     },
     partners: [],
@@ -79,14 +78,6 @@ export default async function Home() {
     ],
     speakers: [],
     programme: {},
-    dates: [
-      { date: "20 January 2026", label: "Call for Abstracts Opens", status: "completed" },
-      { date: "20 January 2026", label: "Registration Opens", status: "completed" },
-      { date: "25 August 2026", label: "Abstract Submission Deadline (Closed)", status: "completed" },
-      { date: "27 August 2026", label: "Notification of Abstract Status", status: "completed" },
-      { date: "15 September 2026", label: "Registration Deadline", status: "urgent" },
-      { date: "21–25 September 2026", label: "Conference", status: "upcoming" }
-    ],
     whyJoin: [],
     gallery: [],
     faq: [],
@@ -98,8 +89,6 @@ export default async function Home() {
   };
 
   const data = cmsData || defaultData;
-  const registrationStart = data.hero?.registrationStart || "2026-09-21T00:00:00Z";
-  const registrationStatusText = data.hero?.registrationStatusText || "Countdown to Conference";
 
   return (
     <main className="min-h-screen relative bg-[#FAF9F5] font-sans">
@@ -110,75 +99,22 @@ export default async function Home() {
         headline={data.hero.headline}
         subheadline={data.hero.subheadline}
         dateVenueLine={data.hero.dateVenueLine}
-        backgroundImage={data.hero.backgroundImage}
+        backgroundImage="/images/hero-orp5.webp"
         partners={data.partners || []}
-        registrationStart={registrationStart}
-        registrationStatusText={registrationStatusText}
-        registrationBannerText={data.hero.registrationBannerText}
         whyJoin={data.whyJoin || []}
       />
 
       {/* 2. Key Metric Figures Strip */}
       <StatsStrip />
 
+      {/* Photo & Media Gallery Showcase */}
+      <HomeGallerySection items={galleryData.homeGallery} />
+
+      {/* Awards & certificate distribution — horizontal photo rows */}
+      <AwardsCertificatesStrip />
+
       {/* 3. Global Legacy & About Preview */}
       <AboutPreview />
-
-      {/* 4. Important Deadlines & Dates — Compact Timeline */}
-      <section id="dates" className="py-10 md:py-16 bg-[#FAF9F5] border-y border-gray-200/60">
-        <div className="container mx-auto px-6 text-center max-w-3xl">
-          <SectionTitle
-            badge="Milestones"
-            title="Important Dates"
-            subtitle="Key deadlines at a glance."
-            centered
-          />
-
-          <div className="mt-8 md:mt-10 space-y-0 text-left">
-            {data.dates.map((item: any, index: number) => {
-              const isCompleted = item.status === "completed";
-              const isUrgent = item.status === "urgent" || item.status === "active";
-              return (
-                <div
-                  key={index}
-                  className={`flex items-center gap-4 py-3.5 ${index !== data.dates.length - 1 ? 'border-b border-gray-200/60' : ''}`}
-                >
-                  {/* Status dot */}
-                  <div className={`w-3 h-3 rounded-full shrink-0 ${
-                    isCompleted ? 'bg-sapling-green' : isUrgent ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'
-                  }`} />
-                  {/* Date */}
-                  <span className={`text-sm font-serif font-bold shrink-0 w-[130px] sm:w-[160px] ${
-                    isUrgent ? 'text-earth-green' : isCompleted ? 'text-charcoal/50' : 'text-charcoal'
-                  }`}>
-                    {item.date}
-                  </span>
-                  {/* Label */}
-                  <span className={`text-sm ${
-                    isCompleted ? 'text-charcoal/50 line-through' : isUrgent ? 'text-charcoal font-semibold' : 'text-charcoal/80'
-                  }`}>
-                    {item.label}
-                  </span>
-                  {/* Urgent badge */}
-                  {isUrgent && (
-                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full shrink-0 hidden sm:inline">
-                      Deadline
-                    </span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-8">
-            <Link href="/important-dates">
-              <button className="gold-shimmer-btn font-bold py-3 px-8 rounded-xl transition-all shadow-md text-xs uppercase tracking-wider cursor-pointer">
-                View Full Timeline
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* 5. Conference Thematic Tracks — Premium Mini Cards */}
       <section id="themes" className="py-10 md:py-16 bg-white relative">
@@ -230,9 +166,6 @@ export default async function Home() {
 
       {/* 6. Venue & Accommodation Preview */}
       <VenuePreview venue={data.venue} />
-
-      {/* 7. Bold Live Media & Photo Gallery Showcase */}
-      <HomeGallerySection items={data.gallery} />
 
       {/* 8. Organizers & Global Partners */}
       <section id="partners" className="py-16 bg-white border-t border-gray-200/60">

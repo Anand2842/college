@@ -10,14 +10,15 @@ import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import { motion } from "framer-motion";
 
-export default function CityClient() {
-    const [data, setData] = useState<any>(null);
+export default function CityClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/city")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     const getIcon = (name: string) => {
         switch (name) {
@@ -228,20 +229,20 @@ export default function CityClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Join Us In New Delhi
+                            ORP-5 In New Delhi
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            {data.footerCta?.headline || "Ready to Register for ORP-5?"}
+                            ORP-5 Has Concluded
                         </h3>
                         <p className="text-white/70 text-sm">
-                            {data.footerCta?.subheadline || "Experience 5 days of transformative discussions, cultural galas, and agricultural exhibitions in New Delhi."}
+                            The conference was held 21–25 September 2026. Browse photos and videos from the five days.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/registration">
+                        <Link href="/gallery">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register Now <ArrowRight size={15} className="ml-2" />
+                                Photo Gallery <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

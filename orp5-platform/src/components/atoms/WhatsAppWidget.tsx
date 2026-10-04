@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { getSiteSettings } from "@/lib/site-settings";
 
 export function WhatsAppWidget() {
     const pathname = usePathname();
@@ -11,8 +12,7 @@ export function WhatsAppWidget() {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const res = await fetch("/api/settings");
-                const data = await res.json();
+                const data = await getSiteSettings();
                 if (data?.whatsappGroupLink) {
                     setGroupLink(data.whatsappGroupLink);
                 }

@@ -23,6 +23,15 @@ const nextConfig = {
             },
         ];
     },
+    async headers() {
+        return [
+            {
+                // Pre-optimised conference photos: fixed filenames, safe to cache for a year
+                source: '/media/:path*',
+                headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+            },
+        ];
+    },
     images: {
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [

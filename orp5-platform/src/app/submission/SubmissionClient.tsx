@@ -411,7 +411,7 @@ export default function SubmissionClient() {
                         </h2>
 
                         <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
-                            The deadline for abstract submissions has concluded. The Scientific Review Committee is currently evaluating all submissions. We extend our sincere gratitude to all researchers, scientists, and participants who contributed.
+                            ORP-5 was held 21–25 September 2026 and abstract submission is closed. We extend our sincere gratitude to all researchers, scientists, and participants who contributed.
                         </p>
 
                         {/* Author Action Grid */}
@@ -433,11 +433,11 @@ export default function SubmissionClient() {
                                 <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-4">
                                     <ShieldCheck size={20} />
                                 </div>
-                                <h3 className="font-bold text-gray-900 text-base mb-1">Delegate Registration</h3>
-                                <p className="text-xs sm:text-sm text-gray-500 mb-4">Presenting authors must complete registration to confirm their slot in proceedings.</p>
-                                <Link href="/registration">
+                                <h3 className="font-bold text-gray-900 text-base mb-1">Conference Gallery</h3>
+                                <p className="text-xs sm:text-sm text-gray-500 mb-4">Photos and videos from the sessions, poster presentations and awards.</p>
+                                <Link href="/gallery">
                                     <Button className="w-full bg-[#24C535] hover:bg-green-600 text-white font-semibold text-xs uppercase tracking-wider py-2.5 rounded-lg flex items-center justify-center gap-2">
-                                        Register Now <ArrowRight size={14} />
+                                        Photo Gallery <ArrowRight size={14} />
                                     </Button>
                                 </Link>
                             </div>

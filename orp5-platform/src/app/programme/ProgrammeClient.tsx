@@ -27,14 +27,15 @@ import {
 import { Button } from "@/components/atoms/Button";
 import Link from "next/link";
 
-export default function ProgrammeClient() {
-    const [data, setData] = useState<any>(null);
+export default function ProgrammeClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
     const [activeDay, setActiveDay] = useState("Day 1");
     const [searchQuery, setSearchQuery] = useState("");
     const [sessionFilter, setSessionFilter] = useState("all");
     const [expandedSessions, setExpandedSessions] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/programme")
             .then((res) => res.json())
             .then((jsonData) => {
@@ -43,7 +44,7 @@ export default function ProgrammeClient() {
                 }
             })
             .catch((err) => console.error("Error loading programme:", err));
-    }, []);
+    }, [initialData]);
 
     const toggleExpand = (id: string) => {
         setExpandedSessions((prev) => ({
@@ -652,20 +653,20 @@ export default function ProgrammeClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Join ORP-5
+                            ORP-5 Has Concluded
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Secure Your Delegate Pass Today
+                            Relive the Five Days in Pictures
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Access all plenary sessions, 9 thematic break-outs, conference lunches, and official reception dinner.
+                            Photos and videos from the inaugural, plenary and technical sessions, awards and valedictory.
                         </p>
                     </div>
 
                     <div className="relative z-10 shrink-0">
-                        <Link href="/registration">
+                        <Link href="/gallery">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register Now <ArrowRight size={15} className="ml-2" />
+                                Photo Gallery <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

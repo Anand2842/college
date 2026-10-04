@@ -2,7 +2,7 @@ import { createPageMetadata } from '@/lib/metadata';
 import ContactClient from './ContactClient';
 import { getContactPageData } from '@/lib/cms';
 
-export const revalidate = 300; // cache 5 minutes
+export const revalidate = 3600; // admin saves revalidate this page immediately
 
 export const metadata = createPageMetadata({
     title: 'Contact Secretariat',

@@ -2,7 +2,7 @@ import { createPageMetadata } from '@/lib/metadata';
 import SpeakersClient from './SpeakersClient';
 import { getSpeakersPageData } from '@/lib/cms';
 
-export const revalidate = 0; // Dynamic rendering for instant admin updates
+export const revalidate = 3600; // admin saves revalidate this page immediately
 
 export const metadata = createPageMetadata({
     title: 'Keynote & Invited Speakers',

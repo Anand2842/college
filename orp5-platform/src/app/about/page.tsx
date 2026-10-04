@@ -1,5 +1,4 @@
-export const dynamic = 'force-dynamic';
-export const revalidate = 0; // Dynamic server rendering for immediate updates
+export const revalidate = 3600; // admin saves revalidate this page immediately
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata = createPageMetadata({
@@ -504,25 +503,25 @@ export default async function AboutPage() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Join The Deliberation
+                            ORP-5 Has Concluded
                         </span>
                         <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-white mb-3">
-                            Submit Your Abstract or Register as a Delegate
+                            See the Conference in Pictures and Sessions
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Participate in 9 technical sessions, Scopus indexed proceedings, and 80+ national and global awards.
+                            Held 21–25 September 2026 in New Delhi. Browse the photo gallery and the programme as it was held.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/submission">
+                        <Link href="/gallery">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Submit Abstract
+                                Photo Gallery
                             </Button>
                         </Link>
-                        <Link href="/registration">
+                        <Link href="/programme">
                             <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register Now
+                                Programme
                             </Button>
                         </Link>
                     </div>

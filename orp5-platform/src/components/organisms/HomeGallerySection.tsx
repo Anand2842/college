@@ -9,6 +9,7 @@ interface MediaItem {
   id?: string;
   type?: "image" | "video" | string;
   image?: string;
+  thumbnail?: string;
   videoUrl?: string;
   poster?: string;
   title?: string;
@@ -35,31 +36,33 @@ export function HomeGallerySection({ items = [] }: HomeGallerySectionProps) {
         (item.url && item.url.endsWith(".mp4"));
 
       const image = item.image || item.url || "";
+      const thumbnail = item.thumbnail || image;
       const videoUrl = item.videoUrl || (image.endsWith(".mp4") ? image : undefined);
       const poster = item.poster || (isVideo ? image : undefined);
 
       return {
         id: item.id || `home-gallery-${idx}`,
         type: isVideo ? "video" : "image",
-        image: isVideo ? (poster || "") : image,
+        image,
+        thumbnail: isVideo ? (poster || "") : thumbnail,
         videoUrl,
         poster,
         title: item.title || item.caption || `ORP-5 Highlight ${idx + 1}`,
-        caption: item.caption || (isVideo ? "Conference session recordings and delegate interactions." : "Live photography from ORP-5 proceedings."),
-        category: item.category || (isVideo ? "Conference Videos" : "Day 1 (21 Sep 2026)")
+        caption: item.caption || (isVideo ? "Conference session recordings and delegate interactions." : "Photography from ORP-5 proceedings."),
+        category: item.category || (isVideo ? "Conference Videos" : "Photos")
       };
     })
-    .filter((item) => item.image || item.videoUrl);
+    .filter((item) => item.image || item.videoUrl || item.thumbnail);
 
   if (normalizedItems.length === 0) return null;
 
-  const categories = ["All Media", "Day 1 (21 Sep 2026)", "Conference Videos"];
+  const categories = ["All Media", "Photos", "Conference Videos"];
 
   const filteredItems = activeTab === "All Media"
     ? normalizedItems
     : normalizedItems.filter((item) => {
         if (activeTab === "Conference Videos") return item.type === "video";
-        return item.category === activeTab || (item.type !== "video" && activeTab.includes("Day 1"));
+        return item.type !== "video";
       });
 
   // Take top 6 items for homepage preview
@@ -75,11 +78,11 @@ export function HomeGallerySection({ items = [] }: HomeGallerySectionProps) {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rice-gold/10 text-rice-gold border border-rice-gold/20 text-xs font-bold uppercase tracking-[0.2em] mb-4 shadow-sm">
-            <Sparkles size={14} className="text-rice-gold animate-pulse" />
-            Live Event & Media Archive
+            <Sparkles size={14} className="text-rice-gold" />
+            ORP-5 Photo & Media Archive
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight mb-4">
-            Symposium Moments & <span className="text-rice-gold font-normal italic">Live Highlights</span>
+            Symposium Moments & <span className="text-rice-gold font-normal italic">Highlights</span>
           </h2>
           <p className="text-white/70 text-base sm:text-lg font-light leading-relaxed">
             High-definition photographs, inaugural addresses, and session recordings capturing the energy of ORP-5 New Delhi.
@@ -115,9 +118,9 @@ export function HomeGallerySection({ items = [] }: HomeGallerySectionProps) {
               >
                 {/* Media Container */}
                 <div className="h-64 sm:h-72 w-full relative overflow-hidden bg-black/40">
-                  {item.image ? (
+                  {item.thumbnail || item.image ? (
                     <img
-                      src={item.image}
+                      src={item.thumbnail || item.image}
                       alt={item.title || "Gallery Media"}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"

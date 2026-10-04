@@ -1,0 +1,1108 @@
+{
+  "hero": {
+    "headline": "Photo Gallery",
+    "subheadline": "Explore moments from ORP-5 through images captured during conference sessions, exhibitions, field visits, and interactions."
+  },
+  "intro": {
+    "title": "Moments from ORP-5",
+    "description": "This gallery presents visual highlights from the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems (ORP-5), capturing academic sessions, exhibitions, field visits, and interactions among participants."
+  },
+  "videos": [
+    {
+      "id": "orp21-vid-1",
+      "url": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_01.mp4",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 1",
+      "poster": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/gallery/orp21/orp21_video_01_poster.webp",
+      "category": "Day 1 Highlights",
+      "createdAt": "2026-09-21T18:00:00Z"
+    },
+    {
+      "id": "orp21-vid-2",
+      "url": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_02.mp4",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 2",
+      "poster": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/gallery/orp21/orp21_video_02_poster.webp",
+      "category": "Day 1 Highlights",
+      "createdAt": "2026-09-21T18:00:00Z"
+    },
+    {
+      "id": "orp21-vid-3",
+      "url": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_03.mp4",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 3",
+      "poster": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/gallery/orp21/orp21_video_03_poster.webp",
+      "category": "Day 1 Highlights",
+      "createdAt": "2026-09-21T18:00:00Z"
+    },
+    {
+      "id": "orp21-vid-4",
+      "url": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_04.mp4",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 4",
+      "poster": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/gallery/orp21/orp21_video_04_poster.webp",
+      "category": "Day 1 Highlights",
+      "createdAt": "2026-09-21T18:00:00Z"
+    },
+    {
+      "id": "orp21-vid-5",
+      "url": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_05.mp4",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 5",
+      "poster": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/gallery/orp21/orp21_video_05_poster.webp",
+      "category": "Day 1 Highlights",
+      "createdAt": "2026-09-21T18:00:00Z"
+    }
+  ],
+  "filters": [
+    "All Photos",
+    "Inauguration & Conference Sessions",
+    "Technical Sessions & Presentations",
+    "Field Visits",
+    "Delegates & Interactions"
+  ],
+  "footerCta": {
+    "buttons": [
+      {
+        "link": "/programme",
+        "label": "View Programme"
+      },
+      {
+        "link": "/exhibition",
+        "label": "Explore Exhibition"
+      },
+      {
+        "link": "/gallery?filter=Field Visits",
+        "label": "See Field Visits"
+      }
+    ],
+    "headline": "Relive Moments from ORP-5",
+    "subheadline": "Browse images and media resources related to conference sessions, exhibitions, and field visits from the 5ᵗʰ International Conference on Organic and Natural Rice Production Systems (ORP-5)."
+  },
+  "mediaKits": [
+    {
+      "id": "mk1",
+      "icon": "Images",
+      "title": "ORP-5 Highlights",
+      "description": "A curated collection of high-resolution images from ORP-5 for reference and non-commercial use.",
+      "downloadLink": "#"
+    },
+    {
+      "id": "mk2",
+      "icon": "Newspaper",
+      "title": "Press-Friendly Media Set",
+      "description": "A set of conference-related media assets prepared for press and media use.",
+      "downloadLink": "#"
+    },
+    {
+      "id": "mk3",
+      "icon": "FileImage",
+      "title": "Conference Logo Pack",
+      "description": "Official ORP-5 logos provided in multiple formats for approved use.",
+      "downloadLink": "#"
+    },
+    {
+      "id": "mk4",
+      "icon": "Share2",
+      "title": "Social Media Templates",
+      "description": "Ready-to-use conference-branded templates for sharing ORP-5 updates on social media.",
+      "downloadLink": "#"
+    }
+  ],
+  "categories": [
+    "All Photos",
+    "Inaugural Session",
+    "Plenary Sessions",
+    "Technical Session I",
+    "Technical Session II",
+    "Technical Session VII",
+    "Technical Session VIII",
+    "Technical Session IX",
+    "Awards & Honours",
+    "Valedictory Session",
+    "Day 2 Sessions",
+    "Networking & Poster Presentations",
+    "Conference Videos"
+  ],
+  "mainGallery": [
+    {
+      "id": "social-01_Inaugural-01-Inaugural-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_01.webp",
+      "title": "The lamp is lit and ORP-5 has begun. 🪔",
+      "caption": "Lighting the inaugural lamp to open ORP-5, the start of five days on organic and natural rice.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_01.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_02.webp",
+      "title": "Traditions first, then science. 🪔",
+      "caption": "Dignitaries came together for the lamp lighting that opened the conference.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_02.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_03.webp",
+      "title": "The dais that opened ORP-5.",
+      "caption": "Chief guests and organisers stood together for the inaugural ceremony at PHD House, New Delhi.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_03.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_04.webp",
+      "title": "Setting the tone for five days of rice research.",
+      "caption": "A keynote at the inaugural session laid out what organic and natural rice needs next.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_04.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-05-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_05.webp",
+      "title": "A warm welcome for our guests.",
+      "caption": "Felicitating our chief guest with flowers at the inaugural session.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_05-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_05.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-06-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_06.webp",
+      "title": "Ideas from the podium, day one.",
+      "caption": "An inaugural address on the future of organic and natural rice farming.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_06-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_06.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-07-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_07.webp",
+      "title": "Hot off the press.",
+      "caption": "Releasing the ORP-5 publications at the inaugural session.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_07-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_07.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-08-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_08.webp",
+      "title": "The ORP-5 family on stage.",
+      "caption": "Awardees and dignitaries together on the inaugural stage.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_08-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_08.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-09-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_09.webp",
+      "title": "Words that opened the conference.",
+      "caption": "One more inaugural address that framed the conference theme: People, Planet, Prosperity.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_09-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_09.jpg"
+    },
+    {
+      "id": "social-02_Plenary_I-02-Plenary-I-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/02_Plenary_I/02_Plenary_I_01.webp",
+      "title": "Plenary I: the panel that framed the debate.",
+      "caption": "Experts on the dais for Plenary Session I, discussing where organic and natural rice goes from here.",
+      "category": "Plenary Sessions",
+      "thumbnail": "/media/orp5/02_Plenary_I/02_Plenary_I_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/02_Plenary_I/02_Plenary_I_01.jpg"
+    },
+    {
+      "id": "social-02_Plenary_I-02-Plenary-I-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/02_Plenary_I/02_Plenary_I_02.webp",
+      "title": "Straight talk in Plenary I.",
+      "caption": "A panelist makes a point in Plenary I on organic and natural rice systems.",
+      "category": "Plenary Sessions",
+      "thumbnail": "/media/orp5/02_Plenary_I/02_Plenary_I_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/02_Plenary_I/02_Plenary_I_02.jpg"
+    },
+    {
+      "id": "social-02_Plenary_I-02-Plenary-I-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/02_Plenary_I/02_Plenary_I_03.webp",
+      "title": "Big ideas, real questions.",
+      "caption": "A moment from Plenary I, where policy, science and practice met.",
+      "category": "Plenary Sessions",
+      "thumbnail": "/media/orp5/02_Plenary_I/02_Plenary_I_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/02_Plenary_I/02_Plenary_I_03.jpg"
+    },
+    {
+      "id": "social-03_Technical_Session_I-03-Technical-Session-I-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_01.webp",
+      "title": "Technical Session I opens.",
+      "caption": "A speaker shares research at Technical Session I.",
+      "category": "Technical Session I",
+      "thumbnail": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/03_Technical_Session_I/03_Technical_Session_I_01.jpg"
+    },
+    {
+      "id": "social-03_Technical_Session_I-03-Technical-Session-I-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_02.webp",
+      "title": "Data, discussion and new ideas.",
+      "caption": "A presenter takes the podium in Technical Session I.",
+      "category": "Technical Session I",
+      "thumbnail": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/03_Technical_Session_I/03_Technical_Session_I_02.jpg"
+    },
+    {
+      "id": "social-03_Technical_Session_I-03-Technical-Session-I-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_03.webp",
+      "title": "Sharing field-tested knowledge.",
+      "caption": "A presentation from Technical Session I on rice production.",
+      "category": "Technical Session I",
+      "thumbnail": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/03_Technical_Session_I/03_Technical_Session_I_03.jpg"
+    },
+    {
+      "id": "social-03_Technical_Session_I-03-Technical-Session-I-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_04.webp",
+      "title": "Voices from across the world.",
+      "caption": "An international speaker addresses delegates at Technical Session I.",
+      "category": "Technical Session I",
+      "thumbnail": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/03_Technical_Session_I/03_Technical_Session_I_04.jpg"
+    },
+    {
+      "id": "social-04_Technical_Session_II-04-Technical-Session-II-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/04_Technical_Session_II/04_Technical_Session_II_01.webp",
+      "title": "Questions that push research forward.",
+      "caption": "A delegate raises a question in Technical Session II.",
+      "category": "Technical Session II",
+      "thumbnail": "/media/orp5/04_Technical_Session_II/04_Technical_Session_II_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/04_Technical_Session_II/04_Technical_Session_II_01.jpg"
+    },
+    {
+      "id": "social-04_Technical_Session_II-04-Technical-Session-II-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/04_Technical_Session_II/04_Technical_Session_II_02.webp",
+      "title": "Round-table thinking.",
+      "caption": "Delegates in discussion around the table in Technical Session II.",
+      "category": "Technical Session II",
+      "thumbnail": "/media/orp5/04_Technical_Session_II/04_Technical_Session_II_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/04_Technical_Session_II/04_Technical_Session_II_02.jpg"
+    },
+    {
+      "id": "social-05_Technical_Session_VII-05-Technical-Session-VII-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_01.webp",
+      "title": "Technical Session VII: the panel is set.",
+      "caption": "Chairs and speakers in conversation at Technical Session VII.",
+      "category": "Technical Session VII",
+      "thumbnail": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/05_Technical_Session_VII/05_Technical_Session_VII_01.jpg"
+    },
+    {
+      "id": "social-05_Technical_Session_VII-05-Technical-Session-VII-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_02.webp",
+      "title": "Research meets the room.",
+      "caption": "A presenter at Technical Session VII shares findings with delegates.",
+      "category": "Technical Session VII",
+      "thumbnail": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/05_Technical_Session_VII/05_Technical_Session_VII_02.jpg"
+    },
+    {
+      "id": "social-05_Technical_Session_VII-05-Technical-Session-VII-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_03.webp",
+      "title": "The best sessions end in questions.",
+      "caption": "A delegate joins the discussion at Technical Session VII.",
+      "category": "Technical Session VII",
+      "thumbnail": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/05_Technical_Session_VII/05_Technical_Session_VII_03.jpg"
+    },
+    {
+      "id": "social-05_Technical_Session_VII-05-Technical-Session-VII-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_04.webp",
+      "title": "The Technical Session VII speakers.",
+      "caption": "Our speakers together after a full session.",
+      "category": "Technical Session VII",
+      "thumbnail": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/05_Technical_Session_VII/05_Technical_Session_VII_04.jpg"
+    },
+    {
+      "id": "social-06_Technical_Session_VIII-06-Technical-Session-VIII-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_01.webp",
+      "title": "Technical Session VIII in focus.",
+      "caption": "A speaker on the dais at Technical Session VIII.",
+      "category": "Technical Session VIII",
+      "thumbnail": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/06_Technical_Session_VIII/06_Technical_Session_VIII_01.jpg"
+    },
+    {
+      "id": "social-06_Technical_Session_VIII-06-Technical-Session-VIII-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_02.webp",
+      "title": "Ideas in motion.",
+      "caption": "A panelist explains a point during Technical Session VIII.",
+      "category": "Technical Session VIII",
+      "thumbnail": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/06_Technical_Session_VIII/06_Technical_Session_VIII_02.jpg"
+    },
+    {
+      "id": "social-06_Technical_Session_VIII-06-Technical-Session-VIII-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_03.webp",
+      "title": "Presented. Recognised.",
+      "caption": "A certificate handed over to a presenter at Technical Session VIII.",
+      "category": "Technical Session VIII",
+      "thumbnail": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/06_Technical_Session_VIII/06_Technical_Session_VIII_03.jpg"
+    },
+    {
+      "id": "social-07_Technical_Session_IX-07-Technical-Session-IX-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_01.webp",
+      "title": "Technical Session IX: Dr. Ekta Narwal.",
+      "caption": "Dr. Ekta Narwal speaks at Technical Session IX.",
+      "category": "Technical Session IX",
+      "thumbnail": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/07_Technical_Session_IX/07_Technical_Session_IX_01.jpg"
+    },
+    {
+      "id": "social-07_Technical_Session_IX-07-Technical-Session-IX-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_02.webp",
+      "title": "An international voice at Technical Session IX.",
+      "caption": "An expert shares views at Technical Session IX.",
+      "category": "Technical Session IX",
+      "thumbnail": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/07_Technical_Session_IX/07_Technical_Session_IX_02.jpg"
+    },
+    {
+      "id": "social-07_Technical_Session_IX-07-Technical-Session-IX-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_03.webp",
+      "title": "Certificates for our presenters.",
+      "caption": "Recognising a presenter at Technical Session IX.",
+      "category": "Technical Session IX",
+      "thumbnail": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/07_Technical_Session_IX/07_Technical_Session_IX_03.jpg"
+    },
+    {
+      "id": "social-08_Networking_and_Video_Presentations-08-Networking-and-Video-Presentations-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_01.webp",
+      "title": "Ideas presented, ideas shared.",
+      "caption": "A presentation during the networking and video session at ORP-5.",
+      "category": "Networking & Poster Presentations",
+      "thumbnail": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_01.jpg"
+    },
+    {
+      "id": "social-08_Networking_and_Video_Presentations-08-Networking-and-Video-Presentations-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_02.webp",
+      "title": "Making the point.",
+      "caption": "A speaker addresses the room in the networking and video presentations session.",
+      "category": "Networking & Poster Presentations",
+      "thumbnail": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_02.jpg"
+    },
+    {
+      "id": "social-08_Networking_and_Video_Presentations-08-Networking-and-Video-Presentations-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_03.webp",
+      "title": "Young voices in organic rice.",
+      "caption": "A young presenter shares his work at ORP-5.",
+      "category": "Networking & Poster Presentations",
+      "thumbnail": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_03.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_01.webp",
+      "title": "Thank you, and see you again.",
+      "caption": "A bouquet and a handshake at the valedictory session.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_01.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_02.webp",
+      "title": "Dr. Rajeev Ranjan at the valedictory.",
+      "caption": "Dr. Rajeev Ranjan speaks in the concluding session of ORP-5.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_02.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_03.webp",
+      "title": "Padma Bhushan Dr. R. B. Singh at the valedictory.",
+      "caption": "Padma Bhushan Dr. R. B. Singh shares closing thoughts at ORP-5.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_03.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_04.webp",
+      "title": "Prof. Stefano Bocchi at the valedictory.",
+      "caption": "Prof. Stefano Bocchi closes the conference with his reflections.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_04.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-05-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_05.webp",
+      "title": "The ORP-5 valedictory dais.",
+      "caption": "Chairs, speakers and organisers at the concluding session.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_05-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_05.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-06-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_06.webp",
+      "title": "Five days, one shared mission.",
+      "caption": "The concluding session brings ORP-5 to a close.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_06-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_06.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-07-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_07.webp",
+      "title": "Honouring the guests at the close.",
+      "caption": "A plaque presented on the valedictory dais.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_07-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_07.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_01.webp",
+      "title": "A plaque for excellence.",
+      "caption": "A plaque presented to an awardee during prize distribution at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_01.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_02.webp",
+      "title": "Recognised at ORP-5.",
+      "caption": "A certificate awarded during the concluding prize distribution.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_02.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_03.webp",
+      "title": "Congratulations to our awardees!",
+      "caption": "An awardee receives a certificate at the ORP-5 concluding session.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_03.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_04.webp",
+      "title": "Well deserved.",
+      "caption": "Recognising research and effort at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_04.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-05-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_05.webp",
+      "title": "Certificate in hand.",
+      "caption": "A presenter is honoured on stage at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_05-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_05.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-06-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_06.webp",
+      "title": "Proud moment for our researchers.",
+      "caption": "Awarded at the ORP-5 prize distribution.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_06-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_06.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-07-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_07.webp",
+      "title": "Honouring the work behind the rice.",
+      "caption": "Another awardee is recognised at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_07-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_07.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-08-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_08.webp",
+      "title": "Celebrating our presenters.",
+      "caption": "Certificate presentation at the concluding session.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_08-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_08.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-09-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_09.webp",
+      "title": "From the field to the stage.",
+      "caption": "An awardee is recognised for their contribution to organic rice research.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_09-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_09.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-10-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_10.webp",
+      "title": "Applause for our awardees.",
+      "caption": "Awards at the ORP-5 concluding session.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_10-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_10.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-11-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_11.webp",
+      "title": "A plaque for excellence.",
+      "caption": "A plaque presented to an awardee during prize distribution at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_11-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_11.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-12-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_12.webp",
+      "title": "Recognised at ORP-5.",
+      "caption": "A certificate awarded during the concluding prize distribution.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_12-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_12.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-13-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_13.webp",
+      "title": "Congratulations to our awardees!",
+      "caption": "An awardee receives a certificate at the ORP-5 concluding session.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_13-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_13.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-14-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_14.webp",
+      "title": "Well deserved.",
+      "caption": "Recognising research and effort at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_14-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_14.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-15-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_15.webp",
+      "title": "Certificate in hand.",
+      "caption": "A presenter is honoured on stage at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_15-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_15.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-16-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_16.webp",
+      "title": "Proud moment for our researchers.",
+      "caption": "Awarded at the ORP-5 prize distribution.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_16-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_16.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-17-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_17.webp",
+      "title": "Honouring the work behind the rice.",
+      "caption": "Another awardee is recognised at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_17-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_17.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-18-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_18.webp",
+      "title": "Celebrating our presenters.",
+      "caption": "Certificate presentation at the concluding session.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_18-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_18.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-19-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_19.webp",
+      "title": "From the field to the stage.",
+      "caption": "An awardee is recognised for their contribution to organic rice research.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_19-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_19.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-20-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_20.webp",
+      "title": "Applause for our awardees.",
+      "caption": "Awards at the ORP-5 concluding session.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_20-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_20.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_01.webp",
+      "title": "Day 2: the room comes together.",
+      "caption": "Delegates and speakers pose together at a Day 2 technical session.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_01.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_02.webp",
+      "title": "Presented at ORP-5.",
+      "caption": "A certificate presented at a Day 2 session.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_02.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_03.webp",
+      "title": "Recognition on Day 2.",
+      "caption": "Certificate presentation at a Day 2 technical session.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_03.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_04.webp",
+      "title": "Thank you to our presenters.",
+      "caption": "Presenters are recognised at a Day 2 session.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_04.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-05-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_05.webp",
+      "title": "A moment of recognition.",
+      "caption": "A presenter receives a certificate on Day 2.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_05-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_05.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-06-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_06.webp",
+      "title": "Day 2 at PHD House.",
+      "caption": "Delegates on the dais during Day 2 of ORP-5.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_06-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_06.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-07-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_07.webp",
+      "title": "Under the ORP-5 banner.",
+      "caption": "A Day 2 session under the conference banner.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_07-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_07.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-08-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_08.webp",
+      "title": "Research shared, questions asked.",
+      "caption": "A speaker addresses Day 2 delegates.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_08-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_08.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-09-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_09.webp",
+      "title": "Slides, science and discussion.",
+      "caption": "Presenting at a Day 2 technical session.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_09-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_09.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-10-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_10.webp",
+      "title": "Day 2: knowledge on the move.",
+      "caption": "A presentation in progress on Day 2.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_10-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_10.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-11-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_11.webp",
+      "title": "Voices from Day 2.",
+      "caption": "A speaker shares her research on Day 2.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_11-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_11.jpg"
+    },
+    {
+      "id": "orp21-vid-1",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_01-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 1",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_01.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_01-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_01-poster.webp"
+    },
+    {
+      "id": "orp21-vid-2",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_02-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 2",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_02.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_02-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_02-poster.webp"
+    },
+    {
+      "id": "orp21-vid-3",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_03-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 3",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_03.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_03-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_03-poster.webp"
+    },
+    {
+      "id": "orp21-vid-4",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_04-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 4",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_04.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_04-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_04-poster.webp"
+    },
+    {
+      "id": "orp21-vid-5",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_05-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 5",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_05.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_05-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_05-poster.webp"
+    }
+  ],
+  "featuredGallery": [
+    {
+      "id": "social-01_Inaugural-01-Inaugural-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_01.webp",
+      "title": "The lamp is lit and ORP-5 has begun. 🪔",
+      "caption": "Lighting the inaugural lamp to open ORP-5, the start of five days on organic and natural rice.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_01.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_02.webp",
+      "title": "Traditions first, then science. 🪔",
+      "caption": "Dignitaries came together for the lamp lighting that opened the conference.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_02.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-03-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_03.webp",
+      "title": "The dais that opened ORP-5.",
+      "caption": "Chief guests and organisers stood together for the inaugural ceremony at PHD House, New Delhi.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_03-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_03.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-04-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_04.webp",
+      "title": "Setting the tone for five days of rice research.",
+      "caption": "A keynote at the inaugural session laid out what organic and natural rice needs next.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_04-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_04.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-05-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_05.webp",
+      "title": "A warm welcome for our guests.",
+      "caption": "Felicitating our chief guest with flowers at the inaugural session.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_05-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_05.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-06-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_06.webp",
+      "title": "Ideas from the podium, day one.",
+      "caption": "An inaugural address on the future of organic and natural rice farming.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_06-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_06.jpg"
+    }
+  ],
+  "homeGallery": [
+    {
+      "id": "social-01_Inaugural-01-Inaugural-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_01.webp",
+      "title": "The lamp is lit and ORP-5 has begun. 🪔",
+      "caption": "Lighting the inaugural lamp to open ORP-5, the start of five days on organic and natural rice.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_01.jpg"
+    },
+    {
+      "id": "social-02_Plenary_I-02-Plenary-I-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/02_Plenary_I/02_Plenary_I_01.webp",
+      "title": "Plenary I: the panel that framed the debate.",
+      "caption": "Experts on the dais for Plenary Session I, discussing where organic and natural rice goes from here.",
+      "category": "Plenary Sessions",
+      "thumbnail": "/media/orp5/02_Plenary_I/02_Plenary_I_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/02_Plenary_I/02_Plenary_I_01.jpg"
+    },
+    {
+      "id": "social-03_Technical_Session_I-03-Technical-Session-I-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_01.webp",
+      "title": "Technical Session I opens.",
+      "caption": "A speaker shares research at Technical Session I.",
+      "category": "Technical Session I",
+      "thumbnail": "/media/orp5/03_Technical_Session_I/03_Technical_Session_I_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/03_Technical_Session_I/03_Technical_Session_I_01.jpg"
+    },
+    {
+      "id": "social-04_Technical_Session_II-04-Technical-Session-II-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/04_Technical_Session_II/04_Technical_Session_II_01.webp",
+      "title": "Questions that push research forward.",
+      "caption": "A delegate raises a question in Technical Session II.",
+      "category": "Technical Session II",
+      "thumbnail": "/media/orp5/04_Technical_Session_II/04_Technical_Session_II_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/04_Technical_Session_II/04_Technical_Session_II_01.jpg"
+    },
+    {
+      "id": "social-05_Technical_Session_VII-05-Technical-Session-VII-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_01.webp",
+      "title": "Technical Session VII: the panel is set.",
+      "caption": "Chairs and speakers in conversation at Technical Session VII.",
+      "category": "Technical Session VII",
+      "thumbnail": "/media/orp5/05_Technical_Session_VII/05_Technical_Session_VII_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/05_Technical_Session_VII/05_Technical_Session_VII_01.jpg"
+    },
+    {
+      "id": "social-06_Technical_Session_VIII-06-Technical-Session-VIII-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_01.webp",
+      "title": "Technical Session VIII in focus.",
+      "caption": "A speaker on the dais at Technical Session VIII.",
+      "category": "Technical Session VIII",
+      "thumbnail": "/media/orp5/06_Technical_Session_VIII/06_Technical_Session_VIII_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/06_Technical_Session_VIII/06_Technical_Session_VIII_01.jpg"
+    },
+    {
+      "id": "social-07_Technical_Session_IX-07-Technical-Session-IX-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_01.webp",
+      "title": "Technical Session IX: Dr. Ekta Narwal.",
+      "caption": "Dr. Ekta Narwal speaks at Technical Session IX.",
+      "category": "Technical Session IX",
+      "thumbnail": "/media/orp5/07_Technical_Session_IX/07_Technical_Session_IX_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/07_Technical_Session_IX/07_Technical_Session_IX_01.jpg"
+    },
+    {
+      "id": "social-08_Networking_and_Video_Presentations-08-Networking-and-Video-Presentations-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_01.webp",
+      "title": "Ideas presented, ideas shared.",
+      "caption": "A presentation during the networking and video session at ORP-5.",
+      "category": "Networking & Poster Presentations",
+      "thumbnail": "/media/orp5/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/08_Networking_and_Video_Presentations/08_Networking_and_Video_Presentations_01.jpg"
+    },
+    {
+      "id": "social-09_Valedictory_Session-09-Valedictory-Session-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_01.webp",
+      "title": "Thank you, and see you again.",
+      "caption": "A bouquet and a handshake at the valedictory session.",
+      "category": "Valedictory Session",
+      "thumbnail": "/media/orp5/09_Valedictory_Session/09_Valedictory_Session_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/09_Valedictory_Session/09_Valedictory_Session_01.jpg"
+    },
+    {
+      "id": "social-10_Awards-10-Awards-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/10_Awards/10_Awards_01.webp",
+      "title": "A plaque for excellence.",
+      "caption": "A plaque presented to an awardee during prize distribution at ORP-5.",
+      "category": "Awards & Honours",
+      "thumbnail": "/media/orp5/10_Awards/10_Awards_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/10_Awards/10_Awards_01.jpg"
+    },
+    {
+      "id": "social-11_Day2_Sessions-11-Day2-Sessions-01-jpg",
+      "type": "image",
+      "image": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_01.webp",
+      "title": "Day 2: the room comes together.",
+      "caption": "Delegates and speakers pose together at a Day 2 technical session.",
+      "category": "Day 2 Sessions",
+      "thumbnail": "/media/orp5/11_Day2_Sessions/11_Day2_Sessions_01-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/11_Day2_Sessions/11_Day2_Sessions_01.jpg"
+    },
+    {
+      "id": "social-01_Inaugural-01-Inaugural-02-jpg",
+      "type": "image",
+      "image": "/media/orp5/01_Inaugural/01_Inaugural_02.webp",
+      "title": "Traditions first, then science. 🪔",
+      "caption": "Dignitaries came together for the lamp lighting that opened the conference.",
+      "category": "Inaugural Session",
+      "thumbnail": "/media/orp5/01_Inaugural/01_Inaugural_02-thumb.webp",
+      "original": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/media/orp5_social/01_Inaugural/01_Inaugural_02.jpg"
+    },
+    {
+      "id": "orp21-vid-1",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_01-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 1",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_01.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_01-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_01-poster.webp"
+    },
+    {
+      "id": "orp21-vid-2",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_02-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 2",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_02.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_02-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_02-poster.webp"
+    },
+    {
+      "id": "orp21-vid-3",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_03-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 3",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_03.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_03-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_03-poster.webp"
+    },
+    {
+      "id": "orp21-vid-4",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_04-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 4",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_04.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_04-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_04-poster.webp"
+    },
+    {
+      "id": "orp21-vid-5",
+      "type": "video",
+      "image": "/media/orp5/videos/orp21_vid_05-poster.webp",
+      "title": "ORP-5 Day 1 Session & Interaction Highlights 5",
+      "caption": "Day 1 session proceedings and interactions at PHD Chamber of Commerce and Industry",
+      "category": "Conference Videos",
+      "videoUrl": "https://vvqnxqtiwbfmipawtqet.supabase.co/storage/v1/object/public/uploads/videos/orp21/orp21_vid_05.mp4",
+      "poster": "/media/orp5/videos/orp21_vid_05-poster.webp",
+      "thumbnail": "/media/orp5/videos/orp21_vid_05-poster.webp"
+    }
+  ]
+}

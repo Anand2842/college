@@ -35,7 +35,7 @@ const TIMELINE_STEPS = [
     {
         step: "01",
         title: "Submit Abstract",
-        description: "Submit online before 25 August 2026.",
+        description: "Submissions closed on 25 August 2026.",
     },
     {
         step: "02",
@@ -116,9 +116,9 @@ export default function PublicationsClient() {
                                 </div>
 
                                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                                    <Link href="/submission">
+                                    <Link href="/ticket-status?tab=abstract">
                                         <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                            Submit Paper for Review <ArrowRight size={15} className="ml-2" />
+                                            Track Abstract Status <ArrowRight size={15} className="ml-2" />
                                         </Button>
                                     </Link>
                                     <Link href="/submission-guidelines">
@@ -235,20 +235,20 @@ export default function PublicationsClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Join Scientific Proceedings
+                            Submissions Closed
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Submit Your Abstract for Peer Review
+                            Look Up Your Abstract Status
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Early submission ensures timely reviewer allocation and expedited review decisions.
+                            Abstract submission for ORP-5 is closed. Authors can check their review outcome.
                         </p>
                     </div>
 
                     <div className="relative z-10 shrink-0">
-                        <Link href="/submission">
+                        <Link href="/ticket-status?tab=abstract">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Submit Abstract <ArrowRight size={15} className="ml-2" />
+                                Track Status <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

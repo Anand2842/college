@@ -10,15 +10,16 @@ import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function AccommodationClient() {
-    const [data, setData] = useState<any>(null);
+export default function AccommodationClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
     const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/accommodation")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     const getAmenityIcon = (name: string) => {
         switch (name) {

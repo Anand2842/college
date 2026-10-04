@@ -69,7 +69,7 @@ async function syncTable(table: string, items: any[], idField = 'id') {
 }
 
 // Helper to get page content
-async function getPageContent(slug: string) {
+export async function getPageContent(slug: string) {
     const { data, error } = await supabase
         .from('Page')
         .select('content')
@@ -112,6 +112,8 @@ async function upsertPage(slug: string, content: any) {
 
     const { error } = await supabase.from('Page').upsert(payload, { onConflict: 'slug' });
     if (error) throw error;
+    // Public pages are cached; refresh the page that shows this content
+    revalidatePath(slug === 'home' ? '/' : slug === 'city' ? '/about/city' : `/${slug}`);
     return true;
 }
 
@@ -532,9 +534,9 @@ export async function updateThemesPageData(data: any) {
     }
 }
 
-// In-memory cache for fast homepage responses
+// In-memory cache for fast homepage responses (invalidated automatically on admin saves)
 let homepageCache: { data: any; timestamp: number } | null = null;
-const HOMEPAGE_CACHE_TTL_MS = 0; // Set to 0 to ensure admin updates reflect instantly
+const HOMEPAGE_CACHE_TTL_MS = 60_000; // 60s cache for fast response times
 
 export function invalidateHomepageCache() {
     homepageCache = null;

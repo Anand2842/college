@@ -39,11 +39,6 @@ export function VenuePreview({ venue }: { venue?: any }) {
                       <ArrowRight size={14} className="ml-2" />
                     </Button>
                   </Link>
-                  <Link href="/accommodation">
-                    <Button variant="glass" size="sm" className="font-bold text-xs uppercase tracking-wider border-white/30 text-white hover:border-rice-gold/60">
-                      Hotels & Stay
-                    </Button>
-                  </Link>
                 </div>
               </div>
             </div>

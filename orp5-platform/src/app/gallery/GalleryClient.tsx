@@ -9,23 +9,26 @@ import { Download, Image as ImageIcon, Newspaper, FileImage, Share2, Sparkles, A
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 
-export default function GalleryClient() {
-    const [data, setData] = useState<any>(null);
+export default function GalleryClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData || null);
     const [activeFilter, setActiveFilter] = useState("All Photos");
     const [selectedMedia, setSelectedMedia] = useState<any>(null);
+    const [visibleCount, setVisibleCount] = useState(18);
 
     useEffect(() => {
+        if (initialData) return;
         Promise.all([
             fetch("/api/content/gallery").then((res) => res.json()),
             fetch("/api/content/homepage").then((res) => res.json()).catch(() => null),
         ]).then(([galleryData, homeData]) => {
             const homeGalleryImages = (homeData?.gallery || [])
-                .filter((img: any) => img.url)
+                .filter((img: any) => img.url || img.image || img.thumbnail)
                 .map((img: any, i: number) => ({
                     id: `home-${i}`,
-                    image: img.url,
-                    title: img.caption || `Symposium Moment ${i + 1}`,
-                    category: "All Photos",
+                    image: img.image || img.url,
+                    thumbnail: img.thumbnail || img.image || img.url,
+                    title: img.title || img.caption || `Symposium Moment ${i + 1}`,
+                    category: img.category || "All Photos",
                 }));
 
             const existingMain = galleryData.mainGallery || [];
@@ -46,7 +49,12 @@ export default function GalleryClient() {
                 featuredGallery: mergedFeatured,
             });
         });
-    }, []);
+    }, [initialData]);
+
+    // Reset pagination on filter change
+    useEffect(() => {
+        setVisibleCount(18);
+    }, [activeFilter]);
 
     const getIcon = (name: string) => {
         switch (name) {
@@ -65,9 +73,11 @@ export default function GalleryClient() {
     );
 
     const isAllFilter = activeFilter.startsWith("All");
-    const filteredGallery = isAllFilter
+    const filteredGallery = (isAllFilter
         ? data.mainGallery
-        : data.mainGallery?.filter((item: any) => item.category === activeFilter);
+        : data.mainGallery?.filter((item: any) => item.category === activeFilter)) || [];
+
+    const visibleGallery = filteredGallery.slice(0, visibleCount);
 
     return (
         <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
@@ -75,7 +85,7 @@ export default function GalleryClient() {
 
             <PageHero
                 headline={data.hero?.headline || "ORP-5 Official Media & Photo Gallery"}
-                subheadline={data.hero?.subheadline || "Live captures, inaugural highlights, global symposia, and keynote moments from New Delhi."}
+                subheadline={data.hero?.subheadline || "Inaugural highlights, technical sessions, awards, and keynote moments from New Delhi."}
                 backgroundImage={data.hero?.backgroundImage}
                 breadcrumb="Home / Photo & Video Gallery"
             />
@@ -85,10 +95,10 @@ export default function GalleryClient() {
                 <div className="bg-white rounded-3xl p-8 md:p-12 border border-earth-green/15 shadow-xl luxury-card text-center">
                     <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
                         <Sparkles size={13} className="text-rice-gold" />
-                        Live Event & Heritage Archive
+                        ORP-5 Photo & Media Archive
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal mb-4">{data.intro?.title || "Conference Memories & Highlights"}</h2>
-                    <p className="text-charcoal/75 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-light">{data.intro?.description || "Browse high-definition photographs and video recordings from the 5th International Symposium on Oryza Pollen (ORP-5)."}</p>
+                    <p className="text-charcoal/75 leading-relaxed text-base sm:text-lg max-w-3xl mx-auto font-light">{data.intro?.description || "Browse high-definition photographs and video recordings from the 5th International Conference on Organic and Natural Rice Production Systems (ORP-5)."}</p>
                 </div>
             </div>
 
@@ -116,10 +126,10 @@ export default function GalleryClient() {
             {/* Photo & Video Grid */}
             <section className="container mx-auto px-6 py-8 max-w-7xl pb-16">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredGallery?.map((item: any) => {
+                    {visibleGallery.map((item: any) => {
                         const isVideo = item.type === "video" || item.videoUrl || (item.image && item.image.endsWith(".mp4"));
                         const videoSrc = item.videoUrl || (item.image?.endsWith(".mp4") ? item.image : null);
-                        const posterSrc = item.poster || (isVideo ? null : item.image);
+                        const posterSrc = item.poster || item.thumbnail || (isVideo ? null : item.image);
 
                         return (
                             <div
@@ -135,6 +145,7 @@ export default function GalleryClient() {
                                                     src={posterSrc}
                                                     alt={item.title || "Video thumbnail"}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                    loading="lazy"
                                                 />
                                             ) : (
                                                 <video
@@ -158,9 +169,9 @@ export default function GalleryClient() {
                                             </span>
                                         </div>
                                     ) : (
-                                        item.image && (
+                                        (item.thumbnail || item.image) && (
                                             <img
-                                                src={item.image}
+                                                src={item.thumbnail || item.image}
                                                 alt={item.title || "Gallery photo"}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                                 loading="lazy"
@@ -187,6 +198,19 @@ export default function GalleryClient() {
                         );
                     })}
                 </div>
+
+                {filteredGallery.length > visibleCount && (
+                    <div className="mt-12 text-center">
+                        <Button
+                            variant="default"
+                            size="lg"
+                            onClick={() => setVisibleCount((prev) => prev + 18)}
+                            className="px-8 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all"
+                        >
+                            Load More Photos ({filteredGallery.length - visibleCount} remaining)
+                        </Button>
+                    </div>
+                )}
             </section>
 
             {/* Lightbox / Media Modal */}
@@ -276,20 +300,20 @@ export default function GalleryClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Be Part of History
+                            ORP-5 Has Concluded
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Capture Your Moments at ORP-5
+                            See How the Five Days Unfolded
                         </h3>
                         <p className="text-white/70 text-sm font-light">
-                            Join over 500 delegates from 40+ countries in New Delhi this September 2026.
+                            ORP-5 was held 21–25 September 2026 at PHD House, New Delhi.
                         </p>
                     </div>
 
                     <div className="relative z-10 shrink-0">
-                        <Link href="/registration">
+                        <Link href="/programme">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Register Now <ArrowRight size={15} className="ml-2" />
+                                Programme as Held <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

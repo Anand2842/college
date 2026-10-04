@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRegistrationModal } from "@/contexts/RegistrationModalContext";
+import Link from "next/link";
 import { Button } from "@/components/atoms/Button";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
@@ -10,7 +10,6 @@ import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { User, Monitor, Clock, Gift, AlertCircle, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 
 export default function RegistrationContent() {
-    const { openModal } = useRegistrationModal();
 
     return (
         <main className="min-h-screen bg-[#FAF9F5] font-sans text-charcoal selection:bg-earth-green/15 selection:text-earth-green">
@@ -267,25 +266,26 @@ export default function RegistrationContent() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Secure Your Attendance
+                            Registration Closed
                         </span>
                         <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Ready to Complete Registration?
+                            ORP-5 Has Concluded
                         </h2>
                         <p className="text-white/70 text-sm font-light">
-                            Fill out the delegate registration form and proceed to secure online payment checkout.
+                            Registration closed on 15 September 2026. Registered delegates can still look up their ticket and payment status.
                         </p>
                     </div>
 
                     <div className="relative z-10 shrink-0">
-                        <Button
-                            onClick={openModal}
-                            variant="premium"
-                            size="lg"
-                            className="text-xs uppercase tracking-wider font-bold"
-                        >
-                            Open Registration Form <ArrowRight size={15} className="ml-2" />
-                        </Button>
+                        <Link href="/ticket-status">
+                            <Button
+                                variant="premium"
+                                size="lg"
+                                className="text-xs uppercase tracking-wider font-bold"
+                            >
+                                Track Ticket Status <ArrowRight size={15} className="ml-2" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

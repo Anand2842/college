@@ -127,6 +127,7 @@ export default function CommitteesClient({ initialData }: { initialData?: any })
   );
 
   useEffect(() => {
+    if (initialData) return;
     fetch(`/api/content/committees?_t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((jsonData) => {
@@ -141,7 +142,7 @@ export default function CommitteesClient({ initialData }: { initialData?: any })
         }
       })
       .catch((err) => console.error("Failed to fetch fresh committees:", err));
-  }, []);
+  }, [initialData]);
 
   if (!data || !data.committees)
     return (

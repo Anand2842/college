@@ -7,7 +7,6 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
 import { ClientProviders } from "@/components/providers/ClientProviders";
 import { WhatsAppWidget } from "@/components/atoms/WhatsAppWidget";
-import { PromoModal } from "@/components/organisms/PromoModal";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,17 +21,17 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://orp5ic.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.orp5ic.com'),
   title: {
     template: '%s | ORP-5',
     default: '5th International Conference on Organic and Natural Rice Production Systems'
   },
-  description: "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production. Global advancements in organic farming, pest-resilient varieties, and soil health management.",
+  description: "ORP-5, the 5th International Conference on Organic and Natural Rice Production Systems, was held 21–25 September 2026 in New Delhi. Photos, programme, themes, awards and publications.",
   keywords: ["Organic Rice", "Natural Farming", "Agriculture Conference", "ORP-5", "Sustainable Agriculture", "Rice Production Systems"],
   openGraph: {
     title: '5th International Conference on Organic and Natural Rice Production Systems',
-    description: 'Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.',
-    url: 'https://orp5ic.com',
+    description: 'ORP-5 was held 21–25 September 2026 in New Delhi. Photos, programme, themes, awards and publications.',
+    url: 'https://www.orp5ic.com',
     siteName: 'ORP-5',
     images: [
       {
@@ -48,7 +47,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: '5th International Conference on Organic and Natural Rice Production Systems',
-    description: 'Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production.',
+    description: 'ORP-5 was held 21–25 September 2026 in New Delhi. Photos, programme, themes, awards and publications.',
     images: ['/og-image.jpg'],
   },
   verification: {
@@ -179,13 +178,7 @@ export default function RootLayout({
                 "addressCountry": "IN"
               }
             },
-            "description": "Join ORP-5 for cutting-edge discussions on sustainable organic and natural rice production. Features global advancements in organic farming, natural farming models, pest-resilient varieties, and soil health management.",
-            "offers": {
-              "@type": "Offer",
-              "url": "https://www.orp5ic.com/registration",
-              "availability": "https://schema.org/InStock",
-              "validFrom": "2026-01-20T00:00:00Z"
-            },
+            "description": "ORP-5 was held 21–25 September 2026 in New Delhi, covering organic farming, natural farming models, pest-resilient varieties, and soil health management.",
             "organizer": {
               "@type": "Organization",
               "name": "ORP-5 Organizing Committee",
@@ -210,7 +203,6 @@ export default function RootLayout({
             {children}
             <AdminToolbar />
             <WhatsAppWidget />
-            <PromoModal />
           </ClientProviders>
         </ErrorBoundary>
       </body>

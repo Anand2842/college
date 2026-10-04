@@ -46,3 +46,7 @@ tests/venv/
 tests/pdf_text.txt
 *_log.json
 *_audit.json
+
+# delegate/payment exports - never commit or serve
+/private-exports/
+*.xlsx

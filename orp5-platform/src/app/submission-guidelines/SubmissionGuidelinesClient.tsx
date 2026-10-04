@@ -10,15 +10,16 @@ import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function SubmissionGuidelinesClient() {
-    const [data, setData] = useState<any>(null);
+export default function SubmissionGuidelinesClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
     const [openItem, setOpenItem] = useState<string | null>("g1");
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/submission-guidelines")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     if (!data) return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
@@ -95,10 +96,10 @@ export default function SubmissionGuidelinesClient() {
                                 Submissions Closed
                             </span>
                             <h3 className="text-lg font-serif font-bold text-white mb-2">
-                                Abstract Status & Registration
+                                Abstract Status
                             </h3>
                             <p className="text-xs text-white/70 mb-6 leading-relaxed">
-                                Submissions have closed. Track your review outcome or complete delegate registration.
+                                ORP-5 has concluded and submissions are closed. You can still look up your review outcome.
                             </p>
                             <div className="space-y-3">
                                 <Link href="/ticket-status?tab=abstract" className="block w-full">
@@ -106,9 +107,9 @@ export default function SubmissionGuidelinesClient() {
                                         Track Status <ArrowRight size={15} className="ml-2" />
                                     </Button>
                                 </Link>
-                                <Link href="/registration" className="block w-full">
+                                <Link href="/gallery" className="block w-full">
                                     <Button variant="glass" className="w-full text-xs uppercase tracking-wider font-bold justify-center text-white">
-                                        Register Now
+                                        Photo Gallery
                                     </Button>
                                 </Link>
                             </div>
@@ -233,14 +234,14 @@ export default function SubmissionGuidelinesClient() {
                         <div className="lg:hidden bg-earth-green-deep text-white rounded-3xl p-8 border border-white/10 shadow-lg relative overflow-hidden mt-12">
                             <div className="absolute -top-10 -right-10 w-40 h-40 bg-rice-gold/10 blur-[50px] rounded-full pointer-events-none" />
                             <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block text-center">
-                                Ready to Submit?
+                                Submissions Closed
                             </span>
                             <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mb-6 text-center">
-                                Submit Your Abstract Online
+                                Look Up Your Abstract Status
                             </h3>
-                            <Link href="/submission" className="block w-full">
+                            <Link href="/ticket-status?tab=abstract" className="block w-full">
                                 <Button variant="premium" className="w-full text-xs uppercase tracking-wider font-bold justify-center py-4">
-                                    Submit Now <ArrowRight size={15} className="ml-2" />
+                                    Track Status <ArrowRight size={15} className="ml-2" />
                                 </Button>
                             </Link>
                         </div>

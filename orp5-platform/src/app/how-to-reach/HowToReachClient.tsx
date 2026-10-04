@@ -10,16 +10,17 @@ import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function HowToReachClient() {
-    const [data, setData] = useState<any>(null);
+export default function HowToReachClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
     const [openSection, setOpenSection] = useState<string | null>("tm1");
     const [openLogistic, setOpenLogistic] = useState<string | null>(null);
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/how-to-reach")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     const getIcon = (name: string) => {
         switch (name) {

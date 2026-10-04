@@ -1,5 +1,5 @@
 import { createPageMetadata } from '@/lib/metadata';
-export const revalidate = 300; // cache 5 minutes
+export const revalidate = 3600; // admin saves revalidate this page immediately
 
 export const metadata = createPageMetadata({
     title: 'Themes',
@@ -82,11 +82,11 @@ export default async function ThemesPage() {
 
                                 <div className="mt-auto pt-4 border-t border-earth-green/5">
                                     <Link 
-                                        href="/submission" 
+                                        href="/programme" 
                                         className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-earth-green group-hover:text-rice-gold-dark hover:gap-3 transition-all"
                                     >
                                         <Send size={13} />
-                                        <span>Submit Abstract</span>
+                                        <span>View Programme</span>
                                         <ArrowRight size={13} />
                                     </Link>
                                 </div>
@@ -129,25 +129,25 @@ export default async function ThemesPage() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Call for Papers
+                            ORP-5 Has Concluded
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Submit Your Abstract for Review
+                            See the Sessions Held Under These Themes
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Accepted abstracts will be featured in the official ORP-5 proceedings and considered for Scopus-indexed partner journals.
+                            Browse the programme as it was held and the photo gallery from 21–25 September 2026.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/submission-guidelines">
+                        <Link href="/programme">
                             <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Guidelines
+                                Programme
                             </Button>
                         </Link>
-                        <Link href="/submission">
+                        <Link href="/gallery">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Submit Abstract <ArrowRight size={15} className="ml-2" />
+                                Photo Gallery <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

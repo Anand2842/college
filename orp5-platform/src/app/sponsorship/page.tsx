@@ -2,7 +2,7 @@ import { createPageMetadata } from '@/lib/metadata';
 import SponsorshipClient from './SponsorshipClient';
 import { getSponsorshipPageData } from '@/lib/cms';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // admin saves revalidate this page immediately
 
 export const metadata = createPageMetadata({
     title: 'Sponsorship & Partnerships',

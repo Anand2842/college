@@ -9,14 +9,15 @@ import { CheckCircle2, Clock, Calendar, Sparkles, AlertCircle, ArrowRight } from
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 
-export default function ImportantDatesClient() {
-    const [data, setData] = useState<any>(null);
+export default function ImportantDatesClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/important-dates")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     if (!data) return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5]">
@@ -147,20 +148,20 @@ export default function ImportantDatesClient() {
                     
                     <div className="relative z-10 max-w-xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Don't Miss Deadlines
+                            ORP-5 Has Concluded
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            Submit Your Abstract Before 25 August 2026
+                            The Conference Was Held 21–25 September 2026
                         </h3>
                         <p className="text-white/70 text-sm">
-                            Ensure peer-review eligibility and inclusion in the official ORP-5 technical proceedings.
+                            All deadlines have passed. Browse photos and videos from the five days in New Delhi.
                         </p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap justify-center relative z-10 shrink-0">
-                        <Link href="/submission">
+                        <Link href="/gallery">
                             <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                Submit Abstract <ArrowRight size={15} className="ml-2" />
+                                Photo Gallery <ArrowRight size={15} className="ml-2" />
                             </Button>
                         </Link>
                     </div>

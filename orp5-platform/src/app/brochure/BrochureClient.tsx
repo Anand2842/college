@@ -9,14 +9,15 @@ import { Download, Info, FlaskConical, CalendarDays, Users, MapPin, BedDouble, F
 import { Button } from "@/components/atoms/Button";
 import Link from 'next/link';
 
-export default function BrochureClient() {
-    const [data, setData] = useState<any>(null);
+export default function BrochureClient({ initialData }: { initialData?: any }) {
+    const [data, setData] = useState<any>(initialData ?? null);
 
     useEffect(() => {
+        if (initialData) return;
         fetch("/api/content/brochure")
             .then((res) => res.json())
             .then((jsonData) => setData(jsonData));
-    }, []);
+    }, [initialData]);
 
     const getIcon = (name: string) => {
         switch (name) {

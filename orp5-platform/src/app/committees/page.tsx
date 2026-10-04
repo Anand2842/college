@@ -2,7 +2,7 @@ import { createPageMetadata } from '@/lib/metadata';
 import CommitteesClient from './CommitteesClient';
 import { getCommitteesPageData } from '@/lib/cms';
 
-export const revalidate = 0; // Dynamic server rendering for immediate updates
+export const revalidate = 3600; // admin saves revalidate this page immediately
 
 export const metadata = createPageMetadata({
     title: 'Committees',

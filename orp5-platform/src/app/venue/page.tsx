@@ -1,5 +1,5 @@
 import { createPageMetadata } from '@/lib/metadata';
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // admin saves revalidate this page immediately
 
 export const metadata = createPageMetadata({
     title: 'Conference Venue',
