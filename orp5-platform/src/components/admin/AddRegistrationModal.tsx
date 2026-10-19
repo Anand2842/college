@@ -388,10 +388,9 @@ export function AddRegistrationModal({ isOpen, onClose, onSuccess }: AddRegistra
                                     onChange={e => setPaymentMode(e.target.value)}
                                     className="w-full px-3.5 py-2.5 bg-gray-800/90 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition"
                                 >
+                                    <option value="Direct Bank Transfer (NEFT/RTGS/IMPS)">Direct Bank Transfer (NEFT/RTGS/IMPS)</option>
+                                    <option value="International Wire (SWIFT)">International Wire (SWIFT)</option>
                                     <option value="Manual Admin Entry">Manual Admin Entry</option>
-                                    <option value="SBI Collect">SBI Collect</option>
-                                    <option value="Bank NEFT/RTGS/IMPS">Bank NEFT/RTGS/IMPS</option>
-                                    <option value="UPI / QR Transfer">UPI / QR Transfer</option>
                                     <option value="Cash / Demand Draft">Cash / Demand Draft</option>
                                     <option value="Complimentary Pass">Complimentary Pass</option>
                                 </select>

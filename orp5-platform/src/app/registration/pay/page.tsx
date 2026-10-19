@@ -4,7 +4,7 @@ import PaymentInstructionClient from './PaymentInstructionClient';
 
 export const metadata: Metadata = {
     title: 'Complete Payment | ORP-5 Conference',
-    description: 'Pay your conference registration fee securely via SBI Collect. Your Ticket ID and payment instructions are provided.',
+    description: 'Pay your conference registration fee securely via Direct Bank Transfer (NEFT/RTGS/IMPS/SWIFT). Your Ticket ID and payment instructions are provided.',
 };
 
 export default function PaymentInstructionPage() {

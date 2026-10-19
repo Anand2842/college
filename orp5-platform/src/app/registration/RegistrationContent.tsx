@@ -7,6 +7,7 @@ import { Navbar } from "@/components/organisms/Navbar";
 import { Footer } from "@/components/organisms/Footer";
 import { PageHero } from "@/components/organisms/PageHero";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
+import { RegistrationForm } from "@/components/organisms/RegistrationForm";
 import { User, Monitor, Clock, Gift, AlertCircle, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 
 export default function RegistrationContent() {
@@ -22,11 +23,11 @@ export default function RegistrationContent() {
             />
 
             <div className="container mx-auto px-6 max-w-6xl relative z-20 mt-10 md:mt-12 pb-20">
-                {/* Registration Deadline Notice */}
-                <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3.5 text-amber-950">
-                    <AlertCircle className="text-amber-600 shrink-0" size={22} />
+                {/* Registration Portal Notice */}
+                <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-earth-green/5 border border-earth-green/20 flex items-center gap-3.5 text-charcoal">
+                    <Sparkles className="text-earth-green shrink-0" size={22} />
                     <p className="text-xs sm:text-sm font-medium">
-                        <strong className="font-bold text-amber-900">Registration Notice:</strong> Registration may be kept open till <strong className="font-bold text-amber-900">15 September 2026</strong>. Delegates are advised to complete their registration early to avoid late fee surcharges and guarantee physical delegate kits.
+                        <strong className="font-bold text-earth-green">Delegate Registration Portal:</strong> Please complete your details below to generate your official Ticket ID and secure your participation pass.
                     </p>
                 </div>
 
@@ -260,34 +261,32 @@ export default function RegistrationContent() {
                     </div>
                 </div>
 
-                {/* Register CTA */}
-                <div className="bg-earth-green-deep text-white rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left border border-white/10 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-80 h-80 bg-rice-gold/10 blur-[100px] rounded-full pointer-events-none" />
-                    
-                    <div className="relative z-10 max-w-xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-rice-gold-light mb-2 block">
-                            Registration Closed
-                        </span>
-                        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">
-                            ORP-5 Has Concluded
+                {/* Direct Registration Form Section */}
+                <section id="register-form" className="mb-16 scroll-mt-24">
+                    <div className="text-center mb-10">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-earth-green/5 text-earth-green text-xs font-bold uppercase tracking-[0.2em] mb-4 border border-earth-green/10">
+                            <Sparkles size={13} className="text-rice-gold" />
+                            Direct Registration Form
+                        </div>
+                        <h2 className="text-2xl sm:text-4xl font-serif font-bold text-charcoal mb-3">
+                            Complete Your Delegate Registration
                         </h2>
-                        <p className="text-white/70 text-sm font-light">
-                            Registration closed on 15 September 2026. Registered delegates can still look up their ticket and payment status.
+                        <p className="text-charcoal/70 text-sm sm:text-base max-w-2xl mx-auto font-light">
+                            Fill in your participation mode, category, and personal details to generate your Ticket ID and secure your pass.
                         </p>
                     </div>
 
-                    <div className="relative z-10 shrink-0">
-                        <Link href="/ticket-status">
-                            <Button
-                                variant="premium"
-                                size="lg"
-                                className="text-xs uppercase tracking-wider font-bold"
-                            >
-                                Track Ticket Status <ArrowRight size={15} className="ml-2" />
-                            </Button>
-                        </Link>
+                    <RegistrationForm selectedCategory="" />
+
+                    <div className="mt-8 text-center">
+                        <p className="text-xs text-charcoal/60">
+                            Already registered?{" "}
+                            <Link href="/ticket-status" className="text-earth-green font-semibold underline hover:text-earth-green-deep">
+                                Track your ticket or payment status
+                            </Link>
+                        </p>
                     </div>
-                </div>
+                </section>
             </div>
 
             <Footer />

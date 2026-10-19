@@ -110,6 +110,7 @@ export function Footer() {
                             <li><Link href="/themes" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Themes</Link></li>
                             <li><Link href="/awards" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Awards & Prizes</Link></li>
                             <li><Link href="/venue" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Venue & Travel</Link></li>
+                            <li><Link href="/guidelines" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1 text-rice-gold font-semibold">Full Paper Guidelines</Link></li>
                             <li><Link href="/gallery" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Photo Gallery</Link></li>
                             <li><Link href="/contact" className="hover:text-rice-gold transition-colors inline-flex items-center gap-1.5 py-1">Contact Us</Link></li>
                         </ul>

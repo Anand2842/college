@@ -79,10 +79,10 @@ export default async function DashboardPage() {
                         <p className="text-green-100 text-sm">{user.email}</p>
                     </div>
                     <Link
-                        href="/submission"
+                        href="/guidelines/submit"
                         className="inline-flex items-center gap-2 bg-white text-[#1a5c26] font-bold text-sm px-5 py-2.5 rounded-full hover:bg-green-50 transition-all shadow-md self-start md:self-auto"
                     >
-                        + Submit Abstract
+                        + Submit Full Paper
                     </Link>
                 </div>
             </div>
@@ -147,8 +147,8 @@ export default async function DashboardPage() {
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">No submissions yet</h3>
                             <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">Share your research with the global organic rice farming community.</p>
-                            <Link href="/submission" className="inline-block bg-earth-green text-white font-bold py-2.5 px-8 rounded-full hover:bg-green-700 transition-colors text-sm">
-                                Submit Abstract Now
+                            <Link href="/guidelines/submit" className="inline-block bg-earth-green text-white font-bold py-2.5 px-8 rounded-full hover:bg-green-700 transition-colors text-sm">
+                                Submit Full Paper Now
                             </Link>
                         </div>
                     )}

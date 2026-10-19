@@ -490,12 +490,12 @@ export default function SubmissionClient() {
 
                 {/* Bottom CTA Section */}
                 <div className="bg-[#E6F6EA] rounded-3xl py-16 text-center">
-                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">Ready to Participate as a Delegate?</h2>
-                    <p className="text-gray-600 mb-8 max-w-xl mx-auto">All presenting authors and attendees must register to access the conference sessions, field trips, and conference proceedings.</p>
+                    <h2 className="text-2xl font-serif font-bold text-charcoal mb-4">ORP-5 Has Concluded</h2>
+                    <p className="text-gray-600 mb-8 max-w-xl mx-auto">Explore the official proceedings, photo gallery, or look up your submitted abstract status.</p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link href="/registration">
+                        <Link href="/gallery">
                             <Button className="bg-[#24C535] hover:bg-green-600 text-white font-bold px-8 py-3 rounded-lg w-full sm:w-auto">
-                                Register as Delegate
+                                Explore Photo Gallery
                             </Button>
                         </Link>
                         <Link href="/ticket-status?tab=abstract">

@@ -9,6 +9,12 @@ const nextConfig = {
     turbopack: {
         root: __dirname,
     },
+    experimental: {
+        proxyClientMaxBodySize: '35mb',
+        serverActions: {
+            bodySizeLimit: '35mb',
+        },
+    },
     async redirects() {
         return [
             {
@@ -19,6 +25,21 @@ const nextConfig = {
             {
                 source: '/register',
                 destination: '/registration',
+                permanent: true,
+            },
+            {
+                source: '/publications/guidelines',
+                destination: '/guidelines',
+                permanent: true,
+            },
+            {
+                source: '/guidelines-full-paper',
+                destination: '/guidelines',
+                permanent: true,
+            },
+            {
+                source: '/paper-guidelines',
+                destination: '/guidelines',
                 permanent: true,
             },
         ];

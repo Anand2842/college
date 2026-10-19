@@ -227,3 +227,50 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #3D8B57;
 }
+
+/* ── Print Optimization for Submission & Tracking Slips ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* When printing-slip-only is active on body */
+  body.printing-slip-only * {
+    visibility: hidden !important;
+  }
+
+  body.printing-slip-only #full-paper-slip-print,
+  body.printing-slip-only #full-paper-slip-print * {
+    visibility: visible !important;
+  }
+
+  body.printing-slip-only #full-paper-slip-print {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    box-shadow: none !important;
+    border: 1.5px solid #0F2D21 !important;
+    border-radius: 8px !important;
+  }
+
+  /* Always hide buttons, links, nav, footer and no-print elements in print */
+  nav, footer, .no-print, .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}

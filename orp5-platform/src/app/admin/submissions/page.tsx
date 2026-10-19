@@ -92,6 +92,8 @@ function AdminCommentThread({ submissionId }: { submissionId: string }) {
 
 interface Submission {
     id: string;
+    ticketId?: string;
+    isFullPaper?: boolean;
     title: string;
     authors: string;
     email: string;
@@ -128,13 +130,26 @@ export default function AdminSubmissionsPage() {
             if (res.ok) {
                 const data = await res.json();
                 // Normalize data structure
-                const normalized = data.map((s: any) => ({
-                    ...s,
-                    submittedAt: s.created_at,
-                    abstract: s.abstract_text || s.abstract,
-                    authors: s.author_name || s.profiles?.display_name || s.authors || 'Unknown User',
-                    email: s.email || s.profiles?.email || 'No Email Provided'
-                }));
+                const normalized = data.map((s: any) => {
+                    const rawText = s.abstract_text || s.abstract || '';
+                    const ticketMatch = rawText.match(/Ref ID:\s*(ORP5-FP-[A-Z0-9-]+)/i);
+                    const isFullPaper = s.title?.startsWith('[FULL PAPER]') || rawText.includes('Bio Web of Conferences') || Boolean(ticketMatch);
+                    const ticketId = ticketMatch 
+                        ? ticketMatch[1] 
+                        : isFullPaper 
+                        ? `ORP5-FP-2026-${s.id.substring(0, 8).toUpperCase()}` 
+                        : `ORP5-ABS-2026-${s.id.substring(0, 8).toUpperCase()}`;
+
+                    return {
+                        ...s,
+                        ticketId,
+                        isFullPaper,
+                        submittedAt: s.created_at,
+                        abstract: rawText,
+                        authors: s.author_name || s.profiles?.display_name || s.authors || 'Unknown User',
+                        email: s.email || s.profiles?.email || 'No Email Provided'
+                    };
+                });
                 setSubmissions(normalized);
             }
         } catch (error) {
@@ -419,7 +434,7 @@ export default function AdminSubmissionsPage() {
                         <table className="w-full">
                             <thead className="bg-gray-800/50">
                                 <tr>
-                                    <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Abstract ID</th>
+                                    <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Tracking / Paper ID</th>
                                     <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Title</th>
                                     <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Authors</th>
                                     <th className="text-left p-4 font-medium text-gray-400 text-sm uppercase tracking-wider">Category</th>
@@ -432,12 +447,23 @@ export default function AdminSubmissionsPage() {
                                 {filteredSubmissions.map((sub) => (
                                     <tr key={sub.id} className="hover:bg-gray-800/50 transition-colors group">
                                         <td className="p-4">
-                                            <span className="font-mono text-xs font-bold bg-gray-800 text-gray-300 px-2 py-1 rounded border border-gray-700">
-                                                ABS-{sub.id.substring(0, 8).toUpperCase()}
+                                            <span className={`font-mono text-xs font-bold px-2.5 py-1 rounded border inline-block ${
+                                                sub.isFullPaper
+                                                    ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700/80 shadow-sm'
+                                                    : 'bg-gray-800 text-gray-300 border-gray-700'
+                                            }`}>
+                                                {sub.ticketId}
                                             </span>
+                                            {sub.isFullPaper && (
+                                                <span className="block mt-1 text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
+                                                    Bio Web Paper
+                                                </span>
+                                            )}
                                         </td>
                                         <td className="p-4 font-medium">
-                                            <div className="max-w-[300px] truncate text-white" title={sub.title}>{sub.title}</div>
+                                            <div className="max-w-[300px] truncate text-white" title={sub.title}>
+                                                {sub.title.replace(/^\[FULL PAPER\]\s*/i, '')}
+                                            </div>
                                             <div className="text-xs text-gray-500 mt-1 truncate">{sub.topic}</div>
                                         </td>
                                         <td className="p-4">
@@ -507,10 +533,19 @@ export default function AdminSubmissionsPage() {
                     <div className="bg-gray-900 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-gray-800 shadow-2xl">
                         <div className="p-6 border-b border-gray-800 flex justify-between items-start bg-gray-800/20">
                             <div>
-                                <div className="flex items-center gap-3 mb-2">
-                                    <span className="font-mono text-xs font-bold bg-gray-800 text-gray-300 px-2 py-1 rounded border border-gray-700">
-                                        ORP5-ABS-2026-{selectedSubmission.id.substring(0, 8).toUpperCase()}
+                                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                                    <span className={`font-mono text-xs font-bold px-2.5 py-1 rounded border ${
+                                        selectedSubmission.isFullPaper
+                                            ? 'bg-emerald-950 text-emerald-300 border-emerald-700'
+                                            : 'bg-gray-800 text-gray-300 border-gray-700'
+                                    }`}>
+                                        {selectedSubmission.ticketId}
                                     </span>
+                                    {selectedSubmission.isFullPaper && (
+                                        <span className="px-2.5 py-1 rounded-full bg-emerald-900/60 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-700/60">
+                                            Bio Web (SCOPUS) Full Paper
+                                        </span>
+                                    )}
                                     <span className={`px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide inline-flex items-center gap-1.5 ${getStatusBadge(selectedSubmission.status)}`}>
                                         <span className="w-1.5 h-1.5 rounded-full bg-current opacity-75"></span>
                                         {selectedSubmission.status}
@@ -519,7 +554,9 @@ export default function AdminSubmissionsPage() {
                                         {selectedSubmission.category}
                                     </span>
                                 </div>
-                                <h2 className="text-2xl font-bold text-white leading-tight">{selectedSubmission.title}</h2>
+                                <h2 className="text-2xl font-bold text-white leading-tight">
+                                    {selectedSubmission.title.replace(/^\[FULL PAPER\]\s*/i, '')}
+                                </h2>
                             </div>
                             <button
                                 onClick={() => setSelectedSubmission(null)}
@@ -539,12 +576,25 @@ export default function AdminSubmissionsPage() {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-800">
-                                    <button
-                                        onClick={() => handleStatusUpdate(selectedSubmission!.id, 'accepted')}
-                                        disabled={updating || selectedSubmission.status === 'accepted'}
-                                        className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition flex items-center gap-2"
-                                    >
+                                <div className="pt-4 border-t border-gray-800 space-y-3">
+                                    {(selectedSubmission.title?.startsWith('[FULL PAPER]') || selectedSubmission.abstract?.includes('Bio Web of Conferences')) && (
+                                        <div className="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-700/60 text-xs text-emerald-300 flex items-start gap-2">
+                                            <CheckCircle size={15} className="text-emerald-400 shrink-0 mt-0.5" />
+                                            <div>
+                                                <p className="font-bold">Bio Web Full Paper Workflow</p>
+                                                <p className="text-emerald-200/80 text-[11px] mt-0.5">
+                                                    Clicking <strong>Accept</strong> will formally approve the manuscript and automatically dispatch the official acceptance email with the SBI Bank Account details to collect the contributory publication fee (€50 / ₹6,000).
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="flex flex-wrap gap-3">
+                                        <button
+                                            onClick={() => handleStatusUpdate(selectedSubmission!.id, 'accepted')}
+                                            disabled={updating || selectedSubmission.status === 'accepted'}
+                                            className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition flex items-center gap-2"
+                                        >
                                         <CheckCircle size={18} />
                                         Accept
                                     </button>
@@ -565,8 +615,9 @@ export default function AdminSubmissionsPage() {
                                         Request Revision
                                     </button>
                                 </div>
+                            </div>
 
-                                {/* Comment Thread for Transparency */}
+                            {/* Comment Thread for Transparency */}
                                 <div className="pt-4 border-t border-gray-800">
                                     <AdminCommentThread submissionId={selectedSubmission.id} />
                                 </div>
@@ -618,18 +669,48 @@ export default function AdminSubmissionsPage() {
                                             <div className="text-gray-500 text-xs mb-1">Topic</div>
                                             <div className="text-gray-200">{selectedSubmission.topic}</div>
                                         </div>
-                                        {selectedSubmission.file_url && (
-                                            <div className="pt-2">
-                                                <a
-                                                    href={selectedSubmission.file_url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="block w-full py-2 bg-gray-700 hover:bg-gray-600 text-center rounded-lg text-sm transition"
-                                                >
-                                                    Download Attachment
-                                                </a>
-                                            </div>
-                                        )}
+                                        {(() => {
+                                            const plagiarismMatch = selectedSubmission.abstract?.match(/Plagiarism Report:\s*(https?:\/\/[^\s\n\r]+)/i);
+                                            const plagiarismUrl = plagiarismMatch ? plagiarismMatch[1] : null;
+                                            const supplementaryMatch = selectedSubmission.abstract?.match(/Supplementary:\s*(https?:\/\/[^\s\n\r]+)/i);
+                                            const supplementaryUrl = supplementaryMatch ? supplementaryMatch[1] : null;
+                                            const isFullPaper = selectedSubmission.title?.startsWith('[FULL PAPER]') || selectedSubmission.abstract?.includes('Bio Web of Conferences');
+
+                                            return (
+                                                <div className="pt-2 space-y-2">
+                                                    {selectedSubmission.file_url && (
+                                                        <a
+                                                            href={selectedSubmission.file_url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block w-full py-2 bg-blue-600 hover:bg-blue-500 text-center rounded-lg text-xs font-bold text-white transition shadow-sm"
+                                                        >
+                                                            {isFullPaper ? '📄 Download Manuscript (.docx/.pdf)' : 'Download Attachment'}
+                                                        </a>
+                                                    )}
+                                                    {plagiarismUrl && (
+                                                        <a
+                                                            href={plagiarismUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block w-full py-2 bg-emerald-700 hover:bg-emerald-600 text-center rounded-lg text-xs font-bold text-white transition shadow-sm"
+                                                        >
+                                                            🛡️ Download Plagiarism Report (.pdf)
+                                                        </a>
+                                                    )}
+                                                    {supplementaryUrl && (
+                                                        <a
+                                                            href={supplementaryUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block w-full py-2 bg-gray-800 hover:bg-gray-700 text-center rounded-lg text-xs font-medium text-gray-200 border border-gray-700 transition"
+                                                        >
+                                                            📎 Download Supplementary File
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>

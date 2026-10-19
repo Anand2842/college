@@ -21,10 +21,10 @@ export async function POST(
             return NextResponse.json({ error: 'A valid 6-digit OTP is required.' }, { status: 400 });
         }
         if (!proof_url || typeof proof_url !== 'string' || proof_url.trim() === '') {
-            return NextResponse.json({ error: 'Payment screenshot (proof_url) is required. Please upload your SBI Collect receipt.' }, { status: 400 });
+            return NextResponse.json({ error: 'Payment screenshot (proof_url) is required. Please upload your bank transfer receipt / debit slip.' }, { status: 400 });
         }
         if (!utr_number || typeof utr_number !== 'string' || utr_number.trim().length < 10) {
-            return NextResponse.json({ error: 'A valid UTR/reference number (minimum 10 characters) is required. Find it on your SBI Collect payment receipt.' }, { status: 400 });
+            return NextResponse.json({ error: 'A valid UTR/reference number (minimum 10 characters) is required. Find it on your bank debit receipt or Net Banking confirmation.' }, { status: 400 });
         }
 
         const supabase = getSupabaseAdmin();

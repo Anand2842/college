@@ -404,7 +404,16 @@ export default function AuthorSubmissionCard({
     const [sending, setSending] = useState(false);
     const [commentCount, setCommentCount] = useState<number | null>(null);
 
-    const absId = `ORP5-ABS-2026-${String(submission.id).slice(0, 8).toUpperCase()}`;
+    const rawText = submission.abstract_text || submission.abstract || '';
+    const ticketMatch = rawText.match(/Ref ID:\s*(ORP5-FP-[A-Z0-9-]+)/i);
+    const isFullPaper = submission.title?.startsWith('[FULL PAPER]') || rawText.includes('Bio Web of Conferences') || Boolean(ticketMatch);
+    const trackingId = ticketMatch
+        ? ticketMatch[1]
+        : isFullPaper
+        ? `ORP5-FP-2026-${String(submission.id).slice(0, 8).toUpperCase()}`
+        : `ORP5-ABS-2026-${String(submission.id).slice(0, 8).toUpperCase()}`;
+
+    const cleanTitle = (submission.title || '').replace(/^\[FULL PAPER\]\s*/i, '');
     const submittedOn = new Date(submission.created_at).toLocaleDateString('en-IN', {
         day: 'numeric', month: 'short', year: 'numeric'
     });
@@ -467,8 +476,19 @@ export default function AuthorSubmissionCard({
                 <div className="p-6">
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-4">
                         <div className="flex-1">
-                            <p className="font-mono text-xs text-gray-400 mb-1">{absId}</p>
-                            <h3 className="font-bold text-gray-900 leading-snug">{submission.title}</h3>
+                            <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                                <span className={`font-mono text-xs font-bold px-2.5 py-0.5 rounded border inline-block ${
+                                    isFullPaper ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-gray-100 text-gray-700 border-gray-200'
+                                }`}>
+                                    {trackingId}
+                                </span>
+                                {isFullPaper && (
+                                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#0F2D21] text-[#DFC074] uppercase tracking-wider">
+                                        Bio Web Full Paper
+                                    </span>
+                                )}
+                            </div>
+                            <h3 className="font-bold text-gray-900 leading-snug">{cleanTitle}</h3>
                         </div>
                         <span className={`text-xs font-bold px-3 py-1 rounded-full border self-start flex-shrink-0 ${STATUS_BADGE[submission.status] || 'bg-gray-100 text-gray-700 border-gray-200'}`}>
                             {STATUS_LABEL[submission.status] || submission.status.replace('_', ' ')}

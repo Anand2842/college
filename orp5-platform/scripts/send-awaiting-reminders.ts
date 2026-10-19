@@ -248,7 +248,7 @@ export function buildMobileResponsiveReminderHtml({
                                                     </table>
                                                 </td>
                                                 <td valign="top" style="padding-bottom: 14px; padding-left: 8px; font-size: 13px; color: #374151; line-height: 1.5;">
-                                                    Pay securely via the government-authorized <strong>SBI Collect</strong> portal using UPI, NetBanking, Debit/Credit Card, or NEFT.
+                                                    Transfer your fee directly to the official State Bank of India (SBI) account via NEFT / RTGS / IMPS (or SWIFT wire for international delegates).
                                                 </td>
                                             </tr>
                                             <!-- Step 3 -->

@@ -15,10 +15,10 @@ const DEFAULT_PROMO_MODAL = {
     slides: [
         {
             id: "slide-1",
-            title: "Abstract Submission Open!",
-            subtitle: "Submit your research abstract for ORP-5 before the deadline. Expert review. Global audience.",
-            ctaLabel: "Submit Abstract",
-            ctaLink: "/submission",
+            title: "Full Paper Submission Open (SCOPUS Indexed)",
+            subtitle: "Submit your full-length manuscript for Bio Web of Conferences (EDP Sciences). Peer reviewed with direct bank transfer upon acceptance.",
+            ctaLabel: "Submit Full Paper",
+            ctaLink: "/guidelines/submit",
             imageUrl: "",
         },
         {

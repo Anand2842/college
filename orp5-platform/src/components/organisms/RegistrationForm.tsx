@@ -381,11 +381,11 @@ export function RegistrationForm({ selectedCategory: initialCategory, onSuccess 
                                     </li>
                                     <li className="flex gap-3 text-sm text-blue-900">
                                         <span className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                                        <span>You'll get a <strong>Ticket ID</strong> and a link to pay via <strong>SBI Collect</strong> (government-authorized portal).</span>
+                                        <span>You'll get a <strong>Ticket ID</strong> and official <strong>Bank Transfer</strong> (NEFT / RTGS / IMPS / SWIFT) details.</span>
                                     </li>
                                     <li className="flex gap-3 text-sm text-blue-900">
                                         <span className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
-                                        <span>After paying, click <strong>"I have paid"</strong> on the next page — our team verifies within <strong>24–48 hours</strong>.</span>
+                                        <span>After transferring from your bank, enter your <strong>UTR / Reference Number</strong> and upload your payment slip — verified within <strong>24–48 hours</strong>.</span>
                                     </li>
                                 </ol>
                             </div>

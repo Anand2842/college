@@ -289,20 +289,47 @@ export default function ModeratorSubmissionList({
                             className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all group"
                         >
                             <div className="p-4 sm:p-5">
-                                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-3 mb-2">
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="font-bold text-gray-900 leading-snug truncate group-hover:text-blue-600 transition-colors">
-                                            {sub.title}
-                                        </h4>
-                                        <p className="text-xs text-gray-500 mt-0.5">
-                                            by <span className="font-medium text-gray-700">{sub.author_name || sub.authors || 'Unknown'}</span>
-                                            {sub.institution && <> · {sub.institution}</>}
-                                        </p>
-                                    </div>
-                                    <span className={`self-start flex-shrink-0 px-2.5 py-1 text-[10px] font-bold uppercase rounded-full tracking-wide ${STATUS_BADGE[sub.status] || 'bg-gray-100 text-gray-700'}`}>
-                                        {sub.status.replace('_', ' ')}
-                                    </span>
-                                </div>
+                                {(() => {
+                                    const rawText = sub.abstract_text || sub.abstract || '';
+                                    const ticketMatch = rawText.match(/Ref ID:\s*(ORP5-FP-[A-Z0-9-]+)/i);
+                                    const isFullPaper = sub.title?.startsWith('[FULL PAPER]') || rawText.includes('Bio Web of Conferences') || Boolean(ticketMatch);
+                                    const trackingId = ticketMatch 
+                                        ? ticketMatch[1] 
+                                        : isFullPaper 
+                                        ? `ORP5-FP-2026-${sub.id.substring(0, 8).toUpperCase()}` 
+                                        : `ORP5-ABS-2026-${sub.id.substring(0, 8).toUpperCase()}`;
+
+                                    return (
+                                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-3 mb-2">
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                                                    <span className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded border ${
+                                                        isFullPaper
+                                                            ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                                                            : 'bg-gray-100 text-gray-700 border-gray-200'
+                                                    }`}>
+                                                        {trackingId}
+                                                    </span>
+                                                    {isFullPaper && (
+                                                        <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-300">
+                                                            Bio Web Full Paper
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <h4 className="font-bold text-gray-900 leading-snug truncate group-hover:text-blue-600 transition-colors">
+                                                    {sub.title.replace(/^\[FULL PAPER\]\s*/i, '')}
+                                                </h4>
+                                                <p className="text-xs text-gray-500 mt-0.5">
+                                                    by <span className="font-medium text-gray-700">{sub.author_name || sub.authors || 'Unknown'}</span>
+                                                    {sub.institution && <> · {sub.institution}</>}
+                                                </p>
+                                            </div>
+                                            <span className={`self-start flex-shrink-0 px-2.5 py-1 text-[10px] font-bold uppercase rounded-full tracking-wide ${STATUS_BADGE[sub.status] || 'bg-gray-100 text-gray-700'}`}>
+                                                {sub.status.replace('_', ' ')}
+                                            </span>
+                                        </div>
+                                    );
+                                })()}
 
                                 <p className="text-xs text-gray-500 line-clamp-2 mb-3">
                                     {sub.abstract_text}
@@ -333,19 +360,46 @@ export default function ModeratorSubmissionList({
                     <div className="bg-white sm:rounded-2xl w-full h-full sm:h-auto sm:max-w-5xl sm:max-h-[92vh] flex flex-col shadow-2xl">
                         {/* Modal header */}
                         <div className="sticky top-0 bg-white border-b border-gray-100 p-4 sm:p-6 flex justify-between items-start z-10 flex-shrink-0">
-                            <div className="flex-1 min-w-0 mr-2 sm:mr-4">
-                                <h2 className="text-lg sm:text-xl font-bold text-gray-900 leading-tight">{selectedSubmission.title}</h2>
-                                <div className="flex flex-wrap gap-2 mt-2">
-                                    <span className={`px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide ${STATUS_BADGE[selectedSubmission.status] || 'bg-gray-100 text-gray-700'}`}>
-                                        {selectedSubmission.status.replace('_', ' ')}
-                                    </span>
-                                    {selectedSubmission.category && (
-                                        <span className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-[10px] sm:text-xs font-medium">
-                                            {selectedSubmission.category}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
+                            {(() => {
+                                const rawText = selectedSubmission.abstract_text || selectedSubmission.abstract || '';
+                                const ticketMatch = rawText.match(/Ref ID:\s*(ORP5-FP-[A-Z0-9-]+)/i);
+                                const isFullPaper = selectedSubmission.title?.startsWith('[FULL PAPER]') || rawText.includes('Bio Web of Conferences') || Boolean(ticketMatch);
+                                const trackingId = ticketMatch 
+                                    ? ticketMatch[1] 
+                                    : isFullPaper 
+                                    ? `ORP5-FP-2026-${selectedSubmission.id.substring(0, 8).toUpperCase()}` 
+                                    : `ORP5-ABS-2026-${selectedSubmission.id.substring(0, 8).toUpperCase()}`;
+
+                                return (
+                                    <div className="flex-1 min-w-0 mr-2 sm:mr-4">
+                                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                            <span className={`font-mono text-xs font-bold px-2.5 py-0.5 rounded border ${
+                                                isFullPaper
+                                                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                                                    : 'bg-gray-100 text-gray-700 border-gray-200'
+                                            }`}>
+                                                {trackingId}
+                                            </span>
+                                            {isFullPaper && (
+                                                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-300">
+                                                    Bio Web (SCOPUS) Full Paper
+                                                </span>
+                                            )}
+                                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide ${STATUS_BADGE[selectedSubmission.status] || 'bg-gray-100 text-gray-700'}`}>
+                                                {selectedSubmission.status.replace('_', ' ')}
+                                            </span>
+                                            {selectedSubmission.category && (
+                                                <span className="px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] sm:text-xs font-medium">
+                                                    {selectedSubmission.category}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <h2 className="text-lg sm:text-xl font-bold text-gray-900 leading-tight">
+                                            {selectedSubmission.title.replace(/^\[FULL PAPER\]\s*/i, '')}
+                                        </h2>
+                                    </div>
+                                );
+                            })()}
                             <button
                                 onClick={() => { setSelectedSubmission(null); setNotes(''); }}
                                 className="p-2 bg-gray-100 sm:bg-transparent hover:bg-gray-200 rounded-full sm:rounded-lg text-gray-500 hover:text-gray-900 transition flex-shrink-0"
@@ -370,6 +424,18 @@ export default function ModeratorSubmissionList({
                                     <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                                         <Shield size={14} className="text-blue-500" /> Review Decision
                                     </h3>
+
+                                    {(selectedSubmission.title?.startsWith('[FULL PAPER]') || selectedSubmission.abstract_text?.includes('Bio Web of Conferences')) && (
+                                        <div className="mb-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-start gap-2">
+                                            <CheckCircle size={15} className="text-emerald-700 shrink-0 mt-0.5" />
+                                            <div>
+                                                <p className="font-bold">Bio Web Full Paper Workflow</p>
+                                                <p className="text-emerald-800 text-[11px] mt-0.5">
+                                                    Clicking <strong>Accept</strong> will formally approve the manuscript and automatically dispatch the official acceptance email with the SBI Bank Account details to collect the contributory publication fee (€50 / ₹6,000).
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Notes for author */}
                                     <div className="mb-4">
@@ -483,17 +549,53 @@ export default function ModeratorSubmissionList({
                                                 <p className="text-gray-700">{selectedSubmission.topic}</p>
                                             </div>
                                         )}
-                                        {selectedSubmission.file_url && (
-                                            <a
-                                                href={selectedSubmission.file_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center justify-center gap-2 w-full py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg transition mt-2"
-                                            >
-                                                <Download size={14} />
-                                                Download Attachment
-                                            </a>
-                                        )}
+                                        {(() => {
+                                            const plagiarismMatch = selectedSubmission.abstract_text?.match(/Plagiarism Report:\s*(https?:\/\/[^\s\n\r]+)/i);
+                                            const plagiarismUrl = plagiarismMatch ? plagiarismMatch[1] : null;
+                                            const supplementaryMatch = selectedSubmission.abstract_text?.match(/Supplementary:\s*(https?:\/\/[^\s\n\r]+)/i);
+                                            const supplementaryUrl = supplementaryMatch ? supplementaryMatch[1] : null;
+                                            const isFullPaper = selectedSubmission.title?.startsWith('[FULL PAPER]') || selectedSubmission.abstract_text?.includes('Bio Web of Conferences');
+
+                                            return (
+                                                <div className="space-y-2 mt-3 pt-3 border-t border-gray-100">
+                                                    {selectedSubmission.file_url && (
+                                                        <a
+                                                            href={selectedSubmission.file_url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex items-center justify-center gap-2 w-full py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg transition"
+                                                        >
+                                                            <Download size={14} />
+                                                            {isFullPaper ? 'Download Manuscript (.docx/.pdf)' : 'Download Attachment'}
+                                                        </a>
+                                                    )}
+
+                                                    {plagiarismUrl && (
+                                                        <a
+                                                            href={plagiarismUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex items-center justify-center gap-2 w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg transition border border-emerald-200"
+                                                        >
+                                                            <Shield size={14} className="text-emerald-600" />
+                                                            Download Plagiarism Report (.pdf)
+                                                        </a>
+                                                    )}
+
+                                                    {supplementaryUrl && (
+                                                        <a
+                                                            href={supplementaryUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex items-center justify-center gap-2 w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-bold rounded-lg transition border border-gray-200"
+                                                        >
+                                                            <Download size={14} />
+                                                            Download Supplementary File
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>

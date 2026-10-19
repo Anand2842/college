@@ -312,9 +312,9 @@ export default function CommitteesClient({ initialData }: { initialData?: any })
           </div>
 
           <div className="relative z-10 shrink-0">
-            <Link href="/registration">
+            <Link href="/gallery">
               <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                Register as Delegate <ArrowRight size={15} className="ml-2" />
+                Explore Conference Gallery <ArrowRight size={15} className="ml-2" />
               </Button>
             </Link>
           </div>

@@ -121,9 +121,9 @@ function getIndianReminderHtml(reg) {
                             <h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 800; color: #111827; text-transform: uppercase; letter-spacing: 0.8px;">Quick Payment Steps:</h3>
                             <ol style="margin: 0 0 28px; padding-left: 20px; font-size: 13px; line-height: 1.7; color: #374151;">
                                 <li style="margin-bottom: 6px;">Click the <strong>Complete Payment & Submit Proof</strong> button below.</li>
-                                <li style="margin-bottom: 6px;">Pay via <strong>SBI Collect</strong> (UPI / QR Code, Net Banking, or Debit/Credit Card).</li>
-                                <li style="margin-bottom: 6px;">Enter your Ticket ID <strong>${reg.ticketNumber}</strong> in the reference field.</li>
-                                <li style="margin-bottom: 6px;">Upload your payment transaction receipt / UTR for instant verification.</li>
+                                <li style="margin-bottom: 6px;">Transfer fee via <strong>Direct Bank Transfer</strong> (NEFT / RTGS / IMPS) to official State Bank of India account.</li>
+                                <li style="margin-bottom: 6px;">Mention your Ticket ID <strong>${reg.ticketNumber}</strong> in the remarks/narration.</li>
+                                <li style="margin-bottom: 6px;">Upload your payment transaction receipt / UTR for verification.</li>
                             </ol>
 
                             <!-- CTA Button -->
@@ -351,7 +351,7 @@ async function sendReminders() {
     const indianList = pendingList.filter(p => p.currency === 'INR' && p.nationality !== 'foreign');
     const foreignList = pendingList.filter(p => p.currency === 'USD' || p.nationality === 'foreign');
 
-    console.log(`🇮🇳 Indian Delegates (SBI Collect): ${indianList.length}`);
+    console.log(`🇮🇳 Indian Delegates (Bank Transfer): ${indianList.length}`);
     console.log(`🌍 Foreign Delegates (SWIFT + PDF Attached): ${foreignList.length}`);
 
     let sentCount = 0;
@@ -411,9 +411,9 @@ async function sendReminders() {
         await new Promise(resolve => setTimeout(resolve, 600));
     }
 
-    // 2. Process Indian Delegates (SBI Collect)
+    // 2. Process Indian Delegates (Bank Transfer)
     console.log('\n======================================================');
-    console.log('🚀 Sending Domestic Reminders (SBI Collect / UPI Link)');
+    console.log('🚀 Sending Domestic Reminders (Bank Transfer Link)');
     console.log('======================================================');
 
     for (const [idx, reg] of indianList.entries()) {
@@ -442,7 +442,7 @@ async function sendReminders() {
                     ...reg.rawData,
                     payment_reminder_sent_at: new Date().toISOString(),
                     payment_reminder_resend_id: sendRes.data?.id,
-                    payment_reminder_type: 'indian_sbicollect'
+                    payment_reminder_type: 'indian_bank_transfer'
                 };
 
                 await fetch(`${supabaseUrl}/rest/v1/registrations?id=eq.${reg.id}`, {

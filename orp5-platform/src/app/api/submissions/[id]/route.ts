@@ -140,17 +140,65 @@ export async function PATCH(
                 });
         }
 
+        // Sync with registrations table if this is a full paper
+        try {
+            const ticketMatch = data.abstract_text?.match(/Ref ID:\s*(ORP5-FP-[A-Z0-9-]+)/i);
+            const ticketId = ticketMatch ? ticketMatch[1] : null;
+
+            if (ticketId) {
+                const { data: regRows } = await supabaseAdmin
+                    .from('registrations')
+                    .select('id, data')
+                    .filter('data->>ticket_number', 'eq', ticketId)
+                    .limit(1);
+
+                if (regRows && regRows.length > 0) {
+                    const reg = regRows[0];
+                    const updatedData = {
+                        ...(reg.data as any),
+                        review_status: status,
+                        review_notes: notes || (reg.data as any)?.review_notes || '',
+                        updated_at: new Date().toISOString()
+                    };
+                    await supabaseAdmin
+                        .from('registrations')
+                        .update({ data: updatedData } as any)
+                        .eq('id', reg.id);
+                }
+            }
+        } catch (syncErr) {
+            console.warn('Failed to sync review status with registrations table:', syncErr);
+        }
+
         // Send Email Notification (await so serverless environment delivers it)
         if (data.email) {
             try {
-                const { sendSubmissionStatusEmail } = await import('@/lib/email');
-                await sendSubmissionStatusEmail(
-                    data.email,
-                    data.author_name || data.authors || 'Author',
-                    data.title,
-                    status as any,
-                    notes || undefined
-                );
+                const isFullPaper = data.title?.startsWith('[FULL PAPER]') || 
+                                    data.abstract_text?.includes('Bio Web of Conferences') || 
+                                    data.abstract_text?.includes('Ref ID: ORP5-FP-');
+
+                if (status === 'accepted' && isFullPaper) {
+                    const { sendFullPaperAcceptedEmail } = await import('@/lib/email');
+                    const ticketMatch = data.abstract_text?.match(/Ref ID:\s*(ORP5-FP-[A-Z0-9-]+)/i);
+                    const ticketId = ticketMatch ? ticketMatch[1] : `ORP5-FP-${data.id.slice(0, 8).toUpperCase()}`;
+                    await sendFullPaperAcceptedEmail({
+                        to: data.email,
+                        authorName: data.author_name || data.authors || 'Author',
+                        paperTitle: data.title.replace(/^\[FULL PAPER\]\s*/i, ''),
+                        ticketId: ticketId,
+                        amount: 6000,
+                        currency: 'INR'
+                    });
+                } else {
+                    const { sendSubmissionStatusEmail } = await import('@/lib/email');
+                    await sendSubmissionStatusEmail(
+                        data.email,
+                        data.author_name || data.authors || 'Author',
+                        data.title,
+                        status as any,
+                        notes || undefined
+                    );
+                }
             } catch (err: any) {
                 console.error('Failed to send status email:', err);
             }

@@ -82,7 +82,7 @@ export async function POST(request: Request) {
             fee_amount: body.feeAmount,
             currency: body.currency,
             payment_status: 'awaiting_payment', // User registered, payment not yet attempted
-            payment_mode: 'SBI Collect (Pending)',
+            payment_mode: 'Bank Transfer (Pending)',
             payment_date: null,
             tags: tags,
             submittedAt: new Date().toISOString()

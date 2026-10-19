@@ -116,14 +116,14 @@ export default function PublicationsClient() {
                                 </div>
 
                                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                                    <Link href="/ticket-status?tab=abstract">
+                                    <Link href="/guidelines">
                                         <Button variant="premium" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                            Track Abstract Status <ArrowRight size={15} className="ml-2" />
+                                            Full Paper Guidelines <ArrowRight size={15} className="ml-2" />
                                         </Button>
                                     </Link>
-                                    <Link href="/submission-guidelines">
+                                    <Link href="/ticket-status?tab=abstract">
                                         <Button variant="glass" size="lg" className="text-xs uppercase tracking-wider font-bold">
-                                            Author Guidelines
+                                            Track Abstract Status
                                         </Button>
                                     </Link>
                                 </div>

@@ -6,6 +6,7 @@ import { PartnerCard } from "@/components/molecules/PartnerCard";
 import { InfiniteMarquee } from "@/components/molecules/InfiniteMarquee";
 import { SectionTitle } from "@/components/atoms/SectionTitle";
 import { StatsStrip } from "@/components/organisms/StatsStrip";
+import { FullPaperShowcase } from "@/components/organisms/FullPaperShowcase";
 import { OrganizersHierarchy } from "@/components/organisms/OrganizersHierarchy";
 import { AboutPreview } from "@/components/organisms/AboutPreview";
 import { VenuePreview } from "@/components/organisms/VenuePreview";
@@ -106,6 +107,9 @@ export default async function Home() {
 
       {/* 2. Key Metric Figures Strip */}
       <StatsStrip />
+
+      {/* Full-Length Paper Publication in Bio Web of Conferences (SCOPUS) */}
+      <FullPaperShowcase />
 
       {/* Photo & Media Gallery Showcase */}
       <HomeGallerySection items={galleryData.homeGallery} />

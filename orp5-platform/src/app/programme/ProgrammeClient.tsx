@@ -568,9 +568,9 @@ export default function ProgrammeClient({ initialData }: { initialData?: any }) 
                                     </div>
                                 ))}
                             </div>
-                            <Link href="/registration">
+                            <Link href="/gallery">
                                 <Button variant="default" size="default" className="text-xs uppercase tracking-wider font-bold">
-                                    Register for Field Visits
+                                    View Field Visit Photos
                                 </Button>
                             </Link>
                         </div>

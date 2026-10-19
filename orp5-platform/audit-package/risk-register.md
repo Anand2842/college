@@ -7,7 +7,7 @@
 
 ## Mitigation
 - **Communication**: Update UI to explicitly state "Payment will be collected later" or "Pre-registration only".
-- **Email Trigger**: Send automated email upon registration with payment instructions (bank transfer/UPI).
+- **Email Trigger**: Send automated email upon registration with payment instructions (bank transfer).
 - **Admin Flag**: Ensure Admin panel shows "Payment Pending" for these users.
 
 ## Client Communication

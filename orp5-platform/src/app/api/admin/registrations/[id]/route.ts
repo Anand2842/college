@@ -103,13 +103,30 @@ export async function PATCH(
 
             try {
                 if (payment_status === 'paid') {
-                    const { sendRegistrationStatusEmail } = await import('@/lib/email');
-                    await sendRegistrationStatusEmail(
-                        updatedData.email as string,
-                        (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
-                        finalTicketId,
-                        'paid'
-                    );
+                    const isFullPaper = updatedData.type === 'full_length_paper' || 
+                        (Array.isArray(updatedData.tags) && updatedData.tags.includes('FULL_PAPER')) || 
+                        String(finalTicketId).startsWith('ORP5-FP-');
+
+                    if (isFullPaper) {
+                        const { sendFullPaperPaymentConfirmedEmail } = await import('@/lib/email');
+                        await sendFullPaperPaymentConfirmedEmail({
+                            to: updatedData.email as string,
+                            authorName: (updatedData.full_name || updatedData.fullName) as string || 'Author',
+                            paperTitle: (updatedData.paper_title || updatedData.title || 'Full-Length Manuscript') as string,
+                            ticketId: finalTicketId,
+                            amount: Number(updatedData.fee_amount || updatedData.feeAmount || 6000),
+                            currency: (updatedData.currency as string) || 'INR',
+                            utrNumber: (updatedData.utr_number || updatedData.admin_verified_utr || verified_utr) as string | undefined,
+                        });
+                    } else {
+                        const { sendRegistrationStatusEmail } = await import('@/lib/email');
+                        await sendRegistrationStatusEmail(
+                            updatedData.email as string,
+                            (updatedData.full_name || updatedData.fullName) as string || 'Attendee',
+                            finalTicketId,
+                            'paid'
+                        );
+                    }
                 } else if (payment_status === 'payment_rejected') {
                     const { sendPaymentRejectedEmail } = await import('@/lib/email');
                     await sendPaymentRejectedEmail(

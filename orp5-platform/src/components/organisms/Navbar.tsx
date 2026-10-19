@@ -47,8 +47,10 @@ const navItems: NavItem[] = [
         label: "Publications",
         href: "/publications",
         children: [
-            { label: "Publications", href: "/publications" },
-            { label: "Track Abstract Status", href: "/ticket-status?tab=abstract" },
+            { label: "Submit Full Paper", href: "/guidelines/submit" },
+            { label: "Paper Guidelines (SCOPUS)", href: "/guidelines" },
+            { label: "Publications Overview", href: "/publications" },
+            { label: "Track Paper Status", href: "/ticket-status" },
         ]
     },
     {
@@ -269,11 +271,25 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
 
                     {/* Desktop CTAs (Right) */}
                     <div className="hidden xl:flex items-center gap-3">
+                        <Link href="/guidelines/submit">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className={cn(
+                                    "px-4 py-2 rounded-lg text-xs uppercase tracking-wider font-bold transition-all border flex items-center gap-1.5 shadow-sm",
+                                    isTransparentAtTop
+                                        ? "border-rice-gold bg-rice-gold/15 text-white hover:bg-rice-gold hover:text-charcoal"
+                                        : "border-earth-green bg-earth-green/10 text-earth-green hover:bg-earth-green hover:text-white"
+                                )}
+                            >
+                                Submit Full Paper
+                            </Button>
+                        </Link>
                         <Link href="/gallery">
                             <Button
                                 variant="premium"
                                 size="sm"
-                                className="px-6 py-2 rounded-lg"
+                                className="px-5 py-2 rounded-lg text-xs uppercase tracking-wider font-bold"
                             >
                                 Photo Gallery
                             </Button>
@@ -356,7 +372,17 @@ export function Navbar({ variant = "default", logoUrl: propLogoUrl, logoAlt: pro
                             ) : null}
                         </div>
 
-                        <div className="flex flex-col gap-4 mt-8">
+                        <div className="flex flex-col gap-3 mt-8">
+                            <Link href="/guidelines/submit" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button className="w-full justify-center h-12 bg-earth-green text-white hover:bg-earth-green/90 font-bold flex items-center gap-2">
+                                    Submit Full Paper
+                                </Button>
+                            </Link>
+                            <Link href="/guidelines" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Button variant="outline" className="w-full justify-center h-12 border-earth-green text-earth-green hover:bg-earth-green/5 font-bold">
+                                    Full Paper Guidelines (SCOPUS)
+                                </Button>
+                            </Link>
                             <Link href="/gallery" onClick={() => setIsMobileMenuOpen(false)}>
                                 <Button className="w-full justify-center h-12 bg-earth-green text-white hover:bg-earth-green/90 font-bold">Photo Gallery</Button>
                             </Link>

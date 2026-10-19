@@ -7,11 +7,10 @@ import { Footer } from "@/components/organisms/Footer";
 import {
     CheckCircle2, Copy, Check, ExternalLink, Upload, AlertCircle,
     Loader2, ShieldCheck, Building2, Receipt, ChevronRight, X,
-    FileCheck, Hash, Mail
+    FileCheck, Hash, Mail, Globe
 } from "lucide-react";
 import Link from "next/link";
 
-const SBI_COLLECT_URL = "https://onlinesbi.sbi.bank.in/sbicollect/icollecthome.htm?corpID=6958659#";
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "orp5ic@gmail.com";
 export default function PaymentInstructionClient() {
     const searchParams = useSearchParams();
@@ -20,6 +19,8 @@ export default function PaymentInstructionClient() {
     const [registration, setRegistration] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [copied, setCopied] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState<"bank" | "swift">("bank");
+    const [copiedField, setCopiedField] = useState<string>("");
     const [claimStep, setClaimStep] = useState<"idle" | "form" | "uploading" | "otp" | "done">("idle");
 
     const [utrNumber, setUtrNumber] = useState("");
@@ -38,6 +39,11 @@ export default function PaymentInstructionClient() {
             .finally(() => setLoading(false));
     }, [ticketId]);
 
+    useEffect(() => {
+        if (registration?.currency === "USD" || registration?.nationality === "foreign") {
+            setPaymentMethod("swift");
+        }
+    }, [registration]);
 
     const copyTicketId = useCallback(() => {
         const text = ticketId;
@@ -50,6 +56,19 @@ export default function PaymentInstructionClient() {
             fallbackCopy(text);
         }
     }, [ticketId]);
+
+    const copyField = useCallback((text: string, field: string) => {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+                setCopiedField(field);
+                setTimeout(() => setCopiedField(""), 2000);
+            }).catch(() => fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+            setCopiedField(field);
+            setTimeout(() => setCopiedField(""), 2000);
+        }
+    }, []);
 
     const fallbackCopy = (text: string) => {
         const textarea = document.createElement('textarea');
@@ -204,10 +223,10 @@ export default function PaymentInstructionClient() {
                         Registration Saved Successfully
                     </div>
                     <h1 className="text-3xl md:text-4xl font-serif font-bold text-white mb-3">
-                        Complete Your Payment
+                        Complete Payment via Bank Transfer
                     </h1>
                     <p className="text-white/70 text-lg max-w-xl mx-auto">
-                        Your spot is reserved. Follow the steps below to pay via SBI Collect and confirm your registration.
+                        Your spot is reserved. Follow the official bank details below to transfer your registration fee and confirm your ticket.
                     </p>
                 </div>
             </section>
@@ -248,98 +267,191 @@ export default function PaymentInstructionClient() {
                     </div>
                 </div>
 
-                {/* ── Step-by-Step Guide ── */}
+                {/* ── Official Bank Transfer Section ── */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
-                    <h2 className="text-lg font-bold text-charcoal mb-6">How to Pay via SBI Collect</h2>
-                    <div className="space-y-0">
-                        {[
-                            {
-                                num: 1,
-                                title: "Copy your Ticket ID",
-                                desc: "Tap the Copy button above. Keep it ready to paste on the payment page.",
-                            },
-                            {
-                                num: 2,
-                                title: `Click "Pay Now via SBI Collect" below`,
-                                desc: "Opens in a new tab. You stay on this page.",
-                            },
-                            {
-                                num: 3,
-                                title: "Fill the SBI form exactly like this",
-                                desc: null,
-                                table: [
-                                    { field: "Ticket ID / Reference No.", value: ticketId, highlight: true },
-                                    { field: "Mobile Number", value: "Same number you used in registration" },
-                                    { field: "Remitter Name", value: "Same name you used in registration" },
-                                    { field: "Amount", value: `${currencySymbol}${fee > 0 ? fee.toLocaleString() : "as shown on your fee table"}`, highlight: true },
-                                ],
-                            },
-                            {
-                                num: 4,
-                                title: "Note your UTR / Reference number from the SBI receipt",
-                                desc: "SBI generates a unique UTR after every successful payment (e.g. SBIN02261234567890). You will need this in the next step.",
-                            },
-                            {
-                                num: 5,
-                                title: `Click "I have paid" and submit your receipt`,
-                                desc: "Upload your SBI Collect screenshot and enter the UTR number. Our team verifies within 24–48 hours.",
-                            },
-                        ].map((step, i) => (
-                            <div key={i} className="flex gap-4">
-                                <div className="flex flex-col items-center">
-                                    <div className="w-9 h-9 rounded-full bg-earth-green text-white flex items-center justify-center font-bold text-sm shrink-0 z-10">
-                                        {step.num}
-                                    </div>
-                                    {i < 4 && <div className="w-0.5 bg-earth-green/20 flex-1 my-1" />}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                        <div>
+                            <h2 className="text-lg font-bold text-charcoal">Official Conference Bank Details</h2>
+                            <p className="text-xs text-gray-500 mt-0.5">Payment is accepted strictly via direct bank transfer</p>
+                        </div>
+
+                        {/* Toggle domestic / international */}
+                        <div className="inline-flex rounded-xl bg-gray-100 p-1 border border-gray-200 self-start sm:self-auto">
+                            <button
+                                type="button"
+                                onClick={() => setPaymentMethod("bank")}
+                                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                                    paymentMethod === "bank"
+                                        ? "bg-earth-green text-white shadow-sm"
+                                        : "text-gray-600 hover:text-charcoal"
+                                }`}
+                            >
+                                <Building2 size={14} />
+                                Domestic (NEFT / RTGS / IMPS)
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setPaymentMethod("swift")}
+                                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                                    paymentMethod === "swift"
+                                        ? "bg-earth-green text-white shadow-sm"
+                                        : "text-gray-600 hover:text-charcoal"
+                                }`}
+                            >
+                                <Globe size={14} />
+                                International (SWIFT)
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* METHOD 1: DOMESTIC BANK TRANSFER */}
+                    {paymentMethod === "bank" && (
+                        <div className="border border-earth-green/20 rounded-2xl p-6 bg-green-50/10 space-y-4">
+                            <div className="flex items-center gap-2 text-earth-green font-bold text-sm">
+                                <Building2 size={18} />
+                                State Bank of India — Current Account Details
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-white p-4 rounded-xl border border-gray-200 sm:col-span-2 shadow-xs">
+                                    <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Beneficiary / Account Name</span>
+                                    <span className="font-bold text-charcoal text-base">All India Agricultural Students Association</span>
                                 </div>
-                                <div className="pb-8 flex-1">
-                                    <p className="font-bold text-charcoal mb-1">{step.title}</p>
-                                    {step.desc && <p className="text-sm text-gray-500">{step.desc}</p>}
-                                    {(step as any).table && (
-                                        <div className="mt-3 border border-gray-200 rounded-xl overflow-hidden">
-                                            <div className="bg-gray-50 px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-wide border-b border-gray-200">
-                                                SBI Collect Form — Fill It Like This
-                                            </div>
-                                            {(step as any).table.map((row: any, j: number) => (
-                                                <div key={j} className={`flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 px-4 py-3 text-sm border-b border-gray-100 last:border-none ${row.highlight ? "bg-green-50" : ""}`}>
-                                                    <span className="text-gray-500 shrink-0 sm:w-40">{row.field}</span>
-                                                    <span className={`font-bold sm:text-right ${row.highlight ? "text-earth-green font-mono break-all sm:break-normal" : "text-charcoal"}`}>{row.value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+
+                                <div className="bg-white p-4 rounded-xl border border-gray-200 sm:col-span-2 shadow-xs">
+                                    <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Bank Name & Branch</span>
+                                    <span className="font-semibold text-charcoal text-sm">State Bank of India (SBI), NSC Beej Bhawan, Pusa Complex, New Delhi - 110012</span>
+                                </div>
+
+                                <div className="bg-white p-4 rounded-xl border border-gray-200 flex items-center justify-between shadow-xs">
+                                    <div>
+                                        <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Account Number</span>
+                                        <span className="font-mono font-bold text-earth-green text-lg tracking-wide">44767771724</span>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyField("44767771724", "acc")}
+                                        className="px-3 py-1.5 rounded-lg bg-earth-green text-white font-bold text-xs hover:bg-earth-green/90 transition flex items-center gap-1"
+                                    >
+                                        {copiedField === "acc" ? <Check size={13} /> : <Copy size={13} />}
+                                        {copiedField === "acc" ? "Copied" : "Copy"}
+                                    </button>
+                                </div>
+
+                                <div className="bg-white p-4 rounded-xl border border-gray-200 flex items-center justify-between shadow-xs">
+                                    <div>
+                                        <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">IFSC Code</span>
+                                        <span className="font-mono font-bold text-earth-green text-lg tracking-wide">SBIN0005389</span>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyField("SBIN0005389", "ifsc")}
+                                        className="px-3 py-1.5 rounded-lg bg-earth-green text-white font-bold text-xs hover:bg-earth-green/90 transition flex items-center gap-1"
+                                    >
+                                        {copiedField === "ifsc" ? <Check size={13} /> : <Copy size={13} />}
+                                        {copiedField === "ifsc" ? "Copied" : "Copy"}
+                                    </button>
+                                </div>
+
+                                <div className="bg-white p-3.5 rounded-xl border border-gray-200">
+                                    <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Account Type</span>
+                                    <span className="font-semibold text-charcoal text-sm">Current Account</span>
+                                </div>
+
+                                <div className="bg-white p-3.5 rounded-xl border border-gray-200">
+                                    <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Branch Code</span>
+                                    <span className="font-semibold text-charcoal text-sm">005389</span>
                                 </div>
                             </div>
-                        ))}
+
+                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-900 font-medium">
+                                💬 <strong>Transfer Remarks:</strong> Please enter your Ticket ID <span className="font-mono font-bold">{ticketId}</span> in the payment description/remarks when transferring.
+                            </div>
+                        </div>
+                    )}
+
+                    {/* METHOD 2: INTERNATIONAL WIRE (SWIFT) */}
+                    {paymentMethod === "swift" && (
+                        <div className="border border-earth-green/20 rounded-2xl p-6 bg-white space-y-4">
+                            <div className="flex items-center gap-2 text-blue-600 font-bold text-sm">
+                                <Globe size={18} />
+                                International Wire / SWIFT Transfer Details (USD / EUR)
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 sm:col-span-2">
+                                    <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Beneficiary Name</span>
+                                    <span className="font-bold text-charcoal text-base">All India Agricultural Students Association</span>
+                                </div>
+
+                                <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 flex items-center justify-between">
+                                    <div>
+                                        <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Account Number</span>
+                                        <span className="font-mono font-bold text-charcoal text-base">44767771724</span>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyField("44767771724", "acc")}
+                                        className="px-3 py-1.5 rounded-lg bg-earth-green/10 text-earth-green font-bold text-xs hover:bg-earth-green/20 transition flex items-center gap-1"
+                                    >
+                                        {copiedField === "acc" ? <Check size={13} /> : <Copy size={13} />}
+                                        {copiedField === "acc" ? "Copied" : "Copy"}
+                                    </button>
+                                </div>
+
+                                <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 flex items-center justify-between">
+                                    <div>
+                                        <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">SWIFT / BIC Code</span>
+                                        <span className="font-mono font-bold text-blue-700 text-base">SBININBB550</span>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyField("SBININBB550", "swift")}
+                                        className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 font-bold text-xs hover:bg-blue-100 transition flex items-center gap-1"
+                                    >
+                                        {copiedField === "swift" ? <Check size={13} /> : <Copy size={13} />}
+                                        {copiedField === "swift" ? "Copied" : "Copy"}
+                                    </button>
+                                </div>
+
+                                <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 sm:col-span-2">
+                                    <span className="text-gray-400 font-bold uppercase tracking-wider text-[10px] block">Bank Name & Address</span>
+                                    <span className="font-semibold text-charcoal text-xs">
+                                        State Bank of India, NSC Beej Bhawan Branch, PUSA Complex, New Delhi - 110012, India
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Step-by-Step Instructions */}
+                    <div className="mt-6 pt-6 border-t border-gray-100">
+                        <h3 className="text-sm font-bold text-charcoal mb-3">How to Complete Verification</h3>
+                        <ol className="list-decimal pl-5 space-y-2 text-xs text-charcoal/80 leading-relaxed">
+                            <li>Transfer <strong>{currencySymbol}{fee > 0 ? fee.toLocaleString() : "the due fee"}</strong> to the SBI account shown above using NEFT, RTGS, IMPS, or NetBanking.</li>
+                            <li>Include your Ticket ID <strong>{ticketId}</strong> in the transfer remarks/description.</li>
+                            <li>Save the transfer receipt / screenshot and copy your <strong>12-digit UTR / Transaction Reference Number</strong>.</li>
+                            <li>Click the button below to submit your UTR and upload your payment proof for confirmation.</li>
+                        </ol>
                     </div>
                 </div>
 
-                {/* ── CTA Buttons ── */}
+                {/* ── CTA Action Bar ── */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <a
-                            id="pay-now-sbi"
-                            href={SBI_COLLECT_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-3 bg-earth-green hover:bg-earth-green/90 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md hover:shadow-lg text-base"
-                        >
-                            Pay Now via SBI Collect
-                            <ExternalLink size={18} />
-                        </a>
-
                         {claimStep === "idle" && (
                             <button
                                 id="i-have-paid"
                                 onClick={() => setClaimStep("form")}
-                                className="flex-1 flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-charcoal font-bold py-4 px-6 rounded-xl border-2 border-gray-200 hover:border-earth-green/40 transition-all text-base"
+                                className="flex-1 flex items-center justify-center gap-3 bg-earth-green hover:bg-earth-green/90 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md hover:shadow-lg text-base cursor-pointer"
                             >
-                                I have paid →
+                                <Receipt size={18} />
+                                I have completed bank transfer → Submit UTR & Receipt
                             </button>
                         )}
                     </div>
                     <p className="text-xs text-gray-400 text-center mt-3">
-                        SBI Collect opens in a new tab — return here after completing payment to confirm.
+                        Completed your bank transfer? Click above to enter your UTR and upload your receipt screenshot.
                     </p>
                 </div>
 
@@ -376,10 +488,10 @@ export default function PaymentInstructionClient() {
                                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-earth-green/20 focus:border-earth-green outline-none font-mono uppercase tracking-wider text-sm ${utrNumber.length > 0 && utrNumber.trim().length < 10 ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                                 />
                                 <p className="text-xs text-gray-500 mt-1">
-                                    Found on your SBI Collect payment success page / receipt email. Starts with SBIN, HDFC, ICIC, etc. Min 10 characters.
+                                    Found on your bank debit receipt, Net Banking confirmation, or bank SMS. Starts with bank code or digits (e.g. SBIN, HDFC, ICIC, UTR). Min 10 characters.
                                 </p>
                                 {utrNumber.length > 0 && utrNumber.trim().length < 10 && (
-                                    <p className="text-xs text-red-500 mt-1 font-bold">⚠ Too short — SBI UTR numbers are typically 16–22 characters.</p>
+                                    <p className="text-xs text-red-500 mt-1 font-bold">⚠ Too short — Bank UTR / Transaction numbers are typically 12–22 characters.</p>
                                 )}
                             </div>
 
@@ -414,7 +526,7 @@ export default function PaymentInstructionClient() {
                                     ) : (
                                         <div className="text-center">
                                             <Upload size={28} className="text-gray-300 mx-auto mb-2" />
-                                            <p className="text-sm text-gray-500 font-medium">Click to upload SBI receipt screenshot</p>
+                                            <p className="text-sm text-gray-500 font-medium">Click to upload bank transfer receipt / debit slip</p>
                                             <p className="text-xs text-gray-400">JPG, PNG up to 5MB · <strong className="text-red-500">Required</strong></p>
                                         </div>
                                     )}
@@ -426,7 +538,7 @@ export default function PaymentInstructionClient() {
                                     />
                                 </label>
                                 {!proofFile && (
-                                    <p className="text-xs text-red-500 mt-1 font-medium">⚠ Upload your SBI Collect payment confirmation screenshot to proceed.</p>
+                                    <p className="text-xs text-red-500 mt-1 font-medium">⚠ Upload your bank transfer payment confirmation screenshot to proceed.</p>
                                 )}
                             </div>
 
@@ -544,7 +656,7 @@ export default function PaymentInstructionClient() {
                     <div>
                         <p className="font-bold text-charcoal text-sm mb-1">Need help with payment?</p>
                         <p className="text-xs text-gray-500 leading-relaxed">
-                            If you face issues on the SBI Collect page or need assistance, email us at{" "}
+                            If you face issues making the bank transfer or need assistance, email us at{" "}
                             <a href="mailto:info@orp5ic.com" className="text-earth-green font-bold hover:underline">info@orp5ic.com</a>{" "}
                             with your Ticket ID: <span className="font-mono font-bold">{ticketId}</span>
                         </p>

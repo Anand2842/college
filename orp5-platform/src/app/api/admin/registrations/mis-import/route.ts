@@ -10,7 +10,7 @@ const supabaseAdmin = createClient(
 /**
  * POST /api/admin/registrations/mis-import
  * 
- * Accepts a raw CSV body from SBI Collect MIS download.
+ * Accepts a raw CSV body from Bank Statement / MIS download.
  * Expected CSV columns (flexible, matched by header name):
  *   Transaction ID, Reference Number (Ticket ID), Amount, Mobile, Date
  *
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
                             payment_reference: txnId,
                             amount_paid_by_user: amountPaid,
                             amount_mismatch: false,
-                            payment_mode: 'SBI Collect (MIS Import)',
+                            payment_mode: 'Bank Transfer (MIS Import)',
                             mis_imported_at: new Date().toISOString(),
                         }
                     })

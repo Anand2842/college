@@ -273,7 +273,7 @@ export async function sendRegistrationPendingEmail(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 5. Registration Initial Acknowledgement Email (How to Pay via SBI Collect)
+// 5. Registration Initial Acknowledgement Email (How to Pay via Direct Bank Transfer)
 // ─────────────────────────────────────────────────────────────────────────────
 export async function sendRegistrationAcknowledgementEmail(
     email: string,
@@ -297,15 +297,15 @@ export async function sendRegistrationAcknowledgementEmail(
 
         <div style="background: white; padding: 32px; border: 1px solid #e8e8e4; border-top: none; border-radius: 0 0 8px 8px;">
             <p style="color: #555; margin: 0 0 20px;">Dear <strong>${name}</strong>,</p>
-            <p style="color: #555; margin: 0 0 24px;">Your registration has been saved! Please complete your payment to confirm your spot at ORP-5.</p>
+            <p style="color: #555; margin: 0 0 24px;">Your registration has been saved! Please complete your bank transfer payment to confirm your spot at ORP-5.</p>
 
             <div style="background: #f0fdf4; border: 2px dashed #86efac; border-radius: 8px; padding: 20px; text-align: center; margin: 0 0 28px;">
                 <p style="margin: 0 0 8px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #166534;">Your Ticket ID</p>
                 <p style="margin: 0; font-size: 28px; font-weight: bold; font-family: monospace; color: #123125; letter-spacing: 2px;">${ticketId}</p>
-                <p style="margin: 8px 0 0; font-size: 12px; color: #555;">⚠️ Use this EXACT ID while making payment on SBI Collect</p>
+                <p style="margin: 8px 0 0; font-size: 12px; color: #555;">⚠️ Mention this Ticket ID in your bank transfer narration / remarks</p>
             </div>
 
-            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px 20px; margin: 0 0 28px;">
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px 20px; margin: 0 0 24px;">
                 <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
                     <tr><td style="color: #666; padding: 4px 0;">Category</td><td style="text-align: right; font-weight: bold; color: #333;">${category}</td></tr>
                     <tr><td style="color: #666; padding: 4px 0;">Mode</td><td style="text-align: right; font-weight: bold; color: #333; text-transform: capitalize;">${mode}</td></tr>
@@ -316,21 +316,31 @@ export async function sendRegistrationAcknowledgementEmail(
                 </table>
             </div>
 
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; margin: 0 0 24px;">
+                <h3 style="font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #1e293b; margin: 0 0 12px;">Official Bank Transfer Details:</h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <tr><td style="color: #64748b; padding: 4px 0; width: 40%;">Beneficiary Name</td><td style="font-weight: bold; color: #0f172a;">All India Agricultural Students Association</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">Bank & Branch</td><td style="color: #0f172a;">State Bank of India (SBI), NSC Beej Bhawan, Pusa, New Delhi</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">Account Number</td><td style="font-family: monospace; font-size: 14px; font-weight: bold; color: #0f172a;">44767771724</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">IFSC Code (Domestic)</td><td style="font-family: monospace; font-weight: bold; color: #0f172a;">SBIN0005389</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">SWIFT Code (Foreign)</td><td style="font-family: monospace; font-weight: bold; color: #0f172a;">SBININBB550</td></tr>
+                </table>
+            </div>
+
             <h3 style="font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #333; margin: 0 0 16px;">Next Steps:</h3>
             <ol style="color: #555; font-size: 14px; line-height: 1.8; padding-left: 20px; margin: 0 0 24px 0;">
-                <li>Copy your Ticket ID: <strong style="font-family: monospace;">${ticketId}</strong></li>
-                <li>Click the payment button below to open SBI Collect</li>
-                <li>Enter your details and pay <strong>${formattedFee}</strong></li>
-                <li>Save your SBI Collect receipt screenshot and UTR transaction reference number</li>
-                <li>Return to our portal to submit your payment proof for instant verification</li>
+                <li>Transfer <strong>${formattedFee}</strong> via NEFT / RTGS / IMPS (or SWIFT for foreign delegates) to the bank details above.</li>
+                <li>Add your Ticket ID: <strong style="font-family: monospace;">${ticketId}</strong> in the bank transfer remarks / narration.</li>
+                <li>Save your debit confirmation receipt and note down the <strong>UTR / Reference Number</strong>.</li>
+                <li>Click the button below to submit your UTR and upload your payment slip for verification.</li>
             </ol>
 
             <div style="text-align: center; margin: 28px 0 24px;">
-                <a href="${payUrl}" style="background: #123125; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 15px; display: inline-block;">Continue to Payment & Verification →</a>
+                <a href="${payUrl}" style="background: #123125; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 15px; display: inline-block;">Submit UTR & Upload Receipt →</a>
             </div>
 
             <div style="background: #f0fdf4; border-radius: 6px; padding: 12px 16px; font-size: 12px; color: #166534; text-align: center;">
-                ✔ Safe Payment via SBI &nbsp;|&nbsp; ✔ Official Govt. Gateway &nbsp;|&nbsp; ✔ Instant Ticket Verification
+                ✔ Direct Bank Transfer &nbsp;|&nbsp; ✔ State Bank of India &nbsp;|&nbsp; ✔ Official Verification
             </div>
         </div>
 
@@ -511,7 +521,7 @@ export async function sendPaymentRejectedEmail(
             </div>
 
             <p style="color: #555; font-size: 14px; margin-bottom: 20px; line-height: 1.6;">
-                Your registration is still active, but payment remains unconfirmed. Please review your SBI Collect receipt and submit the correct proof, or reply to this email with your transaction receipt.
+                Your registration is still active, but payment remains unconfirmed. Please review your bank transfer receipt / debit confirmation and submit the correct proof, or reply to this email with your transaction receipt.
             </p>
 
             <div style="text-align: center; margin: 0 0 24px;">
@@ -705,3 +715,258 @@ export async function sendAdminClaimExpiryEmail(
         html,
     });
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. Full-Length Paper Manuscript Submission Received (Under Editorial Review)
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendFullPaperConfirmationEmail(options: {
+    to: string;
+    authorName: string;
+    paperTitle: string;
+    ticketId: string;
+    articleType: string;
+    theme: string;
+    amount: number;
+    currency: string;
+}) {
+    const { to, authorName, paperTitle, ticketId, articleType, theme, amount, currency } = options;
+    const currencySymbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : '₹';
+
+    const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 620px; margin: 0 auto; color: #222; background: #faf9f5; padding: 24px; border-radius: 12px;">
+        <div style="background: linear-gradient(135deg, #0F2D21 0%, #174232 100%); color: white; padding: 32px 28px; border-radius: 10px 10px 0 0; text-align: center;">
+            <p style="margin: 0 0 6px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #dfc074; font-weight: bold;">Bio Web of Conferences • EDP Sciences</p>
+            <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">Manuscript Received for Editorial Review</h1>
+            <p style="margin: 8px 0 0; font-size: 13px; color: #d4ebd9;">ORP-5 Full-Length Paper Proceedings (SCOPUS Indexed)</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border: 1px solid #e7e5dc; border-top: none; border-radius: 0 0 10px 10px;">
+            <p style="color: #333; font-size: 15px; margin: 0 0 16px;">Dear <strong>${authorName}</strong>,</p>
+            <p style="color: #555; font-size: 14px; line-height: 1.6; margin: 0 0 24px;">
+                Thank you for submitting your full-length manuscript for consideration in <strong>Bio Web of Conferences</strong> (EDP Sciences, France, SCOPUS Indexed) in connection with the 5th International Conference on Organic and Natural Rice Production Systems (ORP-5).
+            </p>
+
+            <div style="background: #f0fdf4; border: 2px dashed #86efac; border-radius: 10px; padding: 20px; text-align: center; margin: 0 0 24px;">
+                <p style="margin: 0 0 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #166534;">Your Paper Tracking ID</p>
+                <p style="margin: 0; font-size: 26px; font-weight: bold; font-family: monospace; color: #0F2D21; letter-spacing: 1px;">${ticketId}</p>
+                <p style="margin: 6px 0 0; font-size: 12px; color: #15803d;">Status: <strong>Under Peer Review & Editorial Evaluation</strong></p>
+            </div>
+
+            <div style="background: #fdfbf7; border: 1px solid #eee8d5; border-radius: 8px; padding: 18px; margin-bottom: 24px;">
+                <h4 style="margin: 0 0 12px; font-size: 13px; color: #0F2D21; text-transform: uppercase; letter-spacing: 1px;">Submission Summary</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <tr>
+                        <td style="padding: 6px 0; color: #666; width: 35%;">Paper Title:</td>
+                        <td style="padding: 6px 0; font-weight: 600; color: #222;">${paperTitle}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0; color: #666;">Article Type:</td>
+                        <td style="padding: 6px 0; font-weight: 600; color: #222;">${articleType}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0; color: #666;">Conference Track:</td>
+                        <td style="padding: 6px 0; color: #444;">${theme}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0; color: #666;">Publication Charge:</td>
+                        <td style="padding: 6px 0; font-weight: 700; color: #0F2D21;">${currencySymbol}${amount.toLocaleString()} ${currency} (Payable ONLY if accepted)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4 style="margin: 0 0 10px; font-size: 14px; color: #222;">Publication Process & Next Steps:</h4>
+            <ol style="color: #555; font-size: 13px; line-height: 1.7; padding-left: 20px; margin: 0 0 24px;">
+                <li><strong>Editorial & Peer Review:</strong> The distinguished international editorial board from India, Italy, and Japan is evaluating your manuscript.</li>
+                <li><strong>Selection Notification:</strong> If your article is accepted for the selected 50-article proceedings volume, you will receive an official Acceptance Letter.</li>
+                <li><strong>Bank Transfer Payment:</strong> Upon acceptance, you will be invited to remit the publication fee (${currencySymbol}${amount.toLocaleString()}) via Direct Bank Transfer to State Bank of India.</li>
+                <li><strong>Publication:</strong> Following payment confirmation and camera-ready formatting, your article will be published open-access and indexed in SCOPUS.</li>
+            </ol>
+
+            <div style="text-align: center; margin: 0 0 24px;">
+                <a href="${SITE_URL}/ticket-status" 
+                   style="background-color: #0F2D21; color: white; padding: 13px 28px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">
+                    Track Manuscript Status Online →
+                </a>
+            </div>
+
+            <p style="color: #777; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
+                For editorial queries, contact Managing Secretary Prof. Y.V. Singh at <a href="mailto:organizingsecretary@orp5ic.com" style="color: #0F2D21; font-weight: bold;">organizingsecretary@orp5ic.com</a>.
+            </p>
+        </div>
+
+        <p style="text-align: center; font-size: 11px; color: #888; margin: 16px 0 0;">
+            5th International Conference on Organic and Natural Rice Production Systems (ORP-5)<br>
+            ICAR-IARI, New Delhi, India &nbsp;|&nbsp; <a href="${SITE_URL}" style="color: #666;">${SITE_URL}</a>
+        </p>
+    </div>
+    `;
+
+    return sendEmailViaResend({
+        to,
+        subject: `✓ Manuscript Received: ${ticketId} — ORP-5 Bio Web Proceedings`,
+        html,
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 15. Full Paper Accepted Notification (Request for Bank Transfer Payment)
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendFullPaperAcceptedEmail(options: {
+    to: string;
+    authorName: string;
+    paperTitle: string;
+    ticketId: string;
+    amount: number;
+    currency: string;
+}) {
+    const { to, authorName, paperTitle, ticketId, amount, currency } = options;
+    const currencySymbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : '₹';
+    const payUrl = `${SITE_URL}/registration/pay?id=${ticketId}`;
+
+    const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 620px; margin: 0 auto; color: #222; background: #faf9f5; padding: 24px; border-radius: 12px;">
+        <div style="background: linear-gradient(135deg, #0F2D21 0%, #174232 100%); color: white; padding: 32px 28px; border-radius: 10px 10px 0 0; text-align: center;">
+            <p style="margin: 0 0 6px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #dfc074; font-weight: bold;">Acceptance & Payment Notification</p>
+            <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">Congratulations! Your Manuscript is Selected</h1>
+            <p style="margin: 8px 0 0; font-size: 13px; color: #d4ebd9;">Bio Web of Conferences (EDP Sciences, SCOPUS Indexed)</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border: 1px solid #e7e5dc; border-top: none; border-radius: 0 0 10px 10px;">
+            <p style="color: #333; font-size: 15px; margin: 0 0 16px;">Dear <strong>${authorName}</strong>,</p>
+            <p style="color: #555; font-size: 14px; line-height: 1.6; margin: 0 0 24px;">
+                We are delighted to inform you that your manuscript <strong>"${paperTitle}"</strong> (Tracking ID: <strong>${ticketId}</strong>) has been <strong>accepted for publication</strong> in the conference proceedings volume by the Editorial Committee.
+            </p>
+
+            <p style="color: #555; font-size: 14px; line-height: 1.6; margin: 0 0 20px;">
+                To finalize publication in Bio Web of Conferences, please complete the contributory publication charge of <strong>${currencySymbol}${amount.toLocaleString()} ${currency}</strong> via Direct Bank Transfer:
+            </p>
+
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px 20px; margin: 0 0 24px;">
+                <h3 style="font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #1e293b; margin: 0 0 12px;">Official Bank Transfer Details:</h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <tr><td style="color: #64748b; padding: 4px 0; width: 40%;">Beneficiary Name</td><td style="font-weight: bold; color: #0f172a;">All India Agricultural Students Association</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">Bank & Branch</td><td style="color: #0f172a;">State Bank of India (SBI), NSC Beej Bhawan, New Delhi</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">Account Number</td><td style="font-family: monospace; font-size: 14px; font-weight: bold; color: #0f172a;">44767771724</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">IFSC Code (Domestic)</td><td style="font-family: monospace; font-weight: bold; color: #0f172a;">SBIN0005389</td></tr>
+                    <tr><td style="color: #64748b; padding: 4px 0;">SWIFT Code (Foreign)</td><td style="font-family: monospace; font-weight: bold; color: #0f172a;">SBININBB550</td></tr>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin: 28px 0 24px;">
+                <a href="${payUrl}" style="background: #0F2D21; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 15px; display: inline-block;">
+                    Submit UTR & Upload Bank Slip →
+                </a>
+            </div>
+
+            <p style="color: #777; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
+                For assistance, contact the Editorial Office at <a href="mailto:info@orp5ic.com" style="color: #0F2D21; font-weight: bold;">info@orp5ic.com</a>.
+            </p>
+        </div>
+    </div>
+    `;
+
+    return sendEmailViaResend({
+        to,
+        subject: `🎉 Congratulations! Paper Accepted for Publication: ${ticketId} | ORP-5 Bio Web`,
+        html,
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 16. Full Paper Publication Fee Verified & Confirmed
+// ─────────────────────────────────────────────────────────────────────────────
+export async function sendFullPaperPaymentConfirmedEmail(options: {
+    to: string;
+    authorName: string;
+    paperTitle: string;
+    ticketId: string;
+    amount: number;
+    currency: string;
+    utrNumber?: string;
+}) {
+    const { to, authorName, paperTitle, ticketId, amount, currency, utrNumber } = options;
+    const currencySymbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : '₹';
+    const statusUrl = `${SITE_URL}/ticket-status`;
+    const receiptUrl = `${SITE_URL}/registration/success?id=${ticketId}`;
+
+    const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 620px; margin: 0 auto; color: #222; background: #faf9f5; padding: 24px; border-radius: 12px;">
+        <div style="background: linear-gradient(135deg, #0F2D21 0%, #174232 100%); color: white; padding: 32px 28px; border-radius: 10px 10px 0 0; text-align: center;">
+            <p style="margin: 0 0 6px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #dfc074; font-weight: bold;">Official Publication & Payment Confirmation</p>
+            <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">Payment Confirmed for Bio Web Publication</h1>
+            <p style="margin: 8px 0 0; font-size: 13px; color: #d4ebd9;">EDP Sciences, France • SCOPUS Indexed Proceedings</p>
+        </div>
+
+        <div style="background: white; padding: 32px; border: 1px solid #e7e5dc; border-top: none; border-radius: 0 0 10px 10px;">
+            <p style="color: #333; font-size: 15px; margin: 0 0 16px;">Dear <strong>${authorName}</strong>,</p>
+            <p style="color: #555; font-size: 14px; line-height: 1.6; margin: 0 0 24px;">
+                We are pleased to inform you that your contributory publication fee for the full-length paper <strong>"${paperTitle}"</strong> has been successfully verified and confirmed against State Bank of India bank records.
+            </p>
+
+            <div style="background: #f0fdf4; border: 2px dashed #86efac; border-radius: 10px; padding: 22px; text-align: center; margin: 0 0 24px;">
+                <p style="margin: 0 0 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #166534;">Payment Status: Verified & Paid ✅</p>
+                <p style="margin: 0; font-size: 26px; font-weight: bold; font-family: monospace; color: #0F2D21; letter-spacing: 1px;">${ticketId}</p>
+                <p style="margin: 6px 0 0; font-size: 13px; color: #15803d; font-weight: 600;">Confirmed for Bio Web Proceedings Volume</p>
+            </div>
+
+            <div style="background: #fdfbf7; border: 1px solid #eee8d5; border-radius: 8px; padding: 18px; margin-bottom: 24px;">
+                <h4 style="margin: 0 0 12px; font-size: 13px; color: #0F2D21; text-transform: uppercase; letter-spacing: 1px;">Transaction & Publication Details</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <tr>
+                        <td style="padding: 6px 0; color: #666; width: 38%;">Paper Title:</td>
+                        <td style="padding: 6px 0; font-weight: 600; color: #222;">${paperTitle}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0; color: #666;">Amount Verified:</td>
+                        <td style="padding: 6px 0; font-weight: 700; color: #0F2D21;">${currencySymbol}${amount.toLocaleString()} ${currency}</td>
+                    </tr>
+                    ${utrNumber ? `
+                    <tr>
+                        <td style="padding: 6px 0; color: #666;">Bank Ref / UTR:</td>
+                        <td style="padding: 6px 0; font-family: monospace; font-weight: 600; color: #333;">${utrNumber}</td>
+                    </tr>` : ''}
+                    <tr>
+                        <td style="padding: 6px 0; color: #666;">Indexed Target:</td>
+                        <td style="padding: 6px 0; color: #222; font-weight: 600;">Bio Web of Conferences (SCOPUS)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4 style="margin: 0 0 10px; font-size: 14px; color: #222;">Next Production Steps:</h4>
+            <ol style="color: #555; font-size: 13px; line-height: 1.7; padding-left: 20px; margin: 0 0 28px;">
+                <li><strong>Copyediting & Formatting:</strong> The EDP Sciences editorial desk will format your manuscript into the official Bio Web camera-ready layout.</li>
+                <li><strong>Galley Proofs:</strong> You will receive a PDF proof by email to verify final layout before volume publishing.</li>
+                <li><strong>Open Access DOI & Indexing:</strong> Upon publication, your paper will receive a permanent CrossRef DOI and be submitted for SCOPUS indexing.</li>
+            </ol>
+
+            <div style="text-align: center; margin: 0 0 24px;">
+                <a href="${statusUrl}" 
+                   style="background-color: #0F2D21; color: white; padding: 13px 26px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block; margin-right: 10px;">
+                    Track Manuscript Live →
+                </a>
+                <a href="${receiptUrl}" 
+                   style="background-color: #f3f4f6; color: #0F2D21; border: 1px solid #d1d5db; padding: 13px 26px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">
+                    Official Receipt
+                </a>
+            </div>
+
+            <p style="color: #777; font-size: 12px; line-height: 1.5; margin: 0; text-align: center;">
+                For any inquiries regarding proofing or publication, reach out to <a href="mailto:organizingsecretary@orp5ic.com" style="color: #0F2D21; font-weight: bold;">organizingsecretary@orp5ic.com</a>.
+            </p>
+        </div>
+
+        <p style="text-align: center; font-size: 11px; color: #888; margin: 16px 0 0;">
+            5th International Conference on Organic and Natural Rice Production Systems (ORP-5)<br>
+            ICAR-IARI, New Delhi, India &nbsp;|&nbsp; <a href="${SITE_URL}" style="color: #666;">${SITE_URL}</a>
+        </p>
+    </div>
+    `;
+
+    return sendEmailViaResend({
+        to,
+        subject: `🎉 Payment Confirmed: ${ticketId} — Bio Web of Conferences Publication`,
+        html,
+    });
+}
+
+
