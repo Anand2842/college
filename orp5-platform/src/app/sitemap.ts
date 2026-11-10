@@ -3,6 +3,9 @@ import { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://www.orp5ic.com';
 
+// Rebuild hourly so newly published blog posts reach the sitemap without a redeploy.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // 1. Static Routes
     const staticRoutes: MetadataRoute.Sitemap = [
@@ -18,8 +21,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { url: `${BASE_URL}/awards`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
         { url: `${BASE_URL}/committees`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
         { url: `${BASE_URL}/sponsorship`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-        { url: `${BASE_URL}/exhibition`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-        { url: `${BASE_URL}/submission`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
+        { url: `${BASE_URL}/guidelines`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+        { url: `${BASE_URL}/guidelines/submit`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+        { url: `${BASE_URL}/publications`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+        { url: `${BASE_URL}/abstracts`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+        { url: `${BASE_URL}/about/city`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.5 },
         { url: `${BASE_URL}/important-dates`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
         { url: `${BASE_URL}/accommodation`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
         { url: `${BASE_URL}/gallery`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
