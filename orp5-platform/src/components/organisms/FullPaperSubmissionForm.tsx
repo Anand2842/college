@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   FileText,
@@ -27,6 +27,7 @@ import {
   Search
 } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
+import { createClient } from "@/utils/supabase/client";
 
 const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024; // 25 MB
 
@@ -92,6 +93,22 @@ export function FullPaperSubmissionForm() {
 
   const receiptRef = useRef<HTMLDivElement>(null);
 
+  // Errors and each new step render at the top of the form, while the buttons sit at the bottom,
+  // so bring the top of the form into view or the user sees nothing happen.
+  const formTopRef = useRef<HTMLDivElement>(null);
+  const prevStep = useRef(currentStep);
+  const scrollToFormTop = () => formTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  useEffect(() => {
+    if (prevStep.current === currentStep) return;
+    prevStep.current = currentStep;
+    scrollToFormTop();
+  }, [currentStep]);
+
+  useEffect(() => {
+    if (submitError) scrollToFormTop();
+  }, [submitError]);
+
   const feeAmount = formData.nationality === "indian" ? 6000 : 50;
   const currency = formData.nationality === "indian" ? "INR" : "EUR";
   const currencySymbol = formData.nationality === "indian" ? "₹" : "€";
@@ -125,23 +142,32 @@ export function FullPaperSubmissionForm() {
     setUploadingField(fieldType);
 
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-
-      const res = await fetch("/api/upload", {
+      // Get a signed URL, then upload directly to Supabase Storage
+      // (Vercel functions reject bodies over 4.5 MB, so the file must not go through our API).
+      const signRes = await fetch("/api/upload/sign", {
         method: "POST",
-        body: fd,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: file.name, size: file.size }),
       });
+      const sign = await signRes.json().catch(() => ({}));
 
-      const data = await res.json();
+      if (!signRes.ok) {
+        throw new Error(sign.error || "Upload failed. Please try again.");
+      }
 
-      if (!res.ok) {
-        throw new Error(data.error || "Upload failed. Please try again.");
+      const { error: storageError } = await createClient()
+        .storage.from(sign.bucket)
+        .uploadToSignedUrl(sign.path, sign.token, file, {
+          contentType: file.type || "application/octet-stream",
+        });
+
+      if (storageError) {
+        throw new Error(`Upload failed: ${storageError.message}`);
       }
 
       const uploaded: UploadedDoc = {
         file,
-        url: data.url,
+        url: sign.publicUrl,
         size: file.size,
       };
 
@@ -154,6 +180,16 @@ export function FullPaperSubmissionForm() {
       setUploadingField(null);
     }
   };
+
+  // Without these, dropping a file on an upload box makes the browser open it and the form is lost.
+  const dropToUpload = (fieldType: "manuscript" | "plagiarism" | "supplementary") => ({
+    onDragOver: (e: React.DragEvent) => e.preventDefault(),
+    onDrop: (e: React.DragEvent) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files?.[0];
+      if (file) handleFileUpload(file, fieldType);
+    },
+  });
 
   // Step 1 Validation
   const validateStep1 = () => {
@@ -257,7 +293,7 @@ export function FullPaperSubmissionForm() {
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-200/80 shadow-xl overflow-hidden">
+    <div ref={formTopRef} className="bg-white rounded-3xl border border-gray-200/80 shadow-xl overflow-hidden scroll-mt-28">
       {/* ── Top Header / Stepper Bar ── */}
       <div className="bg-[#0F2D21] p-6 sm:p-8 text-white relative border-b border-[#DFC074]/20">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -660,7 +696,7 @@ export function FullPaperSubmissionForm() {
                   </button>
                 </div>
               ) : (
-                <label className="mt-3 flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#0F2D21] cursor-pointer bg-gray-50/50 hover:bg-emerald-50/20 transition-all">
+                <label {...dropToUpload("manuscript")} className="mt-3 flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#0F2D21] cursor-pointer bg-gray-50/50 hover:bg-emerald-50/20 transition-all">
                   {uploadingField === "manuscript" ? (
                     <div className="flex items-center gap-2 text-xs font-semibold text-[#0F2D21]">
                       <Loader2 size={18} className="animate-spin" />
@@ -718,7 +754,7 @@ export function FullPaperSubmissionForm() {
                   </button>
                 </div>
               ) : (
-                <label className="mt-3 flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#0F2D21] cursor-pointer bg-gray-50/50 hover:bg-emerald-50/20 transition-all">
+                <label {...dropToUpload("plagiarism")} className="mt-3 flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-[#0F2D21] cursor-pointer bg-gray-50/50 hover:bg-emerald-50/20 transition-all">
                   {uploadingField === "plagiarism" ? (
                     <div className="flex items-center gap-2 text-xs font-semibold text-[#0F2D21]">
                       <Loader2 size={18} className="animate-spin" />
@@ -776,7 +812,7 @@ export function FullPaperSubmissionForm() {
                   </button>
                 </div>
               ) : (
-                <label className="mt-3 flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-200 rounded-xl hover:border-gray-300 cursor-pointer bg-gray-50/30 hover:bg-gray-50 transition-all">
+                <label {...dropToUpload("supplementary")} className="mt-3 flex flex-col items-center justify-center p-5 border-2 border-dashed border-gray-200 rounded-xl hover:border-gray-300 cursor-pointer bg-gray-50/30 hover:bg-gray-50 transition-all">
                   {uploadingField === "supplementary" ? (
                     <div className="flex items-center gap-2 text-xs font-semibold text-gray-600">
                       <Loader2 size={18} className="animate-spin" />

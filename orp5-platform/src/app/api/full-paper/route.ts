@@ -65,8 +65,19 @@ export async function POST(request: Request) {
         const currency = body.currency || (isIndian ? 'INR' : 'EUR');
 
         // ── 2. Generate Unique Paper Submission ID ──────────────────
-        const randomNum = Math.floor(10000 + Math.random() * 90000);
-        const ticketId = `ORP5-FP-${isIndian ? 'IND' : 'INT'}-${randomNum}`;
+        // Ticket lookups assume one registration per ticket number, so re-draw until it's unused.
+        let ticketId = '';
+        for (let attempt = 0; attempt < 10 && !ticketId; attempt++) {
+            const randomNum = Math.floor(10000 + Math.random() * 90000);
+            const candidate = `ORP5-FP-${isIndian ? 'IND' : 'INT'}-${randomNum}`;
+            const { count, error: lookupError } = await supabase
+                .from('registrations')
+                .select('id', { count: 'exact', head: true })
+                .filter('data->>ticket_number', 'eq', candidate);
+            if (lookupError) throw new Error(`Ticket lookup failed: ${lookupError.message}`);
+            if (!count) ticketId = candidate;
+        }
+        if (!ticketId) throw new Error('Could not generate a unique ticket number.');
 
         const tags = ['FULL_PAPER', 'BIO_WEB', isIndian ? 'INDIAN' : 'FOREIGN'];
         if (body.articleType === 'Review Article') tags.push('REVIEW_ARTICLE');
@@ -175,42 +186,8 @@ export async function POST(request: Request) {
     } catch (error: any) {
         console.error('Full paper submission error:', error);
         return NextResponse.json(
-            { error: 'Failed to process full paper submission.', details: error.message || error },
+            { error: 'Failed to process full paper submission. Please try again or contact info@orp5ic.com.' },
             { status: 500 }
         );
-    }
-}
-
-export async function GET(request: Request) {
-    try {
-        const { searchParams } = new URL(request.url);
-        const email = searchParams.get('email');
-
-        let query = supabase
-            .from('registrations')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        const { data, error } = await query;
-        if (error) throw error;
-
-        // Filter for full length paper registrations
-        const papers = (data || [])
-            .filter((r: any) => r.data?.type === 'full_length_paper' || (r.data?.tags && r.data.tags.includes('FULL_PAPER')))
-            .map((r: any) => ({
-                id: r.id,
-                submittedAt: r.created_at || r.data?.submittedAt,
-                ...r.data
-            }));
-
-        if (email) {
-            const filtered = papers.filter((p: any) => p.email?.toLowerCase() === email.toLowerCase());
-            return NextResponse.json(filtered);
-        }
-
-        return NextResponse.json(papers);
-    } catch (error: any) {
-        console.error('Error fetching full papers:', error);
-        return NextResponse.json({ error: 'Failed to fetch full papers' }, { status: 500 });
     }
 }
